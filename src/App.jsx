@@ -1,17 +1,16 @@
 import { useState } from 'react'
 import './App.css'
 import Dice from './componentes/dice/Dice.jsx'
-import Shuffle from './helpers/Shuffle.jsx'
 import BoardDisplay from './componentes/boardDisplay/BoardDisplay.jsx'
 import { CreateLandTileNumbers, CreateLandTiles, CreatePortTiles } from './helpers/stateInitializers/stateInitializers.jsx'
 
 function FindDesert(landTiles) {
   console.log("Okay boys, let's find that desert");
-  for (let key in landTiles) {
-    for (let key2 in landTiles[key]) {
-      if (landTiles[key][key2] == "Desert")
+  for (let xCoordinate in landTiles) {
+    for (let yCoordinate in landTiles[xCoordinate]) {
+      if (landTiles[xCoordinate][yCoordinate] == "Desert")
       {
-        return [key, key2];
+        return {x: xCoordinate, y: yCoordinate};
       }
     }
   }
@@ -23,7 +22,7 @@ function App() {
   FindDesert(landTiles);
   const [thiefLocation, setThiefLocation] = useState(() => FindDesert(landTiles));
     //On init, thief is always in the desert, so we can pass that in the other inits for the desert location.
-  const [landTileNumbers, setLandTileNumbers] = useState(() => CreateLandTileNumbers(landTiles));
+  const [landTileNumbers, setLandTileNumbers] = useState(() => CreateLandTileNumbers(thiefLocation));
   const [portTiles, setPortTiles] = useState(() => CreatePortTiles(landTiles));
   const [playerResources, setPlayerResources] = useState();
   const [playerDevelopmentCards, setPlayerDevelopmentCards] = useState();
