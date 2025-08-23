@@ -1,0 +1,53 @@
+.parent {
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background-color: #f0f0f0;
+}
+
+.hex-grid {
+    width: 90vw; /* Adjust size as needed */
+    height: 90vw;
+    border: 1px solid white;
+}
+
+.hex {
+    fill: #3498db; /* Hexagon fill color */
+    stroke: #ffffff; /* Border color */
+    stroke-width: .5px; /* Border thickness */
+    transition: fill 0.3s; /* Smooth color transition on hover */
+}
+
+.hex:hover {
+    fill: #e74c3c; /* Change color on hover */
+}
+
+.Pasture {
+  fill: rgb(122, 202, 90);
+}
+
+.Forest {
+  fill: forestgreen;
+}
+
+.Fields {
+  fill: rgb(233, 221, 112);
+}
+
+.Hills {
+  fill: rgb(194, 108, 28);
+}
+
+.Mountains {
+  fill: grey;
+}
+
+.Desert {
+  fill: rgb(229, 207, 158);
+}
+
+.bigNumber {
+  fill: crimson;
+}
