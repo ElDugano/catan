@@ -8,20 +8,17 @@
 }
 
 .hex-grid {
-    width: 90vw; /* Adjust size as needed */
-    height: 90vw;
-    border: 1px solid white;
+    width: 100vw; /* Adjust size as needed */
+    height: 88.095vw;
+    max-height: 90vh;
+    border-top: 1px solid white;
+    border-bottom: 1px solid white;
 }
 
 .hex {
     fill: #3498db; /* Hexagon fill color */
     stroke: #ffffff; /* Border color */
     stroke-width: .5px; /* Border thickness */
-    transition: fill 0.3s; /* Smooth color transition on hover */
-}
-
-.hex:hover {
-    fill: #e74c3c; /* Change color on hover */
 }
 
 .Pasture {
@@ -50,4 +47,15 @@
 
 .bigNumber {
   fill: crimson;
+}
+
+.cornerNodeBuildable {
+  transition: fill 0.3s;
+  fill: white;
+  stroke: white;
+}
+
+.cornerNodeBuildable:hover {
+  fill: yellow;
+  cursor:pointer;
 }

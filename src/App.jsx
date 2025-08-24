@@ -2,63 +2,9 @@ import { useState } from 'react'
 import './App.css'
 import Dice from './componentes/dice/Dice.jsx'
 import BoardDisplay from './componentes/boardDisplay/BoardDisplay.jsx'
-import { CreateLandTileNumbers, CreateLandTiles, CreatePortTiles } from './helpers/stateInitializers/stateInitializers.jsx'
+import { CreateLandTileNumbers, CreateLandTiles, CreatePortTiles, CreateTileCornerNodes } from './helpers/stateInitializers/stateInitializers.jsx'
+import FindDesert from './helpers/FindDesert.jsx'
 
-function FindDesert(landTiles) {
-  console.log("*** FindDesert was called. ***");
-  for (let xCoordinate in landTiles) {
-    for (let yCoordinate in landTiles[xCoordinate]) {
-      if (landTiles[xCoordinate][yCoordinate] == "Desert")
-      {
-        return {x: xCoordinate, y: yCoordinate};
-      }
-    }
-  }
-}
-
-function CreateTileCornerNodes() {
-  let cornerNodes = [];
-  for (let x=0; x<=12; x++) {
-    let columnNodes = [];
-    for (let y=0; y<=7; y++) {
-      if (y == 0 ||
-          y == 7 ||
-          x == 0 ||
-          x == 12 ||
-          (y == 1 && x <= 2) ||
-          (y == 1 && x >= 10) ||
-          (y == 2 && x == 1) ||
-          (y == 2 && x == 11) ||
-          (y == 5 && x == 1) ||
-          (y == 5 && x == 11) ||
-          (y == 6 && x <= 2) ||
-          (y == 6 && x >= 10)) {
-            columnNodes.push({value:"Ocean"});
-          }
-      else {
-        if((x+y)%2 !== 0 || y == 6) {  //Number is odd or the bottom row.
-          columnNodes.push({
-            value:"Land",
-            owner:"none",
-            rightRoadOwner:"none"
-          });
-        }
-        else {  //Number is even
-          columnNodes.push({
-            value:"Land",
-            owner:"none",
-            rightRoadOwner:"none",
-            bottomRoadOwner:"none"
-          });
-        }
-      }
-    }
-    cornerNodes.push(columnNodes);
-  }
-  console.log("Ended that crazy shit, did it work?");
-  console.log(cornerNodes);
-  return cornerNodes;
-}
 
 function App() {
 
@@ -78,6 +24,8 @@ function App() {
   console.log(landTileNumbers);
   console.log("-The following is portTiles:");
   console.log(portTiles);
+  console.log("-The following is tileCornerNodes:");
+  console.log(tileCornerNodes);
 
   console.log("Hey, lets say we rolled a 6. Where are the tiles that we got?");
   console.log(landTileNumbers[6]);
@@ -90,7 +38,7 @@ function App() {
         
       </Dice>
       <br />
-      <BoardDisplay landTiles={landTiles} landTileNumbers={landTileNumbers} />
+      <BoardDisplay landTiles={landTiles} landTileNumbers={landTileNumbers} thiefLocation={thiefLocation} tileCornerNodes={tileCornerNodes} />
     </>
   )
 }
