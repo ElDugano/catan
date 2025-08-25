@@ -11,7 +11,7 @@ export default function BoardDisplay(props) {
         <Tiles landTiles={props.landTiles} />
         <TileNumbers landTileNumbers={props.landTileNumbers} />
         <CornerNodes tileCornerNodes={props.tileCornerNodes} tileNodeClickFunction={props.tileNodeClickFunction} playerColor={props.playerColor}/>
-        <RoadNodes tileCornerNodes={props.tileCornerNodes} />
+        <RoadNodes tileCornerNodes={props.tileCornerNodes} roadNodeClickFunction={props.tileNodeClickFunction} currentPlayer={props.currentPlayer} playerColor={props.playerColor} />
         <BanditIcon coordinates={props.thiefLocation} />
       </svg>
     </>

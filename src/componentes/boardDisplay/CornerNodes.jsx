@@ -20,7 +20,7 @@ export default function CornerNodes(props) {
             <circle
               id={"tileCornerNode-"+x+"-"+y}
               key={crypto.randomUUID()}
-              onClick={() => {props.tileNodeClickFunction(x,y)}}
+              onClick={() => {props.tileNodeClickFunction(x,y, "Settlement")}}
               r="5"
               cx={centerX}
               cy={centerY}

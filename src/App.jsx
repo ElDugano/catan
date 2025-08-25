@@ -24,10 +24,19 @@ function App() {
   const [numberOfPlayers, setNumberOfPlayers] = useState(3);
   const [playerColor, setPlayerColor] = useState(["blue", "red", "green"]);
 
-  const TileNodeClickFunction = (x,y) => {
+  const TileNodeClickFunction = (x,y, itemBuilt) => {
     let newTileCornerNodes = [...tileCornerNodes];
-    newTileCornerNodes[x][y].value="Settlement";
-    newTileCornerNodes[x][y].owner=currentPlayer;
+    if (itemBuilt == "Settlement") {
+      newTileCornerNodes[x][y].value=itemBuilt;
+      newTileCornerNodes[x][y].owner=currentPlayer;
+    }
+    else if(itemBuilt == "Right Road") {
+      newTileCornerNodes[x][y].rightRoadOwner=currentPlayer;
+    }
+    else if(itemBuilt == "Bottom Road") {
+      newTileCornerNodes[x][y].bottomRoadOwner=currentPlayer;
+    }
+    
     SetTileCornerNodes(newTileCornerNodes);
     setCurrentPlayer(setCurrentPlayerTurn(currentPlayer, numberOfPlayers));
   }
@@ -59,6 +68,7 @@ function App() {
         thiefLocation={thiefLocation}
         tileCornerNodes={tileCornerNodes}
         playerColor={playerColor}
+        currentPlayer={currentPlayer}
         tileNodeClickFunction={TileNodeClickFunction}
         />
     </>
