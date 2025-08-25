@@ -32,14 +32,14 @@ function App() {
     setCurrentPlayer(setCurrentPlayerTurn(currentPlayer, numberOfPlayers));
   }
 
-  //console.log("-The following is landTiles:");
-  //console.log(landTiles);
-  //console.log("-The following is landTilesNumbers:");
-  //console.log(landTileNumbers);
-  //console.log("-The following is portTiles:");
-  //console.log(portTiles);
-  //console.log("-The following is tileCornerNodes:");
-  //console.log(tileCornerNodes);
+  console.log("-The following is landTiles:");
+  console.log(landTiles);
+  console.log("-The following is landTilesNumbers:");
+  console.log(landTileNumbers);
+  console.log("-The following is portTiles:");
+  console.log(portTiles);
+  console.log("-The following is tileCornerNodes:");
+  console.log(tileCornerNodes);
 
   //console.log("Hey, lets say we rolled a 6. Where are the tiles that we got?");
   //console.log(landTileNumbers[6]);

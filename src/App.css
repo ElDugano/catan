@@ -71,6 +71,17 @@
   cursor:pointer;
 }
 
+.roadNodeBuildable {
+  transition: stroke 0.3s;
+  stroke: white;
+  filter: drop-shadow(.02vw 2px 5px rgba(0,0,0,0.8));
+}
+
+.roadNodeBuildable:hover {
+  stroke: yellow;
+  cursor:pointer;
+}
+
 .cornerNodeSettlment {
   fill: blue;
 }
