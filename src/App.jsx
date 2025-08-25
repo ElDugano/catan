@@ -6,6 +6,10 @@ import { CreateLandTileNumbers, CreateLandTiles, CreatePortTiles, CreateTileCorn
 import FindDesert from './helpers/FindDesert.jsx'
 
 
+function testFunction(x,y) {
+  alert("You clicked x:"+x+" y:"+y+".");
+}
+
 function App() {
 
   const [landTiles, setLandTiles] = useState(CreateLandTiles);
@@ -31,14 +35,22 @@ function App() {
   console.log(landTileNumbers[6]);
   console.log("Cool, that means we will get " + landTiles[landTileNumbers[6][1].x][landTileNumbers[6][1].y] + " & " + landTiles[landTileNumbers[6][2].x][landTileNumbers[6][2].y]);
 
-  console.log("Step");
+
+
   return (
     <>
       <Dice>
         
       </Dice>
       <br />
-      <BoardDisplay landTiles={landTiles} landTileNumbers={landTileNumbers} thiefLocation={thiefLocation} tileCornerNodes={tileCornerNodes} />
+      <BoardDisplay
+        landTiles={landTiles}
+        landTileNumbers={landTileNumbers}
+        thiefLocation={thiefLocation}
+        tileCornerNodes={tileCornerNodes}
+        //tileNodeClickFunction={() => {alert("you clicked a node")}}
+        tileNodeClickFunction={testFunction}
+        />
     </>
   )
 }
