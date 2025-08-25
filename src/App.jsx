@@ -4,6 +4,7 @@ import Dice from './componentes/dice/Dice.jsx'
 import BoardDisplay from './componentes/boardDisplay/BoardDisplay.jsx'
 import { CreateLandTileNumbers, CreateLandTiles, CreatePortTiles, CreateTileCornerNodes } from './helpers/stateInitializers/stateInitializers.jsx'
 import FindDesert from './helpers/FindDesert.jsx'
+import setCurrentPlayerTurn from './helpers/setCurrentPlayerTurn.jsx'
 
 
 
@@ -19,27 +20,30 @@ function App() {
   const [playerDevelopmentCards, setPlayerDevelopmentCards] = useState();       //List of development cards, shown and hidden
   const [playerVictoryPoints, setPlayerVictoryPoints] = useState();             //Array of score
   const [playerAvailableBuildings, setPlayerAvailableBuildings] = useState();   //Array of Objects of what pieces players have
-  const [playersTurn, setPlayersTurn] = useState();                             //Who's turn it is
+  const [currentPlayer, setCurrentPlayer] = useState(0);                             //Who's turn it is
+  const [numberOfPlayers, setNumberOfPlayers] = useState(3);
+  const [playerColor, setPlayerColor] = useState(["blue", "red", "green"]);
 
   const TileNodeClickFunction = (x,y) => {
     let newTileCornerNodes = [...tileCornerNodes];
     newTileCornerNodes[x][y].value="Settlement";
-    newTileCornerNodes[x][y].owner=0;
+    newTileCornerNodes[x][y].owner=currentPlayer;
     SetTileCornerNodes(newTileCornerNodes);
+    setCurrentPlayer(setCurrentPlayerTurn(currentPlayer, numberOfPlayers));
   }
 
-  console.log("-The following is landTiles:");
-  console.log(landTiles);
-  console.log("-The following is landTilesNumbers:");
-  console.log(landTileNumbers);
-  console.log("-The following is portTiles:");
-  console.log(portTiles);
-  console.log("-The following is tileCornerNodes:");
-  console.log(tileCornerNodes);
+  //console.log("-The following is landTiles:");
+  //console.log(landTiles);
+  //console.log("-The following is landTilesNumbers:");
+  //console.log(landTileNumbers);
+  //console.log("-The following is portTiles:");
+  //console.log(portTiles);
+  //console.log("-The following is tileCornerNodes:");
+  //console.log(tileCornerNodes);
 
-  console.log("Hey, lets say we rolled a 6. Where are the tiles that we got?");
-  console.log(landTileNumbers[6]);
-  console.log("Cool, that means we will get " + landTiles[landTileNumbers[6][1].x][landTileNumbers[6][1].y] + " & " + landTiles[landTileNumbers[6][2].x][landTileNumbers[6][2].y]);
+  //console.log("Hey, lets say we rolled a 6. Where are the tiles that we got?");
+  //console.log(landTileNumbers[6]);
+  //console.log("Cool, that means we will get " + landTiles[landTileNumbers[6][1].x][landTileNumbers[6][1].y] + " & " + landTiles[landTileNumbers[6][2].x][landTileNumbers[6][2].y]);
 
 
 
@@ -54,6 +58,7 @@ function App() {
         landTileNumbers={landTileNumbers}
         thiefLocation={thiefLocation}
         tileCornerNodes={tileCornerNodes}
+        playerColor={playerColor}
         tileNodeClickFunction={TileNodeClickFunction}
         />
     </>
