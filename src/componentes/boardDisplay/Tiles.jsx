@@ -5,7 +5,7 @@ export default function Tiles({landTiles}) {
       let translateValue = "translate(" + (x*30) + "," + (y*50) + ")";
       boardContent.push(
         <polygon 
-          key={Math.random()}
+          key={crypto.randomUUID()}
           id={"tile-x"+x+"-y"+y}
           className={typeof landTiles[x] != "undefined" && typeof landTiles[x][y] != "undefined" ? "hex  " + landTiles[x][y] : "hex"}
           points="30,70 60,50 60,20 30,0 0,20 0,50"
@@ -20,7 +20,7 @@ export default function Tiles({landTiles}) {
       let translateValue = "translate(" + (x*30) + "," + (y*50) + ")";
       boardContent.push(
         <polygon
-          key={Math.random()}
+          key={crypto.randomUUID()}
           id={"tile-x"+x+"-y"+y}
           className={typeof landTiles[x] != "undefined" && typeof landTiles[x][y] != "undefined" ? "hex  " + landTiles[x][y] : "hex"}
           points="30,70 60,50 60,20 30,0 0,20 0,50"

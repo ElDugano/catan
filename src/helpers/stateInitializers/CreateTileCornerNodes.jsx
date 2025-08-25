@@ -37,7 +37,5 @@ export default function CreateTileCornerNodes() {
     }
     cornerNodes.push(columnNodes);
   }
-  console.log("Ended that crazy shit, did it work?");
-  console.log(cornerNodes);
   return cornerNodes;
 }

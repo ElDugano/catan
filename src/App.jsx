@@ -6,21 +6,27 @@ import { CreateLandTileNumbers, CreateLandTiles, CreatePortTiles, CreateTileCorn
 import FindDesert from './helpers/FindDesert.jsx'
 
 
-function testFunction(x,y) {
-  alert("You clicked x:"+x+" y:"+y+".");
-}
+
 
 function App() {
-
   const [landTiles, setLandTiles] = useState(CreateLandTiles);
   const [thiefLocation, setThiefLocation] = useState(() => FindDesert(landTiles));
     //On init, thief is always in the desert, so we can pass that in the other inits for the desert location.
   const [landTileNumbers, setLandTileNumbers] = useState(() => CreateLandTileNumbers(thiefLocation));
   const [portTiles, setPortTiles] = useState(() => CreatePortTiles(thiefLocation));
   const [tileCornerNodes, SetTileCornerNodes] = useState(CreateTileCornerNodes);
-  const [playerResources, setPlayerResources] = useState();
-  const [playerDevelopmentCards, setPlayerDevelopmentCards] = useState();
-  const [playerVictoryPoints, setPlayerVictoryPoints] = useState();       //Array of score
+  const [playerResourceCards, setPlayerResourceCards] = useState();             //Array of Objects showing the player's hand
+  const [playerDevelopmentCards, setPlayerDevelopmentCards] = useState();       //List of development cards, shown and hidden
+  const [playerVictoryPoints, setPlayerVictoryPoints] = useState();             //Array of score
+  const [playerAvailableBuildings, setPlayerAvailableBuildings] = useState();   //Array of Objects of what pieces players have
+  const [playersTurn, setPlayersTurn] = useState();                             //Who's turn it is
+
+  const TileNodeClickFunction = (x,y) => {
+    let newTileCornerNodes = [...tileCornerNodes];
+    newTileCornerNodes[x][y].value="Settlement";
+    newTileCornerNodes[x][y].owner=0;
+    SetTileCornerNodes(newTileCornerNodes);
+  }
 
   console.log("-The following is landTiles:");
   console.log(landTiles);
@@ -48,8 +54,7 @@ function App() {
         landTileNumbers={landTileNumbers}
         thiefLocation={thiefLocation}
         tileCornerNodes={tileCornerNodes}
-        //tileNodeClickFunction={() => {alert("you clicked a node")}}
-        tileNodeClickFunction={testFunction}
+        tileNodeClickFunction={TileNodeClickFunction}
         />
     </>
   )

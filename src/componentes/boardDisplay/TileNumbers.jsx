@@ -9,7 +9,7 @@ export default function TileNumbers({landTileNumbers}) {
         className="bigNumber"
       }
       boardContent.push(
-        <text key={Math.random()} x={x*30+30}  y={y*50+40} className={className} textAnchor="middle">{tileNumber}</text>
+        <text key={crypto.randomUUID()} x={x*30+30}  y={y*50+40} className={className} textAnchor="middle">{tileNumber}</text>
       ) 
     }
   }
