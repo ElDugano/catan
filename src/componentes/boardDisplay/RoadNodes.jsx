@@ -23,12 +23,20 @@ export default function RoadNodes(props) {
           let drawLine = false;
           if( props.tileCornerNodes[x][y].rightRoadOwner == "none" && (
                 props.tileCornerNodes[x][y].owner == props.currentPlayer ||
-                props.tileCornerNodes[x+1][y].owner == props.currentPlayer ||
-                props.tileCornerNodes[x-1][y].rightRoadOwner == props.currentPlayer ||
-                props.tileCornerNodes[x+1][y].rightRoadOwner == props.currentPlayer ||
+                props.tileCornerNodes[x+1][y].owner == props.currentPlayer || (
+                  props.tileCornerNodes[x-1][y].rightRoadOwner == props.currentPlayer && (
+                    props.tileCornerNodes[x][y].owner == "none" || 
+                    props.tileCornerNodes[x][y].owner == props.currentPlayer)) || (
+                  props.tileCornerNodes[x+1][y].rightRoadOwner == props.currentPlayer && (
+                    props.tileCornerNodes[x+1][y].owner == "none" || 
+                    props.tileCornerNodes[x+1][y].owner == props.currentPlayer)) ||
                 (x+y)%2 == 0 &&(
-                  props.tileCornerNodes[x][y].bottomRoadOwner == props.currentPlayer ||
-                  props.tileCornerNodes[x+1][y-1].bottomRoadOwner == props.currentPlayer) ||
+                  props.tileCornerNodes[x][y].bottomRoadOwner == props.currentPlayer && (
+                    props.tileCornerNodes[x][y].owner == "none" || 
+                    props.tileCornerNodes[x][y].owner == props.currentPlayer) ||
+                  props.tileCornerNodes[x+1][y-1].bottomRoadOwner == props.currentPlayer && (
+                    props.tileCornerNodes[x-1][y].owner == "none" || 
+                    props.tileCornerNodes[x-1][y].owner == props.currentPlayer)) || //Working on this stuff right aroun here, things aren't right
                 (x+y)%2 == 1 &&(
                   props.tileCornerNodes[x+1][y].bottomRoadOwner == props.currentPlayer ||
                   props.tileCornerNodes[x][y-1].bottomRoadOwner == props.currentPlayer))
