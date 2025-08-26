@@ -6,13 +6,14 @@ import { CreateLandTileNumbers, CreateLandTiles, CreatePortTiles, CreateTileCorn
 import FindDesert from './helpers/FindDesert.jsx'
 import setCurrentPlayerTurn from './helpers/setCurrentPlayerTurn.jsx'
 
+import {GameState} from './componentes/GameState.jsx'
+
 
 
 
 function App() {
   const [landTiles, setLandTiles] = useState(CreateLandTiles);
   const [thiefLocation, setThiefLocation] = useState(() => FindDesert(landTiles));
-    //On init, thief is always in the desert, so we can pass that in the other inits for the desert location.
   const [landTileNumbers, setLandTileNumbers] = useState(() => CreateLandTileNumbers(thiefLocation));
   const [portTiles, setPortTiles] = useState(() => CreatePortTiles(thiefLocation));
   const [tileCornerNodes, SetTileCornerNodes] = useState(CreateTileCornerNodes);
@@ -20,9 +21,12 @@ function App() {
   const [playerDevelopmentCards, setPlayerDevelopmentCards] = useState();       //List of development cards, shown and hidden
   const [playerVictoryPoints, setPlayerVictoryPoints] = useState();             //Array of score
   const [playerAvailableBuildings, setPlayerAvailableBuildings] = useState();   //Array of Objects of what pieces players have
-  const [currentPlayer, setCurrentPlayer] = useState(0);                             //Who's turn it is
+  const [currentPlayer, setCurrentPlayer] = useState(0);                        //Who's turn it is
   const [numberOfPlayers, setNumberOfPlayers] = useState(3);
   const [playerColor, setPlayerColor] = useState(["blue", "red", "green"]);
+  //const [gameState, setGameState] = useState("setup");
+  const [turnState, setTurnState] = useState("building a settlementement");
+    //rolling, trading, building a road, building a settlement, building a city
 
   const TileNodeClickFunction = (x,y, itemBuilt) => {
     let newTileCornerNodes = [...tileCornerNodes];
@@ -61,16 +65,19 @@ function App() {
       <Dice>
         
       </Dice>
+      it is {playerColor[currentPlayer]}'s turn.
       <br />
-      <BoardDisplay
-        landTiles={landTiles}
-        landTileNumbers={landTileNumbers}
-        thiefLocation={thiefLocation}
-        tileCornerNodes={tileCornerNodes}
-        playerColor={playerColor}
-        currentPlayer={currentPlayer}
-        tileNodeClickFunction={TileNodeClickFunction}
-        />
+      <GameState>
+        <BoardDisplay
+          landTiles={landTiles}
+          landTileNumbers={landTileNumbers}
+          thiefLocation={thiefLocation}
+          tileCornerNodes={tileCornerNodes}
+          playerColor={playerColor}
+          currentPlayer={currentPlayer}
+          tileNodeClickFunction={TileNodeClickFunction}
+          />
+        </GameState>
     </>
   )
 }
