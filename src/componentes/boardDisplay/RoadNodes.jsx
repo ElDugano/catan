@@ -30,16 +30,20 @@ export default function RoadNodes(props) {
                   props.tileCornerNodes[x+1][y].rightRoadOwner == props.currentPlayer && (
                     props.tileCornerNodes[x+1][y].owner == "none" || 
                     props.tileCornerNodes[x+1][y].owner == props.currentPlayer)) ||
-                (x+y)%2 == 0 &&(
+                (x+y)%2 == 0 && (
                   props.tileCornerNodes[x][y].bottomRoadOwner == props.currentPlayer && (
                     props.tileCornerNodes[x][y].owner == "none" || 
                     props.tileCornerNodes[x][y].owner == props.currentPlayer) ||
                   props.tileCornerNodes[x+1][y-1].bottomRoadOwner == props.currentPlayer && (
-                    props.tileCornerNodes[x-1][y].owner == "none" || 
-                    props.tileCornerNodes[x-1][y].owner == props.currentPlayer)) || //Working on this stuff right aroun here, things aren't right
-                (x+y)%2 == 1 &&(
-                  props.tileCornerNodes[x+1][y].bottomRoadOwner == props.currentPlayer ||
-                  props.tileCornerNodes[x][y-1].bottomRoadOwner == props.currentPlayer))
+                    props.tileCornerNodes[x+1][y].owner == "none" || 
+                    props.tileCornerNodes[x+1][y].owner == props.currentPlayer)) || //Working on this stuff right aroun here, things aren't right
+                (x+y)%2 == 1 && (
+                  props.tileCornerNodes[x+1][y].bottomRoadOwner == props.currentPlayer && (
+                    props.tileCornerNodes[x+1][y].owner == "none" || 
+                    props.tileCornerNodes[x+1][y].owner == props.currentPlayer) ||
+                  props.tileCornerNodes[x][y-1].bottomRoadOwner == props.currentPlayer && (
+                    props.tileCornerNodes[x][y].owner == "none" || 
+                    props.tileCornerNodes[x][y].owner == props.currentPlayer)))
             ) {
             strokeColor="white";
             className = "roadNodeBuildable";
@@ -76,10 +80,18 @@ export default function RoadNodes(props) {
           if (props.tileCornerNodes[x][y].bottomRoadOwner == "none" && (
               props.tileCornerNodes[x][y].owner == props.currentPlayer ||
               props.tileCornerNodes[x][y+1].owner == props.currentPlayer ||
-              props.tileCornerNodes[x][y].rightRoadOwner == props.currentPlayer ||
-              props.tileCornerNodes[x-1][y].rightRoadOwner == props.currentPlayer ||
-              props.tileCornerNodes[x][y+1].rightRoadOwner == props.currentPlayer ||
-              props.tileCornerNodes[x-1][y+1].rightRoadOwner == props.currentPlayer )) {
+              props.tileCornerNodes[x][y].rightRoadOwner == props.currentPlayer && (
+                props.tileCornerNodes[x][y].owner == "none" || 
+                props.tileCornerNodes[x][y].owner == props.currentPlayer) || 
+              props.tileCornerNodes[x-1][y].rightRoadOwner == props.currentPlayer && (
+                props.tileCornerNodes[x][y].owner == "none" || 
+                props.tileCornerNodes[x][y].owner == props.currentPlayer) || 
+              props.tileCornerNodes[x][y+1].rightRoadOwner == props.currentPlayer && (
+                props.tileCornerNodes[x][y+1].owner == "none" || 
+                props.tileCornerNodes[x][y+1].owner == props.currentPlayer) || 
+              props.tileCornerNodes[x-1][y+1].rightRoadOwner == props.currentPlayer && (
+                props.tileCornerNodes[x][y+1].owner == "none" || 
+                props.tileCornerNodes[x][y+1].owner == props.currentPlayer))) {
             strokeColor="white";
             className = "roadNodeBuildable";
             drawLine=true;
