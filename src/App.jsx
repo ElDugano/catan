@@ -1,16 +1,16 @@
-import { useState, useContext } from 'react'
-import './App.css'
-import Dice from './componentes/dice/Dice.jsx'
-import BoardDisplay from './componentes/boardDisplay/BoardDisplay.jsx'
-import { CreateLandTileNumbers, CreateLandTiles, CreatePortTiles, CreateTileCornerNodes } from './helpers/stateInitializers/stateInitializers.jsx'
-import FindDesert from './helpers/FindDesert.jsx'
-import SetCurrentPlayerTurn from './helpers/SetCurrentPlayerTurn.jsx'
+import { useState, useContext } from 'react';
+import './App.css';
+import Dice from './componentes/dice/Dice.jsx';
+import BoardDisplay from './componentes/boardDisplay/BoardDisplay.jsx';
+import { CreateLandTileNumbers, CreateLandTiles, CreatePortTiles, CreateTileCornerNodes } from './helpers/stateInitializers/stateInitializers.jsx';
+import FindDesert from './helpers/FindDesert.jsx';
+import SetCurrentPlayerTurn from './helpers/SetCurrentPlayerTurn.jsx';
 
-import { CurrentPlayerContext } from './state/currentPlayer/CurrentPlayerContext.js'
+import { CurrentPlayerContext } from './state/currentPlayer/CurrentPlayerContext.js';
 import { GameStateContext } from "./state/gameState/GameStateContext.js";
 import { TurnStateContext } from './state/turnState/TurnStateContext.js';
-
-
+import { PlayerAvailableBuildingsContext } from './state/playerAvailableBuildings/PlayerAvailableBuildingsContext.js';
+//import { PlayerAvailableBuildings } from './state/playerAvailableBuildings/PlayerAvailableBuildings.jsx';
 
 function App() {
   const [landTiles, setLandTiles] = useState(CreateLandTiles);
@@ -21,36 +21,31 @@ function App() {
   const [playerResourceCards, setPlayerResourceCards] = useState();             //Array of Objects showing the player's hand
   const [playerDevelopmentCards, setPlayerDevelopmentCards] = useState();       //List of development cards, shown and hidden
   const [playerVictoryPoints, setPlayerVictoryPoints] = useState();             //Array of score
-  const [playerAvailableBuildings, setPlayerAvailableBuildings] = useState();   //Array of Objects of what pieces players have
+  //const [playerAvailableBuildings, setPlayerAvailableBuildings] = useState();   //Array of Objects of what pieces players have
   //const [currentPlayer, setCurrentPlayer] = useState(0);                        //Who's turn it is
   const [numberOfPlayers, setNumberOfPlayers] = useState(3);
-  const [playerColor, setPlayerColor] = useState(["blue", "red", "green"]);
 
-  const {gameState}= useContext(GameStateContext);
-  const {turnState, setTurnStateTo}= useContext(TurnStateContext);
-  const {currentPlayer, setCurrentPlayerTo}=useContext(CurrentPlayerContext);
-
-
-
+  const {gameState} = useContext(GameStateContext);
+  const {turnState, setTurnStateTo} = useContext(TurnStateContext);
+  const {currentPlayer, setCurrentPlayerTo} = useContext(CurrentPlayerContext);
+  const {playerAvailableBuildings, removeRoadFromAvailableBuildings, removeSettlementFromAvailableBuildings, removeCityFromAvailableBuildings} =useContext(PlayerAvailableBuildingsContext);
 
 
   const TileNodeClickFunction = (x,y, itemBuilt) => {
     console.log("Got here");
     let newTileCornerNodes = [...tileCornerNodes];
     if (itemBuilt == "Settlement") {
-          console.log("then here");
-          console.log(newTileCornerNodes);
-          console.log(x);
       newTileCornerNodes[x][y].value=itemBuilt;
-          console.log("then here");
       newTileCornerNodes[x][y].owner=currentPlayer;
-          console.log("then here");
+      removeSettlementFromAvailableBuildings(currentPlayer);
     }
     else if(itemBuilt == "Right Road") {
       newTileCornerNodes[x][y].rightRoadOwner=currentPlayer;
+      removeRoadFromAvailableBuildings(currentPlayer);
     }
     else if(itemBuilt == "Bottom Road") {
       newTileCornerNodes[x][y].bottomRoadOwner=currentPlayer;
+      removeRoadFromAvailableBuildings(currentPlayer);
     }
     SetTileCornerNodes(newTileCornerNodes);
     //Set the turn, this should probably be it's own function
@@ -60,11 +55,17 @@ function App() {
         setTurnStateTo("building a road");
       }
       else
-        {
-          console.log("We need to move onto the next player")
-          setCurrentPlayerTo(() => SetCurrentPlayerTurn(currentPlayer, numberOfPlayers));
-          setTurnStateTo("building a settlement");
-        } 
+      {
+        console.log("We need to move onto the next player")
+        if(currentPlayer == numberOfPlayers-1) {
+          console.log("We did the 3rd player, time to check stuff");
+          console.log(playerAvailableBuildings);
+          if(playerAvailableBuildings[currentPlayer].settlements == 4)
+            console.log("Well, that worked.");
+        }
+        setCurrentPlayerTo(() => SetCurrentPlayerTurn(currentPlayer, numberOfPlayers));
+        setTurnStateTo("building a settlement");
+      } 
     }
     else {
       setCurrentPlayerTo(() => SetCurrentPlayerTurn(currentPlayer, numberOfPlayers));
@@ -80,25 +81,18 @@ function App() {
   console.log("-The following is tileCornerNodes:");
   console.log(tileCornerNodes);
 
-  //console.log("Hey, lets say we rolled a 6. Where are the tiles that we got?");
-  //console.log(landTileNumbers[6]);
-  //console.log("Cool, that means we will get " + landTiles[landTileNumbers[6][1].x][landTileNumbers[6][1].y] + " & " + landTiles[landTileNumbers[6][2].x][landTileNumbers[6][2].y]);
-
-
-
   return (
     <>
       <Dice>
         
       </Dice>
-      it is {playerColor[currentPlayer]}'s turn.
+      it is player {currentPlayer}'s turn.
       <br />
         <BoardDisplay
           landTiles={landTiles}
           landTileNumbers={landTileNumbers}
           thiefLocation={thiefLocation}
           tileCornerNodes={tileCornerNodes}
-          playerColor={playerColor}
           currentPlayer={currentPlayer}
           tileNodeClickFunction={TileNodeClickFunction}
         />

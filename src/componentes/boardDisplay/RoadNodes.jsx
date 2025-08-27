@@ -1,12 +1,14 @@
 import { useContext } from 'react'
 import { TurnStateContext } from "../../state/turnState/TurnStateContext";
 import { GameStateContext } from '../../state/gameState/GameStateContext';
+import { PlayerColorContext } from "../../state/playerColor/PlayerColorContext";
 
 //TODO: Need to add logic for startup to only build in specific spots.
 
 export default function RoadNodes(props) {
   const {turnState}= useContext(TurnStateContext);
   const {gameState}= useContext(GameStateContext);
+  const {playerColor} = useContext(PlayerColorContext);
 
   let boardContent=[];
   let className = "";
@@ -50,7 +52,7 @@ export default function RoadNodes(props) {
           }
           else if(props.tileCornerNodes[x][y].rightRoadOwner != undefined &&
                   props.tileCornerNodes[x][y].rightRoadOwner != "none") {
-            strokeColor=props.playerColor[props.tileCornerNodes[x][y].rightRoadOwner];
+            strokeColor=playerColor[props.tileCornerNodes[x][y].rightRoadOwner];
             className="";
             drawLine=true;
           }
@@ -94,7 +96,7 @@ export default function RoadNodes(props) {
           }
           else if(props.tileCornerNodes[x][y].bottomRoadOwner != undefined &&
                   props.tileCornerNodes[x][y].bottomRoadOwner != "none") {
-            strokeColor=props.playerColor[props.tileCornerNodes[x][y].bottomRoadOwner];
+            strokeColor=playerColor[props.tileCornerNodes[x][y].bottomRoadOwner];
             className="";
             drawLine=true;
           }
