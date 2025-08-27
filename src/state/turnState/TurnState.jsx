@@ -8,13 +8,8 @@ export const TurnState = ({ children }) => {
     //building a settlement
     //building a city
     //building a road
-
-  const setTurnStateTo= (newTurnState) => {
-    console.log("setTurnStateTo was called, we are making a "+newTurnState);
-    setTurnState(newTurnState);
-  }
   return (
-      <TurnStateContext.Provider value={{turnState, setTurnStateTo}}>
+      <TurnStateContext.Provider value={{turnState, setTurnState}}>
         {children}
       </TurnStateContext.Provider>
   )

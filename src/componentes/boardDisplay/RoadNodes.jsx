@@ -2,13 +2,15 @@ import { useContext } from 'react'
 import { TurnStateContext } from "../../state/turnState/TurnStateContext";
 import { GameStateContext } from '../../state/gameState/GameStateContext';
 import { PlayerColorContext } from "../../state/playerColor/PlayerColorContext";
+import { CurrentPlayerTurnContext } from '../../state/currentPlayerTurn/CurrentPlayerTurnContext';
 
 //TODO: Need to add logic for startup to only build in specific spots.
 
 export default function RoadNodes(props) {
   const {turnState}= useContext(TurnStateContext);
-  const {gameState}= useContext(GameStateContext);
+  //const {gameState}= useContext(GameStateContext);
   const {playerColor} = useContext(PlayerColorContext);
+  const {currentPlayerTurn} = useContext(CurrentPlayerTurnContext);
 
   let boardContent=[];
   let className = "";
@@ -34,18 +36,18 @@ export default function RoadNodes(props) {
           let drawLine = false;
           if( turnState=="building a road" &&
               props.tileCornerNodes[x][y].rightRoadOwner == "none" &&
-               (props.tileCornerNodes[x][y].owner == props.currentPlayer ||
-                props.tileCornerNodes[x+1][y].owner == props.currentPlayer ||
+               (props.tileCornerNodes[x][y].owner == currentPlayerTurn ||
+                props.tileCornerNodes[x+1][y].owner == currentPlayerTurn ||
                  (props.tileCornerNodes[x][y].owner == "none" || 
-                  props.tileCornerNodes[x][y].owner == props.currentPlayer) &&
-                 (props.tileCornerNodes[x-1][y].rightRoadOwner == props.currentPlayer ||
-                   ((x+y)%2 == 0 && props.tileCornerNodes[x][y].bottomRoadOwner == props.currentPlayer) ||
-                   ((x+y)%2 == 1 && props.tileCornerNodes[x][y-1].bottomRoadOwner == props.currentPlayer)) ||
+                  props.tileCornerNodes[x][y].owner == currentPlayerTurn) &&
+                 (props.tileCornerNodes[x-1][y].rightRoadOwner == currentPlayerTurn ||
+                   ((x+y)%2 == 0 && props.tileCornerNodes[x][y].bottomRoadOwner == currentPlayerTurn) ||
+                   ((x+y)%2 == 1 && props.tileCornerNodes[x][y-1].bottomRoadOwner == currentPlayerTurn)) ||
                  (props.tileCornerNodes[x+1][y].owner == "none" || 
-                  props.tileCornerNodes[x+1][y].owner == props.currentPlayer) &&
-                 (props.tileCornerNodes[x+1][y].rightRoadOwner == props.currentPlayer ||
-                   ((x+y)%2 == 0 && props.tileCornerNodes[x+1][y-1].bottomRoadOwner == props.currentPlayer) ||
-                   ((x+y)%2 == 1 && props.tileCornerNodes[x+1][y].bottomRoadOwner == props.currentPlayer)))) {
+                  props.tileCornerNodes[x+1][y].owner == currentPlayerTurn) &&
+                 (props.tileCornerNodes[x+1][y].rightRoadOwner == currentPlayerTurn ||
+                   ((x+y)%2 == 0 && props.tileCornerNodes[x+1][y-1].bottomRoadOwner == currentPlayerTurn) ||
+                   ((x+y)%2 == 1 && props.tileCornerNodes[x+1][y].bottomRoadOwner == currentPlayerTurn)))) {
             strokeColor="white";
             className = "roadNodeBuildable";
             drawLine=true;
@@ -80,16 +82,16 @@ export default function RoadNodes(props) {
           let drawLine = false;
           if (turnState=="building a road" &&
               props.tileCornerNodes[x][y].bottomRoadOwner == "none" &&
-               (props.tileCornerNodes[x][y].owner == props.currentPlayer ||
-                props.tileCornerNodes[x][y+1].owner == props.currentPlayer ||
+               (props.tileCornerNodes[x][y].owner == currentPlayerTurn ||
+                props.tileCornerNodes[x][y+1].owner == currentPlayerTurn ||
                 (props.tileCornerNodes[x][y].owner == "none" || 
-                  props.tileCornerNodes[x][y].owner == props.currentPlayer) &&
-                (props.tileCornerNodes[x][y].rightRoadOwner == props.currentPlayer ||
-                  props.tileCornerNodes[x-1][y].rightRoadOwner == props.currentPlayer ) ||
+                  props.tileCornerNodes[x][y].owner == currentPlayerTurn) &&
+                (props.tileCornerNodes[x][y].rightRoadOwner == currentPlayerTurn ||
+                  props.tileCornerNodes[x-1][y].rightRoadOwner == currentPlayerTurn ) ||
                 (props.tileCornerNodes[x][y+1].owner == "none" || 
-                  props.tileCornerNodes[x][y+1].owner == props.currentPlayer) &&
-                (props.tileCornerNodes[x][y+1].rightRoadOwner == props.currentPlayer ||
-                  props.tileCornerNodes[x-1][y+1].rightRoadOwner == props.currentPlayer ))) {
+                  props.tileCornerNodes[x][y+1].owner == currentPlayerTurn) &&
+                (props.tileCornerNodes[x][y+1].rightRoadOwner == currentPlayerTurn ||
+                  props.tileCornerNodes[x-1][y+1].rightRoadOwner == currentPlayerTurn ))) {
             strokeColor="white";
             className = "roadNodeBuildable";
             drawLine=true;

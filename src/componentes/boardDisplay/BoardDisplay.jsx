@@ -1,4 +1,3 @@
-import Settlements from "./Settlements.jsx";
 import CornerNodes from "./CornerNodes.jsx";
 import TileNumbers from "./TileNumbers.jsx";
 import BanditIcon from "./BanditIcon.jsx";
@@ -17,7 +16,7 @@ export default function BoardDisplay(props) {
         <Tiles landTiles={props.landTiles} />
         <TileNumbers landTileNumbers={props.landTileNumbers} />
         <CornerNodes tileCornerNodes={props.tileCornerNodes} tileNodeClickFunction={props.tileNodeClickFunction} />
-        <RoadNodes tileCornerNodes={props.tileCornerNodes} roadNodeClickFunction={props.tileNodeClickFunction} currentPlayer={props.currentPlayer} />
+        <RoadNodes tileCornerNodes={props.tileCornerNodes} roadNodeClickFunction={props.tileNodeClickFunction} />
         <BanditIcon coordinates={props.thiefLocation} />
       </svg>
     </>
