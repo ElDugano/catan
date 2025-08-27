@@ -15,8 +15,8 @@ export default function BoardDisplay(props) {
       <svg className="hex-grid" viewBox="0 0 420 370">
         <Tiles landTiles={props.landTiles} />
         <TileNumbers landTileNumbers={props.landTileNumbers} />
-        <CornerNodes tileCornerNodes={props.tileCornerNodes} tileNodeClickFunction={props.tileNodeClickFunction} />
-        <RoadNodes tileCornerNodes={props.tileCornerNodes} roadNodeClickFunction={props.tileNodeClickFunction} />
+        <CornerNodes tileNodeClickFunction={props.tileNodeClickFunction} />
+        <RoadNodes roadNodeClickFunction={props.tileNodeClickFunction} />
         <BanditIcon coordinates={props.thiefLocation} />
       </svg>
     </>

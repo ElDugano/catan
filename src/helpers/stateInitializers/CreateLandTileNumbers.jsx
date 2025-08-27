@@ -3,7 +3,6 @@ import Shuffle from '../Shuffle.jsx'
 
 export default function CreateLandTileNumbers(desertLocation){
   console.log("*** creatLandTileNumbers was called. ***");
-  console.log(desertLocation);
   const availableNumbers = [2,3,3,4,4,5,5,6,6,8,8,9,9,10,10,11,11,12];
   let landTileNumbers={
     2:{1:{x:"",y:""}},
@@ -39,9 +38,6 @@ export default function CreateLandTileNumbers(desertLocation){
         landTileNumbers[availableNumbers[0]][2]['y'] = landTileCoordinates[0][1];
       }
       availableNumbers.shift();
-    }
-    else{
-      console.log("Found the desert at:" +landTileCoordinates[0][0]+" "+landTileCoordinates[0][1]);
     }
     landTileCoordinates.shift();
   }

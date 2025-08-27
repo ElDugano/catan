@@ -2,21 +2,20 @@ import { useState, useContext } from 'react';
 import './App.css';
 import Dice from './componentes/dice/Dice.jsx';
 import BoardDisplay from './componentes/boardDisplay/BoardDisplay.jsx';
-import { CreateLandTileNumbers, CreateLandTiles, CreatePortTiles, CreateTileCornerNodes } from './helpers/stateInitializers/stateInitializers.jsx';
+import { CreateLandTileNumbers, CreateLandTiles, CreatePortTiles } from './helpers/stateInitializers/stateInitializers.jsx';
 import FindDesert from './helpers/FindDesert.jsx';
 
 import { CurrentPlayerTurnContext } from './state/currentPlayerTurn/CurrentPlayerTurnContext.js';
 import { GameStateContext } from "./state/gameState/GameStateContext.js";
 import { TurnStateContext } from './state/turnState/TurnStateContext.js';
 import { PlayerAvailableBuildingsContext } from './state/playerAvailableBuildings/PlayerAvailableBuildingsContext.js';
-import { LastBuiltObjectContext } from './state/lastBuiltObject/LastBuiltObjectContext.js';
+import { TileCornerNodesContext } from './state/tileCornerNodes/TileCornerNodesContext.jsx';
 
 function App() {
   const [landTiles, setLandTiles] = useState(CreateLandTiles);
   const [thiefLocation, setThiefLocation] = useState(() => FindDesert(landTiles));
   const [landTileNumbers, setLandTileNumbers] = useState(() => CreateLandTileNumbers(thiefLocation));
   const [portTiles, setPortTiles] = useState(() => CreatePortTiles(thiefLocation));
-  const [tileCornerNodes, SetTileCornerNodes] = useState(CreateTileCornerNodes);
   const [playerResourceCards, setPlayerResourceCards] = useState();             //Array of Objects showing the player's hand
   const [playerDevelopmentCards, setPlayerDevelopmentCards] = useState();       //List of development cards, shown and hidden
   const [playerVictoryPoints, setPlayerVictoryPoints] = useState();             //Array of score
@@ -25,25 +24,23 @@ function App() {
   const {gameState, setGameState} = useContext(GameStateContext);
   const {setTurnStateToBuildingASettlement, setTurnStateToBuildingARoad, isTurnStateBuildingASettlement} = useContext(TurnStateContext);
   const {currentPlayerTurn, gotoNextPlayerTurn, gotoPreviousPlayerTurn} = useContext(CurrentPlayerTurnContext);
-  const {playerAvailableBuildings, removeRoadFromAvailableBuildings, removeSettlementFromAvailableBuildings, removeCityFromAvailableBuildings} =useContext(PlayerAvailableBuildingsContext);
-
+  const {playerAvailableBuildings, removeRoadFromAvailableBuildings, removeSettlementFromAvailableBuildings, removeCityFromAvailableBuildings} = useContext(PlayerAvailableBuildingsContext);
+  const {tileCornerNodes, setNodeValueToSettlement, setNodeRightRoadOwner, setNodeBottomRoadOwner} = useContext(TileCornerNodesContext);
 
   const TileNodeClickFunction = (x,y, itemBuilt) => {
-    let newTileCornerNodes = [...tileCornerNodes];
     if (itemBuilt == "settlement") {
-      newTileCornerNodes[x][y].value=itemBuilt;
-      newTileCornerNodes[x][y].owner=currentPlayerTurn;
+      setNodeValueToSettlement(x,y,currentPlayerTurn);
       removeSettlementFromAvailableBuildings(currentPlayerTurn);
     }
     else if(itemBuilt == "rightRoad") {
-      newTileCornerNodes[x][y].rightRoadOwner=currentPlayerTurn;
+      setNodeRightRoadOwner(x, y, currentPlayerTurn)
       removeRoadFromAvailableBuildings(currentPlayerTurn);
     }
     else if(itemBuilt == "bottomRoad") {
-      newTileCornerNodes[x][y].bottomRoadOwner=currentPlayerTurn;
+      setNodeBottomRoadOwner(x, y, currentPlayerTurn)
       removeRoadFromAvailableBuildings(currentPlayerTurn);
     }
-    SetTileCornerNodes(newTileCornerNodes);
+    
     
     //Set the turn, this should probably be it's own function
     if(gameState == "setup") {
@@ -53,8 +50,6 @@ function App() {
       else
       {
         setTurnStateToBuildingASettlement();
-        //gotoNextPlayerTurn();         //This was for testing
-        //return;                       //This was for testing
         if(playerAvailableBuildings[currentPlayerTurn].settlements == 4 && currentPlayerTurn < numberOfPlayers-1) {
           gotoNextPlayerTurn();
           console.log("moving forward");
@@ -79,14 +74,14 @@ function App() {
     
   }
 
-  console.log("-The following is landTiles:");
-  console.log(landTiles);
-  console.log("-The following is landTilesNumbers:");
-  console.log(landTileNumbers);
-  console.log("-The following is portTiles:");
-  console.log(portTiles);
-  console.log("-The following is tileCornerNodes:");
-  console.log(tileCornerNodes);
+  //console.log("-The following is landTiles:");
+  //console.log(landTiles);
+  //console.log("-The following is landTilesNumbers:");
+  //console.log(landTileNumbers);
+  //console.log("-The following is portTiles:");
+  //console.log(portTiles);
+  //console.log("-The following is tileCornerNodes:");
+  //console.log(tileCornerNodes);
 
   return (
     <>
@@ -99,7 +94,6 @@ function App() {
           landTiles={landTiles}
           landTileNumbers={landTileNumbers}
           thiefLocation={thiefLocation}
-          tileCornerNodes={tileCornerNodes}
           currentPlayerTurn={currentPlayerTurn}
           tileNodeClickFunction={TileNodeClickFunction}
         />

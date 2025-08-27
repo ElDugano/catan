@@ -17,7 +17,6 @@ export const PlayerAvailableBuildings = ({ children }) => {
   const removeSettlementFromAvailableBuildings = (playerNumber) => {
     let newplayerAvailableBuildings = [...playerAvailableBuildings];
     newplayerAvailableBuildings[playerNumber].settlements--;
-    console.log(newplayerAvailableBuildings[playerNumber].settlements);
     setPlayerAvailableBuildings(newplayerAvailableBuildings);
   }
   const removeCityFromAvailableBuildings = (playerNumber) => {
