@@ -1,6 +1,6 @@
 //This doesn't work right now.
 
-export default function BuildSettlementButtons(props) {
+export default function BuildSettlementButton(props) {
   if(props.tileCornerNodes[props.x][props.y].value == "Land") {
     if( !(
       props.tileCornerNodes[props.x+1][props.y].owner != "none" ||

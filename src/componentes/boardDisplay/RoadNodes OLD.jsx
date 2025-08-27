@@ -3,8 +3,6 @@ import { TurnStateContext } from "../../state/turnState/TurnStateContext";
 import { GameStateContext } from '../../state/gameState/GameStateContext';
 import { PlayerColorContext } from "../../state/playerColor/PlayerColorContext";
 import { CurrentPlayerTurnContext } from '../../state/currentPlayerTurn/CurrentPlayerTurnContext';
-import BuildRoadButton from "./BuildRoadButton";
-import Road from "./Road";
 
 //TODO: Need to add logic for startup to only build in specific spots.
 
@@ -54,20 +52,11 @@ export default function RoadNodes(props) {
             className = "roadNodeBuildable";
             drawLine=true;
           }
-          else {
-            boardContent.push(
-              <Road
-                key={crypto.randomUUID()}
-                lineStartX={x1}
-                lineStartY={y1}
-                lineEndX={x2}
-                lineEndY={y2}
-                tileNodePosition={props.tileCornerNodes[x][y]}
-                NodeRoadOwner={props.tileCornerNodes[x][y].rightRoadOwner}
-                //roadNodeClickFunction={props.roadNodeClickFunction}
-                strokeWidth={strokeWidth}
-              />
-            )
+          else if(props.tileCornerNodes[x][y].rightRoadOwner != undefined &&
+                  props.tileCornerNodes[x][y].rightRoadOwner != "none") {
+            strokeColor=playerColor[props.tileCornerNodes[x][y].rightRoadOwner];
+            className="";
+            drawLine=true;
           }
           if(drawLine)
             boardContent.push(
@@ -107,20 +96,10 @@ export default function RoadNodes(props) {
             className = "roadNodeBuildable";
             drawLine=true;
           }
-          else {
-            boardContent.push(
-              <Road
-                key={crypto.randomUUID()}
-                lineStartX={x1}
-                lineStartY={y1}
-                lineEndX={x2}
-                lineEndY={y2}
-                tileNodePosition={props.tileCornerNodes[x][y]}
-                NodeRoadOwner={props.tileCornerNodes[x][y].bottomRoadOwner}
-                //roadNodeClickFunction={props.roadNodeClickFunction}
-                strokeWidth={strokeWidth}
-              />
-            )
+          else if(props.tileCornerNodes[x][y].bottomRoadOwner != "none") {
+            strokeColor=playerColor[props.tileCornerNodes[x][y].bottomRoadOwner];
+            className="";
+            drawLine=true;
           }
           if(drawLine) {
             boardContent.push(
