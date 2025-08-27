@@ -4,6 +4,7 @@ import { NumberOfPlayers } from './numberOfPlayers/NumberOfPlayers.jsx'
 import { CurrentPlayerTurn } from './currentPlayerTurn/CurrentPlayerTurn.jsx'
 import { PlayerColor } from './playerColor/PlayerColor.jsx'
 import { PlayerAvailableBuildings } from './playerAvailableBuildings/PlayerAvailableBuildings.jsx'
+import { LastBuiltObject } from './lastBuiltObject/LastBuiltObject.jsx'
 
 export default function GlobalStateProvider({ children }) {
   return (
@@ -13,7 +14,9 @@ export default function GlobalStateProvider({ children }) {
           <CurrentPlayerTurn>
             <PlayerColor>
               <PlayerAvailableBuildings>
-                { children }
+                <LastBuiltObject>
+                  { children }
+                </LastBuiltObject>
               </PlayerAvailableBuildings>
             </PlayerColor>
           </CurrentPlayerTurn>

@@ -1,5 +1,3 @@
-//This doesn't work right now.
-
 export default function BuildSettlementButton(props) {
   if(props.tileCornerNodes[props.x][props.y].value == "Land") {
     if( !(
@@ -10,9 +8,7 @@ export default function BuildSettlementButton(props) {
     ) {
       return(
         <circle
-          id={"tileCornerNode-"+props.x+"-"+props.y}
-
-          onClick={() => {props.tileNodeClickFunction(props.x,props.y, "Settlement")}}
+          onClick={() => props.tileNodeClickFunction()}
           r="5"
           cx={props.centerX}
           cy={props.centerY}

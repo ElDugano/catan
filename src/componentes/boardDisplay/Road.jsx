@@ -13,7 +13,7 @@ export default function BuildRoadButton(props) {
         y2={props.lineEndY}
         className={""}
         stroke={playerColor[props.NodeRoadOwner]}
-        strokeWidth={props.strokeWidth}
+        strokeWidth={4}
       />)
     }
   return;

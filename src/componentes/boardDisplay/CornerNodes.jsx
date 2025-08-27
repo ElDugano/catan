@@ -1,10 +1,14 @@
 import { useContext } from 'react'
 import { TurnStateContext } from "../../state/turnState/TurnStateContext";
+import { LastBuiltObjectContext } from '../../state/lastBuiltObject/LastBuiltObjectContext';
+import { CurrentPlayerTurnContext } from '../../state/currentPlayerTurn/CurrentPlayerTurnContext';
 import BuildSettlementButton from './BuildSettlementButton';
-import Settlements from './Settlements';
+import Settlement from './Settlement';
 
 export default function CornerNodes(props) {
   const {isTurnStateBuildingASettlement}= useContext(TurnStateContext);
+  const {recordSettlementBuilt}= useContext(LastBuiltObjectContext);
+  const {currentPlayerTurn} = useContext(CurrentPlayerTurnContext);
 
   let boardContent=[];
   for (let x=1; x <= 12; x++) {
@@ -19,10 +23,10 @@ export default function CornerNodes(props) {
           centerX={centerX}
           centerY={centerY}
           key={crypto.randomUUID()}
-          tileNodeClickFunction={props.tileNodeClickFunction}
+          tileNodeClickFunction={() => (props.tileNodeClickFunction(x,y, recordSettlementBuilt(currentPlayerTurn, x, y)))}
           tileCornerNodes={props.tileCornerNodes} />);}
 
-      boardContent.push(<Settlements
+      boardContent.push(<Settlement
         x={x}
         y={y}
         centerX={centerX}

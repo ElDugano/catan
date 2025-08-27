@@ -9,7 +9,7 @@ import { CurrentPlayerTurnContext } from './state/currentPlayerTurn/CurrentPlaye
 import { GameStateContext } from "./state/gameState/GameStateContext.js";
 import { TurnStateContext } from './state/turnState/TurnStateContext.js';
 import { PlayerAvailableBuildingsContext } from './state/playerAvailableBuildings/PlayerAvailableBuildingsContext.js';
-
+import { LastBuiltObjectContext } from './state/lastBuiltObject/LastBuiltObjectContext.js';
 
 function App() {
   const [landTiles, setLandTiles] = useState(CreateLandTiles);
@@ -30,20 +30,21 @@ function App() {
 
   const TileNodeClickFunction = (x,y, itemBuilt) => {
     let newTileCornerNodes = [...tileCornerNodes];
-    if (itemBuilt == "Settlement") {
+    if (itemBuilt == "settlement") {
       newTileCornerNodes[x][y].value=itemBuilt;
       newTileCornerNodes[x][y].owner=currentPlayerTurn;
       removeSettlementFromAvailableBuildings(currentPlayerTurn);
     }
-    else if(itemBuilt == "Right Road") {
+    else if(itemBuilt == "rightRoad") {
       newTileCornerNodes[x][y].rightRoadOwner=currentPlayerTurn;
       removeRoadFromAvailableBuildings(currentPlayerTurn);
     }
-    else if(itemBuilt == "Bottom Road") {
+    else if(itemBuilt == "bottomRoad") {
       newTileCornerNodes[x][y].bottomRoadOwner=currentPlayerTurn;
       removeRoadFromAvailableBuildings(currentPlayerTurn);
     }
     SetTileCornerNodes(newTileCornerNodes);
+    
     //Set the turn, this should probably be it's own function
     if(gameState == "setup") {
       if(isTurnStateBuildingASettlement()) {
@@ -52,6 +53,8 @@ function App() {
       else
       {
         setTurnStateToBuildingASettlement();
+        //gotoNextPlayerTurn();         //This was for testing
+        //return;                       //This was for testing
         if(playerAvailableBuildings[currentPlayerTurn].settlements == 4 && currentPlayerTurn < numberOfPlayers-1) {
           gotoNextPlayerTurn();
           console.log("moving forward");
