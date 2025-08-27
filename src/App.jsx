@@ -1,13 +1,14 @@
-import { useState } from 'react'
+import { useState, useContext } from 'react'
 import './App.css'
 import Dice from './componentes/dice/Dice.jsx'
 import BoardDisplay from './componentes/boardDisplay/BoardDisplay.jsx'
 import { CreateLandTileNumbers, CreateLandTiles, CreatePortTiles, CreateTileCornerNodes } from './helpers/stateInitializers/stateInitializers.jsx'
 import FindDesert from './helpers/FindDesert.jsx'
-import setCurrentPlayerTurn from './helpers/setCurrentPlayerTurn.jsx'
+import SetCurrentPlayerTurn from './helpers/SetCurrentPlayerTurn.jsx'
 
-import {GameState} from './componentes/GameState.jsx'
-
+import { CurrentPlayerContext } from './state/currentPlayer/CurrentPlayerContext.js'
+import { GameStateContext } from "./state/gameState/GameStateContext.js";
+import { TurnStateContext } from './state/turnState/TurnStateContext.js';
 
 
 
@@ -21,18 +22,29 @@ function App() {
   const [playerDevelopmentCards, setPlayerDevelopmentCards] = useState();       //List of development cards, shown and hidden
   const [playerVictoryPoints, setPlayerVictoryPoints] = useState();             //Array of score
   const [playerAvailableBuildings, setPlayerAvailableBuildings] = useState();   //Array of Objects of what pieces players have
-  const [currentPlayer, setCurrentPlayer] = useState(0);                        //Who's turn it is
+  //const [currentPlayer, setCurrentPlayer] = useState(0);                        //Who's turn it is
   const [numberOfPlayers, setNumberOfPlayers] = useState(3);
   const [playerColor, setPlayerColor] = useState(["blue", "red", "green"]);
-  //const [gameState, setGameState] = useState("setup");
-  const [turnState, setTurnState] = useState("building a settlementement");
-    //rolling, trading, building a road, building a settlement, building a city
+
+  const {gameState}= useContext(GameStateContext);
+  const {turnState, setTurnStateTo}= useContext(TurnStateContext);
+  const {currentPlayer, setCurrentPlayerTo}=useContext(CurrentPlayerContext);
+
+
+
+
 
   const TileNodeClickFunction = (x,y, itemBuilt) => {
+    console.log("Got here");
     let newTileCornerNodes = [...tileCornerNodes];
     if (itemBuilt == "Settlement") {
+          console.log("then here");
+          console.log(newTileCornerNodes);
+          console.log(x);
       newTileCornerNodes[x][y].value=itemBuilt;
+          console.log("then here");
       newTileCornerNodes[x][y].owner=currentPlayer;
+          console.log("then here");
     }
     else if(itemBuilt == "Right Road") {
       newTileCornerNodes[x][y].rightRoadOwner=currentPlayer;
@@ -40,9 +52,23 @@ function App() {
     else if(itemBuilt == "Bottom Road") {
       newTileCornerNodes[x][y].bottomRoadOwner=currentPlayer;
     }
-    
     SetTileCornerNodes(newTileCornerNodes);
-    setCurrentPlayer(setCurrentPlayerTurn(currentPlayer, numberOfPlayers));
+    //Set the turn, this should probably be it's own function
+    if(gameState == "setup") {
+      if(turnState == "building a settlement") {
+        console.log("We are in the setup stage.");
+        setTurnStateTo("building a road");
+      }
+      else
+        {
+          console.log("We need to move onto the next player")
+          setCurrentPlayerTo(() => SetCurrentPlayerTurn(currentPlayer, numberOfPlayers));
+          setTurnStateTo("building a settlement");
+        } 
+    }
+    else {
+      setCurrentPlayerTo(() => SetCurrentPlayerTurn(currentPlayer, numberOfPlayers));
+    }
   }
 
   console.log("-The following is landTiles:");
@@ -67,7 +93,6 @@ function App() {
       </Dice>
       it is {playerColor[currentPlayer]}'s turn.
       <br />
-      <GameState>
         <BoardDisplay
           landTiles={landTiles}
           landTileNumbers={landTileNumbers}
@@ -76,8 +101,7 @@ function App() {
           playerColor={playerColor}
           currentPlayer={currentPlayer}
           tileNodeClickFunction={TileNodeClickFunction}
-          />
-        </GameState>
+        />
     </>
   )
 }

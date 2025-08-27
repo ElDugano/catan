@@ -15,7 +15,7 @@ export default function CreateTileCornerNodes() {
           (y == 5 && x == 11) ||
           (y == 6 && x <= 2) ||
           (y == 6 && x >= 10)) {
-            columnNodes.push({value:"Ocean"});
+            columnNodes.push({value:"Ocean",owner:"none",});
           }
       else {
         if((x+y)%2 !== 0 || y == 6) {  //Number is odd or the bottom row.
