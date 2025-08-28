@@ -6,10 +6,6 @@ import { CreateLandTileNumbers, CreateLandTiles, CreatePortTiles } from './helpe
 import FindDesert from './helpers/FindDesert.jsx';
 
 import { CurrentPlayerTurnContext } from './state/currentPlayerTurn/CurrentPlayerTurnContext.js';
-import { GameStateContext } from "./state/gameState/GameStateContext.js";
-import { TurnStateContext } from './state/turnState/TurnStateContext.js';
-import { PlayerAvailableBuildingsContext } from './state/playerAvailableBuildings/PlayerAvailableBuildingsContext.js';
-import { TileCornerNodesContext } from './state/tileCornerNodes/TileCornerNodesContext.jsx';
 
 function App() {
   const [landTiles, setLandTiles] = useState(CreateLandTiles);
@@ -21,58 +17,7 @@ function App() {
   const [playerVictoryPoints, setPlayerVictoryPoints] = useState();             //Array of score
   const [numberOfPlayers, setNumberOfPlayers] = useState(3);
 
-  const {gameState, setGameState} = useContext(GameStateContext);
-  const {setTurnStateToBuildingASettlement, setTurnStateToBuildingARoad, isTurnStateBuildingASettlement} = useContext(TurnStateContext);
-  const {currentPlayerTurn, gotoNextPlayerTurn, gotoPreviousPlayerTurn} = useContext(CurrentPlayerTurnContext);
-  const {playerAvailableBuildings, removeRoadFromAvailableBuildings, removeSettlementFromAvailableBuildings, removeCityFromAvailableBuildings} = useContext(PlayerAvailableBuildingsContext);
-  const {tileCornerNodes, setNodeValueToSettlement, setNodeRightRoadOwner, setNodeBottomRoadOwner} = useContext(TileCornerNodesContext);
-
-  const TileNodeClickFunction = (x,y, itemBuilt) => {
-    if (itemBuilt == "settlement") {
-      setNodeValueToSettlement(x,y,currentPlayerTurn);
-      removeSettlementFromAvailableBuildings(currentPlayerTurn);
-    }
-    else if(itemBuilt == "rightRoad") {
-      setNodeRightRoadOwner(x, y, currentPlayerTurn)
-      removeRoadFromAvailableBuildings(currentPlayerTurn);
-    }
-    else if(itemBuilt == "bottomRoad") {
-      setNodeBottomRoadOwner(x, y, currentPlayerTurn)
-      removeRoadFromAvailableBuildings(currentPlayerTurn);
-    }
-    
-    
-    //Set the turn, this should probably be it's own function
-    if(gameState == "setup") {
-      if(isTurnStateBuildingASettlement()) {
-        setTurnStateToBuildingARoad();
-      }
-      else
-      {
-        setTurnStateToBuildingASettlement();
-        if(playerAvailableBuildings[currentPlayerTurn].settlements == 4 && currentPlayerTurn < numberOfPlayers-1) {
-          gotoNextPlayerTurn();
-          console.log("moving forward");
-        }
-        else if(playerAvailableBuildings[currentPlayerTurn].settlements == 4 && currentPlayerTurn == numberOfPlayers-1) {
-          console.log("Time to reverse course");
-        }
-        else if(playerAvailableBuildings[currentPlayerTurn].settlements == 3 && currentPlayerTurn > 0) {
-          gotoPreviousPlayerTurn();
-          console.log("moving backwards");
-        }
-        else {
-          console.log("^^^^START THE GAME^^^^");
-          setGameState("main game");
-          //setTurnState("rolling dice"); //When we get to that point
-        }
-      } 
-    }
-    else {
-      gotoNextPlayerTurn();
-    }
-    
-  }
+  const {currentPlayerTurn} = useContext(CurrentPlayerTurnContext);
 
   //console.log("-The following is landTiles:");
   //console.log(landTiles);
@@ -95,7 +40,6 @@ function App() {
           landTileNumbers={landTileNumbers}
           thiefLocation={thiefLocation}
           currentPlayerTurn={currentPlayerTurn}
-          tileNodeClickFunction={TileNodeClickFunction}
         />
     </>
   )

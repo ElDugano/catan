@@ -26,8 +26,22 @@ export const PlayerAvailableBuildings = ({ children }) => {
     setPlayerAvailableBuildings(newplayerAvailableBuildings);
   }
 
+  const returnAvailableRoads = (playerNumber) => {return playerAvailableBuildings[playerNumber].roads};
+  const returnAvailableSettlements = (playerNumber) => {return playerAvailableBuildings[playerNumber].settlements};
+  const returnAvailableCities = (playerNumber) => {return playerAvailableBuildings[playerNumber].cities};
+
+
+
   return (
-      <PlayerAvailableBuildingsContext.Provider value={{playerAvailableBuildings, removeRoadFromAvailableBuildings, removeSettlementFromAvailableBuildings, removeCityFromAvailableBuildings}}>
+      <PlayerAvailableBuildingsContext.Provider value={{
+        playerAvailableBuildings,
+        removeRoadFromAvailableBuildings,
+        removeSettlementFromAvailableBuildings,
+        removeCityFromAvailableBuildings,
+        returnAvailableRoads,
+        returnAvailableSettlements,
+        returnAvailableCities
+      }}>
         {children}
       </PlayerAvailableBuildingsContext.Provider>
   )

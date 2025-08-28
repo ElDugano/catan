@@ -3,14 +3,26 @@ import { TurnStateContext } from "../../state/turnState/TurnStateContext";
 import { LastBuiltObjectContext } from '../../state/lastBuiltObject/LastBuiltObjectContext';
 import { CurrentPlayerTurnContext } from '../../state/currentPlayerTurn/CurrentPlayerTurnContext';
 import { TileCornerNodesContext } from '../../state/tileCornerNodes/TileCornerNodesContext';
+import { PlayerAvailableBuildingsContext } from '../../state/playerAvailableBuildings/PlayerAvailableBuildingsContext';
+import { GameStateContext } from '../../state/gameState/GameStateContext';
 import BuildSettlementButton from './BuildSettlementButton';
 import Settlement from './Settlement';
 
-export default function CornerNodes(props) {
-  const {isTurnStateBuildingASettlement, isTurnStateBuildingACity}= useContext(TurnStateContext);
+export default function CornerNodes() {
+  const {isTurnStateBuildingASettlement, isTurnStateBuildingACity, setTurnStateToBuildingARoad}= useContext(TurnStateContext);
   const {recordSettlementBuilt}= useContext(LastBuiltObjectContext);
   const {currentPlayerTurn} = useContext(CurrentPlayerTurnContext);
-  const {tileCornerNodes, isNodeValueSettlement, isNodeValueLand} = useContext(TileCornerNodesContext);
+  const {tileCornerNodes, isNodeValueSettlement, isNodeValueLand, setNodeValueToSettlement} = useContext(TileCornerNodesContext);
+  const {removeSettlementFromAvailableBuildings} = useContext(PlayerAvailableBuildingsContext);
+  const {isGameStateSetup} = useContext(GameStateContext)
+
+  function buildSettlement(x, y) {
+    recordSettlementBuilt(currentPlayerTurn, x, y);
+    setNodeValueToSettlement(x, y,currentPlayerTurn);
+    removeSettlementFromAvailableBuildings(currentPlayerTurn);
+    if(isGameStateSetup())
+      setTurnStateToBuildingARoad();
+  }
 
   let boardContent=[];
   for (let x=1; x <= 12; x++) {
@@ -28,7 +40,9 @@ export default function CornerNodes(props) {
           centerX={centerX}
           centerY={centerY}
           key={crypto.randomUUID()}
-          tileNodeClickFunction={() => (props.tileNodeClickFunction(x,y, recordSettlementBuilt(currentPlayerTurn, x, y)))}
+          //tileNodeClickFunction={() => (props.tileNodeClickFunction(x,y, recordSettlementBuilt(currentPlayerTurn, x, y)))}
+          tileNodeClickFunction={() => buildSettlement(x, y)}
+
         />);}
       if(isNodeValueSettlement(x,y)) {
         boardContent.push(
