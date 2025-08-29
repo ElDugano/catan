@@ -8,7 +8,7 @@ export const NumberOfPlayers = ({ children }) => {
     setNumberOfPlayers(newNumberOfPlayers);
   }
   return (
-      <NumberOfPlayersContext.Provider value={{numberOfPlayers, setNumberOfPlayersTo}}>
+      <NumberOfPlayersContext.Provider value={{numberOfPlayers, setNumberOfPlayers}}>
         {children}
       </NumberOfPlayersContext.Provider>
   )

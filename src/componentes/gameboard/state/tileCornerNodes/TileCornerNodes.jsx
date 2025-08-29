@@ -1,13 +1,15 @@
 import { useState } from "react";
-import { TileCornerNodesContext } from "./TileCornerNodesContext";
+import { TileCornerNodesContext } from "./TileCornerNodesContext.js";
 
 export const TileCornerNodes = ({ children }) => {
   const [tileCornerNodes, setTileCornerNodes] = useState(CreateTileCornerNodes);
 
-  const isNodeValueSettlement = (x, y)    => { return tileCornerNodes[x][y].value == "settlement" ? true : false};
+  const isNodeValueSettlement = (x, y) => { return tileCornerNodes[x][y].value == "settlement" ? true : false};
   const isNodeValueCity = (x, y) => { return tileCornerNodes[x][y].value == "city" ? true : false};
   const isNodeValueOcean = (x, y) => { return tileCornerNodes[x][y].value == "Ocean" ? true : false};
   const isNodeValueLand = (x, y) => { return tileCornerNodes[x][y].value == "Land" ? true : false};
+
+  const getTileNodeOwner = (x, y) => { return tileCornerNodes[x][y].owner};
 
   const setNodeValueToSettlement = (x, y, newOwner) => {
     let newTileCornerNodes = [...tileCornerNodes];
@@ -85,6 +87,7 @@ export const TileCornerNodes = ({ children }) => {
         isNodeValueCity,
         isNodeValueOcean,
         isNodeValueLand,
+        getTileNodeOwner,
         setNodeValueToSettlement,
         setNodeValueToCity,
         setNodeRightRoadOwner,

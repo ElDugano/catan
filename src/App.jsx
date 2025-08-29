@@ -1,46 +1,61 @@
-import { useState, useContext } from 'react';
+import { useState, useContext, useRef } from 'react';
 import './App.css';
-import Dice from './componentes/dice/Dice.jsx';
-import BoardDisplay from './componentes/boardDisplay/BoardDisplay.jsx';
-import { CreateLandTileNumbers, CreateLandTiles, CreatePortTiles } from './helpers/stateInitializers/stateInitializers.jsx';
-import FindDesert from './helpers/FindDesert.jsx';
+import Gameboard from './componentes/gameboard/Gameboard.jsx';
+import GetResourcesFromRoll from './componentes/gameboard/components/GetResourcesFromRoll.jsx';
+
+import { GameStateContext } from "./state/gameState/GameStateContext.js";
+import { TurnStateContext } from './state/turnState/TurnStateContext.js';
 
 import { CurrentPlayerTurnContext } from './state/currentPlayerTurn/CurrentPlayerTurnContext.js';
+import { Dice } from './state/dice/dice.jsx';
+import { DiceContext } from './state/dice/diceContext.js';
 
 function App() {
-  const [landTiles, setLandTiles] = useState(CreateLandTiles);
-  const [thiefLocation, setThiefLocation] = useState(() => FindDesert(landTiles));
-  const [landTileNumbers, setLandTileNumbers] = useState(() => CreateLandTileNumbers(thiefLocation));
-  const [portTiles, setPortTiles] = useState(() => CreatePortTiles(thiefLocation));
   const [playerResourceCards, setPlayerResourceCards] = useState();             //Array of Objects showing the player's hand
   const [playerDevelopmentCards, setPlayerDevelopmentCards] = useState();       //List of development cards, shown and hidden
   const [playerVictoryPoints, setPlayerVictoryPoints] = useState();             //Array of score
   const [numberOfPlayers, setNumberOfPlayers] = useState(3);
 
-  const {currentPlayerTurn} = useContext(CurrentPlayerTurnContext);
+  const {isGameStateSetup} = useContext(GameStateContext);
+  const {turnState, setTurnStateToGatheringResources} = useContext(TurnStateContext);
 
-  //console.log("-The following is landTiles:");
-  //console.log(landTiles);
-  //console.log("-The following is landTilesNumbers:");
-  //console.log(landTileNumbers);
-  //console.log("-The following is portTiles:");
-  //console.log(portTiles);
-  //console.log("-The following is tileCornerNodes:");
-  //console.log(tileCornerNodes);
+  const {currentPlayerTurn} = useContext(CurrentPlayerTurnContext);
+  const {rollDice, diceAdded} = useContext(DiceContext);
+
+
+
+
+
+
+  const childRef = useRef(null);
+
+  const getTileCornerNodes = () => {
+    const childelement = childRef.current;
+    if (childelement) {
+      let diceResourcesGained = childelement.getResourcesFromRoll(6);
+      console.log("Players just gained some resrouces");
+      console.log(diceResourcesGained);
+      return childelement.tileCornerNodes;
+    }
+  }
+
+  //const testRef = useRef(null);
+  //const callfunction = () => testRef.current?test();
+
+  function rollTheDice() {
+    rollDice();
+    setTurnStateToGatheringResources();
+  }
 
   return (
     <>
-      <Dice>
-        
-      </Dice>
-      it is player {currentPlayerTurn}'s turn.
+      <button onClick={() => rollTheDice()}>Roll the Dice</button>
+      it is player {currentPlayerTurn}'s turn. <button onClick={getTileCornerNodes}>Get TileCornerNodes</button>
       <br />
-        <BoardDisplay
-          landTiles={landTiles}
-          landTileNumbers={landTileNumbers}
-          thiefLocation={thiefLocation}
-          currentPlayerTurn={currentPlayerTurn}
-        />
+      Hey, Are we in the setup phase? {isGameStateSetup() == true ? "yes" : "no"}! the turnstate is {turnState}<br />
+        <Gameboard>
+          <GetResourcesFromRoll ref={childRef} />
+        </Gameboard>
     </>
   )
 }

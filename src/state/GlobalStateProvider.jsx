@@ -5,7 +5,7 @@ import { CurrentPlayerTurn } from './currentPlayerTurn/CurrentPlayerTurn.jsx'
 import { PlayerColor } from './playerColor/PlayerColor.jsx'
 import { PlayerAvailableBuildings } from './playerAvailableBuildings/PlayerAvailableBuildings.jsx'
 import { LastBuiltObject } from './lastBuiltObject/LastBuiltObject.jsx'
-import { TileCornerNodes } from './tileCornerNodes/TileCornerNodes.jsx'
+import { Dice } from './dice/dice.jsx'
 
 export default function GlobalStateProvider({ children }) {
   return (
@@ -16,9 +16,9 @@ export default function GlobalStateProvider({ children }) {
             <PlayerColor>
               <PlayerAvailableBuildings>
                 <LastBuiltObject>
-                  <TileCornerNodes>
+                  <Dice>
                     { children }
-                  </TileCornerNodes>
+                  </Dice>
                 </LastBuiltObject>
               </PlayerAvailableBuildings>
             </PlayerColor>

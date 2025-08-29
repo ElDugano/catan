@@ -1,21 +1,26 @@
 import { useContext } from 'react'
-import { TurnStateContext } from "../../state/turnState/TurnStateContext";
-import { GameStateContext } from '../../state/gameState/GameStateContext';
-import { CurrentPlayerTurnContext } from '../../state/currentPlayerTurn/CurrentPlayerTurnContext';
-import { LastBuiltObjectContext } from '../../state/lastBuiltObject/LastBuiltObjectContext';
-import { TileCornerNodesContext } from '../../state/tileCornerNodes/TileCornerNodesContext';
-import { PlayerAvailableBuildingsContext } from '../../state/playerAvailableBuildings/PlayerAvailableBuildingsContext';
-import { NumberOfPlayersContext } from '../../state/numberOfPlayers/NumberOfPlayersContext';
+import { GameStateContext } from '../../../state/gameState/GameStateContext';
+import { TurnStateContext } from "../../../state/turnState/TurnStateContext";
+
+import { PlayerAvailableBuildingsContext } from '../../../state/playerAvailableBuildings/PlayerAvailableBuildingsContext';
+import { LastBuiltObjectContext } from '../../../state/lastBuiltObject/LastBuiltObjectContext';
+
+import { CurrentPlayerTurnContext } from '../../../state/currentPlayerTurn/CurrentPlayerTurnContext';
+import { TileCornerNodesContext } from '../state/tileCornerNodes/TileCornerNodesContext';
+import { NumberOfPlayersContext } from '../../../state/numberOfPlayers/NumberOfPlayersContext';
+
 import BuildRoadButton from "./BuildRoadButton";
 import Road from "./Road";
 
 export default function RoadNodes() {
-  const {isTurnStateBuildingARoad, setTurnStateToBuildingASettlement}= useContext(TurnStateContext);
   const {isGameStateSetup, setGameStateToMainGame}= useContext(GameStateContext);
-  const {currentPlayerTurn, gotoNextPlayerTurn, gotoPreviousPlayerTurn} = useContext(CurrentPlayerTurnContext);
-  const {lastBuiltObject, recordRightRoadBuilt, recordBottomRoadBuilt} = useContext(LastBuiltObjectContext);
-  const {tileCornerNodes, setNodeRightRoadOwner, setNodeBottomRoadOwner} = useContext(TileCornerNodesContext);
+  const {isTurnStateBuildingARoad, setTurnStateToBuildingASettlement}= useContext(TurnStateContext);
+
   const {removeRoadFromAvailableBuildings, returnAvailableSettlements} = useContext(PlayerAvailableBuildingsContext);
+  const {lastBuiltObject, recordRightRoadBuilt, recordBottomRoadBuilt} = useContext(LastBuiltObjectContext);
+
+  const {currentPlayerTurn, gotoNextPlayerTurn, gotoPreviousPlayerTurn} = useContext(CurrentPlayerTurnContext);
+  const {tileCornerNodes, setNodeRightRoadOwner, setNodeBottomRoadOwner} = useContext(TileCornerNodesContext);  
   const {numberOfPlayers} = useContext(NumberOfPlayersContext);
 
   let boardContent=[];
@@ -38,6 +43,7 @@ export default function RoadNodes() {
     //Do more logic as we will need.
   }
   
+  //continueSetup should likely be in the main app somewhere and passed down to here.
   function continueSetup() {
     setTurnStateToBuildingASettlement();
     if(returnAvailableSettlements(currentPlayerTurn) == 4 && currentPlayerTurn < numberOfPlayers-1) {

@@ -1,20 +1,26 @@
 import { useContext } from 'react'
-import { TurnStateContext } from "../../state/turnState/TurnStateContext";
-import { LastBuiltObjectContext } from '../../state/lastBuiltObject/LastBuiltObjectContext';
-import { CurrentPlayerTurnContext } from '../../state/currentPlayerTurn/CurrentPlayerTurnContext';
-import { TileCornerNodesContext } from '../../state/tileCornerNodes/TileCornerNodesContext';
-import { PlayerAvailableBuildingsContext } from '../../state/playerAvailableBuildings/PlayerAvailableBuildingsContext';
-import { GameStateContext } from '../../state/gameState/GameStateContext';
+import { GameStateContext } from '../../../state/gameState/GameStateContext';
+import { TurnStateContext } from "../../../state/turnState/TurnStateContext";
+
+import { PlayerAvailableBuildingsContext } from '../../../state/playerAvailableBuildings/PlayerAvailableBuildingsContext';
+import { LastBuiltObjectContext } from '../../../state/lastBuiltObject/LastBuiltObjectContext';
+
+import { CurrentPlayerTurnContext } from '../../../state/currentPlayerTurn/CurrentPlayerTurnContext';
+import { TileCornerNodesContext } from '../state/tileCornerNodes/TileCornerNodesContext.js';
 import BuildSettlementButton from './BuildSettlementButton';
 import Settlement from './Settlement';
 
 export default function CornerNodes() {
+  const {isGameStateSetup} = useContext(GameStateContext)
   const {isTurnStateBuildingASettlement, isTurnStateBuildingACity, setTurnStateToBuildingARoad}= useContext(TurnStateContext);
+
+  const {removeSettlementFromAvailableBuildings} = useContext(PlayerAvailableBuildingsContext);
   const {recordSettlementBuilt}= useContext(LastBuiltObjectContext);
+
   const {currentPlayerTurn} = useContext(CurrentPlayerTurnContext);
   const {tileCornerNodes, isNodeValueSettlement, isNodeValueLand, setNodeValueToSettlement} = useContext(TileCornerNodesContext);
-  const {removeSettlementFromAvailableBuildings} = useContext(PlayerAvailableBuildingsContext);
-  const {isGameStateSetup} = useContext(GameStateContext)
+
+ 
 
   function buildSettlement(x, y) {
     recordSettlementBuilt(currentPlayerTurn, x, y);
