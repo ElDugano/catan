@@ -1,6 +1,7 @@
 import { useState, useContext, useRef } from 'react';
 import './App.css';
 import Gameboard from './componentes/gameboard/Gameboard.jsx';
+import TurnInterface from './componentes/turnInterface/TurnInterface.jsx';
 import GetResourcesFromRoll from './componentes/gameboard/components/GetResourcesFromRoll.jsx';
 
 import { GameStateContext } from "./state/gameState/GameStateContext.js";
@@ -59,6 +60,7 @@ function App() {
         <Gameboard>
           <GetResourcesFromRoll ref={childRef} />
         </Gameboard>
+        <TurnInterface />
     </>
   )
 }

@@ -35,7 +35,6 @@ export default function RoadNodes(props) {
   for (let x=1; x <= 12; x++) {
     for (let y=1; y <= 6; y++) {
       if (tileCornerNodes[x][y].value != "Ocean") {
-        
         if(tileCornerNodes[x+1][y].value != "Ocean") {
           //Check the rightRoad
           const lineStartX=(x+2)*30-9;
@@ -67,6 +66,16 @@ export default function RoadNodes(props) {
 
                 />)
             }
+            else
+              <BuildRoadButton
+                  key={crypto.randomUUID()}
+                  lineStartX={lineStartX}
+                  lineStartY={lineStartY}
+                  lineEndX={lineEndX}
+                  lineEndY={lineEndY}
+                  roadNodeClickFunction={() => buildRightRoad(x,y)}
+
+                />
           }
           else {
             boardContent.push(
@@ -101,16 +110,27 @@ export default function RoadNodes(props) {
                   tileCornerNodes[x-1][y+1].rightRoadOwner == currentPlayerTurn )))) {
             if(isGameStateBoardSetup() &&
               (lastBuiltObject.x == x && (lastBuiltObject.y == y || lastBuiltObject.y == y+1) && lastBuiltObject.player == currentPlayerTurn))
-            boardContent.push(
-            <BuildRoadButton
-                key={crypto.randomUUID()}
-                lineStartX={lineStartX}
-                lineStartY={lineStartY}
-                lineEndX={lineEndX}
-                lineEndY={lineEndY}
-                roadNodeClickFunction={() => buildBottomRoad(x,y)}
-              />
-            )
+              boardContent.push(
+                <BuildRoadButton
+                  key={crypto.randomUUID()}
+                  lineStartX={lineStartX}
+                  lineStartY={lineStartY}
+                  lineEndX={lineEndX}
+                  lineEndY={lineEndY}
+                  roadNodeClickFunction={() => buildBottomRoad(x,y)}
+                />
+              )
+            else
+              boardContent.push(
+                <BuildRoadButton
+                  key={crypto.randomUUID()}
+                  lineStartX={lineStartX}
+                  lineStartY={lineStartY}
+                  lineEndX={lineEndX}
+                  lineEndY={lineEndY}
+                  roadNodeClickFunction={() => buildBottomRoad(x,y)}
+                />
+              )
           }
           else {
             boardContent.push(
