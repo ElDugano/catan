@@ -9,38 +9,64 @@ export const PlayerAvailableBuildings = ({ children }) => {
     {settlements: 5, cities: 4, roads: 15}
   ]);
 
-  const removeRoadFromAvailableBuildings = (playerNumber) => {
+  //lastBuiltObject can be created as an array to track the whole building history of a game for the final scoreboard.
+  const [lastBuiltObject, setLastBuiltObject] = useState({value: null, player:null,x: null, y: null});
+
+  const removeRoadFromAvailableBuildings = (x,y, playerNumber) => {
     let newplayerAvailableBuildings = [...playerAvailableBuildings];
     newplayerAvailableBuildings[playerNumber].roads--;
     setPlayerAvailableBuildings(newplayerAvailableBuildings);
+    setLastBuiltObject({value: "Road", player:playerNumber,x: x, y: y})
   }
-  const removeSettlementFromAvailableBuildings = (playerNumber) => {
+  //const removeRightRoadFromAvailableBuildings = (x,y, playerNumber) => {
+  //  let newplayerAvailableBuildings = [...playerAvailableBuildings];
+  //  newplayerAvailableBuildings[playerNumber].roads--;
+  //  setPlayerAvailableBuildings(newplayerAvailableBuildings);
+  //  setLastBuiltObject({value: "Right Road", player:playerNumber,x: x, y: y})
+  //}
+  //const removeBottomRoadFromAvailableBuildings = (x,y, playerNumber) => {
+  //  let newplayerAvailableBuildings = [...playerAvailableBuildings];
+  //  newplayerAvailableBuildings[playerNumber].roads--;
+  //  setPlayerAvailableBuildings(newplayerAvailableBuildings);
+  //  setLastBuiltObject({value: "Bottom Road", player:playerNumber,x: x, y: y})
+  //}
+  const removeSettlementFromAvailableBuildings = (x,y, playerNumber) => {
     let newplayerAvailableBuildings = [...playerAvailableBuildings];
     newplayerAvailableBuildings[playerNumber].settlements--;
     setPlayerAvailableBuildings(newplayerAvailableBuildings);
+    setLastBuiltObject({value: "Settlement", player:playerNumber,x: x, y: y})
   }
-  const removeCityFromAvailableBuildings = (playerNumber) => {
+  const removeCityFromAvailableBuildings = (x,y, playerNumber) => {
     let newplayerAvailableBuildings = [...playerAvailableBuildings];
     newplayerAvailableBuildings[playerNumber].cities--;
     newplayerAvailableBuildings[playerNumber].settlement++;
     setPlayerAvailableBuildings(newplayerAvailableBuildings);
+    setLastBuiltObject({value: "City", player:playerNumber,x: x, y: y})
   }
 
   const returnAvailableRoads = (playerNumber) => {return playerAvailableBuildings[playerNumber].roads};
   const returnAvailableSettlements = (playerNumber) => {return playerAvailableBuildings[playerNumber].settlements};
   const returnAvailableCities = (playerNumber) => {return playerAvailableBuildings[playerNumber].cities};
 
+  //const lastBuiltObjectCoordinantes = () => {return {x:lastBuiltObject.x, y:lastBuiltObject.y}}
+  //const lastBuiltObjectPlayer = () => {return lastBuiltObject.player}
+  //const lastBuiltObjectValue = () => {return lastBuiltObject.player}
 
 
   return (
       <PlayerAvailableBuildingsContext.Provider value={{
         playerAvailableBuildings,
         removeRoadFromAvailableBuildings,
+        //removeRightRoadFromAvailableBuildings,
+        //removeBottomRoadFromAvailableBuildings,
         removeSettlementFromAvailableBuildings,
         removeCityFromAvailableBuildings,
         returnAvailableRoads,
         returnAvailableSettlements,
-        returnAvailableCities
+        returnAvailableCities,
+        //lastBuiltObjectCoordinantes,
+        //lastBuiltObjectPlayer,
+        lastBuiltObject
       }}>
         {children}
       </PlayerAvailableBuildingsContext.Provider>

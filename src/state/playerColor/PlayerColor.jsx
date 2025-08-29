@@ -2,17 +2,12 @@ import { PlayerColorContext } from "./PlayerColorContext";
 import { useState } from 'react'
 
 export const PlayerColor = ({ children }) => {
-  const [playerColor, setPlayerColor] = useState(["blue", "red", "green"]);
-
-  const setPlayerColorTo= (playerNumber, color) => {
-    let newPlayerColor = [...playerColor];
-    newPlayerColor[playerNumber]=color;
-    setPlayerColor(newPlayerColor);
-    //setPlayerColor();
-  }
+  const [playerColor, setPlayerColor] = useState(["blue", "red", "indigo", "gold"]);
   
   return (
-      <PlayerColorContext.Provider value={{playerColor, setPlayerColorTo}}>
+      <PlayerColorContext.Provider value={{
+          playerColor,
+          setPlayerColor}}>
         {children}
       </PlayerColorContext.Provider>
   )

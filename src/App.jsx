@@ -11,12 +11,12 @@ import { Dice } from './state/dice/dice.jsx';
 import { DiceContext } from './state/dice/diceContext.js';
 
 function App() {
-  const [playerResourceCards, setPlayerResourceCards] = useState();             //Array of Objects showing the player's hand
-  const [playerDevelopmentCards, setPlayerDevelopmentCards] = useState();       //List of development cards, shown and hidden
-  const [playerVictoryPoints, setPlayerVictoryPoints] = useState();             //Array of score
-  const [numberOfPlayers, setNumberOfPlayers] = useState(3);
+  //const [playerResourceCards, setPlayerResourceCards] = useState();             //Array of Objects showing the player's hand
+  //const [playerDevelopmentCards, setPlayerDevelopmentCards] = useState();       //List of development cards, shown and hidden
+  //const [playerVictoryPoints, setPlayerVictoryPoints] = useState();             //Array of score
+  //const [numberOfPlayers, setNumberOfPlayers] = useState(3);
 
-  const {isGameStateSetup} = useContext(GameStateContext);
+  const {isGameStateBoardSetup} = useContext(GameStateContext);
   const {turnState, setTurnStateToGatheringResources} = useContext(TurnStateContext);
 
   const {currentPlayerTurn} = useContext(CurrentPlayerTurnContext);
@@ -44,7 +44,10 @@ function App() {
 
   function rollTheDice() {
     rollDice();
+    //Note, diceAdded is NaN on the first click.
+    //console.log(diceAdded());
     setTurnStateToGatheringResources();
+      //Somewhere, we will be seeing what TurnState we are in to define what we are doing.
   }
 
   return (
@@ -52,7 +55,7 @@ function App() {
       <button onClick={() => rollTheDice()}>Roll the Dice</button>
       it is player {currentPlayerTurn}'s turn. <button onClick={getTileCornerNodes}>Get TileCornerNodes</button>
       <br />
-      Hey, Are we in the setup phase? {isGameStateSetup() == true ? "yes" : "no"}! the turnstate is {turnState}<br />
+      Hey, Are we in the Baord Setup phase? {isGameStateBoardSetup() == true ? "yes" : "no"}! the turnstate is {turnState}<br />
         <Gameboard>
           <GetResourcesFromRoll ref={childRef} />
         </Gameboard>

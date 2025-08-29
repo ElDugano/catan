@@ -2,7 +2,9 @@ import { DiceContext } from "./diceContext";
 import { useState } from 'react'
 
 export const Dice = ({ children }) => {
-  const [dice, setDice] = useState([]);
+  const [dice, setDice] = useState([1,1]);
+
+
 
   const rollDice = () => {
     setDice([Math.ceil(Math.random() * 6),Math.ceil(Math.random() * 6)]);

@@ -2,66 +2,34 @@ import { useContext } from 'react'
 import { GameStateContext } from '../../../state/gameState/GameStateContext';
 import { TurnStateContext } from "../../../state/turnState/TurnStateContext";
 
-import { PlayerAvailableBuildingsContext } from '../../../state/playerAvailableBuildings/PlayerAvailableBuildingsContext';
-import { LastBuiltObjectContext } from '../../../state/lastBuiltObject/LastBuiltObjectContext';
-
 import { CurrentPlayerTurnContext } from '../../../state/currentPlayerTurn/CurrentPlayerTurnContext';
+
 import { TileCornerNodesContext } from '../state/tileCornerNodes/TileCornerNodesContext';
-import { NumberOfPlayersContext } from '../../../state/numberOfPlayers/NumberOfPlayersContext';
+import { PlayerAvailableBuildingsContext } from '../../../state/playerAvailableBuildings/PlayerAvailableBuildingsContext';
 
 import BuildRoadButton from "./BuildRoadButton";
 import Road from "./Road";
 
-export default function RoadNodes() {
-  const {isGameStateSetup, setGameStateToMainGame}= useContext(GameStateContext);
-  const {isTurnStateBuildingARoad, setTurnStateToBuildingASettlement}= useContext(TurnStateContext);
+export default function RoadNodes(props) {
+  const {isGameStateBoardSetup}= useContext(GameStateContext);
+  const {isTurnStateBuildingARoad}= useContext(TurnStateContext);
 
-  const {removeRoadFromAvailableBuildings, returnAvailableSettlements} = useContext(PlayerAvailableBuildingsContext);
-  const {lastBuiltObject, recordRightRoadBuilt, recordBottomRoadBuilt} = useContext(LastBuiltObjectContext);
+  //const {lastBuiltObject} = useContext(LastBuiltObjectContext);
+  const {lastBuiltObject} = useContext(PlayerAvailableBuildingsContext);
+  const {currentPlayerTurn} = useContext(CurrentPlayerTurnContext);
 
-  const {currentPlayerTurn, gotoNextPlayerTurn, gotoPreviousPlayerTurn} = useContext(CurrentPlayerTurnContext);
-  const {tileCornerNodes, setNodeRightRoadOwner, setNodeBottomRoadOwner} = useContext(TileCornerNodesContext);  
-  const {numberOfPlayers} = useContext(NumberOfPlayersContext);
+  const {tileCornerNodes, setNodeRightRoadOwner, setNodeBottomRoadOwner} = useContext(TileCornerNodesContext);
 
   let boardContent=[];
 
   function buildRightRoad(x, y) {
-    recordRightRoadBuilt(currentPlayerTurn, x, y);
     setNodeRightRoadOwner(x, y, currentPlayerTurn);
-    removeRoadFromAvailableBuildings(currentPlayerTurn);
-    if(isGameStateSetup())
-      continueSetup();
-    //Do more logic as we will need.
+    props.gameboardHelperFunction(x, y);
   }
 
   function buildBottomRoad(x, y) {
-    recordBottomRoadBuilt(currentPlayerTurn, x, y);
     setNodeBottomRoadOwner(x, y, currentPlayerTurn);
-    removeRoadFromAvailableBuildings(currentPlayerTurn);
-    if(isGameStateSetup())
-      continueSetup();
-    //Do more logic as we will need.
-  }
-  
-  //continueSetup should likely be in the main app somewhere and passed down to here.
-  function continueSetup() {
-    setTurnStateToBuildingASettlement();
-    if(returnAvailableSettlements(currentPlayerTurn) == 4 && currentPlayerTurn < numberOfPlayers-1) {
-      gotoNextPlayerTurn();
-      console.log("moving forward");
-    }
-    else if(returnAvailableSettlements(currentPlayerTurn) == 4 && currentPlayerTurn == numberOfPlayers-1) {
-      console.log("Time to reverse course");
-    }
-    else if(returnAvailableSettlements(currentPlayerTurn) == 3 && currentPlayerTurn > 0) {
-      gotoPreviousPlayerTurn();
-      console.log("moving backwards");
-    }
-    else {
-      console.log("^^^^START THE GAME^^^^");
-      setGameStateToMainGame();
-      //setTurnState("rolling dice"); //When we get to that point
-    }
+    props.gameboardHelperFunction(x, y);
   }
   
   for (let x=1; x <= 12; x++) {
@@ -86,7 +54,7 @@ export default function RoadNodes() {
                   ( tileCornerNodes[x+1][y].rightRoadOwner == currentPlayerTurn ||
                     ( (x+y)%2 == 0 && tileCornerNodes[x+1][y-1].bottomRoadOwner == currentPlayerTurn ) ||
                     ( (x+y)%2 == 1 && tileCornerNodes[x+1][y].bottomRoadOwner == currentPlayerTurn ))))) {
-            if(isGameStateSetup() &&
+            if(isGameStateBoardSetup() &&
               ((lastBuiltObject.x == x || lastBuiltObject.x == x+1) && lastBuiltObject.y == y && lastBuiltObject.player == currentPlayerTurn)) {
               boardContent.push(
                 <BuildRoadButton
@@ -131,7 +99,7 @@ export default function RoadNodes() {
               ( tileCornerNodes[x][y+1].owner == "none" &&
                 ( tileCornerNodes[x][y+1].rightRoadOwner == currentPlayerTurn ||
                   tileCornerNodes[x-1][y+1].rightRoadOwner == currentPlayerTurn )))) {
-            if(isGameStateSetup() &&
+            if(isGameStateBoardSetup() &&
               (lastBuiltObject.x == x && (lastBuiltObject.y == y || lastBuiltObject.y == y+1) && lastBuiltObject.player == currentPlayerTurn))
             boardContent.push(
             <BuildRoadButton
