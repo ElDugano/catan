@@ -26,7 +26,7 @@ export default function Gameboard({children}) {
     setTurnStateToIdle
   }= useContext(TurnStateContext);
 
-  const {returnAvailableSettlements, removeSettlementFromAvailableBuildings, removeRoadFromAvailableBuildings} = useContext(PlayerAvailableBuildingsContext);
+  const {returnAvailableSettlements, removeSettlementFromAvailableBuildings, removeCityFromAvailableBuildings, removeRoadFromAvailableBuildings} = useContext(PlayerAvailableBuildingsContext);
 
   const {currentPlayerTurn, gotoNextPlayerTurn, gotoPreviousPlayerTurn} = useContext(CurrentPlayerTurnContext);
   const {numberOfPlayers} = useContext(NumberOfPlayersContext);
@@ -37,6 +37,11 @@ export default function Gameboard({children}) {
       setTurnStateToBuildingARoad();
     else
       setTurnStateToIdle();
+  }
+
+  function BuildCityHelper(x, y) {
+    removeCityFromAvailableBuildings(x, y, currentPlayerTurn);
+    setTurnStateToIdle();
   }
 
   function BuildRoadHelper(x, y) {
@@ -75,8 +80,13 @@ export default function Gameboard({children}) {
             <svg className="hex-grid" viewBox="0 0 420 370">
               <Tiles />
               <TileNumbers />
-              <CornerNodes gameboardHelperFunction={BuildSettlentHelper}/>
-              <RoadNodes gameboardHelperFunction={BuildRoadHelper} />
+              <CornerNodes
+                GameboardFunctionBuildSettlement={BuildSettlentHelper}
+                GameboardFunctionBuildCity={BuildCityHelper}
+              />
+              <RoadNodes
+                GameboardFunctionBuildRoad={BuildRoadHelper}
+              />
               <BanditIcon />
             </svg>
           </LandTileNumbers>

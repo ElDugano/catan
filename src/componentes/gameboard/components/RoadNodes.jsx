@@ -24,12 +24,12 @@ export default function RoadNodes(props) {
 
   function buildRightRoad(x, y) {
     setNodeRightRoadOwner(x, y, currentPlayerTurn);
-    props.gameboardHelperFunction(x, y);
+    props.GameboardFunctionBuildRoad(x, y);
   }
 
   function buildBottomRoad(x, y) {
     setNodeBottomRoadOwner(x, y, currentPlayerTurn);
-    props.gameboardHelperFunction(x, y);
+    props.GameboardFunctionBuildRoad(x, y);
   }
   
   for (let x=1; x <= 12; x++) {

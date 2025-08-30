@@ -45,6 +45,8 @@ export default function GatherResourcesFromRoll() {
           }
         }
       }
+      console.log("WTF");
+      console.log(isTurnStateGatheringResources());
       addResourcesFromDiceRollToPlayerResourceCards(playerResourceCardsGained);
       setTurnStateToGatheringResourcescAknowledgement();
     };

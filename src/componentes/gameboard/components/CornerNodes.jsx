@@ -5,19 +5,27 @@ import { TurnStateContext } from "../../../state/turnState/TurnStateContext";
 import { CurrentPlayerTurnContext } from '../../../state/currentPlayerTurn/CurrentPlayerTurnContext';
 import { TileCornerNodesContext } from '../state/tileCornerNodes/TileCornerNodesContext.js';
 import BuildSettlementButton from './BuildSettlementButton';
+import BuildCityButton from './BuildCityButton.jsx';
 import Settlement from './Settlement';
+import City from './City.jsx';
 
 export default function CornerNodes(props) {
   const {isGameStateBoardSetup}= useContext(GameStateContext);
   const {isTurnStateBuildingASettlement, isTurnStateBuildingACity}= useContext(TurnStateContext);
   const {currentPlayerTurn} = useContext(CurrentPlayerTurnContext);
-  const {tileCornerNodes, isNodeValueSettlement, isNodeValueLand, setNodeValueToSettlement} = useContext(TileCornerNodesContext);
+  const {tileCornerNodes, isNodeValueSettlement, isNodeValueCity, isNodeValueLand, setNodeValueToSettlement, setNodeValueToCity} = useContext(TileCornerNodesContext);
 
  
 
   function buildSettlement(x, y) {
     setNodeValueToSettlement(x, y,currentPlayerTurn);
-    props.gameboardHelperFunction(x, y);
+    props.GameboardFunctionBuildSettlement(x, y);
+  }
+
+  function buildCity(x, y) {
+    console.log("We built a city.");
+    setNodeValueToCity(x, y);
+    props.GameboardFunctionBuildCity(x, y);
   }
 
   let boardContent=[];
@@ -49,23 +57,36 @@ export default function CornerNodes(props) {
           />
         );
       }
-      //Display a Settlement
       if(isNodeValueSettlement(x,y)) {
+//---------- Display a Build City Button ----------//
+        if(isTurnStateBuildingACity() && tileCornerNodes[x][y].owner == currentPlayerTurn)
+          boardContent.push(
+            <BuildCityButton
+              key={crypto.randomUUID()}
+              centerX={centerX}
+              centerY={centerY}
+              owner={tileCornerNodes[x][y].owner}
+              tileNodeClickFunction={() => buildCity(x, y)}
+            />)
+//---------- Display a Settlement ----------//
+        else
+          boardContent.push(
+            <Settlement
+              centerX={centerX}
+              centerY={centerY}
+              owner={tileCornerNodes[x][y].owner}
+              key={crypto.randomUUID()}
+            />);
+      }
+//---------- Display a City ----------//
+      if(isNodeValueCity(x, y))
         boardContent.push(
-        <Settlement
-          centerX={centerX}
-          centerY={centerY}
-          owner={tileCornerNodes[x][y].owner}
-          key={crypto.randomUUID()}
-        />)}
-      //Display a Build City Button
-      if(isTurnStateBuildingACity()) {
-        console.log("CornerNodes Notice 1: Ready to build a city, but we don't have any code to support doing this.")
-      }
-      //Display a City
-      if(tileCornerNodes[x][y].value == "city") {
-        console.log("CornerNodes Notice 2: Display a city, but we don't have code to support this.")
-      }
+          <City
+            centerX={centerX}
+            centerY={centerY}
+            owner={tileCornerNodes[x][y].owner}
+            key={crypto.randomUUID()}
+          />);
     }
   }
   return (boardContent);

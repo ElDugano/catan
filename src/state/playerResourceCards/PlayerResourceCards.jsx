@@ -27,7 +27,6 @@ export const PlayerResourceCards = ({ children }) => {
   }
 
   function getPlayerResourceCards(player) {
-    console.log(playerResourceCards);
     return playerResourceCards[player];
   }
 
