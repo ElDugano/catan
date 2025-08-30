@@ -16,6 +16,7 @@ export default function RoadNodes(props) {
 
   //const {lastBuiltObject} = useContext(LastBuiltObjectContext);
   const {lastBuiltObject} = useContext(PlayerAvailableBuildingsContext);
+  console.log(lastBuiltObject);
   const {currentPlayerTurn} = useContext(CurrentPlayerTurnContext);
 
   const {tileCornerNodes, setNodeRightRoadOwner, setNodeBottomRoadOwner} = useContext(TileCornerNodesContext);
@@ -53,7 +54,7 @@ export default function RoadNodes(props) {
                   ( tileCornerNodes[x+1][y].rightRoadOwner == currentPlayerTurn ||
                     ( (x+y)%2 == 0 && tileCornerNodes[x+1][y-1].bottomRoadOwner == currentPlayerTurn ) ||
                     ( (x+y)%2 == 1 && tileCornerNodes[x+1][y].bottomRoadOwner == currentPlayerTurn ))))) {
-            if(isGameStateBoardSetup() &&
+            if(!isGameStateBoardSetup() ||
               ((lastBuiltObject.x == x || lastBuiltObject.x == x+1) && lastBuiltObject.y == y && lastBuiltObject.player == currentPlayerTurn)) {
               boardContent.push(
                 <BuildRoadButton
@@ -66,16 +67,6 @@ export default function RoadNodes(props) {
 
                 />)
             }
-            else
-              <BuildRoadButton
-                  key={crypto.randomUUID()}
-                  lineStartX={lineStartX}
-                  lineStartY={lineStartY}
-                  lineEndX={lineEndX}
-                  lineEndY={lineEndY}
-                  roadNodeClickFunction={() => buildRightRoad(x,y)}
-
-                />
           }
           else {
             boardContent.push(
@@ -108,19 +99,8 @@ export default function RoadNodes(props) {
               ( tileCornerNodes[x][y+1].owner == "none" &&
                 ( tileCornerNodes[x][y+1].rightRoadOwner == currentPlayerTurn ||
                   tileCornerNodes[x-1][y+1].rightRoadOwner == currentPlayerTurn )))) {
-            if(isGameStateBoardSetup() &&
+            if(!isGameStateBoardSetup() ||
               (lastBuiltObject.x == x && (lastBuiltObject.y == y || lastBuiltObject.y == y+1) && lastBuiltObject.player == currentPlayerTurn))
-              boardContent.push(
-                <BuildRoadButton
-                  key={crypto.randomUUID()}
-                  lineStartX={lineStartX}
-                  lineStartY={lineStartY}
-                  lineEndX={lineEndX}
-                  lineEndY={lineEndY}
-                  roadNodeClickFunction={() => buildBottomRoad(x,y)}
-                />
-              )
-            else
               boardContent.push(
                 <BuildRoadButton
                   key={crypto.randomUUID()}

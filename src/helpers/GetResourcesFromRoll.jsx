@@ -1,13 +1,13 @@
 import { useContext, useEffect } from 'react';
 
-import { TurnStateContext } from '../../../state/turnState/TurnStateContext.js';
-import { PlayerResourceCardsContext } from '../../../state/playerResourceCards/PlayerResourceCardsContext.js';
+import { TurnStateContext } from '../state/turnState/TurnStateContext.js';
+import { PlayerResourceCardsContext } from '../state/playerResourceCards/PlayerResourceCardsContext.js';
 
-import { DiceContext } from '../../../state/dice/diceContext.js';
+import { DiceContext } from '../state/dice/diceContext.js';
 
-import { TileCornerNodesContext } from '../state/tileCornerNodes/TileCornerNodesContext';
-import { LandTileNumbersContext } from '../state/landTileNumbers/landTileNumbersContext.js';
-import { LandTilesContext } from '../state/landTiles/LandTilesContext.js';
+import { TileCornerNodesContext } from '../componentes/gameboard/state/tileCornerNodes/TileCornerNodesContext.js';
+import { LandTileNumbersContext } from '../componentes/gameboard/state/landTileNumbers/landTileNumbersContext.js';
+import { LandTilesContext } from '../componentes/gameboard/state/landTiles/LandTilesContext.js';
 
 function GetResourcesFromRoll() {
   const {isTurnStateGatheringResources, setTurnStateToGatheringResourcescAknowledgement} = useContext(TurnStateContext);
