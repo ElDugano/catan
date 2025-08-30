@@ -6,6 +6,8 @@ import GatherResourcesFromRoll from './helpers/GatherResourcesFromRoll.jsx';
 import { GameStateContext } from "./state/gameState/GameStateContext.js";
 import { TurnStateContext } from './state/turnState/TurnStateContext.js';
 import { CurrentPlayerTurnContext } from './state/currentPlayerTurn/CurrentPlayerTurnContext.js';
+import { PlayerColorContext } from './state/playerColor/PlayerColorContext.js';
+import { PlayerResourceCardsContext } from './state/playerResourceCards/PlayerResourceCardsContext.js';
 
 import './App.css';
 
@@ -20,11 +22,18 @@ function App() {
   const {isGameStateBoardSetup} = useContext(GameStateContext);
   const {turnState} = useContext(TurnStateContext);
   const {currentPlayerTurn} = useContext(CurrentPlayerTurnContext);
+  const {getAPlayersColor} = useContext(PlayerColorContext);
+  const {getPlayerResourceCards} = useContext(PlayerResourceCardsContext)
 
-
+  const currentPlayerResources = getPlayerResourceCards(currentPlayerTurn);
   return (
     <>
-      it is player {currentPlayerTurn}'s turn.
+      it is <span style={{color: getAPlayersColor(currentPlayerTurn)}}>player {currentPlayerTurn}'s</span> turn. 
+      Wool: {currentPlayerResources.Wool} | 
+      Lumber: {currentPlayerResources.Lumber} | 
+      Grain: {currentPlayerResources.Grain} | 
+      Brick: {currentPlayerResources.Brick} | 
+      Ore: {currentPlayerResources.Ore}
       <br />
       Hey, Are we in the Baord Setup phase? {isGameStateBoardSetup() == true ? "yes" : "no"}! The turnState is: {turnState}<br />
         <TurnInterface />

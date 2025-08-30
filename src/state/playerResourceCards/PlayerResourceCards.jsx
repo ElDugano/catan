@@ -26,10 +26,16 @@ export const PlayerResourceCards = ({ children }) => {
     console.log(newPlayerResourceCards);
   }
 
+  function getPlayerResourceCards(player) {
+    console.log(playerResourceCards);
+    return playerResourceCards[player];
+  }
+
   return (
       <PlayerResourceCardsContext.Provider value={{
         playerResourceCards,
         addResourcesFromDiceRollToPlayerResourceCards,
+        getPlayerResourceCards,
         previouslyGainedResources
       }}>
         {children}

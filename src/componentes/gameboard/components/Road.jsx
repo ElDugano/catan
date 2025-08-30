@@ -2,7 +2,7 @@ import { useContext } from "react";
 import { PlayerColorContext } from "../../../state/playerColor/PlayerColorContext";
 
 export default function BuildRoadButton(props) {
-  const {playerColor} = useContext(PlayerColorContext);
+  const {getAPlayersColor} = useContext(PlayerColorContext);
   if(props.NodeRoadOwner != "none") {
     return (
       <line
@@ -12,7 +12,7 @@ export default function BuildRoadButton(props) {
         x2={props.lineEndX}
         y2={props.lineEndY}
         className={""}
-        stroke={playerColor[props.NodeRoadOwner]}
+        stroke={getAPlayersColor(props.NodeRoadOwner)}
         strokeWidth={4}
       />)
     }
