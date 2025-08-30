@@ -9,9 +9,9 @@ import { TileCornerNodesContext } from '../componentes/gameboard/state/tileCorne
 import { LandTileNumbersContext } from '../componentes/gameboard/state/landTileNumbers/landTileNumbersContext.js';
 import { LandTilesContext } from '../componentes/gameboard/state/landTiles/LandTilesContext.js';
 
-function GetResourcesFromRoll() {
+export default function GatherResourcesFromRoll() {
   const {isTurnStateGatheringResources, setTurnStateToGatheringResourcescAknowledgement} = useContext(TurnStateContext);
-  const {addResourcesOnDiceRoll} = useContext(PlayerResourceCardsContext);
+  const {addResourcesFromDiceRollToPlayerResourceCards} = useContext(PlayerResourceCardsContext);
 
   const {diceAdded} = useContext(DiceContext);
 
@@ -45,7 +45,7 @@ function GetResourcesFromRoll() {
           }
         }
       }
-      addResourcesOnDiceRoll(playerResourceCardsGained);
+      addResourcesFromDiceRollToPlayerResourceCards(playerResourceCardsGained);
       setTurnStateToGatheringResourcescAknowledgement();
     };
   })
@@ -76,5 +76,3 @@ function GetResourcesFromRoll() {
     </>
   )
 }
-
-export default GetResourcesFromRoll

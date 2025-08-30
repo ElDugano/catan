@@ -22,6 +22,8 @@ export const TurnState = ({ children }) => {
     const isTurnStateIdle = () => {return turnState == "idle" ? true : false};
     const setTurnStateToIdle = () =>     {setTurnState("idle")};
     //Building Related
+    const isTurnStateBuildMenu = () => {return turnState == "BuildMenu" ? true : false};
+    const setTurnStateToBuildMenu = () =>     {setTurnState("BuildMenu")};
     const isTurnStateBuildingARoad = () => {return turnState == "Building a road" ? true : false};
     const setTurnStateToBuildingARoad = () =>     {setTurnState("Building a road")};
     const isTurnStateBuildingASettlement = () => {return turnState == "Building a settlement" ? true : false};
@@ -58,6 +60,8 @@ export const TurnState = ({ children }) => {
         isTurnStateIdle,
         setTurnStateToIdle,
       //Building Related
+        isTurnStateBuildMenu,
+        setTurnStateToBuildMenu,
         isTurnStateBuildingARoad,
         setTurnStateToBuildingARoad,
         isTurnStateBuildingASettlement,

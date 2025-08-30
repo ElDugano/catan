@@ -1,7 +1,7 @@
 import { useContext } from 'react';
 import Gameboard from './componentes/gameboard/Gameboard.jsx';
 import TurnInterface from './componentes/turnInterface/TurnInterface.jsx';
-import GetResourcesFromRoll from './helpers/GetResourcesFromRoll.jsx';
+import GatherResourcesFromRoll from './helpers/GatherResourcesFromRoll.jsx';
 
 import { GameStateContext } from "./state/gameState/GameStateContext.js";
 import { TurnStateContext } from './state/turnState/TurnStateContext.js';
@@ -29,7 +29,7 @@ function App() {
       Hey, Are we in the Baord Setup phase? {isGameStateBoardSetup() == true ? "yes" : "no"}! The turnState is: {turnState}<br />
         <TurnInterface />
         <Gameboard>
-          <GetResourcesFromRoll /*ref={childRef}*/ />
+          <GatherResourcesFromRoll />
         </Gameboard>
     </>
   )

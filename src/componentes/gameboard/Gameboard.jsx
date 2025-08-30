@@ -20,7 +20,11 @@ import { LandTileNumbers } from './state/landTileNumbers/LandTileNumbers.jsx'
 
 export default function Gameboard({children}) {
   const {isGameStateBoardSetup, setGameStateToMainGame} = useContext(GameStateContext);
-  const {setTurnStateToBuildingASettlement, setTurnStateToBuildingARoad, setTurnStateToRollingTheDice}= useContext(TurnStateContext);
+  const {setTurnStateToBuildingASettlement,
+    setTurnStateToBuildingARoad,
+    setTurnStateToRollingTheDice,
+    setTurnStateToIdle
+  }= useContext(TurnStateContext);
 
   const {returnAvailableSettlements, removeSettlementFromAvailableBuildings, removeRoadFromAvailableBuildings} = useContext(PlayerAvailableBuildingsContext);
 
@@ -31,6 +35,8 @@ export default function Gameboard({children}) {
     removeSettlementFromAvailableBuildings(x, y, currentPlayerTurn);
     if(isGameStateBoardSetup())
       setTurnStateToBuildingARoad();
+    else
+      setTurnStateToIdle();
   }
 
   function BuildRoadHelper(x, y) {
@@ -53,6 +59,9 @@ export default function Gameboard({children}) {
         setGameStateToMainGame();
         setTurnStateToRollingTheDice();
       }
+    }
+    else {
+      setTurnStateToIdle();
     }
   }
 

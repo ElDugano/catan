@@ -16,7 +16,6 @@ export default function RoadNodes(props) {
 
   //const {lastBuiltObject} = useContext(LastBuiltObjectContext);
   const {lastBuiltObject} = useContext(PlayerAvailableBuildingsContext);
-  console.log(lastBuiltObject);
   const {currentPlayerTurn} = useContext(CurrentPlayerTurnContext);
 
   const {tileCornerNodes, setNodeRightRoadOwner, setNodeBottomRoadOwner} = useContext(TileCornerNodesContext);

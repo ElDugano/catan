@@ -11,8 +11,7 @@ export const PlayerResourceCards = ({ children }) => {
   const [playerResourceCards, setPlayerResourceCards] = useState(emptyPlayerResourceCards);
   const [previouslyGainedResources, setPreviouslyGainedResources] = useState(new Array(4));
 
-
-  function addResourcesOnDiceRoll(playerNewResources) {
+  function addResourcesFromDiceRollToPlayerResourceCards(playerNewResources) {
     let newPlayerResourceCards = [...playerResourceCards];
     playerNewResources.forEach((item, index) => {
       for (let resourceName in item) {
@@ -21,13 +20,16 @@ export const PlayerResourceCards = ({ children }) => {
     });
     setPlayerResourceCards(newPlayerResourceCards);
     setPreviouslyGainedResources(playerNewResources);
+    console.log("We just got these resources:");
+    console.log(playerNewResources);
+    console.log("We now have these resources in total:");
+    console.log(newPlayerResourceCards);
   }
-
 
   return (
       <PlayerResourceCardsContext.Provider value={{
         playerResourceCards,
-        addResourcesOnDiceRoll,
+        addResourcesFromDiceRollToPlayerResourceCards,
         previouslyGainedResources
       }}>
         {children}
