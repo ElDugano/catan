@@ -1,13 +1,14 @@
+import { useState } from "react";
 import { DiceContext } from "./diceContext";
-import { useState } from 'react'
 
 export const Dice = ({ children }) => {
   const [dice, setDice] = useState([1,1]);
 
-
-
   const rollDice = () => {
-    setDice([Math.ceil(Math.random() * 6),Math.ceil(Math.random() * 6)]);
+    const diceRoll = [Math.ceil(Math.random() * 6),Math.ceil(Math.random() * 6)];
+    console.log(diceRoll);
+    setDice(diceRoll);
+    return diceRoll[0]+diceRoll[1];
   };
 
   const diceAdded = () => {

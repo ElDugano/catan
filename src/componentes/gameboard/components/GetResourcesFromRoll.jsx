@@ -1,45 +1,56 @@
-import { useImperativeHandle, useContext, forwardRef } from 'react';
+import { useContext, useEffect } from 'react';
+
+import { TurnStateContext } from '../../../state/turnState/TurnStateContext.js';
+import { PlayerResourceCardsContext } from '../../../state/playerResourceCards/PlayerResourceCardsContext.js';
+
+import { DiceContext } from '../../../state/dice/diceContext.js';
+
 import { TileCornerNodesContext } from '../state/tileCornerNodes/TileCornerNodesContext';
 import { LandTileNumbersContext } from '../state/landTileNumbers/landTileNumbersContext.js';
 import { LandTilesContext } from '../state/landTiles/LandTilesContext.js';
 
-function GetResourcesFromRoll({ref}) {
+function GetResourcesFromRoll() {
+  const {isTurnStateGatheringResources, setTurnStateToGatheringResourcescAknowledgement} = useContext(TurnStateContext);
+  const {addResourcesOnDiceRoll} = useContext(PlayerResourceCardsContext);
 
-  const {tileCornerNodes, isNodeValueSettlement, isNodeValueCity, getTileNodeOwner} = useContext(TileCornerNodesContext);
+  const {diceAdded} = useContext(DiceContext);
+
+  const {isNodeValueSettlement, isNodeValueCity, getTileNodeOwner} = useContext(TileCornerNodesContext);
   const {landTiles} = useContext(LandTilesContext);
   const {landTileNumbers} = useContext(LandTileNumbersContext);
 
-  useImperativeHandle(ref, () => ({
-    getResourcesFromRoll
-  }));
-
-  function getResourcesFromRoll(diceNumber) {
-    //THIS NEEDS A CHECK IF THE DICE NUMBER IS SEVEN
-    let playerResourceCardsGained= [{},{},{},{}];
-    for (let key in landTileNumbers[diceNumber]) {
-      const landTileX = landTileNumbers[diceNumber][key].x;
-      const landTileY = landTileNumbers[diceNumber][key].y;
-      let landType = landTiles[landTileX][landTileY];
-      let resource = mapTileTypeToResourceType(landType);
-      for (let x=landTileX-1; x <= landTileX+1; x++) {
-        for (let y=landTileY; y <= landTileY+1; y++) {
-          if (isNodeValueSettlement(x,y)) {
-            if (playerResourceCardsGained[getTileNodeOwner(x, y)][resource])
-              playerResourceCardsGained[getTileNodeOwner(x, y)][resource] = playerResourceCardsGained[getTileNodeOwner(x, y)][resource] + 1;
-            else
-              playerResourceCardsGained[getTileNodeOwner(x, y)][resource] = 1;
-          }
-          if (isNodeValueCity(x,y)) {
-            if (playerResourceCardsGained[getTileNodeOwner(x, y)][resource])
-              playerResourceCardsGained[getTileNodeOwner(x, y)][resource] = playerResourceCardsGained[getTileNodeOwner(x, y)][resource] + 2;
-            else
-              playerResourceCardsGained[getTileNodeOwner(x, y)][resource] = 2;
+  useEffect(() => {
+    if (isTurnStateGatheringResources()) {
+      let diceNumber = diceAdded();
+      let playerResourceCardsGained= [{},{},{},{}];
+      for (let key in landTileNumbers[diceNumber]) {
+        const landTileX = landTileNumbers[diceNumber][key].x;
+        const landTileY = landTileNumbers[diceNumber][key].y;
+        let landType = landTiles[landTileX][landTileY];
+        let resource = mapTileTypeToResourceType(landType);
+        for (let x=landTileX-1; x <= landTileX+1; x++) {
+          for (let y=landTileY; y <= landTileY+1; y++) {
+            if (isNodeValueSettlement(x,y)) {
+              if (playerResourceCardsGained[getTileNodeOwner(x, y)][resource])
+                playerResourceCardsGained[getTileNodeOwner(x, y)][resource] = playerResourceCardsGained[getTileNodeOwner(x, y)][resource] + 1;
+              else
+                playerResourceCardsGained[getTileNodeOwner(x, y)][resource] = 1;
+            }
+            if (isNodeValueCity(x,y)) {
+              if (playerResourceCardsGained[getTileNodeOwner(x, y)][resource])
+                playerResourceCardsGained[getTileNodeOwner(x, y)][resource] = playerResourceCardsGained[getTileNodeOwner(x, y)][resource] + 2;
+              else
+                playerResourceCardsGained[getTileNodeOwner(x, y)][resource] = 2;
+            }
           }
         }
       }
-    }
-    return playerResourceCardsGained;
-  };
+      addResourcesOnDiceRoll(playerResourceCardsGained);
+      setTurnStateToGatheringResourcescAknowledgement();
+    };
+  })
+
+
 
   function mapTileTypeToResourceType(landValue) {
     switch(landValue) {

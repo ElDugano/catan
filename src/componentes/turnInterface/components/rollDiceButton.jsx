@@ -1,16 +1,22 @@
 import { useContext } from "react";
 import { TurnStateContext } from "../../../state/turnState/TurnStateContext.js"
+import { DiceContext } from "../../../state/dice/diceContext.js";
 
 export default function RollDiceButton() {
-  const {setTurnStateToGatheringResources}= useContext(TurnStateContext);
+  const {setTurnStateToGatheringResources, setTurnStateToRemoveHalfResources}= useContext(TurnStateContext);
+  const {rollDice} = useContext(DiceContext);
 
-  function rollDice() {
-    console.log("We rolled some dice");
-    setTurnStateToGatheringResources();
+  function rollTheDice() {
+    console.log("Keep rollin' rollin' rollin'");
+    if (rollDice() != 7)
+      setTurnStateToGatheringResources();
+    else {
+      console.log("!!! A 7 was rolled so we are going to thief. Called from Dice.jsx");
+      setTurnStateToRemoveHalfResources();
+    }
   }
   
-  console.log("WE SHOULD BE ROLLING THE DICE!")
   return(
-    <button onClick={rollDice}>Roll the Dice!</button>
+    <button onClick={rollTheDice}>Roll the Dice!</button>
   )
 }

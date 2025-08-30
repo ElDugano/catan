@@ -1,7 +1,7 @@
 import { useContext, useEffect } from "react";
 import { TurnStateContext } from "../../../state/turnState/TurnStateContext.js"
 
-export default function GatherResrouces() {
+export default function GatherResroucesAcknowledgement() {
   const {setTurnStateToIdle}= useContext(TurnStateContext);
 
   function gotoIdleState() {
@@ -16,6 +16,8 @@ export default function GatherResrouces() {
 
     return () => clearTimeout(timeoutId); // Cleanup on unmount
   }, [setTurnStateToIdle]); // Empty dependency array ensures this runs once
+
+  //props.resourcesgathered
 
   return (
     <>

@@ -9,6 +9,8 @@ export const TurnState = ({ children }) => {
     const setTurnStateToRollingTheDice = () =>     {setTurnState("Rolling the dice")};
     const isTurnStateGatheringResources = () => {return turnState == "Gathering resources" ? true : false};
     const setTurnStateToGatheringResources = () =>     {setTurnState("Gathering resources")};
+    const isTurnStateGatheringResourcesAcknowledgement = () => {return turnState == "Gathering resources Acknowledgement" ? true : false};
+    const setTurnStateToGatheringResourcescAknowledgement = () =>     {setTurnState("Gathering resources Acknowledgement")};
     //Thief Related
     const isTurnStateRemoveHalfResources = () => {return turnState == "Remove half resources" ? true : false};
     const setTurnStateToRemoveHalfResources = () =>     {setTurnState("Remove half resources")};
@@ -32,6 +34,9 @@ export const TurnState = ({ children }) => {
     //Playing Development Card
     //Playing Development Card
 
+    //const isTurnState = () => {return turnState == "" ? true : false};
+    //const setTurnStateTo = () =>     {setTurnState("")};
+
 
   return (
       <TurnStateContext.Provider value={{
@@ -40,6 +45,8 @@ export const TurnState = ({ children }) => {
         setTurnStateToRollingTheDice,
         isTurnStateGatheringResources,
         setTurnStateToGatheringResources,
+        isTurnStateGatheringResourcesAcknowledgement,
+        setTurnStateToGatheringResourcescAknowledgement,
       //Thief Related
         isTurnStateRemoveHalfResources,
         setTurnStateToRemoveHalfResources,

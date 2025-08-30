@@ -5,6 +5,7 @@ import { CurrentPlayerTurn } from './currentPlayerTurn/CurrentPlayerTurn.jsx'
 import { PlayerColor } from './playerColor/PlayerColor.jsx'
 import { PlayerAvailableBuildings } from './playerAvailableBuildings/PlayerAvailableBuildings.jsx'
 import { Dice } from './dice/dice.jsx'
+import { PlayerResourceCards } from './playerResourceCards/PlayerResourceCards.jsx'
 
 export default function GlobalStateProvider({ children }) {
   return (
@@ -14,9 +15,11 @@ export default function GlobalStateProvider({ children }) {
           <CurrentPlayerTurn>
             <PlayerColor>
               <PlayerAvailableBuildings>
-                <Dice>
-                  { children }
-                </Dice>
+                <PlayerResourceCards>
+                  <Dice>
+                    { children }
+                  </Dice>
+                </PlayerResourceCards>
               </PlayerAvailableBuildings>
             </PlayerColor>
           </CurrentPlayerTurn>
