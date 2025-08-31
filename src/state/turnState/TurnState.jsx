@@ -4,24 +4,24 @@ import { TurnStateContext } from './TurnStateContext.js';
 export const TurnState = ({ children }) => {
   const [turnState, setTurnState] = useState("Building a settlement");
 
-    //Turn Start
+    //---------- Turn Start ----------//
     const isTurnStateRollingTheDice = () => {return turnState == "Rolling the dice" ? true : false};
     const setTurnStateToRollingTheDice = () =>     {setTurnState("Rolling the dice")};
     const isTurnStateGatheringResources = () => {return turnState == "Gathering resources" ? true : false};
     const setTurnStateToGatheringResources = () =>     {setTurnState("Gathering resources")};
     const isTurnStateGatheringResourcesAcknowledgement = () => {return turnState == "Gathering resources Acknowledgement" ? true : false};
     const setTurnStateToGatheringResourcescAknowledgement = () =>     {setTurnState("Gathering resources Acknowledgement")};
-    //Thief Related
+    //---------- Thief Related ----------//
     const isTurnStateRemoveHalfResources = () => {return turnState == "Remove half resources" ? true : false};
     const setTurnStateToRemoveHalfResources = () =>     {setTurnState("Remove half resources")};
     const isTurnStateMoveTheThief = () => {return turnState == "Move the thief" ? true : false};
     const setTurnStateToMoveTheThief = () =>     {setTurnState("Move the thief")};
     const isTurnStatePillageResourceCard = () => {return turnState == "Pillage resource card" ? true : false};
     const setTurnStateToPillageResourceCard = () =>     {setTurnState("Pillage resource card")};
-    //Main Turn
+    //---------- Main Turn ----------//
     const isTurnStateIdle = () => {return turnState == "idle" ? true : false};
     const setTurnStateToIdle = () =>     {setTurnState("idle")};
-    //Building Related
+    //---------- Building Related ----------//
     const isTurnStateBuildMenu = () => {return turnState == "BuildMenu" ? true : false};
     const setTurnStateToBuildMenu = () =>     {setTurnState("BuildMenu")};
     const isTurnStateBuildingARoad = () => {return turnState == "Building a road" ? true : false};
@@ -41,38 +41,38 @@ export const TurnState = ({ children }) => {
 
 
   return (
-      <TurnStateContext.Provider value={{
-      //Turn Start
-        isTurnStateRollingTheDice,
-        setTurnStateToRollingTheDice,
-        isTurnStateGatheringResources,
-        setTurnStateToGatheringResources,
-        isTurnStateGatheringResourcesAcknowledgement,
-        setTurnStateToGatheringResourcescAknowledgement,
-      //Thief Related
-        isTurnStateRemoveHalfResources,
-        setTurnStateToRemoveHalfResources,
-        isTurnStateMoveTheThief,
-        setTurnStateToMoveTheThief,
-        isTurnStatePillageResourceCard,
-        setTurnStateToPillageResourceCard,
-      //Main Turn
-        isTurnStateIdle,
-        setTurnStateToIdle,
-      //Building Related
-        isTurnStateBuildMenu,
-        setTurnStateToBuildMenu,
-        isTurnStateBuildingARoad,
-        setTurnStateToBuildingARoad,
-        isTurnStateBuildingASettlement,
-        setTurnStateToBuildingASettlement,
-        isTurnStateBuildingACity,
-        setTurnStateToBuildingACity,
-        isTurnStateBuyingDevelopmentCard,
-        setTurnStateToBuyingDevelopmentCard,
-        turnState
-      }}>
-        {children}
-      </TurnStateContext.Provider>
+    <TurnStateContext.Provider value={{
+    //---------- Turn Start ----------//
+      isTurnStateRollingTheDice,
+      setTurnStateToRollingTheDice,
+      isTurnStateGatheringResources,
+      setTurnStateToGatheringResources,
+      isTurnStateGatheringResourcesAcknowledgement,
+      setTurnStateToGatheringResourcescAknowledgement,
+    //---------- Thief Related ----------//
+      isTurnStateRemoveHalfResources,
+      setTurnStateToRemoveHalfResources,
+      isTurnStateMoveTheThief,
+      setTurnStateToMoveTheThief,
+      isTurnStatePillageResourceCard,
+      setTurnStateToPillageResourceCard,
+    //---------- Main Turn ----------//
+      isTurnStateIdle,
+      setTurnStateToIdle,
+    //---------- Building Related ----------//
+      isTurnStateBuildMenu,
+      setTurnStateToBuildMenu,
+      isTurnStateBuildingARoad,
+      setTurnStateToBuildingARoad,
+      isTurnStateBuildingASettlement,
+      setTurnStateToBuildingASettlement,
+      isTurnStateBuildingACity,
+      setTurnStateToBuildingACity,
+      isTurnStateBuyingDevelopmentCard,
+      setTurnStateToBuyingDevelopmentCard,
+      turnState
+    }}>
+      {children}
+    </TurnStateContext.Provider>
   )
 }

@@ -19,13 +19,12 @@ function App() {
 
 
   //These are really just here for debugging.
-  const {isGameStateBoardSetup} = useContext(GameStateContext);
   const {turnState} = useContext(TurnStateContext);
   const {currentPlayerTurn} = useContext(CurrentPlayerTurnContext);
   const {getAPlayersColor} = useContext(PlayerColorContext);
-  const {getPlayerResourceCards} = useContext(PlayerResourceCardsContext)
+  const {getAPlayersResourceCards} = useContext(PlayerResourceCardsContext)
 
-  const currentPlayerResources = getPlayerResourceCards(currentPlayerTurn);
+  const currentPlayerResources = getAPlayersResourceCards(currentPlayerTurn);
   return (
     <>
       it is <span style={{color: getAPlayersColor(currentPlayerTurn)}}>player {currentPlayerTurn}'s</span> turn. 
@@ -35,7 +34,7 @@ function App() {
       Brick: {currentPlayerResources.Brick} | 
       Ore: {currentPlayerResources.Ore}
       <br />
-      Hey, Are we in the Baord Setup phase? {isGameStateBoardSetup() == true ? "yes" : "no"}! The turnState is: {turnState}<br />
+      The turnState is: {turnState}<br />
         <TurnInterface />
         <Gameboard>
           <GatherResourcesFromRoll />
