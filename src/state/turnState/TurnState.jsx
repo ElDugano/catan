@@ -32,9 +32,16 @@ export const TurnState = ({ children }) => {
     const setTurnStateToBuildingACity = () =>     {setTurnState("Building a city")};
     const isTurnStateBuyingDevelopmentCard = () => {return turnState == "Buying Development Card" ? true : false};
     const setTurnStateToBuyingDevelopmentCard = () =>     {setTurnState("Buying Development Card")};
-      //These all will likely want some sort of confirmation state to make sure the player picked the right spot.
-    //Playing Development Card
-    //Playing Development Card
+    //---------- Development Card Related ----------//
+    const isTurnStateSelectingADevelopmentCard = () => {return turnState == "Selecting a Development Card" ? true : false};
+    const setTurnStateToSelectingADevelopmentCard = () =>     {setTurnState("Selecting a Development Card")};
+    //----- Road Builder Card
+    const setTurnStateToRoadBuilderCardFirstRoad = () =>     {setTurnState("Road Builder Card First Road")};
+    const isTurnStateRoadBuilderCardFirstRoad = () => {return turnState == "Road Builder Card First Road" ? true : false};
+    const setTurnStateToRoadBuilderCarSecondRoad = () =>     {setTurnState("Road Builder Card Second Road")};
+    const isTurnStateRoadBuilderCardSecondRoad = () => {return turnState == "Road Builder Card Second Road" ? true : false};
+    //const isTurnState = () => {return turnState == "" ? true : false};
+    //const setTurnStateTo = () =>     {setTurnState("")};
 
     //const isTurnState = () => {return turnState == "" ? true : false};
     //const setTurnStateTo = () =>     {setTurnState("")};
@@ -70,6 +77,15 @@ export const TurnState = ({ children }) => {
       setTurnStateToBuildingACity,
       isTurnStateBuyingDevelopmentCard,
       setTurnStateToBuyingDevelopmentCard,
+      //---------- Development Card Related ----------//
+      isTurnStateSelectingADevelopmentCard,
+      setTurnStateToSelectingADevelopmentCard,
+        //----- Road Builder Card
+      isTurnStateRoadBuilderCardFirstRoad,
+      setTurnStateToRoadBuilderCardFirstRoad,
+      isTurnStateRoadBuilderCardSecondRoad,
+      setTurnStateToRoadBuilderCarSecondRoad,
+
       turnState
     }}>
       {children}

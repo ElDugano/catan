@@ -23,7 +23,9 @@ export default function Gameboard({children}) {
   const {setTurnStateToBuildingASettlement,
     setTurnStateToBuildingARoad,
     setTurnStateToRollingTheDice,
-    setTurnStateToIdle
+    setTurnStateToIdle,
+    isTurnStateRoadBuilderCardFirstRoad,
+    setTurnStateToRoadBuilderCarSecondRoad,
   }= useContext(TurnStateContext);
 
   const {returnAvailableSettlements, removeSettlementFromAvailableBuildings, removeCityFromAvailableBuildings, removeRoadFromAvailableBuildings} = useContext(PlayerAvailableBuildingsContext);
@@ -65,9 +67,10 @@ export default function Gameboard({children}) {
         setTurnStateToRollingTheDice();
       }
     }
-    else {
+    else if(isTurnStateRoadBuilderCardFirstRoad())
+      setTurnStateToRoadBuilderCarSecondRoad();
+    else
       setTurnStateToIdle();
-    }
   }
 
 

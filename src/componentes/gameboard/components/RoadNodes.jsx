@@ -12,7 +12,7 @@ import Road from "./Road";
 
 export default function RoadNodes(props) {
   const {isGameStateBoardSetup}= useContext(GameStateContext);
-  const {isTurnStateBuildingARoad}= useContext(TurnStateContext);
+  const {isTurnStateBuildingARoad, isTurnStateRoadBuilderCardFirstRoad, isTurnStateRoadBuilderCardSecondRoad}= useContext(TurnStateContext);
 
   //const {lastBuiltObject} = useContext(LastBuiltObjectContext);
   const {lastBuiltObject} = useContext(PlayerAvailableBuildingsContext);
@@ -41,7 +41,9 @@ export default function RoadNodes(props) {
           const lineEndX=(x+1)*30+9;
           const lineStartY=(x+y)%2 == 1 ? y*50+20-6 : y*50+6;
           const lineEndY=(x+y)%2 == 1 ? y*50+6 : y*50+20-6;
-          if( isTurnStateBuildingARoad() &&
+          if((isTurnStateBuildingARoad() ||
+              isTurnStateRoadBuilderCardFirstRoad() ||
+              isTurnStateRoadBuilderCardSecondRoad()) &&
               tileCornerNodes[x][y].rightRoadOwner == "none" &&
               ( tileCornerNodes[x][y].owner == currentPlayerTurn ||
                 tileCornerNodes[x+1][y].owner == currentPlayerTurn ||
@@ -88,7 +90,9 @@ export default function RoadNodes(props) {
           const lineStartY=y*50+20+9;
           const lineEndX=(x+1)*30;
           const lineEndY=(y+1)*50-9;
-          if (isTurnStateBuildingARoad() &&
+          if((isTurnStateBuildingARoad() ||
+              isTurnStateRoadBuilderCardFirstRoad() ||
+              isTurnStateRoadBuilderCardSecondRoad()) &&
               tileCornerNodes[x][y].bottomRoadOwner == "none" &&
               ( tileCornerNodes[x][y].owner == currentPlayerTurn ||
                 tileCornerNodes[x][y+1].owner == currentPlayerTurn ||

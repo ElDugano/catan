@@ -7,9 +7,10 @@ import GatherResroucesAcknowledgement from "./components/gatherResourcesAcknowle
   //---------- Thief Related ----------//
 import RemoveHalfResourcesMenu from "./components/removeHalfResourcesMenu";
   //---------- Main turn ----------//
-import Idle from "./components/idle";
+import IdleMenu from "./components/idleMenu";
 import BuildMenu from "./components/buildMenu";
 import BuildOnMapMenu from "./components/builtOnMapMenu";
+import SelectDevelopmentCardMenu from "./components/selectDevelopmentCardMenu";
 
 export default function TurnInterface() {
   const {isTurnStateRollingTheDice,
@@ -19,7 +20,8 @@ export default function TurnInterface() {
     isTurnStateBuildMenu,
     isTurnStateBuildingARoad,
     isTurnStateBuildingASettlement,
-    isTurnStateBuildingACity
+    isTurnStateBuildingACity,
+    isTurnStateSelectingADevelopmentCard
   } = useContext(TurnStateContext);
 
   return(
@@ -29,9 +31,10 @@ export default function TurnInterface() {
       {/*---------- Theif Related ----------*/}
     {isTurnStateRemoveHalfResources() && <RemoveHalfResourcesMenu />}
       {/*---------- Main Turn ----------*/}
-    {isTurnStateIdle() && <Idle />}
+    {isTurnStateIdle() && <IdleMenu />}
     {isTurnStateBuildMenu() && <BuildMenu />}
     {(isTurnStateBuildingARoad() || isTurnStateBuildingASettlement() || isTurnStateBuildingACity()) && <BuildOnMapMenu />}
+    {isTurnStateSelectingADevelopmentCard() && <SelectDevelopmentCardMenu />}
     </>
   )
 }

@@ -44,31 +44,36 @@ export default function RemoveHalfResourcesMenu() {
         <h4>Player {playerNumber} needs to discard {numberOfCardsNeededToDiscard} in total.</h4>
         <div style={{display: "flex", textAlign: "center"}}>
           <div>
-            Wool<br />{playerResourceCards[playerNumber].Wool}<br />
+            Wool<br />
+            {playerResourceCards[playerNumber].Wool}<br />
             <span style={{color: "red"}}>{discardingResources[playerNumber].Wool}</span><br />
             <button onClick={(() => {updateDiscardingResources(playerNumber, "Wool", 1)})}>+</button><br />
             <button onClick={(() => {updateDiscardingResources(playerNumber, "Wool", -1)})}>-</button>
           </div>
           <div>
-            Lumber<br />{playerResourceCards[playerNumber].Lumber}<br />
+            Lumber<br />
+            {playerResourceCards[playerNumber].Lumber}<br />
             <span style={{color: "red"}}>{discardingResources[playerNumber].Lumber}</span><br />
             <button onClick={(() => {updateDiscardingResources(playerNumber, "Lumber", 1)})}>+</button><br />
             <button onClick={(() => {updateDiscardingResources(playerNumber, "Lumber", -1)})}>-</button>
           </div>
           <div>
-            Grain<br />{playerResourceCards[playerNumber].Grain}<br />
+            Grain<br />
+            {playerResourceCards[playerNumber].Grain}<br />
             <span style={{color: "red"}}>{discardingResources[playerNumber].Grain}</span><br />
             <button onClick={(() => {updateDiscardingResources(playerNumber, "Grain", 1)})}>+</button><br />
             <button onClick={(() => {updateDiscardingResources(playerNumber, "Grain", -1)})}>-</button>
           </div>
           <div>
-            Brick<br />{playerResourceCards[playerNumber].Brick}<br />
+            Brick<br />
+            {playerResourceCards[playerNumber].Brick}<br />
             <span style={{color: "red"}}>{discardingResources[playerNumber].Brick}</span><br />
             <button onClick={(() => {updateDiscardingResources(playerNumber, "Brick", 1)})}>+</button><br />
             <button onClick={(() => {updateDiscardingResources(playerNumber, "Brick", -1)})}>-</button>
           </div>
           <div>
-            Ore<br />{playerResourceCards[playerNumber].Ore}<br />
+            Ore<br />
+            {playerResourceCards[playerNumber].Ore}<br />
             <span style={{color: "red"}}>{discardingResources[playerNumber].Ore}</span><br />
             <button onClick={(() => {updateDiscardingResources(playerNumber, "Ore", 1)})}>+</button><br />
             <button onClick={(() => {updateDiscardingResources(playerNumber, "Ore", -1)})}>-</button>
