@@ -35,13 +35,18 @@ export const TurnState = ({ children }) => {
     //---------- Development Card Related ----------//
     const isTurnStateSelectingADevelopmentCard = () => {return turnState == "Selecting a Development Card" ? true : false};
     const setTurnStateToSelectingADevelopmentCard = () =>     {setTurnState("Selecting a Development Card")};
-    //----- Road Builder Card
-    const setTurnStateToRoadBuilderCardFirstRoad = () =>     {setTurnState("Road Builder Card First Road")};
-    const isTurnStateRoadBuilderCardFirstRoad = () => {return turnState == "Road Builder Card First Road" ? true : false};
-    const setTurnStateToRoadBuilderCarSecondRoad = () =>     {setTurnState("Road Builder Card Second Road")};
-    const isTurnStateRoadBuilderCardSecondRoad = () => {return turnState == "Road Builder Card Second Road" ? true : false};
-    //const isTurnState = () => {return turnState == "" ? true : false};
-    //const setTurnStateTo = () =>     {setTurnState("")};
+      //----- Knight Card ** Not needed, just setTurnStateMoveTheThief. **
+      //----- Road Builder Card
+      const setTurnStateToRoadBuilderCardFirstRoad = () =>     {setTurnState("Road Builder Card First Road")};
+      const isTurnStateRoadBuilderCardFirstRoad = () => {return turnState == "Road Builder Card First Road" ? true : false};
+      const setTurnStateToRoadBuilderCarSecondRoad = () =>     {setTurnState("Road Builder Card Second Road")};
+      const isTurnStateRoadBuilderCardSecondRoad = () => {return turnState == "Road Builder Card Second Road" ? true : false};
+      //----- Year of Plenty Card
+      //const isTurnState = () => {return turnState == "" ? true : false};
+      //const setTurnStateTo = () =>     {setTurnState("")};
+      //----- Monopoly Card
+      //const isTurnState = () => {return turnState == "" ? true : false};
+      //const setTurnStateTo = () =>     {setTurnState("")};
 
     //const isTurnState = () => {return turnState == "" ? true : false};
     //const setTurnStateTo = () =>     {setTurnState("")};
@@ -81,10 +86,10 @@ export const TurnState = ({ children }) => {
       isTurnStateSelectingADevelopmentCard,
       setTurnStateToSelectingADevelopmentCard,
         //----- Road Builder Card
-      isTurnStateRoadBuilderCardFirstRoad,
-      setTurnStateToRoadBuilderCardFirstRoad,
-      isTurnStateRoadBuilderCardSecondRoad,
-      setTurnStateToRoadBuilderCarSecondRoad,
+        isTurnStateRoadBuilderCardFirstRoad,
+        setTurnStateToRoadBuilderCardFirstRoad,
+        isTurnStateRoadBuilderCardSecondRoad,
+        setTurnStateToRoadBuilderCarSecondRoad,
 
       turnState
     }}>

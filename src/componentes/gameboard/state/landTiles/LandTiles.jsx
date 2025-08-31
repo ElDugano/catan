@@ -4,7 +4,7 @@ import  Shuffle  from '../../../../helpers/Shuffle.jsx'
 
 export const LandTiles = ({ children }) => {
   const [landTiles, setLandTiles] = useState(CreateLandTiles);
-  const [desertLocation, setDesertLocation] = useState(FindDesert);
+  const [desertLocation/*, setDesertLocation*/] = useState(FindDesert);
 
 function CreateLandTiles(){
   let availableLandTileResource = [

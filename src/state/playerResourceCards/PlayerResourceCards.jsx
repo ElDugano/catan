@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { PlayerResourceCardsContext } from './PlayerResourceCardsContext.js';
+import Shuffle from '../../helpers/shuffle.jsx'
 
 export const PlayerResourceCards = ({ children }) => {
   const [playerResourceCards, setPlayerResourceCards] = useState([
@@ -9,6 +10,7 @@ export const PlayerResourceCards = ({ children }) => {
     {Wool:0, Lumber:0, Grain:0, Brick:0, Ore:0}
   ]);
   const [previouslyGainedResources, setPreviouslyGainedResources] = useState(new Array(4));
+  const [plunderedResourcePlayers, setPlunderedResourcePlayers] = useState(new Array(4));
 
   function addResourcesFromDiceRollToPlayerResourceCards(playerNewResources) {
     let newPlayerResourceCards = [...playerResourceCards];
@@ -19,17 +21,13 @@ export const PlayerResourceCards = ({ children }) => {
     });
     setPlayerResourceCards(newPlayerResourceCards);
     setPreviouslyGainedResources(playerNewResources);
-    console.log("We just got these resources:");
-    console.log(playerNewResources);
-    console.log("We now have these resources in total:");
-    console.log(newPlayerResourceCards);
   }
 
   function getAPlayersResourceCards(player) {
     return playerResourceCards[player];
   }
 
-  function getAllPlayersTotalResrouceCards() {
+  function getAllPlayersTotalResourceCards() {
     let allPlayersTotalCards = []
     playerResourceCards.forEach((playerResourceObject, player) => {
       let playerTotalCards = 0
@@ -43,12 +41,34 @@ export const PlayerResourceCards = ({ children }) => {
 
   function removeCollectionOfResourcesFromPlayer(player, resourceCollection) {
     let newPlayerResourceCards = [...playerResourceCards];
-    newPlayerResourceCards[player].Wool = playerResourceCards[player].Wool - resourceCollection.Wool;
+    newPlayerResourceCards[player].Wool   = playerResourceCards[player].Wool   - resourceCollection.Wool;
     newPlayerResourceCards[player].Lumber = playerResourceCards[player].Lumber - resourceCollection.Lumber;
-    newPlayerResourceCards[player].Grain = playerResourceCards[player].Grain - resourceCollection.Grain;
-    newPlayerResourceCards[player].Brick = playerResourceCards[player].Brick - resourceCollection.Brick;
-    newPlayerResourceCards[player].Ore = playerResourceCards[player].Ore - resourceCollection.Ore;
-    console.log(newPlayerResourceCards[player]);
+    newPlayerResourceCards[player].Grain  = playerResourceCards[player].Grain  - resourceCollection.Grain;
+    newPlayerResourceCards[player].Brick  = playerResourceCards[player].Brick  - resourceCollection.Brick;
+    newPlayerResourceCards[player].Ore    = playerResourceCards[player].Ore    - resourceCollection.Ore;
+    setPlayerResourceCards(newPlayerResourceCards);
+  }
+
+  function stealRandomCardFromPlayer(robbingPlayer, victimPlayer) {
+    console.log("Player "+robbingPlayer+" is stealing from Player "+victimPlayer+".");
+    let victimPlayerHand = [];
+    Object.keys(playerResourceCards[victimPlayer]).forEach(resourceName => {
+      console.log(resourceName);
+      console.log(playerResourceCards[victimPlayer][resourceName]);
+      for (let card = 0; card < playerResourceCards[victimPlayer][resourceName]; card++) {
+        console.log("Looping in here.");
+        victimPlayerHand.push(resourceName);
+      }
+    })
+    console.log("Finished the loops.");
+    console.log(victimPlayerHand);
+    Shuffle(victimPlayerHand);
+    console.log(victimPlayerHand);
+    let stolenResourceCard = victimPlayerHand.pop();
+    console.log("The card that was stolen was: "+ stolenResourceCard)
+    let newPlayerResourceCards = [...playerResourceCards];
+    newPlayerResourceCards[robbingPlayer][stolenResourceCard] +=1;
+    newPlayerResourceCards[victimPlayer][stolenResourceCard] -=1;
     setPlayerResourceCards(newPlayerResourceCards);
   }
 
@@ -57,9 +77,12 @@ export const PlayerResourceCards = ({ children }) => {
         playerResourceCards,
         addResourcesFromDiceRollToPlayerResourceCards,
         getAPlayersResourceCards,
-        getAllPlayersTotalResrouceCards,
+        getAllPlayersTotalResourceCards,
         removeCollectionOfResourcesFromPlayer,
-        previouslyGainedResources
+        stealRandomCardFromPlayer,
+        previouslyGainedResources,
+        plunderedResourcePlayers,
+        setPlunderedResourcePlayers
       }}>
         {children}
       </PlayerResourceCardsContext.Provider>

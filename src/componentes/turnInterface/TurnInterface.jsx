@@ -6,6 +6,7 @@ import RollDiceButton from "./components/rollDiceButton";
 import GatherResroucesAcknowledgement from "./components/gatherResourcesAcknowledgement";
   //---------- Thief Related ----------//
 import RemoveHalfResourcesMenu from "./components/removeHalfResourcesMenu";
+import PillageResourceCardMenu from "./components/pillageResourceCardMenu";
   //---------- Main turn ----------//
 import IdleMenu from "./components/idleMenu";
 import BuildMenu from "./components/buildMenu";
@@ -16,6 +17,7 @@ export default function TurnInterface() {
   const {isTurnStateRollingTheDice,
     isTurnStateGatheringResourcesAcknowledgement,
     isTurnStateRemoveHalfResources,
+    isTurnStatePillageResourceCard,
     isTurnStateIdle,
     isTurnStateBuildMenu,
     isTurnStateBuildingARoad,
@@ -30,6 +32,7 @@ export default function TurnInterface() {
     {isTurnStateGatheringResourcesAcknowledgement() && <GatherResroucesAcknowledgement />}
       {/*---------- Theif Related ----------*/}
     {isTurnStateRemoveHalfResources() && <RemoveHalfResourcesMenu />}
+    {isTurnStatePillageResourceCard() && <PillageResourceCardMenu />}
       {/*---------- Main Turn ----------*/}
     {isTurnStateIdle() && <IdleMenu />}
     {isTurnStateBuildMenu() && <BuildMenu />}

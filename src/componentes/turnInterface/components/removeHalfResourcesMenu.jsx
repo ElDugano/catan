@@ -3,10 +3,10 @@ import { PlayerResourceCardsContext } from "../../../state/playerResourceCards/P
 import { TurnStateContext } from "../../../state/turnState/TurnStateContext";
 
 export default function RemoveHalfResourcesMenu() {
-  const { playerResourceCards, getAllPlayersTotalResrouceCards, removeCollectionOfResourcesFromPlayer } = useContext(PlayerResourceCardsContext);
+  const { playerResourceCards, getAllPlayersTotalResourceCards, removeCollectionOfResourcesFromPlayer } = useContext(PlayerResourceCardsContext);
   const { setTurnStateToIdle } = useContext(TurnStateContext);
 
-  const AllPlayersTotalCards = getAllPlayersTotalResrouceCards();
+  const AllPlayersTotalCards = getAllPlayersTotalResourceCards();
 
   const [discardingResources, setDiscardingResrouces] = useState([
     {Wool:0, Lumber:0, Grain:0, Brick:0, Ore:0},
