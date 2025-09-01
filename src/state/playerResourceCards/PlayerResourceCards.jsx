@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { PlayerResourceCardsContext } from './PlayerResourceCardsContext.js';
-import Shuffle from '../../helpers/shuffle.jsx'
+import Shuffle from '../../helpers/Shuffle.jsx'
 
 export const PlayerResourceCards = ({ children }) => {
   const [playerResourceCards, setPlayerResourceCards] = useState([
@@ -49,6 +49,16 @@ export const PlayerResourceCards = ({ children }) => {
     setPlayerResourceCards(newPlayerResourceCards);
   }
 
+  function addCollectionOfResourcesToPlayer(player, resourceCollection) {
+    let newPlayerResourceCards = [...playerResourceCards];
+    newPlayerResourceCards[player].Wool   = playerResourceCards[player].Wool   + resourceCollection.Wool;
+    newPlayerResourceCards[player].Lumber = playerResourceCards[player].Lumber + resourceCollection.Lumber;
+    newPlayerResourceCards[player].Grain  = playerResourceCards[player].Grain  + resourceCollection.Grain;
+    newPlayerResourceCards[player].Brick  = playerResourceCards[player].Brick  + resourceCollection.Brick;
+    newPlayerResourceCards[player].Ore    = playerResourceCards[player].Ore    + resourceCollection.Ore;
+    setPlayerResourceCards(newPlayerResourceCards);
+  }
+
   function stealRandomCardFromPlayer(robbingPlayer, victimPlayer) {
     let victimPlayerHand = [];
     Object.keys(playerResourceCards[victimPlayer]).forEach(resourceName => {
@@ -71,6 +81,7 @@ export const PlayerResourceCards = ({ children }) => {
         getAPlayersResourceCards,
         getAllPlayersTotalResourceCards,
         removeCollectionOfResourcesFromPlayer,
+        addCollectionOfResourcesToPlayer,
         stealRandomCardFromPlayer,
         previouslyGainedResources,
         plunderedResourcePlayers,

@@ -12,6 +12,8 @@ import IdleMenu from "./components/idleMenu";
 import BuildMenu from "./components/buildMenu";
 import BuildOnMapMenu from "./components/builtOnMapMenu";
 import SelectDevelopmentCardMenu from "./components/selectDevelopmentCardMenu";
+  //-----Development Card Related
+  import YearOfPlentyMenu from "./components/yearOfPlentyMenu";
 
 export default function TurnInterface() {
   const {isTurnStateRollingTheDice,
@@ -23,7 +25,8 @@ export default function TurnInterface() {
     isTurnStateBuildingARoad,
     isTurnStateBuildingASettlement,
     isTurnStateBuildingACity,
-    isTurnStateSelectingADevelopmentCard
+    isTurnStateSelectingADevelopmentCard,
+    isTurnStateYearOfPlenty
   } = useContext(TurnStateContext);
 
   return(
@@ -38,6 +41,7 @@ export default function TurnInterface() {
     {isTurnStateBuildMenu() && <BuildMenu />}
     {(isTurnStateBuildingARoad() || isTurnStateBuildingASettlement() || isTurnStateBuildingACity()) && <BuildOnMapMenu />}
     {isTurnStateSelectingADevelopmentCard() && <SelectDevelopmentCardMenu />}
+    {isTurnStateYearOfPlenty() && <YearOfPlentyMenu />}
     </>
   )
 }

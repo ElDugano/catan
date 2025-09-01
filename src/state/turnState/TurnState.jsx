@@ -42,8 +42,8 @@ export const TurnState = ({ children }) => {
       const setTurnStateToRoadBuilderCarSecondRoad = () =>     {setTurnState("Road Builder Card Second Road")};
       const isTurnStateRoadBuilderCardSecondRoad = () => {return turnState == "Road Builder Card Second Road" ? true : false};
       //----- Year of Plenty Card
-      //const isTurnState = () => {return turnState == "" ? true : false};
-      //const setTurnStateTo = () =>     {setTurnState("")};
+      const isTurnStateYearOfPlenty = () => {return turnState == "Year of Plenty" ? true : false};
+      const setTurnStateToYearOfPlenty = () =>     {setTurnState("Year of Plenty")};
       //----- Monopoly Card
       //const isTurnState = () => {return turnState == "" ? true : false};
       //const setTurnStateTo = () =>     {setTurnState("")};
@@ -90,7 +90,9 @@ export const TurnState = ({ children }) => {
         setTurnStateToRoadBuilderCardFirstRoad,
         isTurnStateRoadBuilderCardSecondRoad,
         setTurnStateToRoadBuilderCarSecondRoad,
-
+        //----- Year of Plenty Card
+        isTurnStateYearOfPlenty,
+        setTurnStateToYearOfPlenty,
       turnState
     }}>
       {children}

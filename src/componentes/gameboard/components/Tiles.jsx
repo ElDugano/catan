@@ -21,7 +21,7 @@ export default function Tiles() {
     }
   }
 
-    //** This was the old way of going through this. The bonus is this isn't doing weired passing strings**//
+    //** This was the old way of going through this. The bonus is this isn't doing weired passing strings.**//
     //** The below way also displays the water as tiles, which might be useful to have.**//
 
   //for (let x=0; x<= 12; x+=1) {
