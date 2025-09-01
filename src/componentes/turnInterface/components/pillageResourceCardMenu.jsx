@@ -17,9 +17,7 @@ export default function PillageResourceCardMenu() {
 
   const AllPlayersTotalCards = getAllPlayersTotalResourceCards();
   plunderedResourcePlayers.forEach((isPlayerPillaged, possibleVictimPlayer) => {
-    console.log("Starting to see who needs to hand over cards.");
     if (isPlayerPillaged && possibleVictimPlayer != currentPlayerTurn){
-      console.log(possibleVictimPlayer + " might need to hand over a card.");
       content.push(
         <div key={crypto.randomUUID()}>
           Remove cards from Player {possibleVictimPlayer}? The player has {AllPlayersTotalCards[possibleVictimPlayer] == 1 ? "1 card" : AllPlayersTotalCards[possibleVictimPlayer] + " cards"}.
@@ -37,7 +35,6 @@ export default function PillageResourceCardMenu() {
     <>
     <h3>Pick the poor fool you wish to pillage a resource from.</h3>
     {content}
-    <button onClick={()=> setTurnStateToIdle()}>Just get me out of here, please.</button>
     </>
   )
 }

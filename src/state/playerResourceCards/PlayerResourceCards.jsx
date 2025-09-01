@@ -50,25 +50,17 @@ export const PlayerResourceCards = ({ children }) => {
   }
 
   function stealRandomCardFromPlayer(robbingPlayer, victimPlayer) {
-    console.log("Player "+robbingPlayer+" is stealing from Player "+victimPlayer+".");
     let victimPlayerHand = [];
     Object.keys(playerResourceCards[victimPlayer]).forEach(resourceName => {
-      console.log(resourceName);
-      console.log(playerResourceCards[victimPlayer][resourceName]);
       for (let card = 0; card < playerResourceCards[victimPlayer][resourceName]; card++) {
-        console.log("Looping in here.");
         victimPlayerHand.push(resourceName);
       }
     })
-    console.log("Finished the loops.");
-    console.log(victimPlayerHand);
     Shuffle(victimPlayerHand);
-    console.log(victimPlayerHand);
-    let stolenResourceCard = victimPlayerHand.pop();
-    console.log("The card that was stolen was: "+ stolenResourceCard)
+    let stolenResourceCardType = victimPlayerHand.pop();
     let newPlayerResourceCards = [...playerResourceCards];
-    newPlayerResourceCards[robbingPlayer][stolenResourceCard] +=1;
-    newPlayerResourceCards[victimPlayer][stolenResourceCard] -=1;
+    newPlayerResourceCards[robbingPlayer][stolenResourceCardType] +=1;
+    newPlayerResourceCards[victimPlayer][stolenResourceCardType] -=1;
     setPlayerResourceCards(newPlayerResourceCards);
   }
 

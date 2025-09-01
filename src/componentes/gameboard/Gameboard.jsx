@@ -5,6 +5,7 @@ import TileNumbers from "./components/TileNumbers.jsx";
 import BanditIcon from "./components/BanditIcon.jsx";
 import Tiles from "./components/Tiles.jsx";
 import RoadNodes from "./components/RoadNodes.jsx";
+import ThiefMoveButtons from "./components/TheifMoveButtons.jsx";
 
 import { GameStateContext } from "../../state/gameState/GameStateContext.js";
 import { TurnStateContext } from "../../state/turnState/TurnStateContext.js";
@@ -91,6 +92,7 @@ export default function Gameboard({children}) {
                 GameboardFunctionBuildRoad={BuildRoadHelper}
               />
               <BanditIcon />
+              <ThiefMoveButtons />
             </svg>
           </LandTileNumbers>
         </ThiefLocation>
