@@ -16,16 +16,9 @@ export default function RollDiceButton() {
     }
   }
 
-  function roll7() {
-    console.log("Cheater detected.");
-    setDice([3,4]);
-    setTurnStateToRemoveHalfResources();
-  }
-  
   return(
     <>
     <button onClick={rollTheDice}>Roll the Dice!</button>
-    <button onClick={roll7}>Roll a 7</button>
     </>
   )
 }

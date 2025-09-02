@@ -11,6 +11,8 @@ import { PlayerResourceCardsContext } from './state/playerResourceCards/PlayerRe
 
 import './App.css';
 
+import Debug from './helpers/Debug.jsx';
+
 function App() {
   //const [playerResourceCards, setPlayerResourceCards] = useState();             //Array of Objects showing the player's hand
   //const [playerDevelopmentCards, setPlayerDevelopmentCards] = useState();       //List of development cards, shown and hidden
@@ -39,6 +41,7 @@ function App() {
         <Gameboard>
           <GatherResourcesFromRoll />
         </Gameboard>
+        <Debug />
     </>
   )
 }
