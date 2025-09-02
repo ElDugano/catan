@@ -1,5 +1,5 @@
 import { useState, useContext } from "react";
-import { LandTileNumbersContext } from "./landTileNumbersContext";
+import { LandTileNumbersContext } from "./LandTileNumbersContext.js";
 import { LandTilesContext } from "../landTiles/LandTilesContext.js";
 import Shuffle from '../../../../helpers/Shuffle.jsx'
 

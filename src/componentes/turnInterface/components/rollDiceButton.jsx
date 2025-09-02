@@ -1,6 +1,6 @@
 import { useContext } from "react";
 import { TurnStateContext } from "../../../state/turnState/TurnStateContext.js"
-import { DiceContext } from "../../../state/dice/diceContext.js";
+import { DiceContext } from "../../../state/dice/DiceContext.js";
 
 export default function RollDiceButton() {
   const {setTurnStateToGatheringResources, setTurnStateToRemoveHalfResources}= useContext(TurnStateContext);

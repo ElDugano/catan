@@ -1,5 +1,5 @@
 import { useContext } from "react";
-import { LandTileNumbersContext } from "../state/landTileNumbers/landTileNumbersContext";
+import { LandTileNumbersContext } from "../state/landTileNumbers/LandTileNumbersContext.js";
 
 export default function TileNumbers() {
   const {landTileNumbers} = useContext(LandTileNumbersContext); 

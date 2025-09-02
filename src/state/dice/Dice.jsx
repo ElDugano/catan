@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { DiceContext } from "./diceContext";
+import { DiceContext } from "./DiceContext.js";
 
 export const Dice = ({ children }) => {
   const [dice, setDice] = useState([1,1]);

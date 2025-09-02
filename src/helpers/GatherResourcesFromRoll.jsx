@@ -3,10 +3,10 @@ import { useContext, useEffect } from 'react';
 import { TurnStateContext } from '../state/turnState/TurnStateContext.js';
 import { PlayerResourceCardsContext } from '../state/playerResourceCards/PlayerResourceCardsContext.js';
 
-import { DiceContext } from '../state/dice/diceContext.js';
+import { DiceContext } from '../state/dice/DiceContext.js';
 
 import { TileCornerNodesContext } from '../componentes/gameboard/state/tileCornerNodes/TileCornerNodesContext.js';
-import { LandTileNumbersContext } from '../componentes/gameboard/state/landTileNumbers/landTileNumbersContext.js';
+import { LandTileNumbersContext } from '../componentes/gameboard/state/landTileNumbers/LandTileNumbersContext.js';
 import { LandTilesContext } from '../componentes/gameboard/state/landTiles/LandTilesContext.js';
 
 export default function GatherResourcesFromRoll() {
