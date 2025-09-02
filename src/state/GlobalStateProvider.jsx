@@ -7,6 +7,7 @@ import { PlayerAvailableBuildings } from './playerAvailableBuildings/PlayerAvail
 import { Dice } from './dice/Dice.jsx'
 import { PlayerResourceCards } from './playerResourceCards/PlayerResourceCards.jsx'
 import { DevelopmentCards } from './developmentCards/DevelopmentCards.jsx'
+import { ScoreBoard } from './scoreBoard/ScoreBoard.jsx'
 
 export default function GlobalStateProvider({ children }) {
   return (
@@ -19,7 +20,9 @@ export default function GlobalStateProvider({ children }) {
                 <PlayerResourceCards>
                   <DevelopmentCards>
                     <Dice>
-                      { children }
+                      <ScoreBoard>
+                        { children }
+                      </ScoreBoard>
                     </Dice>
                   </DevelopmentCards>
                 </PlayerResourceCards>

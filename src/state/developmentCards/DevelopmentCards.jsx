@@ -49,6 +49,8 @@ export const DevelopmentCards = ({ children }) => {
     return playerDevelopmentCardHand(player);
   }
 
+  function getPlayerArmyStrength(player) {return playerDevelopmentCardPlayed[player].Knight;}
+
   function playKnightDevelopmentCard(player) {playDevelopmentCard(player, "Knight");}
   function playRoadBuildingDevelopmentCard(player) {playDevelopmentCard(player, "Road Building");}
   function playYearOfPlentyDevelopmentCard(player) {playDevelopmentCard(player, "Year of Plenty");}
@@ -74,6 +76,7 @@ export const DevelopmentCards = ({ children }) => {
       <DevelopmentCardsContext.Provider value={{
         givePlayerDevelopmentCardFromDeck,
         PlayerDevelopmentCardsAvailableToPlay,
+        getPlayerArmyStrength,
         doesPlayerOwnsKnightDevelopmentCard,
         doesPlayerOwnsRoadBuildingDevelopmentCard,
         doesPlayerOwnsYearOfPlentyDevelopmentCard,
