@@ -53,8 +53,6 @@ export default function RemoveHalfResourcesMenu() {
     removeCollectionOfResourcesFromPlayer(player, discardingResources[player]);
     let updatedPlayersToBePillaged = playersToBePillaged;
     updatedPlayersToBePillaged[player] = false;
-    console.log("We are checking if we need to exit this.");
-    console.log(updatedPlayersToBePillaged);
     if(updatedPlayersToBePillaged.every(val => val === false))
       setTurnStateToMoveTheThief();
     else

@@ -32,7 +32,7 @@ export default function PillageResourceCardMenu() {
     //If there are no options, then you just need to move onto the next stage of the game.
   })
   if (content.length===0){
-    content.push(<>You had nobody to rob. <button onClick={()=> {setTurnStateToIdle()}}>Continue</button></>)
+    content.push(<span key={crypto.randomUUID()}>You had nobody to rob. <button onClick={()=> {setTurnStateToIdle()}}>Continue</button></span>)
   }
 
   return (
