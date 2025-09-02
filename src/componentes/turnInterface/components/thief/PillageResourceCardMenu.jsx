@@ -1,7 +1,7 @@
 import { useContext } from "react"
-import { TurnStateContext } from "../../../state/turnState/TurnStateContext"
-import { PlayerResourceCardsContext } from "../../../state/playerResourceCards/PlayerResourceCardsContext";
-import { CurrentPlayerTurnContext } from "../../../state/currentPlayerTurn/CurrentPlayerTurnContext";
+import { TurnStateContext } from "../../../../state/turnState/TurnStateContext"
+import { PlayerResourceCardsContext } from "../../../../state/playerResourceCards/PlayerResourceCardsContext";
+import { CurrentPlayerTurnContext } from "../../../../state/currentPlayerTurn/CurrentPlayerTurnContext";
 
 export default function PillageResourceCardMenu() {
   const { setTurnStateToIdle } = useContext(TurnStateContext);
@@ -18,18 +18,22 @@ export default function PillageResourceCardMenu() {
   const AllPlayersTotalCards = getAllPlayersTotalResourceCards();
   plunderedResourcePlayers.forEach((isPlayerPillaged, possibleVictimPlayer) => {
     if (isPlayerPillaged && possibleVictimPlayer != currentPlayerTurn){
+      if(AllPlayersTotalCards[possibleVictimPlayer] != 0){
       content.push(
         <div key={crypto.randomUUID()}>
           Remove cards from Player {possibleVictimPlayer}? The player has {AllPlayersTotalCards[possibleVictimPlayer] == 1 ? "1 card" : AllPlayersTotalCards[possibleVictimPlayer] + " cards"}.
           <button onClick={() => {stealCardsOnClick(possibleVictimPlayer)}}>Rob Player {possibleVictimPlayer}</button>
         </div>
-      )
+      )}
     }
     //THIS NEEDS TO DO SOME ERROR CHECKING.
     //If a player has 0 cards, then don't display them.
     //Don't display self as a target? (I think that should be taken care of, but I haven't tested it at the time of writing this)
     //If there are no options, then you just need to move onto the next stage of the game.
   })
+  if (content.length===0){
+    content.push(<>You had nobody to rob. <button onClick={()=> {setTurnStateToIdle()}}>Continue</button></>)
+  }
 
   return (
     <>

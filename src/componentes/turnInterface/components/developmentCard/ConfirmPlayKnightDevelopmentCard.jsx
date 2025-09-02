@@ -1,8 +1,8 @@
 import { useContext } from "react";
 
-import { TurnStateContext } from "../../../state/turnState/TurnStateContext.js"
-import { DevelopmentCardsContext } from "../../../state/developmentCards/DevelopmentCardsContext.js";
-import { CurrentPlayerTurnContext } from "../../../state/currentPlayerTurn/CurrentPlayerTurnContext.js";
+import { TurnStateContext } from "../../../../state/turnState/TurnStateContext.js"
+import { DevelopmentCardsContext } from "../../../../state/developmentCards/DevelopmentCardsContext.js";
+import { CurrentPlayerTurnContext } from "../../../../state/currentPlayerTurn/CurrentPlayerTurnContext.js";
 
 export default function ConfirmPlayKnightDevelopmentCard() {
   const { setTurnStateToMoveTheThief, setTurnStateToSelectingADevelopmentCard } = useContext(TurnStateContext);

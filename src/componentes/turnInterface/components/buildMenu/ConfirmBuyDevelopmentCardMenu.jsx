@@ -1,8 +1,8 @@
 import { useContext } from "react";
-import { TurnStateContext } from "../../../state/turnState/TurnStateContext.js"
-import { CurrentPlayerTurnContext } from "../../../state/currentPlayerTurn/CurrentPlayerTurnContext.js";
-import { DevelopmentCardsContext } from "../../../state/developmentCards/DevelopmentCardsContext.js";
-import { PlayerResourceCardsContext } from "../../../state/playerResourceCards/PlayerResourceCardsContext.js";
+import { TurnStateContext } from "../../../../state/turnState/TurnStateContext.js"
+import { CurrentPlayerTurnContext } from "../../../../state/currentPlayerTurn/CurrentPlayerTurnContext.js";
+import { DevelopmentCardsContext } from "../../../../state/developmentCards/DevelopmentCardsContext.js";
+import { PlayerResourceCardsContext } from "../../../../state/playerResourceCards/PlayerResourceCardsContext.js";
 
 export default function ConfirmBuyDevelopmentCardMenu() {
   const {setTurnStateToIdle} = useContext(TurnStateContext);;

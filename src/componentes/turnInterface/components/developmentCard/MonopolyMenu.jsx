@@ -1,7 +1,7 @@
 import { useContext } from "react"
-import { PlayerResourceCardsContext } from "../../../state/playerResourceCards/PlayerResourceCardsContext"
-import { TurnStateContext } from "../../../state/turnState/TurnStateContext";
-import { CurrentPlayerTurnContext } from "../../../state/currentPlayerTurn/CurrentPlayerTurnContext";
+import { PlayerResourceCardsContext } from "../../../../state/playerResourceCards/PlayerResourceCardsContext"
+import { TurnStateContext } from "../../../../state/turnState/TurnStateContext";
+import { CurrentPlayerTurnContext } from "../../../../state/currentPlayerTurn/CurrentPlayerTurnContext";
 
 export default function MonopolyMenu() {
   const { monopolizeLumber,

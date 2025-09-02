@@ -1,7 +1,7 @@
 import { useContext, useState } from "react"
-import { PlayerResourceCardsContext } from "../../../state/playerResourceCards/PlayerResourceCardsContext"
-import { TurnStateContext } from "../../../state/turnState/TurnStateContext";
-import { NumberOfPlayersContext } from "../../../state/numberOfPlayers/NumberOfPlayersContext";
+import { PlayerResourceCardsContext } from "../../../../state/playerResourceCards/PlayerResourceCardsContext"
+import { TurnStateContext } from "../../../../state/turnState/TurnStateContext";
+import { NumberOfPlayersContext } from "../../../../state/numberOfPlayers/NumberOfPlayersContext";
 
 export default function RemoveHalfResourcesMenu() {
   const { playerResourceCards, getAllPlayersTotalResourceCards, removeCollectionOfResourcesFromPlayer } = useContext(PlayerResourceCardsContext);

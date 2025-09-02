@@ -1,7 +1,7 @@
 import { useContext, useState } from "react"
-import { PlayerResourceCardsContext } from "../../../state/playerResourceCards/PlayerResourceCardsContext";
-import { CurrentPlayerTurnContext } from "../../../state/currentPlayerTurn/CurrentPlayerTurnContext"
-import { TurnStateContext } from "../../../state/turnState/TurnStateContext";
+import { PlayerResourceCardsContext } from "../../../../state/playerResourceCards/PlayerResourceCardsContext";
+import { CurrentPlayerTurnContext } from "../../../../state/currentPlayerTurn/CurrentPlayerTurnContext"
+import { TurnStateContext } from "../../../../state/turnState/TurnStateContext";
 
 export default function YearOfPlentyMenu() {
   const { playerResourceCards, addCollectionOfResourcesToPlayer } = useContext(PlayerResourceCardsContext);
