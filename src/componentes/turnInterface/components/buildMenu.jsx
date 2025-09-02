@@ -12,15 +12,13 @@ export default function BuildMenu() {
     setTurnStateToBuildingARoad,
     setTurnStateToBuildingASettlement,
     setTurnStateToBuildingACity,
-    setTurnStateToBuyingDevelopmentCard
+    setTurnStateToConfirmBuyingDevelopmentCard
   } = useContext(TurnStateContext);
 
-  console.log(canPlayerAffordRoad(currentPlayerTurn));
-
-  let BuildRoadButton = canPlayerAffordRoad(currentPlayerTurn) ? <button onClick={() => setTurnStateToBuildingARoad()}>Build Road</button> : <button disabled>Build Road</button>;
+  const BuildRoadButton = canPlayerAffordRoad(currentPlayerTurn) ? <button onClick={() => setTurnStateToBuildingARoad()}>Build Road</button> : <button disabled>Build Road</button>;
   const BuildSettlementButton = canPlayerAffordSettlement(currentPlayerTurn) ? <button onClick={() => setTurnStateToBuildingASettlement()}>Build Settlement</button> : <button disabled>Build Settlement</button>;
   const BuildCityButton = canPlayerAffordCity(currentPlayerTurn) ? <button onClick={() => setTurnStateToBuildingACity()}>Build City</button> : <button disabled>Build City</button>;
-  const BuildDevelopmentCardButton = canPlayerAffordDevelopmentCard(currentPlayerTurn) ? <button onClick={() => setTurnStateToBuyingDevelopmentCard()}>Build Development Card</button> : <button disabled>Build Development Card</button>;
+  const BuildDevelopmentCardButton = canPlayerAffordDevelopmentCard(currentPlayerTurn) ? <button onClick={() => setTurnStateToConfirmBuyingDevelopmentCard()}>Build Development Card</button> : <button disabled>Build Development Card</button>;
 
   return (
     <>

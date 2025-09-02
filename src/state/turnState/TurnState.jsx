@@ -30,23 +30,31 @@ export const TurnState = ({ children }) => {
     const setTurnStateToBuildingASettlement = () =>     {setTurnState("Building a settlement")};
     const isTurnStateBuildingACity = () => {return turnState == "Building a city" ? true : false};
     const setTurnStateToBuildingACity = () =>     {setTurnState("Building a city")};
-    const isTurnStateBuyingDevelopmentCard = () => {return turnState == "Buying Development Card" ? true : false};
-    const setTurnStateToBuyingDevelopmentCard = () =>     {setTurnState("Buying Development Card")};
+    const isTurnStateConfirmBuyingDevelopmentCard = () => {return turnState == "Confirm Buying Development Card" ? true : false};
+    const setTurnStateToConfirmBuyingDevelopmentCard = () =>     {setTurnState("Confirm Buying Development Card")};
     //---------- Development Card Related ----------//
     const isTurnStateSelectingADevelopmentCard = () => {return turnState == "Selecting a Development Card" ? true : false};
     const setTurnStateToSelectingADevelopmentCard = () =>     {setTurnState("Selecting a Development Card")};
       //----- Knight Card ** Not needed, just setTurnStateMoveTheThief. **
+      const isTurnStateConfirmPlayKnightDevelopmentCard = () => {return turnState == "Confirm Play Knight Development Card" ? true : false};
+      const setTurnStateToConfirmPlayKnightDevelopmentCard = () =>     {setTurnState("Confirm Play Knight Development Card")};
       //----- Road Builder Card
+      const isTurnStateConfirmPlayRoadBuilderDevelopmentCard = () => {return turnState == "Play Road Builder Development Card" ? true : false};
+      const setTurnStateToConfirmPlayRoadBuilderDevelopmentCard = () =>     {setTurnState("Play Road Builder Development Card")};
       const setTurnStateToRoadBuilderCardFirstRoad = () =>     {setTurnState("Road Builder Card First Road")};
       const isTurnStateRoadBuilderCardFirstRoad = () => {return turnState == "Road Builder Card First Road" ? true : false};
       const setTurnStateToRoadBuilderCarSecondRoad = () =>     {setTurnState("Road Builder Card Second Road")};
       const isTurnStateRoadBuilderCardSecondRoad = () => {return turnState == "Road Builder Card Second Road" ? true : false};
       //----- Year of Plenty Card
+      const isTurnStateConfirmPlayYearOfPlentyDevelopmentCard = () => {return turnState == "Play Year Of Plenty Development Card" ? true : false};
+      const setTurnStateToConfirmPlayYearOfPlentyDevelopmentCard = () =>     {setTurnState("Play Year Of Plenty Development Card")};
       const isTurnStateYearOfPlenty = () => {return turnState == "Year of Plenty" ? true : false};
       const setTurnStateToYearOfPlenty = () =>     {setTurnState("Year of Plenty")};
       //----- Monopoly Card
-      //const isTurnState = () => {return turnState == "" ? true : false};
-      //const setTurnStateTo = () =>     {setTurnState("")};
+      const isTurnStateConfirmPlayMonopolyDevelopmentCard = () => {return turnState == "Play Monopoly Development Card" ? true : false};
+      const setTurnStateToConfirmPlayMonopolyDevelopmentCard = () =>     {setTurnState("Play Monopoly Development Card")};
+      const isTurnStateMonopoly = () => {return turnState == "Monopoly" ? true : false};
+      const setTurnStateToMonopoly = () =>     {setTurnState("Monopoly")};
 
     //const isTurnState = () => {return turnState == "" ? true : false};
     //const setTurnStateTo = () =>     {setTurnState("")};
@@ -80,19 +88,31 @@ export const TurnState = ({ children }) => {
       setTurnStateToBuildingASettlement,
       isTurnStateBuildingACity,
       setTurnStateToBuildingACity,
-      isTurnStateBuyingDevelopmentCard,
-      setTurnStateToBuyingDevelopmentCard,
+      isTurnStateConfirmBuyingDevelopmentCard,
+      setTurnStateToConfirmBuyingDevelopmentCard,
       //---------- Development Card Related ----------//
       isTurnStateSelectingADevelopmentCard,
       setTurnStateToSelectingADevelopmentCard,
+        //----- Knight Card
+        isTurnStateConfirmPlayKnightDevelopmentCard,
+        setTurnStateToConfirmPlayKnightDevelopmentCard,
         //----- Road Builder Card
+        isTurnStateConfirmPlayRoadBuilderDevelopmentCard,
+        setTurnStateToConfirmPlayRoadBuilderDevelopmentCard,
         isTurnStateRoadBuilderCardFirstRoad,
         setTurnStateToRoadBuilderCardFirstRoad,
         isTurnStateRoadBuilderCardSecondRoad,
         setTurnStateToRoadBuilderCarSecondRoad,
         //----- Year of Plenty Card
+        isTurnStateConfirmPlayYearOfPlentyDevelopmentCard,
+        setTurnStateToConfirmPlayYearOfPlentyDevelopmentCard,
         isTurnStateYearOfPlenty,
         setTurnStateToYearOfPlenty,
+        //----- Monopoly Card
+        isTurnStateConfirmPlayMonopolyDevelopmentCard,
+        setTurnStateToConfirmPlayMonopolyDevelopmentCard,
+        isTurnStateMonopoly,
+        setTurnStateToMonopoly,
       turnState
     }}>
       {children}

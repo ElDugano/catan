@@ -2,18 +2,23 @@ import { useContext } from "react";
 
 import { TurnStateContext } from "../../state/turnState/TurnStateContext";
 
-import RollDiceButton from "./components/rollDiceButton";
-import GatherResroucesAcknowledgement from "./components/gatherResourcesAcknowledgement";
+import RollDiceButton from "./components/RollDiceButton";
+import GatherResroucesAcknowledgement from "./components/GatherResourcesAcknowledgement";
   //---------- Thief Related ----------//
-import RemoveHalfResourcesMenu from "./components/removeHalfResourcesMenu";
-import PillageResourceCardMenu from "./components/pillageResourceCardMenu";
+import RemoveHalfResourcesMenu from "./components/RemoveHalfResourcesMenu";
+import PillageResourceCardMenu from "./components/PillageResourceCardMenu";
   //---------- Main turn ----------//
-import IdleMenu from "./components/idleMenu";
-import BuildMenu from "./components/buildMenu";
-import BuildOnMapMenu from "./components/builtOnMapMenu";
-import SelectDevelopmentCardMenu from "./components/selectDevelopmentCardMenu";
-  //-----Development Card Related
-  import YearOfPlentyMenu from "./components/yearOfPlentyMenu";
+import IdleMenu from "./components/IdleMenu";
+import BuildMenu from "./components/BuildMenu";
+import BuildOnMapMenu from "./components/BuiltOnMapMenu";
+import ConfirmBuyDevelopmentCardMenu from "./components/ConfirmBuyDevelopmentCardMenu";
+  //-----Play Development Card Related
+  import SelectDevelopmentCardMenu from "./components/SelectDevelopmentCardMenu";
+  import ConfirmPlayKnightDevelopmentCard from "./components/ConfirmPlayKnightDevelopmentCard";
+  import ConfirmPlayRoadBuildingDevelopmentCard from "./components/ConfirmPlayRoadBuildingDevelopmentCard";
+  import ConfirmPlayYearOfPlentyDevelopmentCard from "./components/ConfirmPlayYearOfPlentyDevelopmentCard";
+  import YearOfPlentyMenu from "./components/YearOfPlentyMenu";
+  import ConfirmPlayMonopolyDevelopmentCard from "./components/ConfirmPlayerMonopolyDevelopmentCard";
 
 export default function TurnInterface() {
   const {isTurnStateRollingTheDice,
@@ -25,7 +30,13 @@ export default function TurnInterface() {
     isTurnStateBuildingARoad,
     isTurnStateBuildingASettlement,
     isTurnStateBuildingACity,
+    isTurnStateConfirmBuyingDevelopmentCard,
+    //----- Play Development Card -----//
     isTurnStateSelectingADevelopmentCard,
+    isTurnStateConfirmPlayKnightDevelopmentCard,
+    isTurnStateConfirmPlayRoadBuilderDevelopmentCard,
+    isTurnStateConfirmPlayYearOfPlentyDevelopmentCard,
+    isTurnStateConfirmPlayMonopolyDevelopmentCard,
     isTurnStateYearOfPlenty
   } = useContext(TurnStateContext);
 
@@ -38,9 +49,17 @@ export default function TurnInterface() {
     {isTurnStatePillageResourceCard() && <PillageResourceCardMenu />}
       {/*---------- Main Turn ----------*/}
     {isTurnStateIdle() && <IdleMenu />}
+      {/*---------- Build Menu ----------*/}
     {isTurnStateBuildMenu() && <BuildMenu />}
     {(isTurnStateBuildingARoad() || isTurnStateBuildingASettlement() || isTurnStateBuildingACity()) && <BuildOnMapMenu />}
+    {isTurnStateConfirmBuyingDevelopmentCard() && <ConfirmBuyDevelopmentCardMenu />}
+      {/*---------- Select & Playing Development Card ----------*/}
     {isTurnStateSelectingADevelopmentCard() && <SelectDevelopmentCardMenu />}
+    {isTurnStateConfirmPlayKnightDevelopmentCard() && <ConfirmPlayKnightDevelopmentCard />}
+    {isTurnStateConfirmPlayRoadBuilderDevelopmentCard() && <ConfirmPlayRoadBuildingDevelopmentCard />}
+    {isTurnStateConfirmPlayYearOfPlentyDevelopmentCard() && <ConfirmPlayYearOfPlentyDevelopmentCard />}
+    {isTurnStateConfirmPlayMonopolyDevelopmentCard() && <ConfirmPlayMonopolyDevelopmentCard />}
+
     {isTurnStateYearOfPlenty() && <YearOfPlentyMenu />}
     </>
   )

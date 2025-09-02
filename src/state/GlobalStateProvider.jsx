@@ -6,6 +6,7 @@ import { PlayerColor } from './playerColor/PlayerColor.jsx'
 import { PlayerAvailableBuildings } from './playerAvailableBuildings/PlayerAvailableBuildings.jsx'
 import { Dice } from './dice/Dice.jsx'
 import { PlayerResourceCards } from './playerResourceCards/PlayerResourceCards.jsx'
+import { DevelopmentCards } from './developmentCards/DevelopmentCards.jsx'
 
 export default function GlobalStateProvider({ children }) {
   return (
@@ -16,9 +17,11 @@ export default function GlobalStateProvider({ children }) {
             <PlayerColor>
               <PlayerAvailableBuildings>
                 <PlayerResourceCards>
-                  <Dice>
-                    { children }
-                  </Dice>
+                  <DevelopmentCards>
+                    <Dice>
+                      { children }
+                    </Dice>
+                  </DevelopmentCards>
                 </PlayerResourceCards>
               </PlayerAvailableBuildings>
             </PlayerColor>
