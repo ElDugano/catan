@@ -10,9 +10,10 @@ import ThiefMoveButtons from "./components/TheifMoveButtons.jsx";
 import { GameStateContext } from "../../state/gameState/GameStateContext.js";
 import { TurnStateContext } from "../../state/turnState/TurnStateContext.js";
 
-import { PlayerAvailableBuildingsContext } from "../../state/playerAvailableBuildings/PlayerAvailableBuildingsContext.js";
 import { CurrentPlayerTurnContext } from "../../state/currentPlayerTurn/CurrentPlayerTurnContext.js";
 import { NumberOfPlayersContext } from '../../state/numberOfPlayers/NumberOfPlayersContext';
+import { PlayerAvailableBuildingsContext } from "../../state/playerAvailableBuildings/PlayerAvailableBuildingsContext.js";
+import { PlayerResourceCardsContext } from "../../state/playerResourceCards/PlayerResourceCardsContext.js";
 
 import { TileCornerNodes } from './state/tileCornerNodes/TileCornerNodes.jsx'
 import { LandTiles } from './state/landTiles/LandTiles.jsx'
@@ -26,10 +27,17 @@ export default function Gameboard({children}) {
     setTurnStateToRollingTheDice,
     setTurnStateToIdle,
     isTurnStateRoadBuilderCardFirstRoad,
+    isTurnStateRoadBuilderCardSecondRoad,
     setTurnStateToRoadBuilderCarSecondRoad,
   }= useContext(TurnStateContext);
 
-  const {returnAvailableSettlements, removeSettlementFromAvailableBuildings, removeCityFromAvailableBuildings, removeRoadFromAvailableBuildings} = useContext(PlayerAvailableBuildingsContext);
+  const { returnAvailableSettlements,
+          removeSettlementFromAvailableBuildings,
+          removeCityFromAvailableBuildings,
+          removeRoadFromAvailableBuildings} = useContext(PlayerAvailableBuildingsContext);
+  const { removePlayerResourcesToBuildRoad,
+          removePlayerResourcesToBuildSettlement,
+          removePlayerResourcesToBuildCity } = useContext(PlayerResourceCardsContext);
 
   const {currentPlayerTurn, gotoNextPlayerTurn, gotoPreviousPlayerTurn} = useContext(CurrentPlayerTurnContext);
   const {numberOfPlayers} = useContext(NumberOfPlayersContext);
@@ -38,12 +46,15 @@ export default function Gameboard({children}) {
     removeSettlementFromAvailableBuildings(x, y, currentPlayerTurn);
     if(isGameStateBoardSetup())
       setTurnStateToBuildingARoad();
-    else
+    else{
+      removePlayerResourcesToBuildSettlement(currentPlayerTurn);
       setTurnStateToIdle();
+    }
   }
 
   function BuildCityHelper(x, y) {
     removeCityFromAvailableBuildings(x, y, currentPlayerTurn);
+    removePlayerResourcesToBuildCity(currentPlayerTurn);
     setTurnStateToIdle();
   }
 
@@ -70,8 +81,12 @@ export default function Gameboard({children}) {
     }
     else if(isTurnStateRoadBuilderCardFirstRoad())
       setTurnStateToRoadBuilderCarSecondRoad();
-    else
+    else if (isTurnStateRoadBuilderCardSecondRoad())
       setTurnStateToIdle();
+    else {
+      setTurnStateToIdle();
+      removePlayerResourcesToBuildRoad(currentPlayerTurn);
+    }
   }
 
 

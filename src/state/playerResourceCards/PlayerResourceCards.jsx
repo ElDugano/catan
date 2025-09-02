@@ -74,6 +74,60 @@ export const PlayerResourceCards = ({ children }) => {
     setPlayerResourceCards(newPlayerResourceCards);
   }
 
+
+
+  //---------- Build Menu Check ----------//
+  function canPlayerAffordRoad(player) {
+    return (playerResourceCards[player].Brick >= 1 &&
+            playerResourceCards[player].Lumber >= 1) ? true : false}
+  
+  function canPlayerAffordSettlement(player) {
+    return (playerResourceCards[player].Brick >= 1 &&
+            playerResourceCards[player].Lumber >= 1 &&
+            playerResourceCards[player].Wool >= 1 &&
+            playerResourceCards[player].Grain >= 1) ? true : false}
+
+  function canPlayerAffordCity(player) {
+    return (playerResourceCards[player].Grain >= 2 &&
+            playerResourceCards[player].Ore >= 3) ? true : false}
+
+  function canPlayerAffordDevelopmentCard(player) {
+    return (playerResourceCards[player].Grain >= 1 &&
+            playerResourceCards[player].Wool &&
+            playerResourceCards[player].Ore >= 1 >= 1) ? true : false}
+
+            //********** THESE SHOULD BE DOUBLE CHECKED BEFORE REMOVING, JUST TO BE SAFE. */
+  function removePlayerResourcesToBuildRoad(player) {
+    let newPlayerResourceCards = [...playerResourceCards];
+    newPlayerResourceCards[player].Brick--;
+    newPlayerResourceCards[player].Lumber--;
+    setPlayerResourceCards(newPlayerResourceCards);
+  }
+
+  function removePlayerResourcesToBuildSettlement(player) {
+    let newPlayerResourceCards = [...playerResourceCards];
+    newPlayerResourceCards[player].Brick--;
+    newPlayerResourceCards[player].Lumber--;
+    newPlayerResourceCards[player].Wool--;
+    newPlayerResourceCards[player].Grain--;
+    setPlayerResourceCards(newPlayerResourceCards);
+  }
+
+  function removePlayerResourcesToBuildCity(player) {
+    let newPlayerResourceCards = [...playerResourceCards];
+    newPlayerResourceCards[player].Grain-=2;
+    newPlayerResourceCards[player].Ore-=3;
+    setPlayerResourceCards(newPlayerResourceCards);
+  }
+
+  function removePlayerResourcesToBuildDevelopmentCard(player) {
+    let newPlayerResourceCards = [...playerResourceCards];
+    newPlayerResourceCards[player].Grain--;
+    newPlayerResourceCards[player].Ore--;
+    newPlayerResourceCards[player].Wool--;
+    setPlayerResourceCards(newPlayerResourceCards);
+  }
+
   return (
       <PlayerResourceCardsContext.Provider value={{
         playerResourceCards,
@@ -85,7 +139,17 @@ export const PlayerResourceCards = ({ children }) => {
         stealRandomCardFromPlayer,
         previouslyGainedResources,
         plunderedResourcePlayers,
-        setPlunderedResourcePlayers
+        setPlunderedResourcePlayers,
+        //---------- Build Menu Check ----------//
+        canPlayerAffordRoad,
+        canPlayerAffordSettlement,
+        canPlayerAffordCity,
+        canPlayerAffordDevelopmentCard,
+        //---------- Building Item Remove Resources ----------//
+        removePlayerResourcesToBuildRoad,
+        removePlayerResourcesToBuildSettlement,
+        removePlayerResourcesToBuildCity,
+        removePlayerResourcesToBuildDevelopmentCard
       }}>
         {children}
       </PlayerResourceCardsContext.Provider>
