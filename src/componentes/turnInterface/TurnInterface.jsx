@@ -19,6 +19,7 @@ import ConfirmBuyDevelopmentCardMenu from "./components/ConfirmBuyDevelopmentCar
   import ConfirmPlayYearOfPlentyDevelopmentCard from "./components/ConfirmPlayYearOfPlentyDevelopmentCard";
   import YearOfPlentyMenu from "./components/YearOfPlentyMenu";
   import ConfirmPlayMonopolyDevelopmentCard from "./components/ConfirmPlayerMonopolyDevelopmentCard";
+  import MonopolyMenu from "./components/MonopolyMenu";
 
 export default function TurnInterface() {
   const {isTurnStateRollingTheDice,
@@ -37,7 +38,8 @@ export default function TurnInterface() {
     isTurnStateConfirmPlayRoadBuilderDevelopmentCard,
     isTurnStateConfirmPlayYearOfPlentyDevelopmentCard,
     isTurnStateConfirmPlayMonopolyDevelopmentCard,
-    isTurnStateYearOfPlenty
+    isTurnStateYearOfPlenty,
+    isTurnStateMonopoly
   } = useContext(TurnStateContext);
 
   return(
@@ -51,16 +53,16 @@ export default function TurnInterface() {
     {isTurnStateIdle() && <IdleMenu />}
       {/*---------- Build Menu ----------*/}
     {isTurnStateBuildMenu() && <BuildMenu />}
-    {(isTurnStateBuildingARoad() || isTurnStateBuildingASettlement() || isTurnStateBuildingACity()) && <BuildOnMapMenu />}
-    {isTurnStateConfirmBuyingDevelopmentCard() && <ConfirmBuyDevelopmentCardMenu />}
+      {(isTurnStateBuildingARoad() || isTurnStateBuildingASettlement() || isTurnStateBuildingACity()) && <BuildOnMapMenu />}
+      {isTurnStateConfirmBuyingDevelopmentCard() && <ConfirmBuyDevelopmentCardMenu />}
       {/*---------- Select & Playing Development Card ----------*/}
     {isTurnStateSelectingADevelopmentCard() && <SelectDevelopmentCardMenu />}
     {isTurnStateConfirmPlayKnightDevelopmentCard() && <ConfirmPlayKnightDevelopmentCard />}
     {isTurnStateConfirmPlayRoadBuilderDevelopmentCard() && <ConfirmPlayRoadBuildingDevelopmentCard />}
     {isTurnStateConfirmPlayYearOfPlentyDevelopmentCard() && <ConfirmPlayYearOfPlentyDevelopmentCard />}
+      {isTurnStateYearOfPlenty() && <YearOfPlentyMenu />}
     {isTurnStateConfirmPlayMonopolyDevelopmentCard() && <ConfirmPlayMonopolyDevelopmentCard />}
-
-    {isTurnStateYearOfPlenty() && <YearOfPlentyMenu />}
+      {isTurnStateMonopoly() && <MonopolyMenu />}
     </>
   )
 }

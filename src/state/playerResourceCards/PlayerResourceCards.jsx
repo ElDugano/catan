@@ -14,9 +14,9 @@ export const PlayerResourceCards = ({ children }) => {
 
   function addResourcesFromDiceRollToPlayerResourceCards(playerNewResources) {
     let newPlayerResourceCards = [...playerResourceCards];
-    playerNewResources.forEach((item, index) => {
-      for (let resourceName in item) {
-        newPlayerResourceCards[index][resourceName] += playerNewResources[index][resourceName];
+    playerNewResources.forEach((playerResourceArray, player) => {
+      for (let resourceName in playerResourceArray) {
+        newPlayerResourceCards[player][resourceName] += playerNewResources[player][resourceName];
       }
     });
     setPlayerResourceCards(newPlayerResourceCards);
@@ -96,7 +96,8 @@ export const PlayerResourceCards = ({ children }) => {
             playerResourceCards[player].Wool &&
             playerResourceCards[player].Ore >= 1 >= 1) ? true : false}
 
-            //********** THESE SHOULD BE DOUBLE CHECKED BEFORE REMOVING, JUST TO BE SAFE. */
+            //********** These should probably double check to see if they have available resources... */
+            //********** but the current game logic checks this before the player gets here. */
   function removePlayerResourcesToBuildRoad(player) {
     let newPlayerResourceCards = [...playerResourceCards];
     newPlayerResourceCards[player].Brick--;
@@ -128,6 +129,29 @@ export const PlayerResourceCards = ({ children }) => {
     setPlayerResourceCards(newPlayerResourceCards);
   }
 
+  function monopolizeWool(player){monopolizeResource(player, "Wool")}
+  function monopolizeLumber(player){monopolizeResource(player, "Lumber")}
+  function monopolizeGrain(player){monopolizeResource(player, "Grain")}
+  function monopolizeBrick(player){monopolizeResource(player, "Brick")}
+  function monopolizeOre(player){monopolizeResource(player, "Ore")}
+
+  //We should maybe make a state of how many cards each player lost to monopoly.
+  function monopolizeResource(monopolizingPlayer, resourceName) {
+    let newPlayerResourceCards = [...playerResourceCards];
+    let monopolizedResources = [0,0,0,0];
+    newPlayerResourceCards.forEach((playerResourceArray, victimPlayer) => {
+      if (victimPlayer != monopolizingPlayer) {
+        monopolizedResources[monopolizingPlayer] += playerResourceArray[resourceName];
+        monopolizedResources[victimPlayer] -= playerResourceArray[resourceName];
+        newPlayerResourceCards[victimPlayer][resourceName] = 0;
+      }
+    });
+    newPlayerResourceCards[monopolizingPlayer][resourceName] += monopolizedResources[monopolizingPlayer];
+    setPlayerResourceCards(newPlayerResourceCards);
+    //set //monopolizedResources[monopolizingPlayer] //This can be used if we want to see what the outcome of the monopoly was on the screen.
+    //Perhaps we could use previouslyGainedResources or plunderedResourcePlayers for this.
+  }
+
   return (
       <PlayerResourceCardsContext.Provider value={{
         playerResourceCards,
@@ -149,7 +173,13 @@ export const PlayerResourceCards = ({ children }) => {
         removePlayerResourcesToBuildRoad,
         removePlayerResourcesToBuildSettlement,
         removePlayerResourcesToBuildCity,
-        removePlayerResourcesToBuildDevelopmentCard
+        removePlayerResourcesToBuildDevelopmentCard,
+        //---------- Monopoly Card ----------//
+        monopolizeWool,
+        monopolizeLumber,
+        monopolizeGrain,
+        monopolizeBrick,
+        monopolizeOre
       }}>
         {children}
       </PlayerResourceCardsContext.Provider>

@@ -10,9 +10,8 @@ export default function ConfirmPlayMonopolyDevelopmentCard() {
   const { currentPlayerTurn } = useContext(CurrentPlayerTurnContext);
   
   function playMonopoly() {
-    alert("Spend the card and goto the monopoly menu, once we have it.")
-    //playMonopolyDevelopmentCard(currentPlayerTurn);
-    //setTurnStateToMonopoly();
+    playMonopolyDevelopmentCard(currentPlayerTurn);
+    setTurnStateToMonopoly();
   }
   return(
     <>
