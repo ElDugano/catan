@@ -10,11 +10,9 @@ export const CurrentPlayerTurn = ({ children }) => {
 
   const gotoNextPlayerTurn = () => {
       setCurrentPlayerTurn(currentPlayerTurn < numberOfPlayers-1 ? currentPlayerTurn+1 : 0);
-      return currentPlayerTurn < numberOfPlayers-1 ? currentPlayerTurn+1 : 0;
   }
   const gotoPreviousPlayerTurn= () => {
     setCurrentPlayerTurn(currentPlayerTurn > 0 ? currentPlayerTurn-1 : numberOfPlayers-1);
-    return currentPlayerTurn > 0 ? currentPlayerTurn-1 : numberOfPlayers-1
   }
   
   return (

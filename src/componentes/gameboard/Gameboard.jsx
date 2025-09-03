@@ -25,7 +25,7 @@ export default function Gameboard({children}) {
   const {isGameStateBoardSetup, setGameStateToMainGame} = useContext(GameStateContext);
   const {setTurnStateToBuildingASettlement,
     setTurnStateToBuildingARoad,
-    setTurnStateToRollingTheDice,
+    setTurnStateToStartTurn,
     setTurnStateToIdle,
     isTurnStateRoadBuilderCardFirstRoad,
     isTurnStateRoadBuilderCardSecondRoad,
@@ -80,7 +80,7 @@ export default function Gameboard({children}) {
       else {
         console.log("^^^^START THE GAME^^^^");
         setGameStateToMainGame();
-        setTurnStateToRollingTheDice();
+        setTurnStateToStartTurn();
       }
     }
     else if(isTurnStateRoadBuilderCardFirstRoad())

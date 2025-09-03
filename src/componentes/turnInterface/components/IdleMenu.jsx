@@ -1,4 +1,4 @@
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 
 import { TurnStateContext } from "../../../state/turnState/TurnStateContext.js"
 import { CurrentPlayerTurnContext } from "../../../state/currentPlayerTurn/CurrentPlayerTurnContext.js";
@@ -6,27 +6,28 @@ import { DevelopmentCardsContext } from "../../../state/developmentCards/Develop
 import { ScoreBoardContext } from "../../../state/scoreBoard/ScoreBoardContext.js";
 
 export default function IdleMenu() {
-  const { setTurnStateToBuildMenu, setTurnStateToSelectingADevelopmentCard, setTurnStateToRollingTheDice } = useContext(TurnStateContext);
+  const { setTurnStateToBuildMenu, setTurnStateToSelectingADevelopmentCard, setTurnStateToStartTurn } = useContext(TurnStateContext);
   const { gotoNextPlayerTurn } = useContext(CurrentPlayerTurnContext);
   const { makePlayerPurchasedDevelopmentAvailableToPlay, getJustPurchasedPlayerVictoryPointCards } = useContext(DevelopmentCardsContext);
   const { addPointsToPlayerHiddenPoints } = useContext(ScoreBoardContext);
 
   function endTurn() {
-    let nextPlayer = gotoNextPlayerTurn();
-    //console.log("The next player, who is Player "+nextPlayer+" has the following VP cards.")
-    //console.log(getPlayerVictoryPointCards(nextPlayer));
-    addPointsToPlayerHiddenPoints(nextPlayer, getJustPurchasedPlayerVictoryPointCards(nextPlayer));
-    makePlayerPurchasedDevelopmentAvailableToPlay(nextPlayer);
-    setTurnStateToRollingTheDice();
-  } 
+    console.log("Ending the turn");
+    gotoNextPlayerTurn();
+    setTurnStateToStartTurn();
+  }
+
+  useEffect(() => {
+    console.log("This is when UseEffect was called");
+  })
 
 
   return (
     <>
-      <button onClick={() => setTurnStateToBuildMenu()}>Build Something</button>
-      <button onClick={() => setTurnStateToSelectingADevelopmentCard()}>Play a development card</button>
+      <button onClick={setTurnStateToBuildMenu}>Build Something</button>
+      <button onClick={setTurnStateToSelectingADevelopmentCard}>Play a development card</button>
       <button onClick={() => console.log("Time to trade.")}>Trade Resources</button>
-      <button onClick={() => endTurn()}>End Turn</button>
+      <button onClick={endTurn}>End Turn</button>
     </>
   )
 }

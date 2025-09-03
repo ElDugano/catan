@@ -4,6 +4,7 @@ import { useState } from 'react'
 export const ScoreBoard = ({ children }) => {
   const [scoreBoard, setScoreBoard] = useState([0,0,0,0]);
   const [hiddenPoints, setHiddenPoints] = useState([0,0,0,0]);
+  const [winner, setWiner] = useState(null);
 
   function scorePoint(player) {
     let newScoreBoard = [...scoreBoard];
@@ -32,6 +33,7 @@ export const ScoreBoard = ({ children }) => {
       console.log("Player "+player+" has a score of "+playerScore+" with extra hidden points of "+checkHiddenScore[player]);
       if (playerScore+checkHiddenScore[player] >= 10) {
         console.log("WE HAVE A WINNER, IT IS PLAYER "+player);
+        setWiner(player);
       }
     });
   }
@@ -69,7 +71,8 @@ export const ScoreBoard = ({ children }) => {
         addPointsToPlayerHiddenPoints,
         checkIfLargestArmy,
         longestRoadOwner,
-        longestRoadDistance
+        longestRoadDistance,
+        winner
       }}>
         {children}
       </ScoreBoardContext.Provider>
