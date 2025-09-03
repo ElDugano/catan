@@ -13,7 +13,7 @@ export const DevelopmentCards = ({ children }) => {
     }
     let cardDeck = [];
     for (let cardName in cardsInDeck){
-      for (let card = cardsInDeck[cardName]; card >=0; card--){
+      for (let card = cardsInDeck[cardName]; card >0; card--){
         cardDeck.push(cardName);
       }
     }
@@ -45,7 +45,14 @@ export const DevelopmentCards = ({ children }) => {
     {"Knight":0, "Road Building":0, "Year of Plenty":0, "Monopoly":0, "Victory Point":0}
   ]);
 
+  function returnAvailableDevelopmentCards() {
+    return developmentCardDeck.length;
+  }
+
+
   function givePlayerDevelopmentCardFromDeck(player) {
+    console.log("The development card deck now looks like this:");
+    console.log(developmentCardDeck);
     let newDevelopmentCardDeck = [...developmentCardDeck];
     let newCard = newDevelopmentCardDeck.pop();
     //let newPlayerDevelopmentCardHand = [...playerDevelopmentCardHand];
@@ -100,6 +107,7 @@ export const DevelopmentCards = ({ children }) => {
 
   return (
       <DevelopmentCardsContext.Provider value={{
+        returnAvailableDevelopmentCards,
         givePlayerDevelopmentCardFromDeck,
         makePlayerPurchasedDevelopmentAvailableToPlay,
         PlayerDevelopmentCardsAvailableToPlay,

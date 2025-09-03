@@ -39,7 +39,7 @@ export const PlayerAvailableBuildings = ({ children }) => {
   const removeCityFromAvailableBuildings = (x,y, playerNumber) => {
     let newplayerAvailableBuildings = [...playerAvailableBuildings];
     newplayerAvailableBuildings[playerNumber].cities--;
-    newplayerAvailableBuildings[playerNumber].settlement++;
+    newplayerAvailableBuildings[playerNumber].settlements++;
     setPlayerAvailableBuildings(newplayerAvailableBuildings);
     setLastBuiltObject({value: "City", player:playerNumber,x: x, y: y})
   }
