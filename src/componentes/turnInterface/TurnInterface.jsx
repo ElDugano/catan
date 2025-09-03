@@ -2,16 +2,16 @@ import { useContext } from "react";
 
 import { TurnStateContext } from "../../state/turnState/TurnStateContext";
 
-import RollDiceButton from "./components/RollDiceButton";
+import RollDiceButton from "./components/RollDiceButton.jsx";
 import GatherResroucesAcknowledgement from "./components/GatherResourcesAcknowledgement";
   //---------- Thief Related ----------//
 import RemoveHalfResourcesMenu from "./components/thief/RemoveHalfResourcesMenu";
 import PillageResourceCardMenu from "./components/thief/PillageResourceCardMenu";
   //---------- Main turn ----------//
 import IdleMenu from "./components/IdleMenu";
-import BuildMenu from "./components/BuildMenu/BuildMenu";
-import BuildOnMapMenu from "./components/BuildMenu/BuiltOnMapMenu";
-import ConfirmBuyDevelopmentCardMenu from "./components/BuildMenu/ConfirmBuyDevelopmentCardMenu";
+import BuildMenu from "./components/buildMenu/BuildMenu";
+import BuildOnMapMenu from "./components/buildMenu/BuiltOnMapMenu";
+import ConfirmBuyDevelopmentCardMenu from "./components/buildMenu/ConfirmBuyDevelopmentCardMenu";
   //-----Play Development Card Related
   import SelectDevelopmentCardMenu from "./components/developmentCard/SelectDevelopmentCardMenu";
   import ConfirmPlayKnightDevelopmentCard from "./components/developmentCard/ConfirmPlayKnightDevelopmentCard";
