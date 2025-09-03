@@ -53,7 +53,6 @@ function App() {
   })
 
 
-
   return (
     <>
       it is <span style={{color: getAPlayersColor(currentPlayerTurn)}}>player {currentPlayerTurn}'s</span> turn. 

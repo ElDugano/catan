@@ -33,6 +33,10 @@ export const ScoreBoard = ({ children }) => {
   const [longestRoadOwner, setLongestRoadOwner] = useState(null);
   const [longestRoadDistance, setLongestRoadDistance] = useState(4);
 
+  function checkLongestRoad(xCoordinant, yCoordinant, direction, tileCornerNodes, player){
+
+  }
+
 
 
   const [largestArmyOwner, setLargestArmyOwner] = useState(null);
@@ -59,6 +63,7 @@ export const ScoreBoard = ({ children }) => {
         scorePoint,
         addPointsToPlayerHiddenPoints,
         checkIfLargestArmy,
+        checkLongestRoad,
         longestRoadOwner,
         longestRoadDistance,
         winner

@@ -37,7 +37,7 @@ export const TurnState = ({ children }) => {
     //---------- Development Card Related ----------//
     const isTurnStateSelectingADevelopmentCard = () => {return turnState == "Selecting a Development Card" ? true : false};
     const setTurnStateToSelectingADevelopmentCard = () =>     {setTurnState("Selecting a Development Card")};
-      //----- Knight Card ** Not needed, just setTurnStateMoveTheThief. **
+      //----- Knight Card
       const isTurnStateConfirmPlayKnightDevelopmentCard = () => {return turnState == "Confirm Play Knight Development Card" ? true : false};
       const setTurnStateToConfirmPlayKnightDevelopmentCard = () =>     {setTurnState("Confirm Play Knight Development Card")};
       //----- Road Builder Card

@@ -14,6 +14,7 @@ export default function ConfirmPlayKnightDevelopmentCard() {
   function playKnight() {
     checkIfLargestArmy(currentPlayerTurn, getPlayerArmyStrength(currentPlayerTurn)+1)
       //We check this before and add 1 because state won't be updated yet, unless we add this check elsewhere.
+      //We could make this into it's own state, like I am doing with the longest road.
     playKnightDevelopmentCard(currentPlayerTurn);
     setTurnStateToMoveTheThief();
   }
