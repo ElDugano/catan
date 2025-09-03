@@ -8,6 +8,8 @@ export const ScoreBoard = ({ children }) => {
     let newScoreBoard = [...scoreBoard];
     newScoreBoard[player]++;
     setScoreBoard(newScoreBoard);
+    console.log("The score is now: ");
+    console.log(newScoreBoard);
   }
 
   const [longestRoadOwner, setLongestRoadOwner] = useState(null);
@@ -27,6 +29,8 @@ export const ScoreBoard = ({ children }) => {
         setScoreBoard(newScoreBoard);
         setLargestArmyOwner(player);
         console.log("Player "+player+" now has the largest army with a strength of: "+armyStrength);
+        console.log("The score is now: ");
+        console.log(newScoreBoard);
       }
       setLargestArmyStrength(armyStrength);
     }

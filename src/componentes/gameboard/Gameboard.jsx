@@ -14,6 +14,7 @@ import { CurrentPlayerTurnContext } from "../../state/currentPlayerTurn/CurrentP
 import { NumberOfPlayersContext } from '../../state/numberOfPlayers/NumberOfPlayersContext';
 import { PlayerAvailableBuildingsContext } from "../../state/playerAvailableBuildings/PlayerAvailableBuildingsContext.js";
 import { PlayerResourceCardsContext } from "../../state/playerResourceCards/PlayerResourceCardsContext.js";
+import { ScoreBoardContext } from "../../state/scoreBoard/ScoreBoardContext.js";
 
 import { TileCornerNodes } from './state/tileCornerNodes/TileCornerNodes.jsx'
 import { LandTiles } from './state/landTiles/LandTiles.jsx'
@@ -41,8 +42,10 @@ export default function Gameboard({children}) {
 
   const {currentPlayerTurn, gotoNextPlayerTurn, gotoPreviousPlayerTurn} = useContext(CurrentPlayerTurnContext);
   const {numberOfPlayers} = useContext(NumberOfPlayersContext);
+  const {scorePoint} = useContext(ScoreBoardContext);
 
   function BuildSettlentHelper(x, y) {
+    scorePoint(currentPlayerTurn);
     removeSettlementFromAvailableBuildings(x, y, currentPlayerTurn);
     if(isGameStateBoardSetup())
       setTurnStateToBuildingARoad();
@@ -53,6 +56,7 @@ export default function Gameboard({children}) {
   }
 
   function BuildCityHelper(x, y) {
+    scorePoint(currentPlayerTurn);
     removeCityFromAvailableBuildings(x, y, currentPlayerTurn);
     removePlayerResourcesToBuildCity(currentPlayerTurn);
     setTurnStateToIdle();
