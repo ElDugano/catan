@@ -2,17 +2,23 @@ import { useContext } from "react"
 import { TurnStateContext } from "../../../../state/turnState/TurnStateContext"
 import { PlayerResourceCardsContext } from "../../../../state/playerResourceCards/PlayerResourceCardsContext";
 import { CurrentPlayerTurnContext } from "../../../../state/currentPlayerTurn/CurrentPlayerTurnContext";
+import { DiceContext } from "../../../../state/dice/DiceContext";
 
 export default function PillageResourceCardMenu() {
-  const { setTurnStateToIdle } = useContext(TurnStateContext);
+  const { setTurnStateToIdle, setTurnStateToRollingTheDice } = useContext(TurnStateContext);
   const { plunderedResourcePlayers, getAllPlayersTotalResourceCards, stealRandomCardFromPlayer } = useContext(PlayerResourceCardsContext);
   const { currentPlayerTurn } = useContext(CurrentPlayerTurnContext);
+  const { haveDiceBeenRolledThisTurn } = useContext(DiceContext);
 
   let content=[];
 
   function stealCardsOnClick(victimPlayer){
     stealRandomCardFromPlayer(currentPlayerTurn, victimPlayer);
-    setTurnStateToIdle();
+    console.log(haveDiceBeenRolledThisTurn());
+    if (haveDiceBeenRolledThisTurn())
+      setTurnStateToIdle();
+    else
+      setTurnStateToRollingTheDice();
   }
 
   const AllPlayersTotalCards = getAllPlayersTotalResourceCards();
@@ -26,10 +32,6 @@ export default function PillageResourceCardMenu() {
         </div>
       )}
     }
-    //THIS NEEDS TO DO SOME ERROR CHECKING.
-    //If a player has 0 cards, then don't display them.
-    //Don't display self as a target? (I think that should be taken care of, but I haven't tested it at the time of writing this)
-    //If there are no options, then you just need to move onto the next stage of the game.
   })
   if (content.length===0){
     content.push(<span key={crypto.randomUUID()}>You had nobody to rob. <button onClick={()=> {setTurnStateToIdle()}}>Continue</button></span>)

@@ -1,26 +1,17 @@
-import { useContext, useEffect } from "react";
+import { useContext } from "react";
 
 import { TurnStateContext } from "../../../state/turnState/TurnStateContext.js"
 import { CurrentPlayerTurnContext } from "../../../state/currentPlayerTurn/CurrentPlayerTurnContext.js";
-import { DevelopmentCardsContext } from "../../../state/developmentCards/DevelopmentCardsContext.js";
-import { ScoreBoardContext } from "../../../state/scoreBoard/ScoreBoardContext.js";
 
 export default function IdleMenu() {
   const { setTurnStateToBuildMenu, setTurnStateToSelectingADevelopmentCard, setTurnStateToStartTurn } = useContext(TurnStateContext);
   const { gotoNextPlayerTurn } = useContext(CurrentPlayerTurnContext);
-  const { makePlayerPurchasedDevelopmentAvailableToPlay, getJustPurchasedPlayerVictoryPointCards } = useContext(DevelopmentCardsContext);
-  const { addPointsToPlayerHiddenPoints } = useContext(ScoreBoardContext);
 
   function endTurn() {
     console.log("Ending the turn");
     gotoNextPlayerTurn();
     setTurnStateToStartTurn();
   }
-
-  useEffect(() => {
-    console.log("This is when UseEffect was called");
-  })
-
 
   return (
     <>

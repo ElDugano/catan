@@ -21,7 +21,6 @@ export default function GatherResroucesAcknowledgement() {
     return () => clearTimeout(timeoutId); // Cleanup on unmount
   }, [setTurnStateToIdle]); // Empty dependency array ensures this runs once
 
-  console.log(previouslyGainedResources[currentPlayerTurn]);
   const resourcesGained = [];
   for (let resourceName in previouslyGainedResources[currentPlayerTurn]) {
     resourcesGained.push(previouslyGainedResources[currentPlayerTurn][resourceName]+" "+resourceName+". ")

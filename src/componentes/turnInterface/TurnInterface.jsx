@@ -2,7 +2,7 @@ import { useContext } from "react";
 
 import { TurnStateContext } from "../../state/turnState/TurnStateContext";
 
-import RollDiceButton from "./components/RollDiceButton.jsx";
+import RollDiceButton from "./components/RollDiceMenu.jsx";
 import GatherResroucesAcknowledgement from "./components/GatherResourcesAcknowledgement";
   //---------- Thief Related ----------//
 import RemoveHalfResourcesMenu from "./components/thief/RemoveHalfResourcesMenu";

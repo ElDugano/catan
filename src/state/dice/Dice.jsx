@@ -3,11 +3,15 @@ import { DiceContext } from "./DiceContext.js";
 
 export const Dice = ({ children }) => {
   const [dice, setDice] = useState([1,1]);
+  const [diceRolledThisTurn, setDiceRolledThisTurn] = useState(false);
+
+  const haveDiceBeenRolledThisTurn = () => {return diceRolledThisTurn};
+  const resetDiceRolledThisTurn = () => {setDiceRolledThisTurn(false)};
 
   const rollDice = () => {
     const diceRoll = [Math.ceil(Math.random() * 6),Math.ceil(Math.random() * 6)];
-    console.log(diceRoll);
     setDice(diceRoll);
+    setDiceRolledThisTurn(true);
     return diceRoll[0]+diceRoll[1];
   };
 
@@ -17,7 +21,8 @@ export const Dice = ({ children }) => {
 
   return (
       <DiceContext.Provider value={{
-        dice,
+        haveDiceBeenRolledThisTurn,
+        resetDiceRolledThisTurn,
         rollDice,
         diceAdded,
         setDice

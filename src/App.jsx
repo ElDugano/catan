@@ -8,7 +8,7 @@ import { TurnStateContext } from './state/turnState/TurnStateContext.js';
 import { CurrentPlayerTurnContext } from './state/currentPlayerTurn/CurrentPlayerTurnContext.js';
 import { DevelopmentCardsContext } from './state/developmentCards/DevelopmentCardsContext.js';
 import { ScoreBoardContext } from './state/scoreBoard/ScoreBoardContext.js';
-
+import { DiceContext } from './state/dice/DiceContext.js';
 
 import { PlayerColorContext } from './state/playerColor/PlayerColorContext.js';
 import { PlayerResourceCardsContext } from './state/playerResourceCards/PlayerResourceCardsContext.js';
@@ -16,6 +16,7 @@ import { PlayerResourceCardsContext } from './state/playerResourceCards/PlayerRe
 import './App.css';
 
 import Debug from './helpers/Debug.jsx';
+
 
 function App() {
   //const [playerResourceCards, setPlayerResourceCards] = useState();             //Array of Objects showing the player's hand
@@ -30,7 +31,8 @@ function App() {
   const {turnState, isTurnStateStartTurn, setTurnStateToRollingTheDice } = useContext(TurnStateContext);
   const {currentPlayerTurn} = useContext(CurrentPlayerTurnContext);
   const { getJustPurchasedPlayerVictoryPointCards, makePlayerPurchasedDevelopmentAvailableToPlay} = useContext(DevelopmentCardsContext);
-   const { addPointsToPlayerHiddenPoints, winner } = useContext(ScoreBoardContext);
+  const { addPointsToPlayerHiddenPoints, winner } = useContext(ScoreBoardContext);
+  const { resetDiceRolledThisTurn } = useContext(DiceContext);
 
   const {getAPlayersColor} = useContext(PlayerColorContext);
   const {getAPlayersResourceCards} = useContext(PlayerResourceCardsContext)
@@ -42,6 +44,7 @@ function App() {
       addPointsToPlayerHiddenPoints(currentPlayerTurn, getJustPurchasedPlayerVictoryPointCards(currentPlayerTurn));
       makePlayerPurchasedDevelopmentAvailableToPlay(currentPlayerTurn);
       setTurnStateToRollingTheDice();
+      resetDiceRolledThisTurn();
     }
     if(winner != null) {
       console.log("We have a winner, who is Player "+winner+"!");
