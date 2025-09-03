@@ -19,7 +19,6 @@ function App() {
   //const [playerVictoryPoints, setPlayerVictoryPoints] = useState();             //Array of score
   //const [numberOfPlayers, setNumberOfPlayers] = useState(3);
 
-
   //These are really just here for debugging.
   const {turnState} = useContext(TurnStateContext);
   const {currentPlayerTurn} = useContext(CurrentPlayerTurnContext);

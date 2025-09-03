@@ -5,6 +5,8 @@ export const TurnState = ({ children }) => {
   const [turnState, setTurnState] = useState("Building a settlement");
 
     //---------- Turn Start ----------//
+    const isTurnStateStartTurn = () => {return turnState == "Start Turn" ? true : false};
+    const setTurnStateToStartTurn = () =>     {setTurnState("Start Turn")};
     const isTurnStateRollingTheDice = () => {return turnState == "Rolling the dice" ? true : false};
     const setTurnStateToRollingTheDice = () =>     {setTurnState("Rolling the dice")};
     const isTurnStateGatheringResources = () => {return turnState == "Gathering resources" ? true : false};
@@ -63,6 +65,8 @@ export const TurnState = ({ children }) => {
   return (
     <TurnStateContext.Provider value={{
     //---------- Turn Start ----------//
+      isTurnStateStartTurn,
+      setTurnStateToStartTurn,
       isTurnStateRollingTheDice,
       setTurnStateToRollingTheDice,
       isTurnStateGatheringResources,
