@@ -21,6 +21,8 @@ import { LandTiles } from './state/landTiles/LandTiles.jsx'
 import { ThiefLocation } from './state/thiefLocation/ThiefLocation.jsx'
 import { LandTileNumbers } from './state/landTileNumbers/LandTileNumbers.jsx'
 
+import { FindThePlayersLongestRoad, } from './components/FindLongestRoad';
+
 export default function Gameboard({children}) {
   const {isGameStateBoardSetup, setGameStateToMainGame} = useContext(GameStateContext);
   const {setTurnStateToBuildingASettlement,
@@ -40,9 +42,9 @@ export default function Gameboard({children}) {
           removePlayerResourcesToBuildSettlement,
           removePlayerResourcesToBuildCity } = useContext(PlayerResourceCardsContext);
 
-  const {currentPlayerTurn, gotoNextPlayerTurn, gotoPreviousPlayerTurn} = useContext(CurrentPlayerTurnContext);
-  const {numberOfPlayers} = useContext(NumberOfPlayersContext);
-  const {scorePoint} = useContext(ScoreBoardContext);
+  const { currentPlayerTurn, gotoNextPlayerTurn, gotoPreviousPlayerTurn } = useContext(CurrentPlayerTurnContext);
+  const { numberOfPlayers } = useContext(NumberOfPlayersContext);
+  const { scorePoint, checkIfLongestRoad } = useContext(ScoreBoardContext);
 
   function BuildSettlentHelper(x, y) {
     scorePoint(currentPlayerTurn);
@@ -62,7 +64,8 @@ export default function Gameboard({children}) {
     setTurnStateToIdle();
   }
 
-  function BuildRoadHelper(x, y) {
+  function BuildRoadHelper(x, y, tileCornerNodes) {
+    checkIfLongestRoad(FindThePlayersLongestRoad(tileCornerNodes, currentPlayerTurn), currentPlayerTurn);
     removeRoadFromAvailableBuildings(x, y, currentPlayerTurn);
     if(isGameStateBoardSetup()){
       setTurnStateToBuildingASettlement();
