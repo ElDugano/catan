@@ -88,12 +88,7 @@ function checkNodes(x,y, tileCornerNodes, currentPlayer, longestRoadArray, curre
     }
   }
   if(isNodeAnEndpoint) {
-      //Call shit for the other side of the array.
-      //console.log("We hit this endpoint, the longestRoadArray is the following:");
-      //console.log(longestRoadArray);
       longestDiscoveredRoad = checkNodes2(longestRoadArray[0].x,longestRoadArray[0].y, tileCornerNodes, currentPlayer, longestRoadArray, currentLongestRoadLength);
-      //console.log("After part two: ");
-      //console.log(longestDiscoveredRoad);
     }
   return longestDiscoveredRoad;
 }
