@@ -10,7 +10,7 @@ import { PlayerAvailableBuildingsContext } from '../../../state/playerAvailableB
 import BuildRoadButton from "./BuildRoadButton";
 import Road from "./Road";
 
-import { findLongestRoadFromBottomRoad, findLongestRoadFromRightRoad } from './FindLongestRoad';
+import { FindThePlayersLongestRoad } from './FindLongestRoad';
 
 export default function RoadNodes(props) {
   const {isGameStateBoardSetup}= useContext(GameStateContext);
@@ -27,14 +27,15 @@ export default function RoadNodes(props) {
   function buildRightRoad(x, y) {
     setNodeRightRoadOwner(x, y, currentPlayerTurn);
     props.GameboardFunctionBuildRoad(x, y);
-    let roadLength = findLongestRoadFromRightRoad(x,y, tileCornerNodes,currentPlayerTurn);
+    let roadLength = FindThePlayersLongestRoad(tileCornerNodes, currentPlayerTurn);
     console.log("Longest road is: "+roadLength);
+    
   }
 
   function buildBottomRoad(x, y) {
     setNodeBottomRoadOwner(x, y, currentPlayerTurn);
     props.GameboardFunctionBuildRoad(x, y);
-    let roadLength = findLongestRoadFromBottomRoad(x,y, tileCornerNodes,currentPlayerTurn);
+    let roadLength = FindThePlayersLongestRoad(tileCornerNodes, currentPlayerTurn);
     console.log("Longest road is: "+roadLength);
   }
   
