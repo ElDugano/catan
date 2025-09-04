@@ -51,6 +51,20 @@ export const ScoreBoard = ({ children }) => {
     }
   }
 
+  function setLongestRoad(roadLength, player) {
+    if(player != longestRoadOwner){
+      let newScoreBoard = [...scoreBoard];
+      newScoreBoard[longestRoadOwner] -=2;
+      newScoreBoard[player] +=2;
+      setScoreBoard(newScoreBoard);
+      setLongestRoadOwner(player);
+      console.log("the new scoreboard is");
+      console.log(newScoreBoard);
+      checkIfWinner(newScoreBoard, hiddenPoints);
+    }
+    setLongestRoadDistance(roadLength);
+  }
+
 
 
   const [largestArmyOwner, setLargestArmyOwner] = useState(null);
@@ -77,6 +91,7 @@ export const ScoreBoard = ({ children }) => {
         scorePoint,
         addPointsToPlayerHiddenPoints,
         checkIfLargestArmy,
+        setLongestRoad,
         checkIfLongestRoad,
         longestRoadOwner,
         longestRoadDistance,

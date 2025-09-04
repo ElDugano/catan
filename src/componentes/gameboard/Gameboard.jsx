@@ -44,10 +44,39 @@ export default function Gameboard({children}) {
 
   const { currentPlayerTurn, gotoNextPlayerTurn, gotoPreviousPlayerTurn } = useContext(CurrentPlayerTurnContext);
   const { numberOfPlayers } = useContext(NumberOfPlayersContext);
-  const { scorePoint, checkIfLongestRoad } = useContext(ScoreBoardContext);
+  const { scorePoint, checkIfLongestRoad, setLongestRoad, longestRoadOwner } = useContext(ScoreBoardContext);
 
-  function BuildSettlentHelper(x, y) {
+  function BuildSettlentHelper(x, y, tileCornerNodes) {
     scorePoint(currentPlayerTurn);
+    //Check if we cute shit in half.
+
+    let outterRoads = 0;
+    if (currentPlayerTurn != longestRoadOwner){
+      console.log("Checking if we cut shit in two.");
+      if (tileCornerNodes[x][y].rightRoadOwner == longestRoadOwner) {outterRoads++;}
+      if ("rightRoadOwner" in tileCornerNodes[x-1][y] && tileCornerNodes[x-1][y].rightRoadOwner == longestRoadOwner) {outterRoads++;}
+      if ((x+y)%2 == 0 && tileCornerNodes[x][y].bottomRoadOwner == longestRoadOwner) {outterRoads++;}
+      if ((x+y)%2 == 1 && "bottomRoadOwner" in tileCornerNodes[x][y-1] && tileCornerNodes[x][y-1].bottomRoadOwner == longestRoadOwner) {outterRoads++;}
+    }
+    console.log(outterRoads);
+    if (outterRoads == 2) {
+      console.log("Aww shit, man, we just cut the longest road owner's road in two, we have to do hella work now, thanks, jerk!");
+      let newLongestRoadPlayer = null;
+      let newLongestRoadLength = 4;
+      for (let player = 0; player < numberOfPlayers; player++){
+        const testRoad = FindThePlayersLongestRoad(tileCornerNodes, player)
+        console.log ("We tested Player "+player+"'s road, it was this long: "+testRoad);
+        if (testRoad > newLongestRoadLength){
+          newLongestRoadLength = testRoad;
+          newLongestRoadPlayer = player;
+        }
+      }
+      console.log("New Longest road length should be set to: "+newLongestRoadLength);
+      console.log("New Longest road owner should be set to Player: "+newLongestRoadPlayer);
+      setLongestRoad(newLongestRoadLength, newLongestRoadPlayer);
+    }
+    
+
     removeSettlementFromAvailableBuildings(x, y, currentPlayerTurn);
     if(isGameStateBoardSetup())
       setTurnStateToBuildingARoad();

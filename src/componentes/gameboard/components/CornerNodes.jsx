@@ -19,7 +19,7 @@ export default function CornerNodes(props) {
 
   function buildSettlement(x, y) {
     setNodeValueToSettlement(x, y,currentPlayerTurn);
-    props.GameboardFunctionBuildSettlement(x, y);
+    props.GameboardFunctionBuildSettlement(x, y, tileCornerNodes);
   }
 
   function buildCity(x, y) {

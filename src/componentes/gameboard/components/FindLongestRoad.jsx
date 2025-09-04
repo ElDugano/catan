@@ -32,31 +32,29 @@ export function FindThePlayersLongestRoad(tileCornerNodes, currentPlayer) {
   {
     console.log("Snap, we have ourselves a loop!");
       //Finding the first node like this doesn't work for a figure 8 loop.
-    outerLoop:for (let x=1; x<=11; x++) {
+    for (let x=1; x<=11; x++) {
       for (let y=1; y<=6; y++) {
         if("rightRoadOwner" in tileCornerNodes[x][y] && tileCornerNodes[x][y].rightRoadOwner == currentPlayer){
           //roadEndPoints.push({x:x, y:y, direction:"right"})
           longestRoad = checkLoop(x, y, tileCornerNodes, currentPlayer, [{x:x, y:y, direction:"right"}]);
-          break outerLoop;
+          return longestRoad.length;
         }
       }
     }
   }
-  else {
-    roadEndPoints.forEach(endPoint => {
-      let testRoad = [];
-      if (endPoint.direction == "right")
-        testRoad = checkNodes(endPoint.x+1, endPoint.y, tileCornerNodes, currentPlayer, new Array(endPoint));
-      if (endPoint.direction == "down")
-        testRoad = checkNodes(endPoint.x, endPoint.y+1, tileCornerNodes, currentPlayer, new Array(endPoint));
-      if (endPoint.direction == "left") //These need some work...
-        testRoad = checkNodes(endPoint.x-1, endPoint.y, tileCornerNodes, currentPlayer, [{x:endPoint.x-1, y:endPoint.y, direction:"right"}]);
-      if (endPoint.direction == "up") //These need some work.... I think.
-        testRoad = checkNodes(endPoint.x, endPoint.y-1, tileCornerNodes, currentPlayer, [{x:endPoint.x, y:endPoint.y-1, direction:"down"}]);
-      if(testRoad.length > longestRoad.length)
-        longestRoad = testRoad;
-    });
-  }
+  roadEndPoints.forEach(endPoint => {
+    let testRoad = [];
+    if (endPoint.direction == "right")
+      testRoad = checkNodes(endPoint.x+1, endPoint.y, tileCornerNodes, currentPlayer, new Array(endPoint));
+    if (endPoint.direction == "down")
+      testRoad = checkNodes(endPoint.x, endPoint.y+1, tileCornerNodes, currentPlayer, new Array(endPoint));
+    if (endPoint.direction == "left") //These need some work...
+      testRoad = checkNodes(endPoint.x-1, endPoint.y, tileCornerNodes, currentPlayer, [{x:endPoint.x-1, y:endPoint.y, direction:"right"}]);
+    if (endPoint.direction == "up") //These need some work.... I think.
+      testRoad = checkNodes(endPoint.x, endPoint.y-1, tileCornerNodes, currentPlayer, [{x:endPoint.x, y:endPoint.y-1, direction:"down"}]);
+    if(testRoad.length > longestRoad.length)
+      longestRoad = testRoad;
+  });
   return longestRoad.length;
 }
 
