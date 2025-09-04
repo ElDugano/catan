@@ -48,8 +48,11 @@ export default function Gameboard({children}) {
 
   function BuildSettlentHelper(x, y, tileCornerNodes) {
     scorePoint(currentPlayerTurn);
-    //Check if we cute shit in half.
 
+
+
+    //Check if we cute shit in half.
+    //This all should likely mbe moved into FindLongestRoad.jsx, with a return object of the newPlayer and Length.
     let outterRoads = 0;
     if (currentPlayerTurn != longestRoadOwner){
       console.log("Checking if we cut shit in two.");
@@ -106,10 +109,12 @@ export default function Gameboard({children}) {
         console.log("Time to reverse course");
       }
       else if(returnAvailableSettlements(currentPlayerTurn) == 3 && currentPlayerTurn > 0) {
+        //Give currentPlayerTurn Resrouces
         gotoPreviousPlayerTurn();
         console.log("moving backwards");
       }
       else {
+        //Give currentPlayerTurn Resrouces
         console.log("^^^^START THE GAME^^^^");
         setGameStateToMainGame();
         setTurnStateToStartTurn();

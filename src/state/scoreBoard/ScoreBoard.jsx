@@ -36,18 +36,8 @@ export const ScoreBoard = ({ children }) => {
   function checkIfLongestRoad(roadLength, player){
     console.log("checking this player's road length of "+roadLength);
     if (roadLength > longestRoadDistance) {
-      console.log("We have anew longest road!");
-      if(player != longestRoadOwner) {
-        let newScoreBoard = [...scoreBoard];
-        newScoreBoard[longestRoadOwner] -=2;
-        newScoreBoard[player] +=2;
-        setScoreBoard(newScoreBoard);
-        setLongestRoadOwner(player);
-        console.log("the new scoreboard is");
-        console.log(newScoreBoard);
-        checkIfWinner(newScoreBoard, hiddenPoints);
-      }
-      setLongestRoadDistance(roadLength);
+      console.log("We have a new longest road!");
+      setLongestRoad(roadLength, player)
     }
   }
 

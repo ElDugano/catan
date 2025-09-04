@@ -36,7 +36,7 @@ export function FindThePlayersLongestRoad(tileCornerNodes, currentPlayer) {
       for (let y=1; y<=6; y++) {
         if("rightRoadOwner" in tileCornerNodes[x][y] && tileCornerNodes[x][y].rightRoadOwner == currentPlayer){
           //roadEndPoints.push({x:x, y:y, direction:"right"})
-          longestRoad = checkLoop(x, y, tileCornerNodes, currentPlayer, [{x:x, y:y, direction:"right"}]);
+          longestRoad = checkLoopNode(x, y, tileCornerNodes, currentPlayer, [{x:x, y:y, direction:"right"}]);
           return longestRoad.length;
         }
       }
@@ -45,161 +45,113 @@ export function FindThePlayersLongestRoad(tileCornerNodes, currentPlayer) {
   roadEndPoints.forEach(endPoint => {
     let testRoad = [];
     if (endPoint.direction == "right")
-      testRoad = checkNodes(endPoint.x+1, endPoint.y, tileCornerNodes, currentPlayer, new Array(endPoint));
+      testRoad = checkNode(endPoint.x+1, endPoint.y, tileCornerNodes, currentPlayer, new Array(endPoint));
     if (endPoint.direction == "down")
-      testRoad = checkNodes(endPoint.x, endPoint.y+1, tileCornerNodes, currentPlayer, new Array(endPoint));
+      testRoad = checkNode(endPoint.x, endPoint.y+1, tileCornerNodes, currentPlayer, new Array(endPoint));
     if (endPoint.direction == "left") //These need some work...
-      testRoad = checkNodes(endPoint.x-1, endPoint.y, tileCornerNodes, currentPlayer, [{x:endPoint.x-1, y:endPoint.y, direction:"right"}]);
+      testRoad = checkNode(endPoint.x-1, endPoint.y, tileCornerNodes, currentPlayer, [{x:endPoint.x-1, y:endPoint.y, direction:"right"}]);
     if (endPoint.direction == "up") //These need some work.... I think.
-      testRoad = checkNodes(endPoint.x, endPoint.y-1, tileCornerNodes, currentPlayer, [{x:endPoint.x, y:endPoint.y-1, direction:"down"}]);
+      testRoad = checkNode(endPoint.x, endPoint.y-1, tileCornerNodes, currentPlayer, [{x:endPoint.x, y:endPoint.y-1, direction:"down"}]);
     if(testRoad.length > longestRoad.length)
       longestRoad = testRoad;
   });
   return longestRoad.length;
 }
 
-function checkNodes(x,y, tileCornerNodes, currentPlayer, longestRoadArray) {
+function checkNode(x,y, tileCornerNodes, currentPlayer, longestRoadArray) {
   let longestDiscoveredRoad = [];
   let isNodeAnEndpoint = true;
-  //If this node isn't owned by someone else.
   if (tileCornerNodes[x][y].owner == currentPlayer || tileCornerNodes[x][y].owner == "none") {
-    //Now, these need to check if they are in the list already.
     if(tileCornerNodes[x][y].rightRoadOwner == currentPlayer) {
-      let isSegmentInRoadArray = false;
-      longestRoadArray.forEach(roadSegment => {
-        if (roadSegment.x==x && roadSegment.y==y && roadSegment.direction == "right")
-          isSegmentInRoadArray = true;
-        })
-      if(isSegmentInRoadArray == false){
-        isNodeAnEndpoint = false;
-        let longerRoadArray = [...longestRoadArray];
-        longerRoadArray.push({x:x, y:y, direction:"right"});
-        let returnedLongestRoad = checkNodes(x+1,y, tileCornerNodes, currentPlayer, longerRoadArray);
-        if (returnedLongestRoad.length > longestDiscoveredRoad.length)
-          longestDiscoveredRoad = returnedLongestRoad;
-      } 
+      let roadBanch = getRoadBranch(x,y,"right",longestRoadArray, checkNode, x+1, y, tileCornerNodes, currentPlayer);
+      if (roadBanch.isNodeAnEndpoint  == false)
+        isNodeAnEndpoint = roadBanch.isNodeAnEndpoint;
+      if (roadBanch.returnedLongestRoad.length > longestDiscoveredRoad.length)
+        longestDiscoveredRoad = roadBanch.returnedLongestRoad;
     }
     if(tileCornerNodes[x-1][y].rightRoadOwner == currentPlayer) {
-      let isSegmentInRoadArray = false;
-      longestRoadArray.forEach(roadSegment => {
-      if (roadSegment.x==x-1 && roadSegment.y==y && roadSegment.direction == "right")
-        isSegmentInRoadArray = true;
-      })
-      if(isSegmentInRoadArray == false){
-        isNodeAnEndpoint = false;
-        let longerRoadArray = [...longestRoadArray];
-        longerRoadArray.push({x:x-1, y:y, direction:"right"});
-        let returnedLongestRoad = checkNodes(x-1,y, tileCornerNodes, currentPlayer, longerRoadArray);
-        if (returnedLongestRoad.length > longestDiscoveredRoad.length)
-          longestDiscoveredRoad = returnedLongestRoad;
-      }
+      let roadBanch = getRoadBranch(x-1,y,"right",longestRoadArray, checkNode, x-1, y, tileCornerNodes, currentPlayer);
+      if (roadBanch.isNodeAnEndpoint  == false)
+        isNodeAnEndpoint = roadBanch.isNodeAnEndpoint;
+      if (roadBanch.returnedLongestRoad.length > longestDiscoveredRoad.length)
+        longestDiscoveredRoad = roadBanch.returnedLongestRoad;
     }
     if((x+y)%2 == 0 && tileCornerNodes[x][y].bottomRoadOwner == currentPlayer) {
-      let isSegmentInRoadArray = false;
-      longestRoadArray.forEach(roadSegment => {
-      if (roadSegment.x==x && roadSegment.y==y && roadSegment.direction == "down")
-        isSegmentInRoadArray = true;
-      })
-      if(isSegmentInRoadArray == false){
-        isNodeAnEndpoint = false;
-        let longerRoadArray = [...longestRoadArray];
-        longerRoadArray.push({x:x, y:y, direction:"down"});
-        let returnedLongestRoad = checkNodes(x,y+1, tileCornerNodes, currentPlayer, longerRoadArray);
-        if (returnedLongestRoad.length > longestDiscoveredRoad.length)
-          longestDiscoveredRoad = returnedLongestRoad;
-      }
+      let roadBanch = getRoadBranch(x,y,"down",longestRoadArray, checkNode, x, y+1, tileCornerNodes, currentPlayer);
+      if (roadBanch.isNodeAnEndpoint  == false)
+        isNodeAnEndpoint = roadBanch.isNodeAnEndpoint;
+      if (roadBanch.returnedLongestRoad.length > longestDiscoveredRoad.length)
+        longestDiscoveredRoad = roadBanch.returnedLongestRoad;
     }
     if((x+y)%2 == 1 && tileCornerNodes[x][y-1].bottomRoadOwner == currentPlayer) {
-      let isSegmentInRoadArray = false;
-      longestRoadArray.forEach(roadSegment => {
-      if (roadSegment.x==x && roadSegment.y==y-1 && roadSegment.direction == "down")
-        isSegmentInRoadArray = true;
-      })
-      if(isSegmentInRoadArray == false){
-        isNodeAnEndpoint = false;
-        let longerRoadArray = [...longestRoadArray];
-        longerRoadArray.push({x:x, y:y-1, direction:"down"});
-        let returnedLongestRoad = checkNodes(x,y-1, tileCornerNodes, currentPlayer, longerRoadArray);
-        if (returnedLongestRoad.length > longestDiscoveredRoad.length)
-          longestDiscoveredRoad = returnedLongestRoad;
-      }
+      let roadBanch = getRoadBranch(x,y-1,"down",longestRoadArray, checkNode, x, y-1, tileCornerNodes, currentPlayer);
+      if (roadBanch.isNodeAnEndpoint  == false)
+        isNodeAnEndpoint = roadBanch.isNodeAnEndpoint;
+      if (roadBanch.returnedLongestRoad.length > longestDiscoveredRoad.length)
+        longestDiscoveredRoad = roadBanch.returnedLongestRoad;
     }
   }
   if(isNodeAnEndpoint) {
-      return longestRoadArray;
+    return longestRoadArray;
+  }
+  return longestDiscoveredRoad;
+}
+
+function checkLoopNode(x,y, tileCornerNodes, currentPlayer, longestRoadArray) {
+  let longestDiscoveredRoad = [];
+  let isNodeAnEndpoint = true;
+  if (tileCornerNodes[x][y].owner == currentPlayer || tileCornerNodes[x][y].owner == "none") {
+    if(tileCornerNodes[x][y].rightRoadOwner == currentPlayer) {
+      let roadBanch = getRoadBranch(x,y,"right",longestRoadArray, checkLoopNode, x+1, y, tileCornerNodes, currentPlayer);
+      if (roadBanch.isNodeAnEndpoint  == false)
+        isNodeAnEndpoint = roadBanch.isNodeAnEndpoint;
+      if (roadBanch.returnedLongestRoad.length > longestDiscoveredRoad.length)
+        longestDiscoveredRoad = roadBanch.returnedLongestRoad;
+    }
+    if(tileCornerNodes[x-1][y].rightRoadOwner == currentPlayer) {
+      let roadBanch = getRoadBranch(x-1,y,"right",longestRoadArray, checkLoopNode, x-1, y, tileCornerNodes, currentPlayer);
+      if (roadBanch.isNodeAnEndpoint  == false)
+        isNodeAnEndpoint = roadBanch.isNodeAnEndpoint;
+      if (roadBanch.returnedLongestRoad.length > longestDiscoveredRoad.length)
+        longestDiscoveredRoad = roadBanch.returnedLongestRoad;
+    }
+    if((x+y)%2 == 0 && tileCornerNodes[x][y].bottomRoadOwner == currentPlayer) {
+      let roadBanch = getRoadBranch(x,y,"down",longestRoadArray, checkLoopNode, x, y+1, tileCornerNodes, currentPlayer);
+      if (roadBanch.isNodeAnEndpoint  == false)
+        isNodeAnEndpoint = roadBanch.isNodeAnEndpoint;
+      if (roadBanch.returnedLongestRoad.length > longestDiscoveredRoad.length)
+        longestDiscoveredRoad = roadBanch.returnedLongestRoad;
+    }
+    if((x+y)%2 == 1 && tileCornerNodes[x][y-1].bottomRoadOwner == currentPlayer) {
+      let roadBanch = getRoadBranch(x,y-1,"down",longestRoadArray, checkLoopNode, x, y-1, tileCornerNodes, currentPlayer);
+      if (roadBanch.isNodeAnEndpoint  == false)
+        isNodeAnEndpoint = roadBanch.isNodeAnEndpoint;
+      if (roadBanch.returnedLongestRoad.length > longestDiscoveredRoad.length)
+        longestDiscoveredRoad = roadBanch.returnedLongestRoad;
+    }
+  }
+  if(isNodeAnEndpoint) {
+      longestDiscoveredRoad = checkNode(longestRoadArray[0].x,longestRoadArray[0].y, tileCornerNodes, currentPlayer, longestRoadArray, currentLongestRoadLength);
     }
   return longestDiscoveredRoad;
 }
 
-function checkLoop(x,y, tileCornerNodes, currentPlayer, longestRoadArray, currentLongestRoadLength) {
-  let longestDiscoveredRoad = [];
-  let isNodeAnEndpoint = true;
-  //If this node isn't owned by someone else.
-  if (tileCornerNodes[x][y].owner == currentPlayer || tileCornerNodes[x][y].owner == "none") {
-    //Now, these need to check if they are in the list already.
-    if(tileCornerNodes[x][y].rightRoadOwner == currentPlayer) {
-      let isSegmentInRoadArray = false;
-      longestRoadArray.forEach(roadSegment => {
-        if (roadSegment.x==x && roadSegment.y==y && roadSegment.direction == "right")
-          isSegmentInRoadArray = true;
-        })
-      if(isSegmentInRoadArray == false){
-        isNodeAnEndpoint = false;
-        let longerRoadArray = [...longestRoadArray];
-        longerRoadArray.push({x:x, y:y, direction:"right"});
-        let returnedLongestRoad = checkLoop(x+1,y, tileCornerNodes, currentPlayer, longerRoadArray, currentLongestRoadLength+1);
-        if (returnedLongestRoad.length > longestDiscoveredRoad.length)
-          longestDiscoveredRoad = returnedLongestRoad;
-      } 
-    }
-    if(tileCornerNodes[x-1][y].rightRoadOwner == currentPlayer) {
-      let isSegmentInRoadArray = false;
-      longestRoadArray.forEach(roadSegment => {
-      if (roadSegment.x==x-1 && roadSegment.y==y && roadSegment.direction == "right")
-        isSegmentInRoadArray = true;
-      })
-      if(isSegmentInRoadArray == false){
-        isNodeAnEndpoint = false;
-        let longerRoadArray = [...longestRoadArray];
-        longerRoadArray.push({x:x-1, y:y, direction:"right"});
-        let returnedLongestRoad = checkLoop(x-1,y, tileCornerNodes, currentPlayer, longerRoadArray, currentLongestRoadLength+1);
-        if (returnedLongestRoad.length > longestDiscoveredRoad.length)
-          longestDiscoveredRoad = returnedLongestRoad;
-      }
-    }
-    if((x+y)%2 == 0 && tileCornerNodes[x][y].bottomRoadOwner == currentPlayer) {
-      let isSegmentInRoadArray = false;
-      longestRoadArray.forEach(roadSegment => {
-      if (roadSegment.x==x && roadSegment.y==y && roadSegment.direction == "down")
-        isSegmentInRoadArray = true;
-      })
-      if(isSegmentInRoadArray == false){
-        isNodeAnEndpoint = false;
-        let longerRoadArray = [...longestRoadArray];
-        longerRoadArray.push({x:x, y:y, direction:"down"});
-        let returnedLongestRoad = checkLoop(x,y+1, tileCornerNodes, currentPlayer, longerRoadArray, currentLongestRoadLength+1);
-        if (returnedLongestRoad.length > longestDiscoveredRoad.length)
-          longestDiscoveredRoad = returnedLongestRoad;
-      }
-    }
-    if((x+y)%2 == 1 && tileCornerNodes[x][y-1].bottomRoadOwner == currentPlayer) {
-      let isSegmentInRoadArray = false;
-      longestRoadArray.forEach(roadSegment => {
-      if (roadSegment.x==x && roadSegment.y==y-1 && roadSegment.direction == "down")
-        isSegmentInRoadArray = true;
-      })
-      if(isSegmentInRoadArray == false){
-        isNodeAnEndpoint = false;
-        let longerRoadArray = [...longestRoadArray];
-        longerRoadArray.push({x:x, y:y-1, direction:"down"});
-        let returnedLongestRoad = checkLoop(x,y-1, tileCornerNodes, currentPlayer, longerRoadArray, currentLongestRoadLength+1);
-        if (returnedLongestRoad.length > longestDiscoveredRoad.length)
-          longestDiscoveredRoad = returnedLongestRoad;
-      }
-    }
+
+
+
+function getRoadBranch(x, y, direction, longestRoadArray, nextCheckNodeFunction, nextX, nextY, tileCornerNodes, currentPlayer){
+  let isSegmentInRoadArray = false;
+  let returnedLongestRoad = [];
+  longestRoadArray.forEach(roadSegment => {
+    if (roadSegment.x==x && roadSegment.y==y && roadSegment.direction == direction)
+      isSegmentInRoadArray = true;
+  })
+  let isNodeAnEndpoint = true
+  if(isSegmentInRoadArray == false){
+    isNodeAnEndpoint = false;
+    let longerRoadArray = [...longestRoadArray];
+    longerRoadArray.push({x:x, y:y, direction:direction});
+    returnedLongestRoad = nextCheckNodeFunction(nextX, nextY, tileCornerNodes, currentPlayer, longerRoadArray);
   }
-  if(isNodeAnEndpoint) {
-      longestDiscoveredRoad = checkNodes(longestRoadArray[0].x,longestRoadArray[0].y, tileCornerNodes, currentPlayer, longestRoadArray, currentLongestRoadLength);
-    }
-  return longestDiscoveredRoad;
+  return {isNodeAnEndpoint:isNodeAnEndpoint, returnedLongestRoad:returnedLongestRoad }
 }
