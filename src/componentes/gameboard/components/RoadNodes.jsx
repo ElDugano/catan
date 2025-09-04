@@ -27,14 +27,15 @@ export default function RoadNodes(props) {
   function buildRightRoad(x, y) {
     setNodeRightRoadOwner(x, y, currentPlayerTurn);
     props.GameboardFunctionBuildRoad(x, y);
+    //This should probably not work here, as tileCornerNodes state shouldn't be updated yet.
     let roadLength = FindThePlayersLongestRoad(tileCornerNodes, currentPlayerTurn);
     console.log("Longest road is: "+roadLength);
-    
   }
 
   function buildBottomRoad(x, y) {
     setNodeBottomRoadOwner(x, y, currentPlayerTurn);
     props.GameboardFunctionBuildRoad(x, y);
+      //This should probably not work here, as tileCornerNodes state shouldn't be updated yet.
     let roadLength = FindThePlayersLongestRoad(tileCornerNodes, currentPlayerTurn);
     console.log("Longest road is: "+roadLength);
   }
