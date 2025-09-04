@@ -4,7 +4,17 @@ import  Shuffle  from '../../../../helpers/Shuffle.jsx'
 
 export const LandTiles = ({ children }) => {
   const [landTiles, setLandTiles] = useState(CreateLandTiles);
-  const [desertLocation/*, setDesertLocation*/] = useState(FindDesert);
+  
+  const [desertLocation/*, setDesertLocation*/] = useState(() => {
+    for (let xCoordinate in landTiles) {
+      for (let yCoordinate in landTiles[xCoordinate]) {
+        if (landTiles[xCoordinate][yCoordinate] == "Desert")
+        {
+          return {x: xCoordinate, y: yCoordinate};
+        }
+      }
+    }
+  });
 
 function CreateLandTiles(){
   let availableLandTileResource = [
@@ -57,18 +67,6 @@ function CreateLandTiles(){
   }
   return landTiles;
 }
-
-function FindDesert() {
-  for (let xCoordinate in landTiles) {
-    for (let yCoordinate in landTiles[xCoordinate]) {
-      if (landTiles[xCoordinate][yCoordinate] == "Desert")
-      {
-        return {x: xCoordinate, y: yCoordinate};
-      }
-    }
-  }
-}
-
   return (
       <LandTilesContext.Provider value={{
         landTiles,

@@ -1,16 +1,17 @@
 import { useState, useContext } from "react";
+import { PortTilesContext } from "./PortTilesContext";
+import { TileCornerNodes } from "../tileCornerNodes/TileCornerNodes";
 import Shuffle from "../../../../helpers/Shuffle";
-import FindDesert from "../../stateInitializers/FindDesert";
+//import FindDesert from "../../stateInitializers/FindDesert";
 import { LandTilesContext } from "../landTiles/LandTilesContext";
 
 export const PortTiles = ({ children }) => {
-  const {landTiles} = useContext(LandTilesContext)
+  const {desertLocation} = useContext(LandTilesContext)
 
-  const [portTiles, setPortTiles] = useState(CreatePortTiles);
+  const [portTiles/*, setPortTiles*/] = useState(CreatePortTiles);
 
 
   function CreatePortTiles(){
-    let desertLocation = FindDesert(landTiles)
     console.log("*** createPortTiles was called. ***")
     let availablePortTypes = [
       "Wool","Lumber","Grain","Brick","Ore",
@@ -33,28 +34,29 @@ export const PortTiles = ({ children }) => {
       portTilesCoordinates = Math.random() < 0.5 ? portOption1 : portOption2;
 
     let portTiles = {
-      0:{3:"Ocean"},
-      1:{2:"Ocean",4:"Ocean"},
-      2:{1:"Ocean",5:"Ocean"},
-      3:{0:"Ocean",6:"Ocean"},
-      5:{0:"Ocean",6:"Ocean"},
-      7:{0:"Ocean",6:"Ocean"},
-      9:{0:"Ocean",6:"Ocean"},
-      10:{1:"Ocean",5:"Ocean"},
-      11:{2:"Ocean",4:"Ocean"},
-      12:{3:"Ocean"}
+      0: {3:{type:"Ocean",port1:{x:1, y:3},port2:{x:1, y:4}}},
+      1: {2:{type:"Ocean",port1:{x:2, y:2},port2:{x:2, y:3}},  4:{type:"Ocean",port1:{x:2, y:4},port2:{x:2 ,y:5}}},
+      2: {1:{type:"Ocean",port1:{x:2, y:2},port2:{x:3, y:2}},  5:{type:"Ocean",port1:{x:2, y:5},port2:{x:3 ,y:5}}},
+      3: {0:{type:"Ocean",port1:{x:3, y:1},port2:{x:4, y:1}},  6:{type:"Ocean",port1:{x:3, y:6},port2:{x:4 ,y:6}}},
+      5: {0:{type:"Ocean",port1:{x:5, y:1},port2:{x:6, y:1}},  6:{type:"Ocean",port1:{x:5, y:6},port2:{x:6 ,y:6}}},
+      7: {0:{type:"Ocean",port1:{x:6, y:1},port2:{x:7, y:1}},  6:{type:"Ocean",port1:{x:6, y:6},port2:{x:7 ,y:6}}},
+      9: {0:{type:"Ocean",port1:{x:8, y:1},port2:{x:9, y:1}},  6:{type:"Ocean",port1:{x:8, y:6},port2:{x:9 ,y:6}}},
+      10:{1:{type:"Ocean",port1:{x:9, y:1},port2:{x:9, y:2}},  5:{type:"Ocean",port1:{x:9, y:5},port2:{x:10,y:5}}},
+      11:{2:{type:"Ocean",port1:{x:10,y:2},port2:{x:10,y:3}},  4:{type:"Ocean",port1:{x:10,y:4},port2:{x:10,y:5}}},
+      12:{3:{type:"Ocean",port1:{x:11,y:3},port2:{x:11,y:4}}}
     };
     while (portTilesCoordinates.length > 0) {
-      portTiles[portTilesCoordinates[0][0]][portTilesCoordinates[0][1]]=availablePortTypes.shift();
+      portTiles[portTilesCoordinates[0][0]][portTilesCoordinates[0][1]].type=availablePortTypes.shift();
       portTilesCoordinates.shift();
+      //Put the 
     };
+    console.log(portTiles);
     return portTiles;
 }
 
   return (
       <PortTilesContext.Provider value={{
-        portTiles,
-        setPortTiles
+        portTiles
       }}>
         {children}
       </PortTilesContext.Provider>
