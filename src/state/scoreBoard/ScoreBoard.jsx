@@ -39,8 +39,7 @@ export const ScoreBoard = ({ children }) => {
       console.log("We have anew longest road!");
       if(player != longestRoadOwner) {
         let newScoreBoard = [...scoreBoard];
-        //if (longestRoadOwner =! null)
-          newScoreBoard[longestRoadOwner] -=2;
+        newScoreBoard[longestRoadOwner] -=2;
         newScoreBoard[player] +=2;
         setScoreBoard(newScoreBoard);
         setLongestRoadOwner(player);

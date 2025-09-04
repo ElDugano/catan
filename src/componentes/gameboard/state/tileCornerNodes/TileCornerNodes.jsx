@@ -75,8 +75,6 @@ export const TileCornerNodes = ({ children }) => {
       }
       cornerNodes.push(columnNodes);
     }
-    console.log("------------------");
-    console.log(cornerNodes);
     return cornerNodes;
   }
 
