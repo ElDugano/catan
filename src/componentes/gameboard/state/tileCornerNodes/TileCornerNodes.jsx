@@ -26,7 +26,6 @@ export const TileCornerNodes = ({ children }) => {
   const setNodeRightRoadOwner = (x, y, newOwner) => {
     let newTileCornerNodes = [...tileCornerNodes];
     newTileCornerNodes[x][y].rightRoadOwner=newOwner;
-    console.log(tileCornerNodes[8][3]);
     setTileCornerNodes(newTileCornerNodes);
   }
   const setNodeBottomRoadOwner = (x, y, newOwner) => {
