@@ -8,6 +8,7 @@ import { Dice } from './dice/Dice.jsx'
 import { PlayerResourceCards } from './playerResourceCards/PlayerResourceCards.jsx'
 import { DevelopmentCards } from './developmentCards/DevelopmentCards.jsx'
 import { ScoreBoard } from './scoreBoard/ScoreBoard.jsx'
+import { PortOwner } from './portOwner/PortOwner.jsx'
 
 export default function GlobalStateProvider({ children }) {
   return (
@@ -21,7 +22,9 @@ export default function GlobalStateProvider({ children }) {
                   <DevelopmentCards>
                     <Dice>
                       <ScoreBoard>
-                        { children }
+                        <PortOwner>
+                          { children }
+                        </PortOwner>
                       </ScoreBoard>
                     </Dice>
                   </DevelopmentCards>

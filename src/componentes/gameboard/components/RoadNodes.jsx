@@ -27,6 +27,7 @@ export default function RoadNodes(props) {
   function buildRightRoad(x, y) {
     setNodeRightRoadOwner(x, y, currentPlayerTurn);
     props.GameboardFunctionBuildRoad(x, y, tileCornerNodes);
+    console.log(tileCornerNodes);
   }
 
   function buildBottomRoad(x, y) {

@@ -33,7 +33,21 @@ export const TileCornerNodes = ({ children }) => {
     newTileCornerNodes[x][y].bottomRoadOwner=newOwner;
     setTileCornerNodes(newTileCornerNodes);
   }
+
+  //const addPortsToNode = (port1, port2) => {
+  //  let newTileCornerNodes = [...tileCornerNodes];
+  //  newTileCornerNodes[port1.x][port1.y].port = port1.type;
+  //  newTileCornerNodes[port2.x][port2.y].port = port2.type;
+  //  setTileCornerNodes(newTileCornerNodes);
+  //}
   
+  const addPortsToNode = (portArray) => {
+    let newTileCornerNodes = [...tileCornerNodes];
+    portArray.forEach(port => {
+      newTileCornerNodes[port.x][port.y].port = port.type;
+    })
+    setTileCornerNodes(newTileCornerNodes);
+  }
   
 
   function CreateTileCornerNodes() {
@@ -89,7 +103,8 @@ export const TileCornerNodes = ({ children }) => {
         setNodeValueToSettlement,
         setNodeValueToCity,
         setNodeRightRoadOwner,
-        setNodeBottomRoadOwner
+        setNodeBottomRoadOwner,
+        addPortsToNode
       }}>
         {children}
       </TileCornerNodesContext.Provider>

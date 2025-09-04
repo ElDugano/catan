@@ -3,12 +3,10 @@ import { PortTilesContext } from "../state/portTiles/PortTilesContext";
 
 export default function Ports() {
   const { portTiles } = useContext(PortTilesContext);
-  console.log(portTiles);
 
   let content = [];
   Object.keys(portTiles).forEach(x => {
     Object.keys(portTiles[x]).forEach(y => {
-      console.log(portTiles[x][y].type);
       if (portTiles[x][y].type != "Ocean") {
         let translateValue = "translate(" + (x*30) + "," + (y*50) + ")";
         content.push(

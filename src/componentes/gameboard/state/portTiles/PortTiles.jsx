@@ -1,14 +1,17 @@
 import { useState, useContext } from "react";
 import { PortTilesContext } from "./PortTilesContext";
-import { TileCornerNodes } from "../tileCornerNodes/TileCornerNodes";
+import { TileCornerNodesContext } from "../tileCornerNodes/TileCornerNodesContext";
 import Shuffle from "../../../../helpers/Shuffle";
 //import FindDesert from "../../stateInitializers/FindDesert";
 import { LandTilesContext } from "../landTiles/LandTilesContext";
 
 export const PortTiles = ({ children }) => {
-  const {desertLocation} = useContext(LandTilesContext)
+  const {desertLocation} = useContext(LandTilesContext);
+  const {addPortsToNode} = useContext(TileCornerNodesContext);
 
   const [portTiles/*, setPortTiles*/] = useState(CreatePortTiles);
+
+
 
 
   function CreatePortTiles(){
@@ -45,11 +48,24 @@ export const PortTiles = ({ children }) => {
       11:{2:{type:"Ocean",port1:{x:10,y:2},port2:{x:10,y:3}},  4:{type:"Ocean",port1:{x:10,y:4},port2:{x:10,y:5}}},
       12:{3:{type:"Ocean",port1:{x:11,y:3},port2:{x:11,y:4}}}
     };
+    let portNodes=[];
     while (portTilesCoordinates.length > 0) {
       portTiles[portTilesCoordinates[0][0]][portTilesCoordinates[0][1]].type=availablePortTypes.shift();
+      portNodes.push({x:portTiles[portTilesCoordinates[0][0]][portTilesCoordinates[0][1]].port1.x,
+                      y:portTiles[portTilesCoordinates[0][0]][portTilesCoordinates[0][1]].port1.y,
+                      type:portTiles[portTilesCoordinates[0][0]][portTilesCoordinates[0][1]].type});
+      portNodes.push({x:portTiles[portTilesCoordinates[0][0]][portTilesCoordinates[0][1]].port2.x,
+                      y:portTiles[portTilesCoordinates[0][0]][portTilesCoordinates[0][1]].port2.y,
+                      type:portTiles[portTilesCoordinates[0][0]][portTilesCoordinates[0][1]].type});
+      //Below is to make portTiles only know about the tiles and not what nodes they are attached to.
+      //Ideally this would be how we handle things, but the ports.jsx reads this.
+      //delete portTiles[portTilesCoordinates[0][0]][portTilesCoordinates[0][1]].port1;
+      //delete portTiles[portTilesCoordinates[0][0]][portTilesCoordinates[0][1]].port2;
       portTilesCoordinates.shift();
-      //Put the 
     };
+    addPortsToNode(portNodes);
+
+    console.log("And the port tiles are");
     console.log(portTiles);
     return portTiles;
 }

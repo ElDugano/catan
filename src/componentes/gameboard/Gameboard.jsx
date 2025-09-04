@@ -16,6 +16,7 @@ import { NumberOfPlayersContext } from '../../state/numberOfPlayers/NumberOfPlay
 import { PlayerAvailableBuildingsContext } from "../../state/playerAvailableBuildings/PlayerAvailableBuildingsContext.js";
 import { PlayerResourceCardsContext } from "../../state/playerResourceCards/PlayerResourceCardsContext.js";
 import { ScoreBoardContext } from "../../state/scoreBoard/ScoreBoardContext.js";
+import { PortOwnerContext } from "../../state/portOwner/PortOwnerContext.js";
 
 import { TileCornerNodes } from './state/tileCornerNodes/TileCornerNodes.jsx'
 import { LandTiles } from './state/landTiles/LandTiles.jsx'
@@ -47,9 +48,13 @@ export default function Gameboard({children}) {
   const { currentPlayerTurn, gotoNextPlayerTurn, gotoPreviousPlayerTurn } = useContext(CurrentPlayerTurnContext);
   const { numberOfPlayers } = useContext(NumberOfPlayersContext);
   const { scorePoint, checkIfLongestRoad, setLongestRoad, longestRoadOwner } = useContext(ScoreBoardContext);
+  const { setPortOwner } = useContext(PortOwnerContext);
 
   function BuildSettlentHelper(x, y, tileCornerNodes) {
     scorePoint(currentPlayerTurn);
+    if ("port" in tileCornerNodes[x][y]){
+      setPortOwner(currentPlayerTurn, tileCornerNodes[x][y].port);
+    }
 
 
 
