@@ -17,8 +17,7 @@ import findThePlayersLongestRoad from '../../componentes/gameboard/helpers/FindL
 export default function LongestRoadCheck() {
   const { isGameStateBoardSetup,
           setGameStateToMainGame } = useContext(GameStateContext);
-  const { isTurnStateBuildingARoadLongestRoadCheck,
-          isTurnStateRoadBuilderCardFirstRoadLongestRoadCheck,
+  const { isTurnStateRoadBuilderCardFirstRoadLongestRoadCheck,
           isTurnStateRoadBuilderCardSecondRoadLongestRoadCheck,
           setTurnStateToRoadBuilderCarSecondRoad,
           setTurnStateToBuildingASettlement,
@@ -35,44 +34,38 @@ export default function LongestRoadCheck() {
   const { tileCornerNodes } = useContext(TileCornerNodesContext);
 
   useEffect(() => {
-    if( isTurnStateBuildingARoadLongestRoadCheck() ||
-        isTurnStateRoadBuilderCardFirstRoadLongestRoadCheck() ||
-        isTurnStateRoadBuilderCardSecondRoadLongestRoadCheck() ){
-    
-      checkIfLongestRoad(findThePlayersLongestRoad(tileCornerNodes, currentPlayerTurn, returnUsedRoads(currentPlayerTurn)), currentPlayerTurn);
-      if(isGameStateBoardSetup()){
-        setTurnStateToBuildingASettlement();
-        if(returnAvailableSettlements(currentPlayerTurn) == 4 && currentPlayerTurn < numberOfPlayers-1) {
-          gotoNextPlayerTurn();
-          console.log("moving forward");
-        }
-        else if(returnAvailableSettlements(currentPlayerTurn) == 4 && currentPlayerTurn == numberOfPlayers-1) {
-          console.log("Time to reverse course");
-        }
-        else if(returnAvailableSettlements(currentPlayerTurn) == 3 && currentPlayerTurn > 0) {
-          //Give currentPlayerTurn Resrouces
-          gotoPreviousPlayerTurn();
-          console.log("moving backwards");
-        }
-        else {
-          //Give currentPlayerTurn Resrouces
-          console.log("^^^^START THE GAME^^^^");
-          setGameStateToMainGame();
-          setTurnStateToStartTurn();
-        }
+    checkIfLongestRoad(findThePlayersLongestRoad(tileCornerNodes, currentPlayerTurn, returnUsedRoads(currentPlayerTurn)), currentPlayerTurn);
+    if(isGameStateBoardSetup()){
+      setTurnStateToBuildingASettlement();
+      if(returnAvailableSettlements(currentPlayerTurn) == 4 && currentPlayerTurn < numberOfPlayers-1) {
+        gotoNextPlayerTurn();
+        console.log("moving forward");
       }
-      else if(isTurnStateRoadBuilderCardFirstRoadLongestRoadCheck())
-        setTurnStateToRoadBuilderCarSecondRoad();
-      else if (isTurnStateRoadBuilderCardSecondRoadLongestRoadCheck())
-        setTurnStateToIdle();
+      else if(returnAvailableSettlements(currentPlayerTurn) == 4 && currentPlayerTurn == numberOfPlayers-1) {
+        console.log("Time to reverse course");
+      }
+      else if(returnAvailableSettlements(currentPlayerTurn) == 3 && currentPlayerTurn > 0) {
+        //Give currentPlayerTurn Resrouces
+        gotoPreviousPlayerTurn();
+        console.log("moving backwards");
+      }
       else {
-        setTurnStateToIdle();
-        removePlayerResourcesToBuildRoad(currentPlayerTurn);
+        //Give currentPlayerTurn Resrouces
+        console.log("^^^^START THE GAME^^^^");
+        setGameStateToMainGame();
+        setTurnStateToStartTurn();
       }
+    }
+    else if(isTurnStateRoadBuilderCardFirstRoadLongestRoadCheck())
+      setTurnStateToRoadBuilderCarSecondRoad();
+    else if (isTurnStateRoadBuilderCardSecondRoadLongestRoadCheck())
+      setTurnStateToIdle();
+    else {
+      setTurnStateToIdle();
+      removePlayerResourcesToBuildRoad(currentPlayerTurn);
     }
   })
   
-
   return (
     <>
     </>
