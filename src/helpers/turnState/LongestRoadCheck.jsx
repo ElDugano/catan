@@ -35,13 +35,10 @@ export default function LongestRoadCheck() {
   const { tileCornerNodes } = useContext(TileCornerNodesContext);
 
   useEffect(() => {
-    console.log("Hello World, I am here! ^^^^^^^^^^^^^^^^^^^^");
     if( isTurnStateBuildingARoadLongestRoadCheck() ||
         isTurnStateRoadBuilderCardFirstRoadLongestRoadCheck() ||
         isTurnStateRoadBuilderCardSecondRoadLongestRoadCheck() ){
-      console.log("Looks like you just built a road. Good work! I will do some coding.");
     
-      //removeRoadFromAvailableBuildings(x, y, currentPlayerTurn);
       checkIfLongestRoad(findThePlayersLongestRoad(tileCornerNodes, currentPlayerTurn, returnUsedRoads(currentPlayerTurn)), currentPlayerTurn);
       if(isGameStateBoardSetup()){
         setTurnStateToBuildingASettlement();

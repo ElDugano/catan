@@ -29,9 +29,13 @@ function App() {
 
   //These are really just here for debugging.
   const { setGameStateToGameOver } = useContext(GameStateContext)
-  const {turnState, isTurnStateStartTurn, setTurnStateToRollingTheDice } = useContext(TurnStateContext);
-  const {currentPlayerTurn} = useContext(CurrentPlayerTurnContext);
-  const { getJustPurchasedPlayerVictoryPointCards, makePlayerPurchasedDevelopmentAvailableToPlay} = useContext(DevelopmentCardsContext);
+  const { turnState,
+          isTurnStateLongestRoadCheck,
+          isTurnStateStartTurn,
+          setTurnStateToRollingTheDice } = useContext(TurnStateContext);
+  const { currentPlayerTurn } = useContext(CurrentPlayerTurnContext);
+  const { getJustPurchasedPlayerVictoryPointCards,
+          makePlayerPurchasedDevelopmentAvailableToPlay } = useContext(DevelopmentCardsContext);
   const { addPointsToPlayerHiddenPoints, winner } = useContext(ScoreBoardContext);
   const { resetDiceRolledThisTurn } = useContext(DiceContext);
 
@@ -53,6 +57,7 @@ function App() {
     }
   })
 
+  let longestRoadCheck = isTurnStateLongestRoadCheck() ? <LongestRoadCheck /> : null;
 
   return (
     <>
@@ -67,7 +72,7 @@ function App() {
         <TurnInterface />
         <Gameboard>
           <GatherResourcesFromRoll />
-          <LongestRoadCheck />
+          {longestRoadCheck}
         </Gameboard>
         <Debug />
     </>

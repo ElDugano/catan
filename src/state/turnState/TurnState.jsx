@@ -70,6 +70,14 @@ export const TurnState = ({ children }) => {
     //const isTurnState = () => {return turnState == "" ? true : false};
     //const setTurnStateTo = () =>     {setTurnState("")};
 
+    const isTurnStateLongestRoadCheck = () => {
+      if( isTurnStateBuildingARoadLongestRoadCheck() ||
+        isTurnStateRoadBuilderCardFirstRoadLongestRoadCheck() ||
+        isTurnStateRoadBuilderCardSecondRoadLongestRoadCheck())
+        return true;
+      return false;
+    }
+
 
   return (
     <TurnStateContext.Provider value={{
@@ -135,6 +143,8 @@ export const TurnState = ({ children }) => {
       //---------- Trading Related ----------//
       isTurnStateTradingWithTheBoard,
       setTurnStateToTradingWithTheBoard,
+      //----- Extra Checks for readability -----//
+      isTurnStateLongestRoadCheck,
       turnState
     }}>
       {children}
