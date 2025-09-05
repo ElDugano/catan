@@ -24,32 +24,22 @@ import { PortTiles } from "./state/portTiles/PortTiles.jsx";
 import { ThiefLocation } from './state/thiefLocation/ThiefLocation.jsx'
 import { LandTileNumbers } from './state/landTileNumbers/LandTileNumbers.jsx'
 
-import findThePlayersLongestRoad from './helpers/FindLongestRoad.jsx';
 import checkIfSettlmentSplitLongestRoad from "./helpers/checkIfSettlmentSplitLongestRoad.jsx";
 
 export default function Gameboard({children}) {
-  const {isGameStateBoardSetup, setGameStateToMainGame} = useContext(GameStateContext);
-  const {setTurnStateToBuildingASettlement,
-    setTurnStateToBuildingARoad,
-    setTurnStateToStartTurn,
-    setTurnStateToIdle,
-    isTurnStateRoadBuilderCardFirstRoad,
-    isTurnStateRoadBuilderCardSecondRoad,
-    setTurnStateToRoadBuilderCarSecondRoad,
-  }= useContext(TurnStateContext);
+  const { isGameStateBoardSetup } = useContext(GameStateContext);
+  const { setTurnStateToBuildingARoad,
+          setTurnStateToIdle }= useContext(TurnStateContext);
 
   const { returnAvailableSettlements,
-          returnUsedRoads,
           removeSettlementFromAvailableBuildings,
-          removeCityFromAvailableBuildings,
-          removeRoadFromAvailableBuildings} = useContext(PlayerAvailableBuildingsContext);
-  const { removePlayerResourcesToBuildRoad,
-          removePlayerResourcesToBuildSettlement,
+          removeCityFromAvailableBuildings } = useContext(PlayerAvailableBuildingsContext);
+  const { removePlayerResourcesToBuildSettlement,
           removePlayerResourcesToBuildCity } = useContext(PlayerResourceCardsContext);
 
-  const { currentPlayerTurn, gotoNextPlayerTurn, gotoPreviousPlayerTurn } = useContext(CurrentPlayerTurnContext);
+  const { currentPlayerTurn } = useContext(CurrentPlayerTurnContext);
   const { numberOfPlayers } = useContext(NumberOfPlayersContext);
-  const { scorePoint, checkIfLongestRoad, setLongestRoad, longestRoadOwner } = useContext(ScoreBoardContext);
+  const { scorePoint, setLongestRoad, longestRoadOwner } = useContext(ScoreBoardContext);
   const { setPortOwner } = useContext(PortOwnerContext);
 
   function BuildSettlentHelper(x, y, tileCornerNodes) {
@@ -70,7 +60,7 @@ export default function Gameboard({children}) {
       console.log("Maybe we do this from where it gets called, I guess.");
       console.log("Or we need to move all of this out into another component");
       //if((x+y)%2 == 0){
-      //  
+      //
       //}
     }
 
@@ -90,41 +80,6 @@ export default function Gameboard({children}) {
     setTurnStateToIdle();
   }
 
-  function BuildRoadHelper(x, y, tileCornerNodes) {
-    removeRoadFromAvailableBuildings(x, y, currentPlayerTurn);
-    checkIfLongestRoad(findThePlayersLongestRoad(tileCornerNodes, currentPlayerTurn, returnUsedRoads(currentPlayerTurn)), currentPlayerTurn);
-    if(isGameStateBoardSetup()){
-      setTurnStateToBuildingASettlement();
-      if(returnAvailableSettlements(currentPlayerTurn) == 4 && currentPlayerTurn < numberOfPlayers-1) {
-        gotoNextPlayerTurn();
-        console.log("moving forward");
-      }
-      else if(returnAvailableSettlements(currentPlayerTurn) == 4 && currentPlayerTurn == numberOfPlayers-1) {
-        console.log("Time to reverse course");
-      }
-      else if(returnAvailableSettlements(currentPlayerTurn) == 3 && currentPlayerTurn > 0) {
-        //Give currentPlayerTurn Resrouces
-        gotoPreviousPlayerTurn();
-        console.log("moving backwards");
-      }
-      else {
-        //Give currentPlayerTurn Resrouces
-        console.log("^^^^START THE GAME^^^^");
-        setGameStateToMainGame();
-        setTurnStateToStartTurn();
-      }
-    }
-    else if(isTurnStateRoadBuilderCardFirstRoad())
-      setTurnStateToRoadBuilderCarSecondRoad();
-    else if (isTurnStateRoadBuilderCardSecondRoad())
-      setTurnStateToIdle();
-    else {
-      setTurnStateToIdle();
-      removePlayerResourcesToBuildRoad(currentPlayerTurn);
-    }
-  }
-
-
   return (
     <TileCornerNodes>
       <LandTiles>
@@ -140,9 +95,7 @@ export default function Gameboard({children}) {
                   GameboardFunctionBuildSettlement={BuildSettlentHelper}
                   GameboardFunctionBuildCity={BuildCityHelper}
                 />
-                <RoadNodes
-                  GameboardFunctionBuildRoad={BuildRoadHelper}
-                />
+                <RoadNodes />
                 <BanditIcon />
                 <ThiefMoveButtons />
               </svg>

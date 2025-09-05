@@ -10,15 +10,17 @@ import { PlayerAvailableBuildingsContext } from '../../../state/playerAvailableB
 import BuildRoadButton from "./BuildRoadButton";
 import Road from "./Road";
 
-//import { FindThePlayersLongestRoad } from './FindLongestRoad';
-
 export default function RoadNodes(props) {
   const {isGameStateBoardSetup}= useContext(GameStateContext);
-  const {isTurnStateBuildingARoad, isTurnStateRoadBuilderCardFirstRoad, isTurnStateRoadBuilderCardSecondRoad}= useContext(TurnStateContext);
+  const { isTurnStateBuildingARoad,
+          isTurnStateRoadBuilderCardFirstRoad,
+          isTurnStateRoadBuilderCardSecondRoad,
+          setTurnStateToBuildingARoadLongestRoadCheck,
+          setTurnStateToRoadBuilderCardFirstRoadLongestRoadCheck,
+          setTurnStateToRoadBuilderCarSecondRoadLongestRoadCheck}= useContext(TurnStateContext);
 
-  //const {lastBuiltObject} = useContext(LastBuiltObjectContext);
-  const {lastBuiltObject} = useContext(PlayerAvailableBuildingsContext);
-  const {currentPlayerTurn} = useContext(CurrentPlayerTurnContext);
+  const { lastBuiltObject, removeRoadFromAvailableBuildings } = useContext(PlayerAvailableBuildingsContext);
+  const { currentPlayerTurn } = useContext(CurrentPlayerTurnContext);
 
   const {tileCornerNodes, setNodeRightRoadOwner, setNodeBottomRoadOwner} = useContext(TileCornerNodesContext);
 
@@ -26,12 +28,22 @@ export default function RoadNodes(props) {
 
   function buildRightRoad(x, y) {
     setNodeRightRoadOwner(x, y, currentPlayerTurn);
-    props.GameboardFunctionBuildRoad(x, y, tileCornerNodes);
+    buildRoad(x, y);
   }
 
   function buildBottomRoad(x, y) {
     setNodeBottomRoadOwner(x, y, currentPlayerTurn);
-    props.GameboardFunctionBuildRoad(x, y, tileCornerNodes);
+    buildRoad(x, y);
+  }
+
+  function buildRoad(x, y) {
+    removeRoadFromAvailableBuildings(x, y, currentPlayerTurn);
+    if (isTurnStateBuildingARoad())
+      setTurnStateToBuildingARoadLongestRoadCheck();
+    if(isTurnStateRoadBuilderCardFirstRoad())
+      setTurnStateToRoadBuilderCardFirstRoadLongestRoadCheck();
+    if(isTurnStateRoadBuilderCardSecondRoad())
+      setTurnStateToRoadBuilderCarSecondRoadLongestRoadCheck();
   }
   
   for (let x=1; x <= 12; x++) {

@@ -1,7 +1,8 @@
 import { useContext, useEffect } from 'react';
 import Gameboard from './componentes/gameboard/Gameboard.jsx';
 import TurnInterface from './componentes/turnInterface/TurnInterface.jsx';
-import GatherResourcesFromRoll from './helpers/GatherResourcesFromRoll.jsx';
+import GatherResourcesFromRoll from './helpers/turnState/GatherResourcesFromRoll.jsx';
+import LongestRoadCheck from './helpers/turnState/LongestRoadCheck.jsx';
 
 import { GameStateContext } from "./state/gameState/GameStateContext.js";
 import { TurnStateContext } from './state/turnState/TurnStateContext.js';
@@ -66,6 +67,7 @@ function App() {
         <TurnInterface />
         <Gameboard>
           <GatherResourcesFromRoll />
+          <LongestRoadCheck />
         </Gameboard>
         <Debug />
     </>
