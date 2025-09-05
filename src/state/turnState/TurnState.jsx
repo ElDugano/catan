@@ -57,6 +57,9 @@ export const TurnState = ({ children }) => {
       const setTurnStateToConfirmPlayMonopolyDevelopmentCard = () =>     {setTurnState("Play Monopoly Development Card")};
       const isTurnStateMonopoly = () => {return turnState == "Monopoly" ? true : false};
       const setTurnStateToMonopoly = () =>     {setTurnState("Monopoly")};
+    //---------- Trading Related ----------//
+    const isTurnStateTradingWithTheBoard = () => {return turnState == "Trading With The Board" ? true : false};
+    const setTurnStateToTradingWithTheBoard = () =>     {setTurnState("Trading With The Board")};
 
     //const isTurnState = () => {return turnState == "" ? true : false};
     //const setTurnStateTo = () =>     {setTurnState("")};
@@ -117,6 +120,9 @@ export const TurnState = ({ children }) => {
         setTurnStateToConfirmPlayMonopolyDevelopmentCard,
         isTurnStateMonopoly,
         setTurnStateToMonopoly,
+      //---------- Trading Related ----------//
+      isTurnStateTradingWithTheBoard,
+      setTurnStateToTradingWithTheBoard,
       turnState
     }}>
       {children}

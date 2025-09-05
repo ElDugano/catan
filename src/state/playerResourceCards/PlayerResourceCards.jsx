@@ -59,6 +59,21 @@ export const PlayerResourceCards = ({ children }) => {
     setPlayerResourceCards(newPlayerResourceCards);
   }
 
+  function tradeResources(tradingPlayerA, playerATradedResources, tradingPlayerB, playerBTradedResources) {
+    let newPlayerResourceCards = [...playerResourceCards];
+    for( let resource in playerATradedResources) {
+      newPlayerResourceCards[tradingPlayerA][resource] = newPlayerResourceCards[tradingPlayerA][resource] - playerATradedResources[resource];
+      if (tradingPlayerB != null)
+        newPlayerResourceCards[tradingPlayerB][resource] = newPlayerResourceCards[tradingPlayerB][resource] + playerATradedResources[resource];
+    }
+    for( let resource in playerBTradedResources) {
+      newPlayerResourceCards[tradingPlayerA][resource] = newPlayerResourceCards[tradingPlayerA][resource] + playerBTradedResources[resource];
+      if (tradingPlayerB != null)
+        newPlayerResourceCards[tradingPlayerB][resource] = newPlayerResourceCards[tradingPlayerB][resource] - playerBTradedResources[resource];
+    }
+    setPlayerResourceCards(newPlayerResourceCards);
+  }
+
   function stealRandomCardFromPlayer(robbingPlayer, victimPlayer) {
     let victimPlayerHand = [];
     Object.keys(playerResourceCards[victimPlayer]).forEach(resourceName => {
@@ -160,6 +175,7 @@ export const PlayerResourceCards = ({ children }) => {
         getAllPlayersTotalResourceCards,
         removeCollectionOfResourcesFromPlayer,
         addCollectionOfResourcesToPlayer,
+        tradeResources,
         stealRandomCardFromPlayer,
         previouslyGainedResources,
         plunderedResourcePlayers,
