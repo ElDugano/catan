@@ -1,6 +1,5 @@
 
 export default function findThePlayersLongestRoad(tileCornerNodes, currentPlayer, usedRoads) {
-  console.log("The player has used this many roads right now: "+usedRoads);
   //Find road ends first
   let roadEndPoints = [];
   for (let x=1; x<=11; x++) {
@@ -40,53 +39,52 @@ export default function findThePlayersLongestRoad(tileCornerNodes, currentPlayer
       longestRoad = testRoad;
   });
 
-  console.log("^^^^^^^^^^^");
-
-  foundLoop:if(roadEndPoints.length * longestRoad.length / 2 < usedRoads){ //I would like a better check than this.
-    console.log("The amount of end points and the longest road found don't make sense. It is likely there might be a loop somewhere in here that we have to find.");
-    //This algorithim can likely exit if it finds a single new longest road.
+  foundNewLongestRoad:if(roadEndPoints.length * longestRoad.length / 2 < usedRoads) {
+    //This math appears to only trigger if a looping road exists.
+    //The approach below is to look through the board from every angle until we find a looping road.
+    console.log("***** We need to look for a looping road. *****");
     let testRoad = [];
-    outerLoop:for (let x=1; x<=11; x++) {
+    outerForLoop:for (let x=1; x<=11; x++) {
       for (let y=1; y<=6; y++) {
         if("rightRoadOwner" in tileCornerNodes[x][y] && tileCornerNodes[x][y].rightRoadOwner == currentPlayer){
           testRoad = checkNode(x, y, tileCornerNodes, currentPlayer, [{x:x, y:y, direction:"right"}], true);
           if(testRoad.length > longestRoad.length){
             longestRoad = testRoad;
-            break foundLoop;}
-          break outerLoop;
+            break foundNewLongestRoad;}
+          break outerForLoop;
         }
       }
     }
-    outerLoop:for (let x=11; x>0; x--) {
+    outerForLoop:for (let x=11; x>0; x--) {
       for (let y=6; y>0; y--) {
         if("rightRoadOwner" in tileCornerNodes[x][y] && tileCornerNodes[x][y].rightRoadOwner == currentPlayer){
           testRoad = checkNode(x, y, tileCornerNodes, currentPlayer, [{x:x, y:y, direction:"right"}], true);
           if(testRoad.length > longestRoad.length){
             longestRoad = testRoad;
-            break foundLoop;}
-          break outerLoop;
+            break foundNewLongestRoad;}
+          break outerForLoop;
         }
       }
     }
-    outerLoop:for (let y=1; y<=6; y++) {
+    outerForLoop:for (let y=1; y<=6; y++) {
       for (let x=1; x<=11; x++) {
         if("rightRoadOwner" in tileCornerNodes[x][y] && tileCornerNodes[x][y].rightRoadOwner == currentPlayer){
           testRoad = checkNode(x, y, tileCornerNodes, currentPlayer, [{x:x, y:y, direction:"right"}], true);
           if(testRoad.length > longestRoad.length){
             longestRoad = testRoad;
-            break foundLoop;}
-          break outerLoop;
+            break foundNewLongestRoad;}
+          break outerForLoop;
         }
       }
     }
-    outerLoop:for (let y=6; y>0; y--) {
+    outerForLoop:for (let y=6; y>0; y--) {
       for (let x=11; x>0; x--) {
         if("rightRoadOwner" in tileCornerNodes[x][y] && tileCornerNodes[x][y].rightRoadOwner == currentPlayer){
           testRoad = checkNode(x, y, tileCornerNodes, currentPlayer, [{x:x, y:y, direction:"right"}], true);
           if(testRoad.length > longestRoad.length){
             longestRoad = testRoad;
-            break foundLoop;}
-          break outerLoop;
+            break foundNewLongestRoad;}
+          break outerForLoop;
         }
       }
     }
