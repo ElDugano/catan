@@ -23,9 +23,10 @@ export default function findThePlayersLongestRoad(tileCornerNodes, currentPlayer
       }
     }
   }
+
   let longestRoad = [];
-    //check every roadEndPoint to find the longest road.
   roadEndPoints.forEach(endPoint => {
+    //check every roadEndPoint to find the longest road.
     let testRoad = [];
     if (endPoint.direction == "right")
       testRoad = checkNode(endPoint.x+1, endPoint.y, tileCornerNodes, currentPlayer, [endPoint]);
@@ -89,8 +90,6 @@ export default function findThePlayersLongestRoad(tileCornerNodes, currentPlayer
       }
     }
   }
-
-
   return longestRoad.length;
 }
 
