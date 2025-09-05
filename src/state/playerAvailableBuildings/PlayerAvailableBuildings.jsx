@@ -48,6 +48,10 @@ export const PlayerAvailableBuildings = ({ children }) => {
   const returnAvailableSettlements = (playerNumber) => {return playerAvailableBuildings[playerNumber].settlements};
   const returnAvailableCities = (playerNumber) => {return playerAvailableBuildings[playerNumber].cities};
 
+  const returnUsedRoads = (playerNumber) => {return 15 - playerAvailableBuildings[playerNumber].roads};
+  const returnUsedSettlements = (playerNumber) => {return 4 -playerAvailableBuildings[playerNumber].settlements};
+  const returnUsedCities = (playerNumber) => {return 5 - playerAvailableBuildings[playerNumber].cities};
+
   //const lastBuiltObjectCoordinantes = () => {return {x:lastBuiltObject.x, y:lastBuiltObject.y}}
   //const lastBuiltObjectPlayer = () => {return lastBuiltObject.player}
   //const lastBuiltObjectValue = () => {return lastBuiltObject.player}
@@ -64,6 +68,9 @@ export const PlayerAvailableBuildings = ({ children }) => {
         returnAvailableRoads,
         returnAvailableSettlements,
         returnAvailableCities,
+        returnUsedRoads,
+        returnUsedSettlements,
+        returnUsedCities,
         //lastBuiltObjectCoordinantes,
         //lastBuiltObjectPlayer,
         lastBuiltObject

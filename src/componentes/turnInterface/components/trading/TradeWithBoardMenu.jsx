@@ -13,7 +13,7 @@ export default function TradeWithBoardMenu() {
           doesPlayerOwnOrePort} = useContext(PortOwnerContext);
   const { currentPlayerTurn } = useContext(CurrentPlayerTurnContext);
   const { setTurnStateToIdle } = useContext(TurnStateContext);
-  const { getAPlayersResourceCards, tradeResources } = useContext(PlayerResourceCardsContext);
+  const { /*getAPlayersResourceCards,*/ tradeResources } = useContext(PlayerResourceCardsContext);
 
   const defaultTradeCost = doesPlayerOwnStandardPort(currentPlayerTurn)  ? 3 : 4; 
   const woolPortTradeCost = doesPlayerOwnWoolPort(currentPlayerTurn) ? 2 : defaultTradeCost;

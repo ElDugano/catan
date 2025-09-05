@@ -24,7 +24,8 @@ import { PortTiles } from "./state/portTiles/PortTiles.jsx";
 import { ThiefLocation } from './state/thiefLocation/ThiefLocation.jsx'
 import { LandTileNumbers } from './state/landTileNumbers/LandTileNumbers.jsx'
 
-import { FindThePlayersLongestRoad, } from './components/FindLongestRoad';
+import findThePlayersLongestRoad from './helpers/FindLongestRoad.jsx';
+import checkIfSettlmentSplitLongestRoad from "./helpers/checkIfSettlmentSplitLongestRoad.jsx";
 
 export default function Gameboard({children}) {
   const {isGameStateBoardSetup, setGameStateToMainGame} = useContext(GameStateContext);
@@ -38,6 +39,7 @@ export default function Gameboard({children}) {
   }= useContext(TurnStateContext);
 
   const { returnAvailableSettlements,
+          returnUsedRoads,
           removeSettlementFromAvailableBuildings,
           removeCityFromAvailableBuildings,
           removeRoadFromAvailableBuildings} = useContext(PlayerAvailableBuildingsContext);
@@ -55,35 +57,24 @@ export default function Gameboard({children}) {
     if ("port" in tileCornerNodes[x][y]){
       setPortOwner(currentPlayerTurn, tileCornerNodes[x][y].port);
     }
-
-
-
-    //Check if we cute shit in half.
-    //This all should likely mbe moved into FindLongestRoad.jsx, with a return object of the newPlayer and Length.
-    let outterRoads = 0;
-    if (currentPlayerTurn != longestRoadOwner){
-      if (tileCornerNodes[x][y].rightRoadOwner == longestRoadOwner) {outterRoads++;}
-      if ("rightRoadOwner" in tileCornerNodes[x-1][y] && tileCornerNodes[x-1][y].rightRoadOwner == longestRoadOwner) {outterRoads++;}
-      if ((x+y)%2 == 0 && tileCornerNodes[x][y].bottomRoadOwner == longestRoadOwner) {outterRoads++;}
-      if ((x+y)%2 == 1 && "bottomRoadOwner" in tileCornerNodes[x][y-1] && tileCornerNodes[x][y-1].bottomRoadOwner == longestRoadOwner) {outterRoads++;}
-    }
-    if (outterRoads == 2) {
-      let newLongestRoadPlayer = null;
-      let newLongestRoadLength = 4;
-      for (let player = 0; player < numberOfPlayers; player++){
-        const testRoad = FindThePlayersLongestRoad(tileCornerNodes, player)
-        if (testRoad > newLongestRoadLength){
-          newLongestRoadLength = testRoad;
-          newLongestRoadPlayer = player;
-        }
-      }
-      setLongestRoad(newLongestRoadLength, newLongestRoadPlayer);
-    }
-    //End block that should be moved.
-
-    
-
     removeSettlementFromAvailableBuildings(x, y, currentPlayerTurn);
+    if (currentPlayerTurn != longestRoadOwner){
+      checkIfSettlmentSplitLongestRoad(tileCornerNodes, x, y, longestRoadOwner, numberOfPlayers, setLongestRoad);
+      //This will want to do something with sending how many roads players have.
+    }
+
+    if(isGameStateBoardSetup() && returnAvailableSettlements(currentPlayerTurn) == 3){
+            //More technical debt 
+      console.log("Shit, that was the second settlement. neat.");
+      console.log("Shit shit, we can't get to the landtiles from here.");
+      console.log("Maybe we do this from where it gets called, I guess.");
+      console.log("Or we need to move all of this out into another component");
+      //if((x+y)%2 == 0){
+      //  
+      //}
+    }
+
+
     if(isGameStateBoardSetup())
       setTurnStateToBuildingARoad();
     else{
@@ -100,8 +91,8 @@ export default function Gameboard({children}) {
   }
 
   function BuildRoadHelper(x, y, tileCornerNodes) {
-    checkIfLongestRoad(FindThePlayersLongestRoad(tileCornerNodes, currentPlayerTurn), currentPlayerTurn);
     removeRoadFromAvailableBuildings(x, y, currentPlayerTurn);
+    checkIfLongestRoad(findThePlayersLongestRoad(tileCornerNodes, currentPlayerTurn, returnUsedRoads(currentPlayerTurn)), currentPlayerTurn);
     if(isGameStateBoardSetup()){
       setTurnStateToBuildingASettlement();
       if(returnAvailableSettlements(currentPlayerTurn) == 4 && currentPlayerTurn < numberOfPlayers-1) {
@@ -160,5 +151,6 @@ export default function Gameboard({children}) {
         </PortTiles>
       </LandTiles>
     </TileCornerNodes>
+
   )
 }
