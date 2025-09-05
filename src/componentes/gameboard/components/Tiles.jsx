@@ -4,7 +4,6 @@ import { LandTilesContext } from "../state/landTiles/LandTilesContext";
 export default function Tiles() {
   const { landTiles } = useContext(LandTilesContext);
 
-
   let boardContent = [];
 
   for (let x in landTiles) {
@@ -38,5 +37,8 @@ export default function Tiles() {
   //      )
   //  }
   //}
-  return boardContent;
+  return (<>
+    {boardContent}
+
+    </>)
 }

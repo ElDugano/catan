@@ -1,18 +1,16 @@
-import { useState, useContext } from "react";
+import { useState, useContext, useEffect } from "react";
 import { PortTilesContext } from "./PortTilesContext";
 import { TileCornerNodesContext } from "../tileCornerNodes/TileCornerNodesContext";
 import Shuffle from "../../../../helpers/Shuffle";
-//import FindDesert from "../../stateInitializers/FindDesert";
 import { LandTilesContext } from "../landTiles/LandTilesContext";
 
 export const PortTiles = ({ children }) => {
+  
+
   const {desertLocation} = useContext(LandTilesContext);
   const {addPortsToNode} = useContext(TileCornerNodesContext);
 
   const [portTiles/*, setPortTiles*/] = useState(CreatePortTiles);
-
-
-
 
   function CreatePortTiles(){
     console.log("*** createPortTiles was called. ***")
@@ -48,27 +46,45 @@ export const PortTiles = ({ children }) => {
       11:{2:{type:"Ocean",port1:{x:10,y:2},port2:{x:10,y:3}},  4:{type:"Ocean",port1:{x:10,y:4},port2:{x:10,y:5}}},
       12:{3:{type:"Ocean",port1:{x:11,y:3},port2:{x:11,y:4}}}
     };
-    let portNodes=[];
     while (portTilesCoordinates.length > 0) {
       portTiles[portTilesCoordinates[0][0]][portTilesCoordinates[0][1]].type=availablePortTypes.shift();
-      portNodes.push({x:portTiles[portTilesCoordinates[0][0]][portTilesCoordinates[0][1]].port1.x,
-                      y:portTiles[portTilesCoordinates[0][0]][portTilesCoordinates[0][1]].port1.y,
-                      type:portTiles[portTilesCoordinates[0][0]][portTilesCoordinates[0][1]].type});
-      portNodes.push({x:portTiles[portTilesCoordinates[0][0]][portTilesCoordinates[0][1]].port2.x,
-                      y:portTiles[portTilesCoordinates[0][0]][portTilesCoordinates[0][1]].port2.y,
-                      type:portTiles[portTilesCoordinates[0][0]][portTilesCoordinates[0][1]].type});
+      //portNodes.push({x:portTiles[portTilesCoordinates[0][0]][portTilesCoordinates[0][1]].port1.x,
+      //                y:portTiles[portTilesCoordinates[0][0]][portTilesCoordinates[0][1]].port1.y,
+      //                type:portTiles[portTilesCoordinates[0][0]][portTilesCoordinates[0][1]].type});
+      //portNodes.push({x:portTiles[portTilesCoordinates[0][0]][portTilesCoordinates[0][1]].port2.x,
+      //                y:portTiles[portTilesCoordinates[0][0]][portTilesCoordinates[0][1]].port2.y,
+      //                type:portTiles[portTilesCoordinates[0][0]][portTilesCoordinates[0][1]].type});
       //Below is to make portTiles only know about the tiles and not what nodes they are attached to.
       //Ideally this would be how we handle things, but the ports.jsx reads this.
       //delete portTiles[portTilesCoordinates[0][0]][portTilesCoordinates[0][1]].port1;
       //delete portTiles[portTilesCoordinates[0][0]][portTilesCoordinates[0][1]].port2;
       portTilesCoordinates.shift();
     };
-    addPortsToNode(portNodes);
+    //addPortsToNode(portNodes);//This is causing a warning/error. You can't set state up during the render, like this.
 
-    console.log("And the port tiles are");
-    console.log(portTiles);
     return portTiles;
 }
+  const [updatedTileNodesWithPorts, setUpdatedTileNodesWithPorts] = useState(false);
+  useEffect(() => {
+    //This continues to call every state change, but the code below only opporates once.
+    if(updatedTileNodesWithPorts == false){
+      let portNodes=[];
+      for (let x in portTiles) {
+        for (let y in portTiles[x]) {
+          portNodes.push({x:portTiles[x][y].port1.x,
+                          y:portTiles[x][y].port1.y,
+                          type:portTiles[x][y].type});
+          portNodes.push({x:portTiles[x][y].port2.x,
+                          y:portTiles[x][y].port2.y,
+                          type:portTiles[x][y].type});
+        }
+      }
+      console.log(portNodes);
+      addPortsToNode(portNodes);//If this is in the dependency, it constantly loops.
+      setUpdatedTileNodesWithPorts(true);
+    }
+    
+  }, [portTiles, addPortsToNode, setUpdatedTileNodesWithPorts, updatedTileNodesWithPorts])
 
   return (
       <PortTilesContext.Provider value={{
