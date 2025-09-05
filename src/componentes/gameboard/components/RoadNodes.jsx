@@ -10,7 +10,7 @@ import { PlayerAvailableBuildingsContext } from '../../../state/playerAvailableB
 import BuildRoadButton from "./BuildRoadButton";
 import Road from "./Road";
 
-export default function RoadNodes(props) {
+export default function RoadNodes() {
   const {isGameStateBoardSetup}= useContext(GameStateContext);
   const { isTurnStateBuildingARoad,
           isTurnStateRoadBuilderCardFirstRoad,
