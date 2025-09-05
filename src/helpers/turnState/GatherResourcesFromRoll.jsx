@@ -9,6 +9,8 @@ import { TileCornerNodesContext } from '../../componentes/gameboard/state/tileCo
 import { LandTileNumbersContext } from '../../componentes/gameboard/state/landTileNumbers/LandTileNumbersContext.js';
 import { LandTilesContext } from '../../componentes/gameboard/state/landTiles/LandTilesContext.js';
 
+import mapTileTypeToResourceType from './MapTileTypeToResourceType.jsx';
+
 export default function GatherResourcesFromRoll() {
   const {isTurnStateGatheringResources, setTurnStateToGatheringResourcescAknowledgement} = useContext(TurnStateContext);
   const {addResourcesFromDiceRollToPlayerResourceCards} = useContext(PlayerResourceCardsContext);
@@ -45,32 +47,11 @@ export default function GatherResourcesFromRoll() {
           }
         }
       }
+      console.log(playerResourceCardsGained);
       addResourcesFromDiceRollToPlayerResourceCards(playerResourceCardsGained);
       setTurnStateToGatheringResourcescAknowledgement();
     };
   })
-
-
-
-  function mapTileTypeToResourceType(landValue) {
-    switch(landValue) {
-      case "Pasture":
-        return "Wool";
-      case "Forest":
-        return "Lumber";
-      case "Fields":
-        return "Grain";
-      case "Hills":
-        return "Brick";
-      case "Mountains":
-        return "Ore";
-      case "Desert":
-        return null;
-    };
-  };
-
-
-
   return (
     <>
     </>

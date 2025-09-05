@@ -9,23 +9,74 @@ import BuildCityButton from './BuildCityButton.jsx';
 import Settlement from './Settlement';
 import City from './City.jsx';
 
-export default function CornerNodes(props) {
+
+import { NumberOfPlayersContext } from '../../../state/numberOfPlayers/NumberOfPlayersContext';
+import { PlayerResourceCardsContext } from "../../../state/playerResourceCards/PlayerResourceCardsContext.js";
+import { PlayerAvailableBuildingsContext } from "../../../state/playerAvailableBuildings/PlayerAvailableBuildingsContext.js";
+import { ScoreBoardContext } from "../../../state/scoreBoard/ScoreBoardContext.js";
+import { PortOwnerContext } from "../../../state/portOwner/PortOwnerContext.js";
+import { LandTilesContext } from '../state/landTiles/LandTilesContext.js';
+
+import checkIfSettlmentSplitLongestRoad from "../helpers/checkIfSettlmentSplitLongestRoad.jsx";
+import mapTileTypeToResourceType from '../../../helpers/turnState/MapTileTypeToResourceType.jsx';
+
+export default function CornerNodes() {
   const {isGameStateBoardSetup}= useContext(GameStateContext);
-  const {isTurnStateBuildingASettlement, isTurnStateBuildingACity}= useContext(TurnStateContext);
+  const { isTurnStateBuildingASettlement,
+          isTurnStateBuildingACity,
+          setTurnStateToBuildingARoad,
+          setTurnStateToIdle }= useContext(TurnStateContext);//DOUBLED UP ABOVE
+
   const {currentPlayerTurn} = useContext(CurrentPlayerTurnContext);
   const {tileCornerNodes, isNodeValueSettlement, isNodeValueCity, isNodeValueLand, setNodeValueToSettlement, setNodeValueToCity} = useContext(TileCornerNodesContext);
 
- 
+  const { scorePoint, setLongestRoad, longestRoadOwner } = useContext(ScoreBoardContext);
+  const { setPortOwner } = useContext(PortOwnerContext);
+  const { numberOfPlayers } = useContext(NumberOfPlayersContext);
+  const { returnAvailableSettlements,
+          removeSettlementFromAvailableBuildings,
+          removeCityFromAvailableBuildings } = useContext(PlayerAvailableBuildingsContext);
+  const { addCollectionOfResourcesToPlayer,
+          removePlayerResourcesToBuildSettlement,
+          removePlayerResourcesToBuildCity } = useContext(PlayerResourceCardsContext);
+    const { landTiles } = useContext(LandTilesContext);
 
   function buildSettlement(x, y) {
     setNodeValueToSettlement(x, y,currentPlayerTurn);
-    props.GameboardFunctionBuildSettlement(x, y, tileCornerNodes);
+    scorePoint(currentPlayerTurn);
+    if ("port" in tileCornerNodes[x][y]){
+      setPortOwner(currentPlayerTurn, tileCornerNodes[x][y].port);
+    }
+    removeSettlementFromAvailableBuildings(x, y, currentPlayerTurn);
+    if (currentPlayerTurn != longestRoadOwner){
+      checkIfSettlmentSplitLongestRoad(tileCornerNodes, x, y, longestRoadOwner, numberOfPlayers, setLongestRoad);
+    }
+    if(isGameStateBoardSetup() && returnAvailableSettlements(currentPlayerTurn) == 3){
+      let resourcesGained = {Wool:0, Lumber:0, Grain:0, Brick:0, Ore:0};
+      if((x+y)%2 == 0) {
+        if (landTiles[x] && landTiles[x][y-1]) resourcesGained[mapTileTypeToResourceType(landTiles[x][y-1])]++;
+        if (landTiles[x-1] && landTiles[x-1][y]) resourcesGained[mapTileTypeToResourceType(landTiles[x-1][y])]++;
+        if (landTiles[x+1] && landTiles[x+1][y]) resourcesGained[mapTileTypeToResourceType(landTiles[x+1][y])]++; }
+      else {
+        if (landTiles[x-1] && landTiles[x-1][y-1]) resourcesGained[mapTileTypeToResourceType(landTiles[x-1][y-1])]++;
+        if (landTiles[x+1] && landTiles[x+1][y-1]) resourcesGained[mapTileTypeToResourceType(landTiles[x+1][y-1])]++;
+        if (landTiles[x+1] && landTiles[x][y]) resourcesGained[mapTileTypeToResourceType(landTiles[x][y])]++;  }
+      addCollectionOfResourcesToPlayer(currentPlayerTurn, resourcesGained);
+    }
+    if(isGameStateBoardSetup())
+      setTurnStateToBuildingARoad();
+    else{
+      removePlayerResourcesToBuildSettlement(currentPlayerTurn);
+      setTurnStateToIdle();
+    }
   }
 
   function buildCity(x, y) {
-    console.log("We built a city.");
     setNodeValueToCity(x, y);
-    props.GameboardFunctionBuildCity(x, y);
+    scorePoint(currentPlayerTurn);
+    removeCityFromAvailableBuildings(x, y, currentPlayerTurn);
+    removePlayerResourcesToBuildCity(currentPlayerTurn);
+    setTurnStateToIdle();
   }
 
   let boardContent=[];
