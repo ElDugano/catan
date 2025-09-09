@@ -4,6 +4,9 @@ import TurnInterface from './componentes/turnInterface/TurnInterface.jsx';
 import GatherResourcesFromRoll from './helpers/turnState/GatherResourcesFromRoll.jsx';
 import LongestRoadCheck from './helpers/turnState/LongestRoadCheck.jsx';
 
+import GameSetup from './componentes/gameSetup/GameSetup.jsx';
+import Networking from './componentes/networking/Networking.jsx';
+
 import { GameStateContext } from "./state/gameState/GameStateContext.js";
 import { TurnStateContext } from './state/turnState/TurnStateContext.js';
 import { CurrentPlayerTurnContext } from './state/currentPlayerTurn/CurrentPlayerTurnContext.js';
@@ -28,7 +31,8 @@ function App() {
 
 
   //These are really just here for debugging.
-  const { setGameStateToGameOver } = useContext(GameStateContext)
+  const { isGameStateGameSetup,
+          setGameStateToGameOver } = useContext(GameStateContext)
   const { turnState,
           isTurnStateLongestRoadCheck,
           isTurnStateStartTurn,
@@ -57,26 +61,34 @@ function App() {
     }
   })
 
-  let longestRoadCheck = isTurnStateLongestRoadCheck() ? <LongestRoadCheck /> : null;
-
-  return (
-    <>
-      it is <span style={{color: getAPlayersColor(currentPlayerTurn)}}>player {currentPlayerTurn}'s</span> turn. 
-      Wool: {currentPlayerResources.Wool} | 
-      Lumber: {currentPlayerResources.Lumber} | 
-      Grain: {currentPlayerResources.Grain} | 
-      Brick: {currentPlayerResources.Brick} | 
-      Ore: {currentPlayerResources.Ore}
-      <br />
-      The turnState is: {turnState}<br />
-        <TurnInterface />
-        <Gameboard>
-          <GatherResourcesFromRoll />
-          {longestRoadCheck}
-        </Gameboard>
-        <Debug />
-    </>
-  )
+  if (isGameStateGameSetup()){
+    return(<>
+      <GameSetup /> 
+      </>
+    )
+  }
+  else {
+    const longestRoadCheck = isTurnStateLongestRoadCheck() ? <LongestRoadCheck /> : null;
+    return (
+      <>
+        it is <span style={{color: getAPlayersColor(currentPlayerTurn)}}>player {currentPlayerTurn}'s</span> turn. 
+        Wool: {currentPlayerResources.Wool} | 
+        Lumber: {currentPlayerResources.Lumber} | 
+        Grain: {currentPlayerResources.Grain} | 
+        Brick: {currentPlayerResources.Brick} | 
+        Ore: {currentPlayerResources.Ore}
+        <br />
+        The turnState is: {turnState}<br />
+          <TurnInterface />
+          <Gameboard>
+            <GatherResourcesFromRoll />
+            {longestRoadCheck}
+            <Networking />
+          </Gameboard>
+          <Debug />
+      </>
+    )
+  }
 }
 
 export default App
