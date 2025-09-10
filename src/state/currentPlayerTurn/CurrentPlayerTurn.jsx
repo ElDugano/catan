@@ -58,6 +58,7 @@ export const CurrentPlayerTurn = ({ children }) => {
   const isPlayerOrderArrayPositionStart = () => {
     console.log("The way I am going to answer this question is...");
     console.log(playerOrderArrayPosition);
+    console.log(playerOrderArrayPosition == 0 ? true : false);
     return playerOrderArrayPosition == 0 ? true : false;
   }
   
