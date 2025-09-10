@@ -1,3 +1,5 @@
+import { Networking } from '../componentes/networking/State/Networking.jsx'
+import { NetworkingMessageSender } from '../componentes/networking/Host/NetworkingMessageSender.jsx'
 import { GameState } from './gameState/GameState.jsx'
 import { TurnState } from './turnState/TurnState.jsx'
 import { NumberOfPlayers } from './numberOfPlayers/NumberOfPlayers.jsx'
@@ -12,28 +14,32 @@ import { PortOwner } from './portOwner/PortOwner.jsx'
 
 export default function GlobalStateProvider({ children }) {
   return (
-    <GameState>
-      <TurnState>
-        <NumberOfPlayers>
-          <CurrentPlayerTurn>
-            <PlayerColor>
-              <PlayerAvailableBuildings>
-                <PlayerResourceCards>
-                  <DevelopmentCards>
-                    <Dice>
-                      <ScoreBoard>
-                        <PortOwner>
-                          { children }
-                        </PortOwner>
-                      </ScoreBoard>
-                    </Dice>
-                  </DevelopmentCards>
-                </PlayerResourceCards>
-              </PlayerAvailableBuildings>
-            </PlayerColor>
-          </CurrentPlayerTurn>
-        </NumberOfPlayers>
-      </TurnState>
-    </GameState>
+    <Networking>
+      <NetworkingMessageSender>
+        <GameState>
+          <TurnState>
+            <NumberOfPlayers>
+              <CurrentPlayerTurn>
+                <PlayerColor>
+                  <PlayerAvailableBuildings>
+                    <PlayerResourceCards>
+                      <DevelopmentCards>
+                        <Dice>
+                          <ScoreBoard>
+                            <PortOwner>
+                              { children }
+                            </PortOwner>
+                          </ScoreBoard>
+                        </Dice>
+                      </DevelopmentCards>
+                    </PlayerResourceCards>
+                  </PlayerAvailableBuildings>
+                </PlayerColor>
+              </CurrentPlayerTurn>
+            </NumberOfPlayers>
+          </TurnState>
+        </GameState>
+      </NetworkingMessageSender>
+    </Networking>
   )
 }

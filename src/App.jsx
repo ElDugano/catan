@@ -4,7 +4,10 @@ import TurnInterface from './componentes/turnInterface/TurnInterface.jsx';
 import GatherResourcesFromRoll from './helpers/turnState/GatherResourcesFromRoll.jsx';
 import LongestRoadCheck from './helpers/turnState/LongestRoadCheck.jsx';
 
-import Networking from './componentes/networking/Networking.jsx';
+//import Networking from './componentes/networking/Networking.jsx';
+import NetworkingSetup from './componentes/networking/NetworkingSetup.jsx';
+import NetworkingMessageReciever from './componentes/networking/Host/NetworkingMessageReciever.jsx';
+
 
 import { GameStateContext } from "./state/gameState/GameStateContext.js";
 import { TurnStateContext } from './state/turnState/TurnStateContext.js';
@@ -62,7 +65,8 @@ function App() {
 
   if (isGameStateGameSetup()){
     return(<>
-        <Networking /> 
+        <NetworkingSetup />
+        <NetworkingMessageReciever />
       </>
     )
   }
@@ -70,19 +74,11 @@ function App() {
     const longestRoadCheck = isTurnStateLongestRoadCheck() ? <LongestRoadCheck /> : null;
     return (
       <>
-        it is <span style={{color: getAPlayersColor(currentPlayerTurn)}}>player {currentPlayerTurn}'s</span> turn. 
-        Wool: {currentPlayerResources.Wool} | 
-        Lumber: {currentPlayerResources.Lumber} | 
-        Grain: {currentPlayerResources.Grain} | 
-        Brick: {currentPlayerResources.Brick} | 
-        Ore: {currentPlayerResources.Ore}
-        <br />
-        The turnState is: {turnState}<br />
           <TurnInterface />
           <Gameboard>
             <GatherResourcesFromRoll />
             {longestRoadCheck}
-            <Networking />
+            <NetworkingMessageReciever />
           </Gameboard>
           <Debug />
       </>
@@ -91,3 +87,14 @@ function App() {
 }
 
 export default App
+//This was debugging code.
+/*
+        it is <span style={{color: getAPlayersColor(currentPlayerTurn)}}>player {currentPlayerTurn}'s</span> turn. 
+        Wool: {currentPlayerResources.Wool} | 
+        Lumber: {currentPlayerResources.Lumber} | 
+        Grain: {currentPlayerResources.Grain} | 
+        Brick: {currentPlayerResources.Brick} | 
+        Ore: {currentPlayerResources.Ore}
+        <br />
+        The turnState is: {turnState}<br />
+*/
