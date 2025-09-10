@@ -5,12 +5,12 @@ export const Networking = ({ children }) => {
   const [isHost, setIsHost] = useState(null);
   const [newestConn, setNewestConn] = useState(null);
   const [conn, setConn] = useState(null);
-  const [recievedMessage, setRecievedMessage] = useState(null);
+  const [recievedMessages, setRecievedMessages] = useState(null);
   const [recievedMessagesPlayer, setRecievedMessagesPlayer] = useState(null);
   const hostPeerIDPrefix = "elduganocatangame-";
 
   const clearMessage = () => {
-    setRecievedMessage(null);
+    setRecievedMessages(null);
     setRecievedMessagesPlayer(null);
   }
 
@@ -21,12 +21,12 @@ export const Networking = ({ children }) => {
         newestConn.on('open', function() {
           // Receive messages
           newestConn.on('data', function(data,) {
-            setRecievedMessage(data);
+            setRecievedMessages(data);
             setRecievedMessagesPlayer(playerNumber);        
                   //This will likely need to reconfiguring or something. If we want to randomize the player numbers.
           });
           // Send a test message messages
-          newestConn.send("You have connected to the boardgame!");
+          newestConn.send(["You have connected to the boardgame!"]);
         });
         let newConn;
         if(conn == null)
@@ -42,11 +42,11 @@ export const Networking = ({ children }) => {
         newestConn.on('open', function() {
           // Receive messages
           newestConn.on('data', function(data,) {
-            setRecievedMessage(data);
+            setRecievedMessages(data);
             //console.log('Received:', data);
           });
           // Send a test message
-          newestConn.send("I am a player who has just joined the game!");
+          newestConn.send(["I am a player who has just joined the game!"]);
         });
         setConn(newestConn);
         setNewestConn(null);
@@ -60,7 +60,7 @@ export const Networking = ({ children }) => {
     setNewestConn,
     isHost,
     setIsHost,
-    recievedMessage,        //Used in Reciever
+    recievedMessages,        //Used in Reciever
     recievedMessagesPlayer, //Used in Reciever
     clearMessage,           //Used in Reciever
     hostPeerIDPrefix

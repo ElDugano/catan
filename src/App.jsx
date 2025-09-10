@@ -63,19 +63,20 @@ function App() {
     }
   })
 
-  if (isGameStateGameSetup()){
-    return(<>
-        <NetworkingSetup />
-        <NetworkingMessageReciever />
-      </>
-    )
-  }
-  else {
+  //if (isGameStateGameSetup()){
+  //  return(<>
+  //      <NetworkingSetup />
+  //      <NetworkingMessageReciever />
+  //    </>
+  //  )
+  //}
+  //else {
     const longestRoadCheck = isTurnStateLongestRoadCheck() ? <LongestRoadCheck /> : null;
     return (
       <>
           <TurnInterface />
           <Gameboard>
+            {isGameStateGameSetup() ? <NetworkingSetup /> : null}
             <GatherResourcesFromRoll />
             {longestRoadCheck}
             <NetworkingMessageReciever />
@@ -83,7 +84,7 @@ function App() {
           <Debug />
       </>
     )
-  }
+  //}
 }
 
 export default App

@@ -5,7 +5,7 @@ import  Shuffle  from '../../../../helpers/Shuffle.jsx'
 export const LandTiles = ({ children }) => {
   const [landTiles, setLandTiles] = useState(CreateLandTiles);
   
-  const [desertLocation/*, setDesertLocation*/] = useState(() => {
+  const [desertLocation, setDesertLocation] = useState(() => {
     for (let xCoordinate in landTiles) {
       for (let yCoordinate in landTiles[xCoordinate]) {
         if (landTiles[xCoordinate][yCoordinate] == "Desert")
@@ -71,7 +71,8 @@ function CreateLandTiles(){
       <LandTilesContext.Provider value={{
         landTiles,
         setLandTiles,
-        desertLocation
+        desertLocation,
+        setDesertLocation
       }}>
         {children}
       </LandTilesContext.Provider>

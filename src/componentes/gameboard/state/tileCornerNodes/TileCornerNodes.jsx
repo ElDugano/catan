@@ -95,6 +95,7 @@ export const TileCornerNodes = ({ children }) => {
   return (
       <TileCornerNodesContext.Provider value={{
         tileCornerNodes,
+        setTileCornerNodes,
         isNodeValueSettlement,
         isNodeValueCity,
         isNodeValueOcean,

@@ -10,7 +10,7 @@ export const PortTiles = ({ children }) => {
   const {desertLocation} = useContext(LandTilesContext);
   const {addPortsToNode} = useContext(TileCornerNodesContext);
 
-  const [portTiles/*, setPortTiles*/] = useState(CreatePortTiles);
+  const [portTiles, setPortTiles] = useState(CreatePortTiles);
 
   function CreatePortTiles(){
     console.log("*** createPortTiles was called. ***")
@@ -88,7 +88,8 @@ export const PortTiles = ({ children }) => {
 
   return (
       <PortTilesContext.Provider value={{
-        portTiles
+        portTiles,
+        setPortTiles
       }}>
         {children}
       </PortTilesContext.Provider>

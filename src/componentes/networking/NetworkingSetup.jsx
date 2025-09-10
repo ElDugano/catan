@@ -6,27 +6,44 @@ import { GameStateContext } from "../../state/gameState/GameStateContext";
 import NetworkingHostSetup from "./NetworkingHostSetup";
 import NetworkingClientSetup from "./NetworkingClientSetup";
 
+//This will be in gamesetup.
+import { LandTileNumbersContext } from "../gameboard/state/landTileNumbers/LandTileNumbersContext";
+import { LandTilesContext } from "../gameboard/state/landTiles/LandTilesContext";
+import { PortTilesContext } from "../gameboard/state/portTiles/PortTilesContext";
+import { ThiefLocationContext } from "../gameboard/state/thiefLocation/ThiefLocationContext";
+import { TileCornerNodesContext } from "../gameboard/state/tileCornerNodes/TileCornerNodesContext";
+
 export const NetworkingSetup = () => {
   const {conn, setConn, setNewestConn, isHost, setIsHost, hostPeerIDPrefix} = useContext(NetworkingContext);
   const {addToMessagePayloadToHost, addToMessagePayloadToAllPlayers, sendTheMessages} = useContext(NetworkingMessageSenderContext);
   const {setGameStateToBoardSetup} = useContext(GameStateContext);
 
+  //This should ultimately be split into two, networking setup, and gameSetup.
+  const { landTileNumbers } = useContext(LandTileNumbersContext);
+  const { landTiles, desertLocation} = useContext(LandTilesContext);
+  const { portTiles } = useContext(PortTilesContext);
+  const { thiefLocation } = useContext(ThiefLocationContext);
+  const { tileCornerNodes } = useContext(TileCornerNodesContext);
+
   const sendHostMessage = () => {
-    //conn.forEach((player, index) => {
-    //  player.send("Hey, you are player "+index+". I hope you are ready to play!");
-    //})
     addToMessagePayloadToAllPlayers("Hey, are you ready to play?");
     addToMessagePayloadToAllPlayers("No, really, are you?");
     sendTheMessages();
   }
-  //----------TESTING CODE -----------//
+  //---------- Should be moved into GameSetup -----------//
   const hostStartTheGame = () => {
     console.log("This should be handled elsewhere, but we are testing the functionality.")
-    addToMessagePayloadToAllPlayers({gameState:"setGameStateToBoardSetup"});
+    addToMessagePayloadToAllPlayers({ gameState:"setGameStateToBoardSetup" });
+    addToMessagePayloadToAllPlayers({ landTileNumbers:landTileNumbers });
+    addToMessagePayloadToAllPlayers({ landTiles:landTiles });
+    addToMessagePayloadToAllPlayers({ desertLocation:desertLocation });
+    addToMessagePayloadToAllPlayers({ portTiles:portTiles });
+    addToMessagePayloadToAllPlayers({ thiefLocation:thiefLocation });
+    addToMessagePayloadToAllPlayers({ tileCornerNodes:tileCornerNodes });
     sendTheMessages();
     setGameStateToBoardSetup();
   }
-  //----------End testing code -----------//
+  //---------- Should be moved into GameSetup -----------//
   const sendClientMessage = () => {
     addToMessagePayloadToHost("I am in the message payload");
     randomOtherfunction();
