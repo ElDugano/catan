@@ -8,28 +8,28 @@ import NetworkingClientSetup from "./NetworkingClientSetup";
 
 export const NetworkingSetup = () => {
   const {conn, setConn, setNewestConn, isHost, setIsHost, hostPeerIDPrefix} = useContext(NetworkingContext);
-  const {addToMessagePayload, sendMessagesToHost, sendMessagesPayloadToAllPlayers} = useContext(NetworkingMessageSenderContext);
+  const {addToMessagePayloadToPlayer, addToMessagePayloadToAllPlayers, sendTheMessages, sendMessagesPayloadToAllPlayers} = useContext(NetworkingMessageSenderContext);
   const {setGameStateToBoardSetup} = useContext(GameStateContext);
 
   const sendHostMessage = () => {
     //conn.forEach((player, index) => {
     //  player.send("Hey, you are player "+index+". I hope you are ready to play!");
     //})
-    addToMessagePayload("Hey, are you ready to play?");
+    addToMessagePayloadToAllPlayers("Hey, are you ready to play?");
     sendMessagesPayloadToAllPlayers();
   }
   //----------TESTING CODE -----------//
   const hostStartTheGame = () => {
     console.log("This should be handled elsewhere, but we are testing the functionality.")
-    addToMessagePayload({gameState:"setGameStateToBoardSetup"});
+    addToMessagePayloadToAllPlayers({gameState:"setGameStateToBoardSetup"});
     sendMessagesPayloadToAllPlayers();
     setGameStateToBoardSetup();
   }
   //----------End testing code -----------//
   const sendClientMessage = () => {
-    addToMessagePayload("I am in the message payload");
+    addToMessagePayloadToPlayer("I am in the message payload");
     randomOtherfunction();
-    sendMessagesToHost();
+    sendTheMessages();
   }
   const makeHost= () => {
     setIsHost(true);
@@ -41,7 +41,7 @@ export const NetworkingSetup = () => {
   }
 
   const randomOtherfunction = () => {
-    addToMessagePayload("I am some other message over here.");
+    addToMessagePayloadToPlayer("I am some other message over here.");
   }
 
 
