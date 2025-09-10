@@ -12,8 +12,6 @@ import { PortTiles } from "./state/portTiles/PortTiles.jsx";
 import { ThiefLocation } from './state/thiefLocation/ThiefLocation.jsx'
 import { LandTileNumbers } from './state/landTileNumbers/LandTileNumbers.jsx'
 
-//import { Test } from "./components/Test.jsx";
-
 export default function Gameboard({children}) {
   return (
     <TileCornerNodes>

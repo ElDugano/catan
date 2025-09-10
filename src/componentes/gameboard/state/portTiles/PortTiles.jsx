@@ -13,7 +13,7 @@ export const PortTiles = ({ children }) => {
   const [portTiles, setPortTiles] = useState(CreatePortTiles);
 
   function CreatePortTiles(){
-    console.log("*** createPortTiles was called. ***")
+    //console.log("*** createPortTiles was called. ***")
     let availablePortTypes = [
       "Wool","Lumber","Grain","Brick","Ore",
       "Standard","Standard","Standard","Standard",
@@ -79,7 +79,7 @@ export const PortTiles = ({ children }) => {
                           type:portTiles[x][y].type});
         }
       }
-      console.log(portNodes);
+      //console.log(portNodes);
       addPortsToNode(portNodes);//If this is in the dependency, it constantly loops.
       setUpdatedTileNodesWithPorts(true);
     }

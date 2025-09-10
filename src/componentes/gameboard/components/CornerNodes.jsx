@@ -9,8 +9,6 @@ import BuildCityButton from './BuildCityButton.jsx';
 import Settlement from './Settlement';
 import City from './City.jsx';
 
-
-import { NumberOfPlayersContext } from '../../../state/numberOfPlayers/NumberOfPlayersContext';
 import { PlayerResourceCardsContext } from "../../../state/playerResourceCards/PlayerResourceCardsContext.js";
 import { PlayerAvailableBuildingsContext } from "../../../state/playerAvailableBuildings/PlayerAvailableBuildingsContext.js";
 import { ScoreBoardContext } from "../../../state/scoreBoard/ScoreBoardContext.js";
@@ -27,12 +25,11 @@ export default function CornerNodes() {
           setTurnStateToBuildingARoad,
           setTurnStateToIdle }= useContext(TurnStateContext);//DOUBLED UP ABOVE
 
-  const {currentPlayerTurn} = useContext(CurrentPlayerTurnContext);
+  const {currentPlayerTurn, numberOfPlayers} = useContext(CurrentPlayerTurnContext);
   const {tileCornerNodes, isNodeValueSettlement, isNodeValueCity, isNodeValueLand, setNodeValueToSettlement, setNodeValueToCity} = useContext(TileCornerNodesContext);
 
   const { scorePoint, setLongestRoad, longestRoadOwner } = useContext(ScoreBoardContext);
   const { setPortOwner } = useContext(PortOwnerContext);
-  const { numberOfPlayers } = useContext(NumberOfPlayersContext);
   const { returnAvailableSettlements,
           removeSettlementFromAvailableBuildings,
           removeCityFromAvailableBuildings } = useContext(PlayerAvailableBuildingsContext);

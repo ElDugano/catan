@@ -13,6 +13,8 @@ import { PortTilesContext } from "../gameboard/state/portTiles/PortTilesContext"
 import { ThiefLocationContext } from "../gameboard/state/thiefLocation/ThiefLocationContext";
 import { TileCornerNodesContext } from "../gameboard/state/tileCornerNodes/TileCornerNodesContext";
 
+import { CurrentPlayerTurnContext } from "../../state/currentPlayerTurn/CurrentPlayerTurnContext";
+
 export const NetworkingSetup = () => {
   const {conn, setConn, setNewestConn, isHost, setIsHost, hostPeerIDPrefix} = useContext(NetworkingContext);
   const {addToMessagePayloadToHost, addToMessagePayloadToAllPlayers, sendTheMessages} = useContext(NetworkingMessageSenderContext);
@@ -24,6 +26,8 @@ export const NetworkingSetup = () => {
   const { portTiles } = useContext(PortTilesContext);
   const { thiefLocation } = useContext(ThiefLocationContext);
   const { tileCornerNodes } = useContext(TileCornerNodesContext);
+
+  const { shufflePlayerOrder } = useContext(CurrentPlayerTurnContext);
 
   const sendHostMessage = () => {
     addToMessagePayloadToAllPlayers("Hey, are you ready to play?");
@@ -42,6 +46,7 @@ export const NetworkingSetup = () => {
     addToMessagePayloadToAllPlayers({ tileCornerNodes:tileCornerNodes });
     sendTheMessages();
     setGameStateToBoardSetup();
+    shufflePlayerOrder();
   }
   //---------- Should be moved into GameSetup -----------//
   const sendClientMessage = () => {

@@ -1,5 +1,7 @@
-import { useState, useEffect } from "react"
+import { useState, useEffect, useContext } from "react"
 import { NetworkingContext } from "./NetworkingContext";
+
+import { CurrentPlayerTurnContext } from "../../../state/currentPlayerTurn/CurrentPlayerTurnContext";
 
 export const Networking = ({ children }) => {
   const [isHost, setIsHost] = useState(null);
@@ -9,6 +11,8 @@ export const Networking = ({ children }) => {
   const [recievedMessagesPlayer, setRecievedMessagesPlayer] = useState(null);
   const hostPeerIDPrefix = "elduganocatangame-";
 
+  const { addPlayer } = useContext(CurrentPlayerTurnContext);
+
   const clearMessage = () => {
     setRecievedMessages(null);
     setRecievedMessagesPlayer(null);
@@ -17,13 +21,14 @@ export const Networking = ({ children }) => {
   useEffect(() => {
     if(newestConn != null) {
       if(isHost == true){
-        const playerNumber = conn.length;
+        //const playerNumber = conn.length;
+        const playerNumber = addPlayer();
         newestConn.on('open', function() {
+          console.log("When does this get displayed. and PlayerNumber: "+playerNumber)
           // Receive messages
           newestConn.on('data', function(data,) {
             setRecievedMessages(data);
             setRecievedMessagesPlayer(playerNumber);        
-                  //This will likely need to reconfiguring or something. If we want to randomize the player numbers.
           });
           // Send a test message messages
           newestConn.send(["You have connected to the boardgame!"]);
@@ -52,7 +57,7 @@ export const Networking = ({ children }) => {
         setNewestConn(null);
       }
     }
-  }, [conn, isHost, newestConn, ]);
+  }, [conn, isHost, newestConn, addPlayer]);
 
   return <NetworkingContext.Provider value={{
     conn,             //Used in Sender

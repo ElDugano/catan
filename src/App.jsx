@@ -63,14 +63,6 @@ function App() {
     }
   })
 
-  //if (isGameStateGameSetup()){
-  //  return(<>
-  //      <NetworkingSetup />
-  //      <NetworkingMessageReciever />
-  //    </>
-  //  )
-  //}
-  //else {
     const longestRoadCheck = isTurnStateLongestRoadCheck() ? <LongestRoadCheck /> : null;
     return (
       <>

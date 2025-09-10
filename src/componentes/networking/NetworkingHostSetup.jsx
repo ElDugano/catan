@@ -5,6 +5,8 @@ export default function NetworkingHostSetup(props) {
   const [myPeerID, setMyPeerID] = useState(null);
     //This doesn't really need to be held in state. but something is likely needed to be held in state.
     //Maybe if I make this a memo?
+  
+  
 
   useEffect(() => {
     if(myPeerID == null) {

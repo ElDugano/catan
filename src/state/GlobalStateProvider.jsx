@@ -2,7 +2,6 @@ import { Networking } from '../componentes/networking/State/Networking.jsx'
 import { NetworkingMessageSender } from '../componentes/networking/Host/NetworkingMessageSender.jsx'
 import { GameState } from './gameState/GameState.jsx'
 import { TurnState } from './turnState/TurnState.jsx'
-import { NumberOfPlayers } from './numberOfPlayers/NumberOfPlayers.jsx'
 import { CurrentPlayerTurn } from './currentPlayerTurn/CurrentPlayerTurn.jsx'
 import { PlayerColor } from './playerColor/PlayerColor.jsx'
 import { PlayerAvailableBuildings } from './playerAvailableBuildings/PlayerAvailableBuildings.jsx'
@@ -14,13 +13,12 @@ import { PortOwner } from './portOwner/PortOwner.jsx'
 
 export default function GlobalStateProvider({ children }) {
   return (
-    <Networking>
-      <NetworkingMessageSender>
-        <GameState>
-          <TurnState>
-            <NumberOfPlayers>
-              <CurrentPlayerTurn>
-                <PlayerColor>
+      <CurrentPlayerTurn>
+        <PlayerColor>{/* These two above should just be grouped together. */}
+          <Networking>
+            <NetworkingMessageSender>
+              <GameState>
+                <TurnState>
                   <PlayerAvailableBuildings>
                     <PlayerResourceCards>
                       <DevelopmentCards>
@@ -34,12 +32,11 @@ export default function GlobalStateProvider({ children }) {
                       </DevelopmentCards>
                     </PlayerResourceCards>
                   </PlayerAvailableBuildings>
-                </PlayerColor>
-              </CurrentPlayerTurn>
-            </NumberOfPlayers>
-          </TurnState>
-        </GameState>
-      </NetworkingMessageSender>
-    </Networking>
+                </TurnState>
+              </GameState>
+            </NetworkingMessageSender>
+          </Networking>
+        </PlayerColor>
+      </CurrentPlayerTurn>
   )
 }

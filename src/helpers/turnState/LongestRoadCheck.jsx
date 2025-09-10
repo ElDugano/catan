@@ -6,7 +6,6 @@ import { TurnStateContext } from '../../state/turnState/TurnStateContext.js';
 import { PlayerAvailableBuildingsContext } from "../../state/playerAvailableBuildings/PlayerAvailableBuildingsContext.js";
 
 import { CurrentPlayerTurnContext } from "../../state/currentPlayerTurn/CurrentPlayerTurnContext.js";
-import { NumberOfPlayersContext } from '../../state/numberOfPlayers/NumberOfPlayersContext.js';
 import { PlayerResourceCardsContext } from "../../state/playerResourceCards/PlayerResourceCardsContext.js";
 import { ScoreBoardContext } from "../../state/scoreBoard/ScoreBoardContext.js";
 
@@ -28,8 +27,7 @@ export default function LongestRoadCheck() {
           returnUsedRoads } = useContext(PlayerAvailableBuildingsContext);
   const { removePlayerResourcesToBuildRoad } = useContext(PlayerResourceCardsContext);
 
-  const { currentPlayerTurn, gotoNextPlayerTurn, gotoPreviousPlayerTurn } = useContext(CurrentPlayerTurnContext);
-  const { numberOfPlayers } = useContext(NumberOfPlayersContext);
+  const { currentPlayerTurn, gotoNextPlayerTurn, gotoPreviousPlayerTurn, isPlayerOrderArrayPositionEnd, isPlayerOrderArrayPositionStart } = useContext(CurrentPlayerTurnContext);
   const { checkIfLongestRoad } = useContext(ScoreBoardContext);
   const { tileCornerNodes } = useContext(TileCornerNodesContext);
 
@@ -37,20 +35,20 @@ export default function LongestRoadCheck() {
     checkIfLongestRoad(findThePlayersLongestRoad(tileCornerNodes, currentPlayerTurn, returnUsedRoads(currentPlayerTurn)), currentPlayerTurn);
     if(isGameStateBoardSetup()){
       setTurnStateToBuildingASettlement();
-      if(returnAvailableSettlements(currentPlayerTurn) == 4 && currentPlayerTurn < numberOfPlayers-1) {
+      //if(returnAvailableSettlements(currentPlayerTurn) == 4 && currentPlayerTurn < numberOfPlayers-1) {
+      if(returnAvailableSettlements(currentPlayerTurn) == 4 && isPlayerOrderArrayPositionEnd()) {
+        console.log("Time to reverse course");
+      }
+      //else if(returnAvailableSettlements(currentPlayerTurn) == 4 && currentPlayerTurn == numberOfPlayers-1) {
+      else if(returnAvailableSettlements(currentPlayerTurn) == 4) {
         gotoNextPlayerTurn();
         console.log("moving forward");
       }
-      else if(returnAvailableSettlements(currentPlayerTurn) == 4 && currentPlayerTurn == numberOfPlayers-1) {
-        console.log("Time to reverse course");
-      }
-      else if(returnAvailableSettlements(currentPlayerTurn) == 3 && currentPlayerTurn > 0) {
-        //Give currentPlayerTurn Resrouces
+      else if(returnAvailableSettlements(currentPlayerTurn) == 3 && !isPlayerOrderArrayPositionStart()) {
         gotoPreviousPlayerTurn();
         console.log("moving backwards");
       }
       else {
-        //Give currentPlayerTurn Resrouces
         console.log("^^^^START THE GAME^^^^");
         setGameStateToMainGame();
         setTurnStateToStartTurn();
