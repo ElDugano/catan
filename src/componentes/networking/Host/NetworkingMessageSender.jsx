@@ -4,81 +4,55 @@ import { NetworkingContext } from "../State/NetworkingContext";
 
 export const NetworkingMessageSender = ( {children} ) => {
   const {conn, isHost} = useContext(NetworkingContext);
-  //const [myMessagePayload, setMyMessagePayload] = useState({host:[],0:[],1:[],2:[],3:[]});
-  const [singlePlayerMessagePlayload, setSinglePlayerMessagePayload] = useState([]);
-  const [singleMessageTarget, setSingleMessageTarget] = useState(null);
-  const [allPlayerMessagePayload, setAllPlayerMessagePayload] = useState([]);
-
+  
+  const [messagePayload, setMessagePayload] = useState([new Array(), new Array(), new Array(), new Array()]);
   const [sendMessages, setSendMessages] = useState(false);
 
   const addToMessagePayloadToHost = (message) => {
-    setSinglePlayerMessagePayload((prevMessages) => [...prevMessages, message]);
+    setMessagePayload((prevMessages) => {
+      let newMessageArray = [...prevMessages];
+      newMessageArray[0].push(message);
+      return newMessageArray;
+    });
   }
   const addToMessagePayloadToPlayer = (message, player) => {
-    setSinglePlayerMessagePayload((prevMessages) => [...prevMessages, message]);
-    setSingleMessageTarget(player);
+    setMessagePayload((prevMessages) => {
+      let newMessageArray = [...prevMessages];
+      newMessageArray[player].push(message);
+      return newMessageArray;
+    });
+
   }
   const addToMessagePayloadToAllPlayers = (message) => {
-    setAllPlayerMessagePayload((prevMessages) => [...prevMessages, message]);
+    setMessagePayload((prevMessages) => {
+      let newMessageArray = [...prevMessages];
+      newMessageArray.forEach((playerMessages) => {
+        playerMessages.push(message);
+      })
+      return newMessageArray;
+    });
   }
   const sendTheMessages = () => {
     setSendMessages(true);
   }
-//  const sendMessagesToHost = () => {
-//    setSendMessages(true);
-//    console.log("Sending this message Payload to the Host:");
-//    if (isHost == true)
-//      console.log("**** WARNING **** A Host is calling this function, which shouldn't happen.");
-//    else {
-//      conn.send(myMessagePayload);
-//    }
-//  }
-//  const sendMessagesPayloadToPlayer = (player) => {
-//    setSendMessages(true);
-//    console.log("Sending this message Payload to player "+player+":");
-//    console.log(myMessagePayload);
-//    if (isHost == true){
-//      conn[player].send(myMessagePayload);
-//      setSingleMessageTarget(player);
-//    }
-//    else
-//      console.log("**** WARNING **** A player is calling this function, which shouldn't happen.");
-//  }
-//
-//
-//  const sendMessagesPayloadToAllPlayers = () => {
-//    setSendMessages(true);
-//    console.log("Sending this message Payload to the All Players:");
-//    if (isHost == true){
-//      conn.forEach((player) => {
-//        player.send(myMessagePayload);
-//      })
-//    }
-//    else
-//      console.log("**** WARNING **** A player is calling this function, which shouldn't happen.");
-//  }
 
   useEffect(() => {
-    console.log("checking useEffect");
     if(sendMessages != false) {
       console.log("We have some messages to send.")
-      if (singlePlayerMessagePlayload.length != 0) {
-        if (isHost)
-          conn[singleMessageTarget].send(singlePlayerMessagePlayload);
-        else
-          conn.send(singlePlayerMessagePlayload);
-      }
-      if (allPlayerMessagePayload.length != 0) {
-        conn.forEach((player) => {
-          player.send(allPlayerMessagePayload);
+      if (isHost) {
+        messagePayload.forEach((playerMessages, player) => {
+          if(conn[player])
+            conn[player].send(playerMessages);
         })
       }
-      setSingleMessageTarget(null);
+      else
+        conn.send(messagePayload[0]);
       setSendMessages(false);
-      setSinglePlayerMessagePayload([]);
-      setSingleMessageTarget([]);
+      setMessagePayload([new Array(), new Array(), new Array(), new Array()]);
     }
-  }, [conn, sendMessages, singlePlayerMessagePlayload, allPlayerMessagePayload, singleMessageTarget, isHost])
+
+    messagePayload
+  }, [conn, sendMessages, isHost, messagePayload])
 
   return <NetworkingMessageSenderContext.Provider value={{
       addToMessagePayloadToHost,

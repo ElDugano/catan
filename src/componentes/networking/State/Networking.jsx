@@ -6,24 +6,24 @@ export const Networking = ({ children }) => {
   const [newestConn, setNewestConn] = useState(null);
   const [conn, setConn] = useState(null);
   const [recievedMessage, setRecievedMessage] = useState(null);
+  const [recievedMessagesPlayer, setRecievedMessagesPlayer] = useState(null);
   const hostPeerIDPrefix = "elduganocatangame-";
 
-  const clearMessage = () => {setRecievedMessage(null)}
-
-
-  //console.log("Network has updated. This can have an issue as it would call reconnecting everything");
-  //We are going to want to monitor this. We might end up having to have a state that knows when the game is setup.
-  //Scrach that, newestConn is what prevents issues, it seems.
+  const clearMessage = () => {
+    setRecievedMessage(null);
+    setRecievedMessagesPlayer(null);
+  }
 
   useEffect(() => {
     if(newestConn != null) {
       if(isHost == true){
-        //const playerNumber = conn.length;
+        const playerNumber = conn.length;
         newestConn.on('open', function() {
           // Receive messages
           newestConn.on('data', function(data,) {
             setRecievedMessage(data);
-            //console.log('Received from:',playerNumber,'. Message:', data);
+            setRecievedMessagesPlayer(playerNumber);        
+                  //This will likely need to reconfiguring or something. If we want to randomize the player numbers.
           });
           // Send a test message messages
           newestConn.send("You have connected to the boardgame!");
@@ -60,8 +60,9 @@ export const Networking = ({ children }) => {
     setNewestConn,
     isHost,
     setIsHost,
-    recievedMessage,  //Used in Reciever
-    clearMessage,     //Used in Reciever
+    recievedMessage,        //Used in Reciever
+    recievedMessagesPlayer, //Used in Reciever
+    clearMessage,           //Used in Reciever
     hostPeerIDPrefix
   }}>
     {children}
