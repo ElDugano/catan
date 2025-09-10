@@ -4,7 +4,6 @@ import TurnInterface from './componentes/turnInterface/TurnInterface.jsx';
 import GatherResourcesFromRoll from './helpers/turnState/GatherResourcesFromRoll.jsx';
 import LongestRoadCheck from './helpers/turnState/LongestRoadCheck.jsx';
 
-import GameSetup from './componentes/gameSetup/GameSetup.jsx';
 import Networking from './componentes/networking/Networking.jsx';
 
 import { GameStateContext } from "./state/gameState/GameStateContext.js";
@@ -63,7 +62,7 @@ function App() {
 
   if (isGameStateGameSetup()){
     return(<>
-      <GameSetup /> 
+        <Networking /> 
       </>
     )
   }

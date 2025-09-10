@@ -1,14 +1,10 @@
 import { useState, useEffect } from 'react'
 import Peer from 'peerjs';
 
-export default function NetworkingClientSetup() {
-  const [myPeerID, setMyPeerID] = useState(null);     //This is the browser's own connection ID.
-  const [peer, setPeer] = useState(null);             //Can connect to other peers and listen for connections
-  //const [newestConn, setNewestConn] = useState(null);
-  const [conn, setConn] = useState(null);               //This is the connection to another peer.
-  const [connectionID, setConnectionID] = useState(""); //This is taken from the input field.
-
-  const hostPeerIDPrefix = "elduganocatangame-";
+export default function NetworkingClientSetup(props) {
+  const [myPeerID, setMyPeerID] = useState(null);
+  const [peer, setPeer] = useState(null);
+  const [connectionID, setConnectionID] = useState("");
 
   useEffect(() => {
     if(myPeerID == null) {
@@ -19,35 +15,15 @@ export default function NetworkingClientSetup() {
         setPeer(newPeer);
       })
     }
-    if(conn != null){
-      conn.on('open', function() {
-        // Receive messages
-        conn.on('data', function(data,) {
-          console.log('Received:', data);
-        });
 
-        // Send a test message
-        conn.send("I am a player who has just joined the game!");
-      });
-      //let newConn = [...conn];
-      //newConn.push(newestConn);
-      //setConn(newConn);
-      //setNewestConn(null);
-    }
-  }, [myPeerID, conn]);
+  }, [myPeerID]);
 
-  const connectionButton= () => {
-    //This is the client side.
-    console.log("Clicked connection button.");
-    //let connectionID = hostPeerIDPrefix+connectionID;
-    console.log(hostPeerIDPrefix+connectionID);
-    let newConn = peer.connect(hostPeerIDPrefix+connectionID);
-    //setNewestConn(newConn);
-    setConn(newConn);
-  }
-  const sendAnotherMessageButton = () => {
-    conn.send("Do you read me? You were the first connector.");
-  }
+ const connectionButton= () => {
+   console.log("Clicked connection button.");
+   console.log(props.hostPeerIDPrefix+connectionID);
+   let newConn = peer.connect(props.hostPeerIDPrefix+connectionID);
+   props.setNewestConn(newConn);
+ }
 
   return (
     <>
@@ -55,7 +31,6 @@ export default function NetworkingClientSetup() {
       Input the ID you see on the screen below.<br />
       <label>Connection ID: <input value={connectionID} name="connectionID" onChange={e => setConnectionID(e.target.value)} /></label><br />
       <button onClick={connectionButton}>Connect</button>
-      <button onClick={sendAnotherMessageButton}>Send Another Message</button>
     </>
   )
 }
