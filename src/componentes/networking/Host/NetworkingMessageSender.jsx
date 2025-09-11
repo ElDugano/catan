@@ -38,7 +38,6 @@ export const NetworkingMessageSender = ( {children} ) => {
 
   useEffect(() => {
     if(sendMessages != false) {
-      console.log("We have some messages to send.")
       if (isHost) {
         messagePayload.forEach((playerMessages, player) => {
           if(conn[player])

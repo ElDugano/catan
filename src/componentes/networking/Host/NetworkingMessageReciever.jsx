@@ -9,6 +9,8 @@ import { PortTilesContext } from "../../gameboard/state/portTiles/PortTilesConte
 import { ThiefLocationContext } from "../../gameboard/state/thiefLocation/ThiefLocationContext";
 import { TileCornerNodesContext } from "../../gameboard/state/tileCornerNodes/TileCornerNodesContext";
 
+import { CurrentPlayerTurnContext } from "../../../state/currentPlayerTurn/CurrentPlayerTurnContext";
+
 const NetworkingMessageReciever = () => {
   const { recievedMessages, clearMessage, recievedMessagesPlayer } = useContext(NetworkingContext);
   const { setGameStateToBoardSetup } = useContext(GameStateContext);  //Now, to simplify, we might just use setStates, not helper functions.
@@ -18,6 +20,8 @@ const NetworkingMessageReciever = () => {
   const { setPortTiles } = useContext(PortTilesContext);
   const { setThiefLocation } = useContext(ThiefLocationContext);
   const { setTileCornerNodes } = useContext(TileCornerNodesContext);
+
+  const { setCurrentPlayerTurn, setupClientPlayerOrder, setClientPlayerNumber } = useContext(CurrentPlayerTurnContext);
 
   useEffect(() => {
     if (recievedMessages != null) {
@@ -33,6 +37,7 @@ const NetworkingMessageReciever = () => {
             switch (messageType) {
               case "gameState":
                 //Do another swtich
+                console.log("We need to do another check here in NetowrkingMessageReciever.jsx.");
                 setGameStateToBoardSetup();
               break;
               case "landTileNumbers":
@@ -54,6 +59,16 @@ const NetworkingMessageReciever = () => {
               break;
               case "tileCornerNodes":
                 setTileCornerNodes(recievedMessage[messageType]);
+              break;
+              case "clientPlayerNumber":
+                console.log("I am player "+recievedMessage[messageType]);
+                setClientPlayerNumber(recievedMessage[messageType]);
+              break;
+              case "currentPlayerTurn":
+                setCurrentPlayerTurn(recievedMessage[messageType]);
+              break;
+              case "setupClientPlayerOrder":
+                setupClientPlayerOrder(recievedMessage[messageType]);
               break;
             }
 

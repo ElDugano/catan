@@ -39,7 +39,7 @@ function App() {
           isTurnStateLongestRoadCheck,
           isTurnStateStartTurn,
           setTurnStateToRollingTheDice } = useContext(TurnStateContext);
-  const { currentPlayerTurn } = useContext(CurrentPlayerTurnContext);
+  const { currentPlayerTurn, isClientPlayersTurn } = useContext(CurrentPlayerTurnContext);
   const { getJustPurchasedPlayerVictoryPointCards,
           makePlayerPurchasedDevelopmentAvailableToPlay } = useContext(DevelopmentCardsContext);
   const { addPointsToPlayerHiddenPoints, winner } = useContext(ScoreBoardContext);
@@ -62,6 +62,9 @@ function App() {
       setGameStateToGameOver();
     }
   })
+  if (isClientPlayersTurn()) {
+    console.log("Snap, it is my turn!");
+  }
 
     const longestRoadCheck = isTurnStateLongestRoadCheck() ? <LongestRoadCheck /> : null;
     return (
@@ -88,14 +91,3 @@ function App() {
 }
 
 export default App
-//This was debugging code.
-/*
-        it is <span style={{color: getAPlayersColor(currentPlayerTurn)}}>player {currentPlayerTurn}'s</span> turn. 
-        Wool: {currentPlayerResources.Wool} | 
-        Lumber: {currentPlayerResources.Lumber} | 
-        Grain: {currentPlayerResources.Grain} | 
-        Brick: {currentPlayerResources.Brick} | 
-        Ore: {currentPlayerResources.Ore}
-        <br />
-        The turnState is: {turnState}<br />
-*/

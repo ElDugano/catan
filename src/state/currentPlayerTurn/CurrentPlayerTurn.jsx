@@ -7,31 +7,39 @@ import Shuffle from '../../helpers/Shuffle.jsx';
 
 export const CurrentPlayerTurn = ({ children }) => {
   const [playerOrder, setPlayerOrder] = useState([]);
+  const [currentPlayerTurn, setCurrentPlayerTurn] = useState(0);
+  const [numberOfPlayers, setNumberOfPlayers] = useState(0);
+  const [playerOrderArrayPosition, setPlayerOrderArrayPosition] = useState(0);
+  const [clientPlayerNumber, setClientPlayerNumber] = useState(null);           //This is used on the client level only.
 
   const addPlayer = () => {
     let newPlayerOrder = [...playerOrder];
     const newPlayerNumber = newPlayerOrder.length;
     newPlayerOrder.push(newPlayerNumber);
+    Shuffle(newPlayerOrder);
     setPlayerOrder(newPlayerOrder);
+    setCurrentPlayerTurn(newPlayerOrder[0]);
     setNumberOfPlayers(newPlayerOrder.length);
     return newPlayerNumber;
   }
-
-  const shufflePlayerOrder = () => {
-    let newPlayerOrder = [...playerOrder];
-    Shuffle(newPlayerOrder);
-    setPlayerOrder(newPlayerOrder);
-    console.log("This will be the player order for the game:");
+  const setupClientPlayerOrder = (newPlayerOrder) => {
+    console.log("The player order is:");
     console.log(newPlayerOrder);
+    console.log("lets check this against clinetPlayerNumber:");
+    console.log(clientPlayerNumber);
     setCurrentPlayerTurn(newPlayerOrder[0]);
+    setPlayerOrder(newPlayerOrder);
+    setNumberOfPlayers(newPlayerOrder.length);
   }
 
-  const [currentPlayerTurn, setCurrentPlayerTurn] = useState(0);
-  const [numberOfPlayers, setNumberOfPlayers] = useState(0);
+  const isClientPlayersTurn = () => {
+    return clientPlayerNumber == currentPlayerTurn ? true : false;
+  }
 
-  const [playerOrderArrayPosition, setPlayerOrderArrayPosition] = useState(0)
+
+
+
   const gotoNextPlayerTurn = () => {
-      //setCurrentPlayerTurn(currentPlayerTurn < numberOfPlayers-1 ? currentPlayerTurn+1 : 0);
       if (playerOrderArrayPosition < numberOfPlayers-1){
         setCurrentPlayerTurn(playerOrder[playerOrderArrayPosition+1]);
         setPlayerOrderArrayPosition(playerOrderArrayPosition+1);
@@ -42,7 +50,6 @@ export const CurrentPlayerTurn = ({ children }) => {
       }
   }
   const gotoPreviousPlayerTurn= () => {
-    //setCurrentPlayerTurn(currentPlayerTurn > 0 ? currentPlayerTurn-1 : numberOfPlayers-1);
     if(playerOrderArrayPosition > 0) {
       setCurrentPlayerTurn(playerOrder[playerOrderArrayPosition-1]);
       setPlayerOrderArrayPosition(playerOrderArrayPosition-1);
@@ -52,13 +59,12 @@ export const CurrentPlayerTurn = ({ children }) => {
       setPlayerOrderArrayPosition(numberOfPlayers-1);
     }
   }
+
+
   const isPlayerOrderArrayPositionEnd = () => {
     return playerOrderArrayPosition == numberOfPlayers-1 ? true : false;
   }
   const isPlayerOrderArrayPositionStart = () => {
-    console.log("The way I am going to answer this question is...");
-    console.log(playerOrderArrayPosition);
-    console.log(playerOrderArrayPosition == 0 ? true : false);
     return playerOrderArrayPosition == 0 ? true : false;
   }
   
@@ -69,10 +75,14 @@ export const CurrentPlayerTurn = ({ children }) => {
           gotoPreviousPlayerTurn,
           playerOrder,
           addPlayer,
-          shufflePlayerOrder,
           numberOfPlayers,
           isPlayerOrderArrayPositionEnd,
-          isPlayerOrderArrayPositionStart
+          isPlayerOrderArrayPositionStart,
+          clientPlayerNumber,
+          setClientPlayerNumber,
+          setCurrentPlayerTurn,
+          setupClientPlayerOrder,
+          isClientPlayersTurn
         }}>
         {children}
       </CurrentPlayerTurnContext.Provider>

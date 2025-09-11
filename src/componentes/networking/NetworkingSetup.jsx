@@ -17,7 +17,7 @@ import { CurrentPlayerTurnContext } from "../../state/currentPlayerTurn/CurrentP
 
 export const NetworkingSetup = () => {
   const {conn, setConn, setNewestConn, isHost, setIsHost, hostPeerIDPrefix} = useContext(NetworkingContext);
-  const {addToMessagePayloadToHost, addToMessagePayloadToAllPlayers, sendTheMessages} = useContext(NetworkingMessageSenderContext);
+  const {addToMessagePayloadToHost, addToMessagePayloadToPlayer, addToMessagePayloadToAllPlayers, sendTheMessages} = useContext(NetworkingMessageSenderContext);
   const {setGameStateToBoardSetup} = useContext(GameStateContext);
 
   //This should ultimately be split into two, networking setup, and gameSetup.
@@ -27,7 +27,7 @@ export const NetworkingSetup = () => {
   const { thiefLocation } = useContext(ThiefLocationContext);
   const { tileCornerNodes } = useContext(TileCornerNodesContext);
 
-  const { shufflePlayerOrder } = useContext(CurrentPlayerTurnContext);
+  const { playerOrder } = useContext(CurrentPlayerTurnContext);
 
   const sendHostMessage = () => {
     addToMessagePayloadToAllPlayers("Hey, are you ready to play?");
@@ -44,9 +44,9 @@ export const NetworkingSetup = () => {
     addToMessagePayloadToAllPlayers({ portTiles:portTiles });
     addToMessagePayloadToAllPlayers({ thiefLocation:thiefLocation });
     addToMessagePayloadToAllPlayers({ tileCornerNodes:tileCornerNodes });
+    addToMessagePayloadToAllPlayers({ setupClientPlayerOrder:playerOrder });
     sendTheMessages();
     setGameStateToBoardSetup();
-    shufflePlayerOrder();
   }
   //---------- Should be moved into GameSetup -----------//
   const sendClientMessage = () => {
