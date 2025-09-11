@@ -45,6 +45,10 @@ export default function RoadNodes() {
     if(isTurnStateRoadBuilderCardSecondRoad())
       setTurnStateToRoadBuilderCarSecondRoadLongestRoadCheck();
   }
+
+  console.log(isTurnStateBuildingARoad());
+  console.log(isGameStateBoardSetup());
+  //console.log(tileCornerNodes());         ///REMOVE THIS CRAP
   
   for (let x=1; x <= 12; x++) {
     for (let y=1; y <= 6; y++) {

@@ -2,6 +2,7 @@ import { useContext, useEffect } from "react";
 import { NetworkingContext } from "../State/NetworkingContext";
 
 import { GameStateContext } from "../../../state/gameState/GameStateContext";
+import { TurnStateContext } from "../../../state/turnState/TurnStateContext";
 
 import { LandTileNumbersContext } from "../../gameboard/state/landTileNumbers/LandTileNumbersContext";
 import { LandTilesContext } from "../../gameboard/state/landTiles/LandTilesContext";
@@ -9,17 +10,28 @@ import { PortTilesContext } from "../../gameboard/state/portTiles/PortTilesConte
 import { ThiefLocationContext } from "../../gameboard/state/thiefLocation/ThiefLocationContext";
 import { TileCornerNodesContext } from "../../gameboard/state/tileCornerNodes/TileCornerNodesContext";
 
+import { ScoreBoardContext } from "../../../state/scoreBoard/ScoreBoardContext";
+
 import { CurrentPlayerTurnContext } from "../../../state/currentPlayerTurn/CurrentPlayerTurnContext";
+import { PortOwnerContext } from "../../../state/portOwner/PortOwnerContext";
+import { PlayerAvailableBuildingsContext } from "../../../state/playerAvailableBuildings/PlayerAvailableBuildingsContext";
+import { PlayerResourceCardsContext } from "../../../state/playerResourceCards/PlayerResourceCardsContext";
 
 const NetworkingMessageReciever = (props) => {
   const { recievedMessages, clearMessage, recievedMessagesPlayer } = useContext(NetworkingContext);
   const { setGameStateToBoardSetup } = useContext(GameStateContext);  //Now, to simplify, we might just use setStates, not helper functions.
+  const { setTurnStateToBuildingARoad } = useContext(TurnStateContext);
 
   const { setLandTileNumbers } = useContext(LandTileNumbersContext);
   const { setLandTiles, setDesertLocation} = useContext(LandTilesContext);
   const { setPortTiles } = useContext(PortTilesContext);
   const { setThiefLocation } = useContext(ThiefLocationContext);
   const { setTileCornerNodes } = useContext(TileCornerNodesContext);
+
+  const { setScoreBoard } = useContext(ScoreBoardContext);
+  const { setPortOwner } = useContext(PortOwnerContext);
+  const { setPlayerAvailableBuildings, setLastBuiltObject } = useContext(PlayerAvailableBuildingsContext);
+  const { setPlayerResourceCards } = useContext(PlayerResourceCardsContext);
 
   const { setCurrentPlayerTurn, setupClientPlayerOrder, setClientPlayerNumber } = useContext(CurrentPlayerTurnContext);
 
@@ -32,20 +44,39 @@ const NetworkingMessageReciever = (props) => {
           switch (recievedMessages.header) {
             case "Board Setup":
               console.log*("Did we get into the board game setup stage?")
-              setGameStateToBoardSetup();//Needs improvement, maybe? IDK, this is just going to happen, doesn't need to be sent.
+              setGameStateToBoardSetup();//TODO: Needs improvement, maybe? IDK, this is just going to happen, doesn't need to be sent.
+            break;
+            case "Building a Settlement":
+              console.log("We are building a settlement.")
+              setTurnStateToBuildingARoad();//TODO: This needs better logic here, because this is correct at all.
             break;
           }
-          "landTileNumbers"         in recievedMessages && setLandTileNumbers(recievedMessages.landTileNumbers);
-          "landTiles"               in recievedMessages && setLandTiles(recievedMessages.landTiles);
-          "desertLocation"          in recievedMessages && setDesertLocation(recievedMessages.desertLocation);
-          "portTiles"               in recievedMessages && setPortTiles(recievedMessages.portTiles);
-          "thiefLocation"           in recievedMessages && setThiefLocation(recievedMessages.thiefLocation);
-          "tileCornerNodes"         in recievedMessages && setTileCornerNodes(recievedMessages.tileCornerNodes);
-          "setupClientPlayerOrder"  in recievedMessages && setupClientPlayerOrder(recievedMessages.setupClientPlayerOrder);
-          "clientPlayerNumber"      in recievedMessages && setClientPlayerNumber(recievedMessages.clientPlayerNumber);
-          "currentPlayerTurn"       in recievedMessages && setCurrentPlayerTurn(recievedMessages.currentPlayerTurn);
-          "buildSettlement"         in recievedMessages && props.buildSettlement(recievedMessages.buildSettlement.x,recievedMessages.buildSettlement.y)
-          //"" in recievedMessages && 
+          //Host ->Board Setup
+          "landTileNumbers"           in recievedMessages && setLandTileNumbers(recievedMessages.landTileNumbers);
+          "landTiles"                 in recievedMessages && setLandTiles(recievedMessages.landTiles);
+          "desertLocation"            in recievedMessages && setDesertLocation(recievedMessages.desertLocation);
+          "portTiles"                 in recievedMessages && setPortTiles(recievedMessages.portTiles);
+          "thiefLocation"             in recievedMessages && setThiefLocation(recievedMessages.thiefLocation);
+          "tileCornerNodes"           in recievedMessages && setTileCornerNodes(recievedMessages.tileCornerNodes);
+          "setupClientPlayerOrder"    in recievedMessages && setupClientPlayerOrder(recievedMessages.setupClientPlayerOrder);
+          //Host -> NetworkingSetup
+          "clientPlayerNumber"        in recievedMessages && setClientPlayerNumber(recievedMessages.clientPlayerNumber);
+          "currentPlayerTurn"         in recievedMessages && setCurrentPlayerTurn(recievedMessages.currentPlayerTurn);
+          //Client -> Build Settlement
+          "buildSettlement"           in recievedMessages && props.buildSettlement(recievedMessages.buildSettlement.x,recievedMessages.buildSettlement.y)
+          //Host -> Build Settlement
+            //tileCornerNodes
+          "scoreBoard"                in recievedMessages && setScoreBoard(recievedMessages.scoreBoard);
+          "standardPortOwner"         in recievedMessages && setPortOwner(recievedMessages.orePortOwner, "Standard");
+          "woolPortOwner"             in recievedMessages && setPortOwner(recievedMessages.orePortOwner, "Wool");
+          "grainPortOwner"            in recievedMessages && setPortOwner(recievedMessages.orePortOwner, "Grain");
+          "lumberPortOwner"           in recievedMessages && setPortOwner(recievedMessages.orePortOwner, "Lumber");
+          "brickPortOwner"            in recievedMessages && setPortOwner(recievedMessages.orePortOwner, "Brick");
+          "orePortOwner"              in recievedMessages && setPortOwner(recievedMessages.orePortOwner, "Ore");
+          "lastBuiltObject"           in recievedMessages && setLastBuiltObject(recievedMessages.lastBuiltObject);
+          "playerAvailableBuildings"  in recievedMessages && setPlayerAvailableBuildings(recievedMessages.playerAvailableBuildings);
+          "playerResourceCards"       in recievedMessages && setPlayerResourceCards(recievedMessages.playerResourceCards);
+          //"" in recievedMessages && setLastBuiltObject
           //"" in recievedMessages && 
           //"" in recievedMessages && 
           //"" in recievedMessages && 

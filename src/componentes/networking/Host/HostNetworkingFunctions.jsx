@@ -1,4 +1,4 @@
-import { useContext, useEffect } from "react";
+import { useContext } from "react";
 
 import NetworkingMessageReciever from "./NetworkingMessageReciever";
 
@@ -48,6 +48,7 @@ const HostNetworkingFunctions = () => {
       addToMessagePayloadToAllPlayers(setPortOwner(currentPlayerTurn, tileCornerNodes[x][y].port));
     }
     addToMessagePayloadToAllPlayers(removeSettlementFromAvailableBuildings(x, y, currentPlayerTurn));
+    addToMessagePayloadToAllPlayers({lastBuiltObject:{value: "Settlement", player:currentPlayerTurn,x: x, y: y}})//TODO, see if there is a better way to handle this.
     if (currentPlayerTurn != longestRoadOwner){
       checkIfSettlmentSplitLongestRoad(tileCornerNodes, x, y, longestRoadOwner, numberOfPlayers, setLongestRoad);
     }//TODO: Above with splitting the road needs to be sent and updated score, likely.

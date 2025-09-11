@@ -63,6 +63,7 @@ export const PlayerAvailableBuildings = ({ children }) => {
   return (
       <PlayerAvailableBuildingsContext.Provider value={{
         playerAvailableBuildings,
+        setPlayerAvailableBuildings,
         removeRoadFromAvailableBuildings,
         //removeRightRoadFromAvailableBuildings,
         //removeBottomRoadFromAvailableBuildings,
@@ -76,7 +77,8 @@ export const PlayerAvailableBuildings = ({ children }) => {
         returnUsedCities,
         lastBuiltObjectCoordinantes,
         //lastBuiltObjectPlayer,
-        lastBuiltObject
+        lastBuiltObject,
+        setLastBuiltObject
       }}>
         {children}
       </PlayerAvailableBuildingsContext.Provider>

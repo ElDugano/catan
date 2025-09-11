@@ -47,33 +47,33 @@ export default function CornerNodes() {
     addToMessagePayloadToHost({buildSettlement:{x:x,y:y}});
     sendTheMessages();
     
-    setNodeValueToSettlement(x, y,currentPlayerTurn);
-    scorePoint(currentPlayerTurn);
-    if ("port" in tileCornerNodes[x][y]){
-      setPortOwner(currentPlayerTurn, tileCornerNodes[x][y].port);
-    }
-    removeSettlementFromAvailableBuildings(x, y, currentPlayerTurn);
-    if (currentPlayerTurn != longestRoadOwner){
-      checkIfSettlmentSplitLongestRoad(tileCornerNodes, x, y, longestRoadOwner, numberOfPlayers, setLongestRoad);
-    }
-    if(isGameStateBoardSetup() && returnAvailableSettlements(currentPlayerTurn) == 3){
-      let resourcesGained = {Wool:0, Lumber:0, Grain:0, Brick:0, Ore:0};
-      if((x+y)%2 == 0) {
-        if (landTiles[x] && landTiles[x][y-1]) resourcesGained[mapTileTypeToResourceType(landTiles[x][y-1])]++;
-        if (landTiles[x-1] && landTiles[x-1][y]) resourcesGained[mapTileTypeToResourceType(landTiles[x-1][y])]++;
-        if (landTiles[x+1] && landTiles[x+1][y]) resourcesGained[mapTileTypeToResourceType(landTiles[x+1][y])]++; }
-      else {
-        if (landTiles[x-1] && landTiles[x-1][y-1]) resourcesGained[mapTileTypeToResourceType(landTiles[x-1][y-1])]++;
-        if (landTiles[x+1] && landTiles[x+1][y-1]) resourcesGained[mapTileTypeToResourceType(landTiles[x+1][y-1])]++;
-        if (landTiles[x+1] && landTiles[x][y]) resourcesGained[mapTileTypeToResourceType(landTiles[x][y])]++;  }
-      addCollectionOfResourcesToPlayer(currentPlayerTurn, resourcesGained);
-    }
-    if(isGameStateBoardSetup())
-      setTurnStateToBuildingARoad();
-    else{
-      removePlayerResourcesToBuildSettlement(currentPlayerTurn);
-      setTurnStateToIdle();
-    }
+    //setNodeValueToSettlement(x, y,currentPlayerTurn);
+    //scorePoint(currentPlayerTurn);
+    //if ("port" in tileCornerNodes[x][y]){
+    //  setPortOwner(currentPlayerTurn, tileCornerNodes[x][y].port);
+    //}
+    //removeSettlementFromAvailableBuildings(x, y, currentPlayerTurn);
+    //if (currentPlayerTurn != longestRoadOwner){
+    //  checkIfSettlmentSplitLongestRoad(tileCornerNodes, x, y, longestRoadOwner, numberOfPlayers, setLongestRoad);
+    //}
+    //if(isGameStateBoardSetup() && returnAvailableSettlements(currentPlayerTurn) == 3){
+    //  let resourcesGained = {Wool:0, Lumber:0, Grain:0, Brick:0, Ore:0};
+    //  if((x+y)%2 == 0) {
+    //    if (landTiles[x] && landTiles[x][y-1]) resourcesGained[mapTileTypeToResourceType(landTiles[x][y-1])]++;
+    //    if (landTiles[x-1] && landTiles[x-1][y]) resourcesGained[mapTileTypeToResourceType(landTiles[x-1][y])]++;
+    //    if (landTiles[x+1] && landTiles[x+1][y]) resourcesGained[mapTileTypeToResourceType(landTiles[x+1][y])]++; }
+    //  else {
+    //    if (landTiles[x-1] && landTiles[x-1][y-1]) resourcesGained[mapTileTypeToResourceType(landTiles[x-1][y-1])]++;
+    //    if (landTiles[x+1] && landTiles[x+1][y-1]) resourcesGained[mapTileTypeToResourceType(landTiles[x+1][y-1])]++;
+    //    if (landTiles[x+1] && landTiles[x][y]) resourcesGained[mapTileTypeToResourceType(landTiles[x][y])]++;  }
+    //  addCollectionOfResourcesToPlayer(currentPlayerTurn, resourcesGained);
+    //}
+    //if(isGameStateBoardSetup())
+    //  setTurnStateToBuildingARoad();
+    //else{
+    //  removePlayerResourcesToBuildSettlement(currentPlayerTurn);
+    //  setTurnStateToIdle();
+    //}
   }
 
   function buildCity(x, y) {

@@ -80,6 +80,7 @@ export const ScoreBoard = ({ children }) => {
   return (
       <ScoreBoardContext.Provider value={{
         scorePoint,
+        setScoreBoard,
         addPointsToPlayerHiddenPoints,
         checkIfLargestArmy,
         setLongestRoad,
