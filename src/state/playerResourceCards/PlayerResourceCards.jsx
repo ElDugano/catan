@@ -47,6 +47,7 @@ export const PlayerResourceCards = ({ children }) => {
     newPlayerResourceCards[player].Brick  = playerResourceCards[player].Brick  - resourceCollection.Brick;
     newPlayerResourceCards[player].Ore    = playerResourceCards[player].Ore    - resourceCollection.Ore;
     setPlayerResourceCards(newPlayerResourceCards);
+    return {playerResourceCards:newPlayerResourceCards};
   }
 
   function addCollectionOfResourcesToPlayer(player, resourceCollection) {
@@ -57,6 +58,7 @@ export const PlayerResourceCards = ({ children }) => {
     newPlayerResourceCards[player].Brick  = playerResourceCards[player].Brick  + resourceCollection.Brick;
     newPlayerResourceCards[player].Ore    = playerResourceCards[player].Ore    + resourceCollection.Ore;
     setPlayerResourceCards(newPlayerResourceCards);
+    return {playerResourceCards:newPlayerResourceCards};
   }
 
   function tradeResources(tradingPlayerA, playerATradedResources, tradingPlayerB, playerBTradedResources) {

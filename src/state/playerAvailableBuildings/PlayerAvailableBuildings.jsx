@@ -16,7 +16,8 @@ export const PlayerAvailableBuildings = ({ children }) => {
     let newplayerAvailableBuildings = [...playerAvailableBuildings];
     newplayerAvailableBuildings[playerNumber].roads--;
     setPlayerAvailableBuildings(newplayerAvailableBuildings);
-    setLastBuiltObject({value: "Road", player:playerNumber,x: x, y: y})
+    setLastBuiltObject({value: "Road", player:playerNumber,x: x, y: y});
+    return {playerAvailableBuildings:newplayerAvailableBuildings};
   }
   //const removeRightRoadFromAvailableBuildings = (x,y, playerNumber) => {
   //  let newplayerAvailableBuildings = [...playerAvailableBuildings];
@@ -35,13 +36,15 @@ export const PlayerAvailableBuildings = ({ children }) => {
     newplayerAvailableBuildings[playerNumber].settlements--;
     setPlayerAvailableBuildings(newplayerAvailableBuildings);
     setLastBuiltObject({value: "Settlement", player:playerNumber,x: x, y: y})
+    return {playerAvailableBuildings:newplayerAvailableBuildings};
   }
   const removeCityFromAvailableBuildings = (x,y, playerNumber) => {
     let newplayerAvailableBuildings = [...playerAvailableBuildings];
     newplayerAvailableBuildings[playerNumber].cities--;
     newplayerAvailableBuildings[playerNumber].settlements++;
     setPlayerAvailableBuildings(newplayerAvailableBuildings);
-    setLastBuiltObject({value: "City", player:playerNumber,x: x, y: y})
+    setLastBuiltObject({value: "City", player:playerNumber,x: x, y: y});
+    return {playerAvailableBuildings:newplayerAvailableBuildings};
   }
 
   const returnAvailableRoads = (playerNumber) => {return playerAvailableBuildings[playerNumber].roads};

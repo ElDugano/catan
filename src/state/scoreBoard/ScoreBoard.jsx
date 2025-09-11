@@ -11,6 +11,7 @@ export const ScoreBoard = ({ children }) => {
     newScoreBoard[player]++;
     setScoreBoard(newScoreBoard);
     checkIfWinner(newScoreBoard, hiddenPoints);
+    return {scoreBoard:newScoreBoard};
   }
 
   function addPointsToPlayerHiddenPoints(player, playersHiddenPoints) {

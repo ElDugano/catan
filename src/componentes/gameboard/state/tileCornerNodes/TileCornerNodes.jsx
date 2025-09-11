@@ -16,22 +16,26 @@ export const TileCornerNodes = ({ children }) => {
     newTileCornerNodes[x][y].value="settlement";
     newTileCornerNodes[x][y].owner=newOwner;
     setTileCornerNodes(newTileCornerNodes);
+    return {tileCornerNodes:newTileCornerNodes};
   }
   const setNodeValueToCity = (x, y) => {
     let newTileCornerNodes = [...tileCornerNodes];
     newTileCornerNodes[x][y].value="city";
     setTileCornerNodes(newTileCornerNodes);
+    return {tileCornerNodes:newTileCornerNodes};
   }
 
   const setNodeRightRoadOwner = (x, y, newOwner) => {
     let newTileCornerNodes = [...tileCornerNodes];
     newTileCornerNodes[x][y].rightRoadOwner=newOwner;
     setTileCornerNodes(newTileCornerNodes);
+    return {tileCornerNodes:newTileCornerNodes};
   }
   const setNodeBottomRoadOwner = (x, y, newOwner) => {
     let newTileCornerNodes = [...tileCornerNodes];
     newTileCornerNodes[x][y].bottomRoadOwner=newOwner;
     setTileCornerNodes(newTileCornerNodes);
+    return {tileCornerNodes:newTileCornerNodes};
   }
 
   //const addPortsToNode = (port1, port2) => {

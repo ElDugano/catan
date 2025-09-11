@@ -21,7 +21,6 @@ export const NetworkingMessageSender = ( {children} ) => {
       newMessageArray[player].push(message);
       return newMessageArray;
     });
-
   }
   const addToMessagePayloadToAllPlayers = (message) => {
     setMessagePayload((prevMessages) => {

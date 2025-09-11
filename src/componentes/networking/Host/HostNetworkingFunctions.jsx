@@ -17,8 +17,9 @@ import { PortOwnerContext } from "../../../state/portOwner/PortOwnerContext";
 import checkIfSettlmentSplitLongestRoad from "../../gameboard/helpers/checkIfSettlmentSplitLongestRoad";
 import mapTileTypeToResourceType from "../../../helpers/turnState/MapTileTypeToResourceType";
 
+import { NetworkingMessageSenderContext } from "./NetworkingMessageSenderContext";
+
 const HostNetworkingFunctions = () => {
-  console.log("Did we start HostBuildsettlement?");
   const { isGameStateBoardSetup }= useContext(GameStateContext);
     //Currently gets stuck here because this isn't a react component. This is being called like a regular function
   const { setTurnStateToBuildingARoad,
@@ -35,18 +36,21 @@ const HostNetworkingFunctions = () => {
   const { landTiles } = useContext(LandTilesContext);
   const { setPortOwner } = useContext(PortOwnerContext);
 
+  const { addToMessagePayloadToPlayer, addToMessagePayloadToAllPlayers, sendTheMessages } = useContext(NetworkingMessageSenderContext);
+
 
   const buildSettlement = (x, y) => {
     console.log("We got told to build a settlment at x: "+x+" y:"+y);
-    setNodeValueToSettlement(x, y, currentPlayerTurn);
-    scorePoint(currentPlayerTurn);
+    addToMessagePayloadToAllPlayers({header:"Building a Settlement"});
+    addToMessagePayloadToAllPlayers(setNodeValueToSettlement(x, y, currentPlayerTurn));
+    addToMessagePayloadToAllPlayers(scorePoint(currentPlayerTurn));
     if ("port" in tileCornerNodes[x][y]){
-      setPortOwner(currentPlayerTurn, tileCornerNodes[x][y].port);
+      addToMessagePayloadToAllPlayers(setPortOwner(currentPlayerTurn, tileCornerNodes[x][y].port));
     }
-    removeSettlementFromAvailableBuildings(x, y, currentPlayerTurn);
+    addToMessagePayloadToAllPlayers(removeSettlementFromAvailableBuildings(x, y, currentPlayerTurn));
     if (currentPlayerTurn != longestRoadOwner){
       checkIfSettlmentSplitLongestRoad(tileCornerNodes, x, y, longestRoadOwner, numberOfPlayers, setLongestRoad);
-    }
+    }//TODO: Above with splitting the road needs to be sent and updated score, likely.
     if(isGameStateBoardSetup() && returnAvailableSettlements(currentPlayerTurn) == 3){
       let resourcesGained = {Wool:0, Lumber:0, Grain:0, Brick:0, Ore:0};
       if((x+y)%2 == 0) {
@@ -57,20 +61,25 @@ const HostNetworkingFunctions = () => {
         if (landTiles[x-1] && landTiles[x-1][y-1]) resourcesGained[mapTileTypeToResourceType(landTiles[x-1][y-1])]++;
         if (landTiles[x+1] && landTiles[x+1][y-1]) resourcesGained[mapTileTypeToResourceType(landTiles[x+1][y-1])]++;
         if (landTiles[x+1] && landTiles[x][y]) resourcesGained[mapTileTypeToResourceType(landTiles[x][y])]++;  }
-      addCollectionOfResourcesToPlayer(currentPlayerTurn, resourcesGained);
+      addToMessagePayloadToAllPlayers(addCollectionOfResourcesToPlayer(currentPlayerTurn, resourcesGained));
     }
-    if(isGameStateBoardSetup())
+    if(isGameStateBoardSetup()) {
       setTurnStateToBuildingARoad();
+      addToMessagePayloadToPlayer({turnState:"Building a road"}, currentPlayerTurn) //TODO: THIS SHOULD BE UPDATED SO THE FUNCTION RETURNS THIS
+    }
     else{
       removePlayerResourcesToBuildSettlement(currentPlayerTurn);
       setTurnStateToIdle();
     }
     console.log("That was pretty cool, actually. I should tell all the other players about this!");
+    sendTheMessages();
   }
 
   return (
   <>
-    <NetworkingMessageReciever buildSettlement={buildSettlement} />
+    <NetworkingMessageReciever
+      buildSettlement={buildSettlement}
+    />
   </>
   );
 }

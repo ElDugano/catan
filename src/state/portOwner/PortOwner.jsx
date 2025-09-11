@@ -22,22 +22,22 @@ export const PortOwner = ({ children }) => {
         let newStandardPortOwners = [...standardPortOwner];
         newStandardPortOwners[player] = true;
         setStandardPortOwner(newStandardPortOwners);
-        break;}
+        return {standardPortOwner:newStandardPortOwners};}
       case "Wool":
         setWoolPortOwner(player);
-        break;
+        return {woolPortOwner:player};
       case "Grain":
         setGrainPortOwner(player);
-        break;
+        return {grainPortOwner:player};
       case "Lumber":
         setLumberPortOwner(player);
-        break;
+        return {lumberPortOwner:player};
       case "Brick":
         setBrickPortOwner(player);
-        break;
+        return {brickPortOwner:player};
       case "Ore":
         setOrePortOwner(player);
-        break;
+        return {orePortOwner:player};
     }
   }
 
