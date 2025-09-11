@@ -28,58 +28,30 @@ const NetworkingMessageReciever = (props) => {
       console.log("Recieved the below message in the Reciever:")
       console.log('Received:', recievedMessages);
       console.log("This was sent from Player: "+recievedMessagesPlayer)
-      recievedMessages.forEach(recievedMessage => {
-        if (typeof recievedMessage === 'object'){
-          for (let messageType in recievedMessage) {
-            console.log(recievedMessage);
-            //We are doing a switch statement right now, but likely we will just create different codes.
-            //A code could be like boardsetup, which holds another object. This can be reserved for the major change types, maybe.
-            switch (messageType) {
-              case "gameState":
-                //Do another swtich
-                console.log("We need to do another check here in NetowrkingMessageReciever.jsx.");
-                setGameStateToBoardSetup();
-              break;
-              case "landTileNumbers":
-                setLandTileNumbers(recievedMessage[messageType]);
-              break;
-              case "landTiles":
-                console.log("Working with the landTiles here.");
-                console.log(recievedMessage[messageType])
-                setLandTiles(recievedMessage[messageType]);
-              break;
-              case "desertLocation":
-                setDesertLocation(recievedMessage[messageType]);
-              break;
-              case "portTiles":
-                setPortTiles(recievedMessage[messageType]);
-              break;
-              case "thiefLocation":
-                setThiefLocation(recievedMessage[messageType]);
-              break;
-              case "tileCornerNodes":
-                setTileCornerNodes(recievedMessage[messageType]);
-              break;
-              case "clientPlayerNumber":
-                console.log("I am player "+recievedMessage[messageType]);
-                setClientPlayerNumber(recievedMessage[messageType]);
-              break;
-              case "currentPlayerTurn":
-                setCurrentPlayerTurn(recievedMessage[messageType]);
-              break;
-              case "setupClientPlayerOrder":
-                setupClientPlayerOrder(recievedMessage[messageType]);
-              break;
-              case "buildSettlement":
-                console.log("I have to call something. Basically the buildSettlement(x,y) function in CornerNodes.");
-                console.log("I really just need to add in an extra little component to handle host duties like this.");
-                console.log(props.buildSettlement);
-                props.buildSettlement(recievedMessage[messageType].x, recievedMessage[messageType].y);
-              break
-            }
+        if (typeof recievedMessages === 'object'){
+          switch (recievedMessages.header) {
+            case "Board Setup":
+              console.log*("Did we get into the board game setup stage?")
+              setGameStateToBoardSetup();//Needs improvement, maybe? IDK, this is just going to happen, doesn't need to be sent.
+            break;
           }
+          "landTileNumbers"         in recievedMessages && setLandTileNumbers(recievedMessages.landTileNumbers);
+          "landTiles"               in recievedMessages && setLandTiles(recievedMessages.landTiles);
+          "desertLocation"          in recievedMessages && setDesertLocation(recievedMessages.desertLocation);
+          "portTiles"               in recievedMessages && setPortTiles(recievedMessages.portTiles);
+          "thiefLocation"           in recievedMessages && setThiefLocation(recievedMessages.thiefLocation);
+          "tileCornerNodes"         in recievedMessages && setTileCornerNodes(recievedMessages.tileCornerNodes);
+          "setupClientPlayerOrder"  in recievedMessages && setupClientPlayerOrder(recievedMessages.setupClientPlayerOrder);
+          "clientPlayerNumber"      in recievedMessages && setClientPlayerNumber(recievedMessages.clientPlayerNumber);
+          "currentPlayerTurn"       in recievedMessages && setCurrentPlayerTurn(recievedMessages.currentPlayerTurn);
+          "buildSettlement"         in recievedMessages && props.buildSettlement(recievedMessages.buildSettlement.x,recievedMessages.buildSettlement.y)
+          //"" in recievedMessages && 
+          //"" in recievedMessages && 
+          //"" in recievedMessages && 
+          //"" in recievedMessages && 
         }
-      })
+        else
+          console.log("ERROR: We were sent some information that wasn't in object form.");
       clearMessage();
     }
   })

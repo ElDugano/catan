@@ -43,6 +43,7 @@ export default function CornerNodes() {
   const { addToMessagePayloadToHost, sendTheMessages } = useContext(NetworkingMessageSenderContext);
 
   function buildSettlement(x, y) {
+    addToMessagePayloadToHost({header: "Building a Settlement"});
     addToMessagePayloadToHost({buildSettlement:{x:x,y:y}});
     sendTheMessages();
     

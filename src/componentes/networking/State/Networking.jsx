@@ -31,10 +31,9 @@ export const Networking = ({ children }) => {
             setRecievedMessagesPlayer(playerNumber);        
           });
           // Send a test message messages
-          newestConn.send([
-            "You have connected to the boardgame!",
-            {clientPlayerNumber:playerNumber}
-          ]);
+          newestConn.send(
+            { message:"You have connected to the boardgame!",
+              clientPlayerNumber:playerNumber });
           //Cant use NetworkingMessageSender because it is below in context.
         });
         let newConn;
@@ -55,7 +54,7 @@ export const Networking = ({ children }) => {
             //console.log('Received:', data);
           });
           // Send a test message
-          newestConn.send(["I am a player who has just joined the game!"]);
+          newestConn.send({message: "I am a player who has just joined the game!"});
         });
         setConn(newestConn);
         setNewestConn(null);

@@ -30,13 +30,13 @@ export const NetworkingSetup = () => {
   const { playerOrder } = useContext(CurrentPlayerTurnContext);
 
   const sendHostMessage = () => {
-    addToMessagePayloadToAllPlayers("Hey, are you ready to play?");
-    addToMessagePayloadToAllPlayers("No, really, are you?");
+    addToMessagePayloadToAllPlayers({message: "Hey, are you ready to play?"});
     sendTheMessages();
   }
   //---------- Should be moved into GameSetup -----------//
   const hostStartTheGame = () => {
-    console.log("This should be handled elsewhere, but we are testing the functionality.")
+    console.log("This should be handled elsewhere, but we are testing the functionality.");
+    addToMessagePayloadToAllPlayers({ header:"Board Setup" });
     addToMessagePayloadToAllPlayers({ gameState:"setGameStateToBoardSetup" });
     addToMessagePayloadToAllPlayers({ landTileNumbers:landTileNumbers });
     addToMessagePayloadToAllPlayers({ landTiles:landTiles });
@@ -50,8 +50,7 @@ export const NetworkingSetup = () => {
   }
   //---------- Should be moved into GameSetup -----------//
   const sendClientMessage = () => {
-    addToMessagePayloadToHost("I am in the message payload");
-    randomOtherfunction();
+    addToMessagePayloadToHost({message: "I am in the message payload"});
     sendTheMessages();
   }
   const makeHost= () => {
@@ -61,10 +60,6 @@ export const NetworkingSetup = () => {
   const makePlayer = () => {
     setIsHost(false)
     setConn(null);
-  }
-
-  const randomOtherfunction = () => {
-    addToMessagePayloadToHost("I am some other message over here.");
   }
 
 
