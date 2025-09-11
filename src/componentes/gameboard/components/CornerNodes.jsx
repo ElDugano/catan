@@ -45,6 +45,7 @@ export default function CornerNodes() {
   function buildSettlement(x, y) {
     addToMessagePayloadToHost({buildSettlement:{x:x,y:y}});
     sendTheMessages();
+    
     setNodeValueToSettlement(x, y,currentPlayerTurn);
     scorePoint(currentPlayerTurn);
     if ("port" in tileCornerNodes[x][y]){

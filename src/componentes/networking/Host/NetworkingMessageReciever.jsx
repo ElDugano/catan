@@ -11,7 +11,7 @@ import { TileCornerNodesContext } from "../../gameboard/state/tileCornerNodes/Ti
 
 import { CurrentPlayerTurnContext } from "../../../state/currentPlayerTurn/CurrentPlayerTurnContext";
 
-const NetworkingMessageReciever = () => {
+const NetworkingMessageReciever = (props) => {
   const { recievedMessages, clearMessage, recievedMessagesPlayer } = useContext(NetworkingContext);
   const { setGameStateToBoardSetup } = useContext(GameStateContext);  //Now, to simplify, we might just use setStates, not helper functions.
 
@@ -73,21 +73,18 @@ const NetworkingMessageReciever = () => {
               case "buildSettlement":
                 console.log("I have to call something. Basically the buildSettlement(x,y) function in CornerNodes.");
                 console.log("I really just need to add in an extra little component to handle host duties like this.");
+                console.log(props.buildSettlement);
+                props.buildSettlement(recievedMessage[messageType].x, recievedMessage[messageType].y);
               break
             }
-
-
-            if (messageType == "gameState")
-              setGameStateToBoardSetup();
           }
         }
       })
-      
-
       clearMessage();
     }
   })
-  return
+  return <>
+  </>
 }
 
 export default NetworkingMessageReciever

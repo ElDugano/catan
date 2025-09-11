@@ -31,6 +31,9 @@ export default function LongestRoadCheck() {
   const { checkIfLongestRoad } = useContext(ScoreBoardContext);
   const { tileCornerNodes } = useContext(TileCornerNodesContext);
 
+  //THIS NEEDS TO BE NAMED SOMETHING ELSE, IT IS CONFUSING.
+  //THIS IS JUST FOR A SPECIFIC STATE TO MOVE INTO THE NEXT STATE
+
   useEffect(() => {
     checkIfLongestRoad(findThePlayersLongestRoad(tileCornerNodes, currentPlayerTurn, returnUsedRoads(currentPlayerTurn)), currentPlayerTurn);
     if(isGameStateBoardSetup()){

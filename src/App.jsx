@@ -6,7 +6,8 @@ import LongestRoadCheck from './helpers/turnState/LongestRoadCheck.jsx';
 
 //import Networking from './componentes/networking/Networking.jsx';
 import NetworkingSetup from './componentes/networking/NetworkingSetup.jsx';
-import NetworkingMessageReciever from './componentes/networking/Host/NetworkingMessageReciever.jsx';
+//import NetworkingMessageReciever from './componentes/networking/Host/NetworkingMessageReciever.jsx';
+import HostNetworkingFunctions from './componentes/networking/Host/HostNetworkingFunctions.jsx';
 
 
 import { GameStateContext } from "./state/gameState/GameStateContext.js";
@@ -82,7 +83,7 @@ function App() {
             {isGameStateGameSetup() ? <NetworkingSetup /> : null}
             <GatherResourcesFromRoll />
             {longestRoadCheck}
-            <NetworkingMessageReciever />
+            <HostNetworkingFunctions />
           </Gameboard>
           <Debug />
       </>
