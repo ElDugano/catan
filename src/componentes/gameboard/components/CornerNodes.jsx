@@ -18,14 +18,16 @@ import { LandTilesContext } from '../state/landTiles/LandTilesContext.js';
 import checkIfSettlmentSplitLongestRoad from "../helpers/checkIfSettlmentSplitLongestRoad.jsx";
 import mapTileTypeToResourceType from '../../../helpers/turnState/MapTileTypeToResourceType.jsx';
 
+import { NetworkingMessageSenderContext } from '../../networking/Host/NetworkingMessageSenderContext.js';
+
 export default function CornerNodes() {
   const {isGameStateBoardSetup}= useContext(GameStateContext);
   const { isTurnStateBuildingASettlement,
           isTurnStateBuildingACity,
           setTurnStateToBuildingARoad,
-          setTurnStateToIdle }= useContext(TurnStateContext);//DOUBLED UP ABOVE
+          setTurnStateToIdle }= useContext(TurnStateContext);
 
-  const {currentPlayerTurn, numberOfPlayers} = useContext(CurrentPlayerTurnContext);
+  const {currentPlayerTurn, numberOfPlayers, isClientPlayersTurn} = useContext(CurrentPlayerTurnContext);
   const {tileCornerNodes, isNodeValueSettlement, isNodeValueCity, isNodeValueLand, setNodeValueToSettlement, setNodeValueToCity} = useContext(TileCornerNodesContext);
 
   const { scorePoint, setLongestRoad, longestRoadOwner } = useContext(ScoreBoardContext);
@@ -36,9 +38,13 @@ export default function CornerNodes() {
   const { addCollectionOfResourcesToPlayer,
           removePlayerResourcesToBuildSettlement,
           removePlayerResourcesToBuildCity } = useContext(PlayerResourceCardsContext);
-    const { landTiles } = useContext(LandTilesContext);
+  const { landTiles } = useContext(LandTilesContext);
+
+  const { addToMessagePayloadToHost, sendTheMessages } = useContext(NetworkingMessageSenderContext);
 
   function buildSettlement(x, y) {
+    addToMessagePayloadToHost({buildSettlement:{x:x,y:y}});
+    sendTheMessages();
     setNodeValueToSettlement(x, y,currentPlayerTurn);
     scorePoint(currentPlayerTurn);
     if ("port" in tileCornerNodes[x][y]){
@@ -82,7 +88,8 @@ export default function CornerNodes() {
       const centerX = x*30+30;
       const centerY = (x%2 !== 0 && y%2 == 0) || (x%2 == 0 && y%2 !== 0) ? y*50 : y*50+20;
       //Display a Build Settlment Button
-      if( isTurnStateBuildingASettlement() && 
+      if( isClientPlayersTurn() &&
+          isTurnStateBuildingASettlement() && 
           isNodeValueLand(x,y) &&
             //Check to see if there is a city or settlement next to the node.
           tileCornerNodes[x+1][y].owner == "none" &&

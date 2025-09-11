@@ -70,6 +70,10 @@ const NetworkingMessageReciever = () => {
               case "setupClientPlayerOrder":
                 setupClientPlayerOrder(recievedMessage[messageType]);
               break;
+              case "buildSettlement":
+                console.log("I have to call something. Basically the buildSettlement(x,y) function in CornerNodes.");
+                console.log("I really just need to add in an extra little component to handle host duties like this.");
+              break
             }
 
 
