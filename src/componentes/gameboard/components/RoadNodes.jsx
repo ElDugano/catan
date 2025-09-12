@@ -19,7 +19,7 @@ export default function RoadNodes() {
           isTurnStateRoadBuilderCardSecondRoad}= useContext(TurnStateContext);
 
   const { lastBuiltObject } = useContext(PlayerAvailableBuildingsContext);
-  const { currentPlayerTurn } = useContext(CurrentPlayerTurnContext);
+  const { currentPlayerTurn, isClientPlayersTurn } = useContext(CurrentPlayerTurnContext);
 
   const {tileCornerNodes } = useContext(TileCornerNodesContext);
 
@@ -48,20 +48,21 @@ export default function RoadNodes() {
           const lineEndX=(x+1)*30+9;
           const lineStartY=(x+y)%2 == 1 ? y*50+20-6 : y*50+6;
           const lineEndY=(x+y)%2 == 1 ? y*50+6 : y*50+20-6;
-          if((isTurnStateBuildingARoad() ||
-              isTurnStateRoadBuilderCardFirstRoad() ||
-              isTurnStateRoadBuilderCardSecondRoad()) &&
-              tileCornerNodes[x][y].rightRoadOwner == "none" &&
-              ( tileCornerNodes[x][y].owner == currentPlayerTurn ||
-                tileCornerNodes[x+1][y].owner == currentPlayerTurn ||
-                ( tileCornerNodes[x][y].owner == "none" &&
-                  ( tileCornerNodes[x-1][y].rightRoadOwner == currentPlayerTurn ||
-                    ( (x+y)%2 == 0 && tileCornerNodes[x][y].bottomRoadOwner == currentPlayerTurn ) ||
-                    ( (x+y)%2 == 1 && tileCornerNodes[x][y-1].bottomRoadOwner == currentPlayerTurn ))) ||
-                ( tileCornerNodes[x+1][y].owner == "none" &&
-                  ( tileCornerNodes[x+1][y].rightRoadOwner == currentPlayerTurn ||
-                    ( (x+y)%2 == 0 && tileCornerNodes[x+1][y-1].bottomRoadOwner == currentPlayerTurn ) ||
-                    ( (x+y)%2 == 1 && tileCornerNodes[x+1][y].bottomRoadOwner == currentPlayerTurn ))))) {
+            if((isClientPlayersTurn() && (
+                isTurnStateBuildingARoad() ||
+                isTurnStateRoadBuilderCardFirstRoad() ||
+                isTurnStateRoadBuilderCardSecondRoad()) &&
+                tileCornerNodes[x][y].rightRoadOwner == "none" &&
+                ( tileCornerNodes[x][y].owner == currentPlayerTurn ||
+                  tileCornerNodes[x+1][y].owner == currentPlayerTurn ||
+                  ( tileCornerNodes[x][y].owner == "none" &&
+                    ( tileCornerNodes[x-1][y].rightRoadOwner == currentPlayerTurn ||
+                      ( (x+y)%2 == 0 && tileCornerNodes[x][y].bottomRoadOwner == currentPlayerTurn ) ||
+                      ( (x+y)%2 == 1 && tileCornerNodes[x][y-1].bottomRoadOwner == currentPlayerTurn ))) ||
+                  ( tileCornerNodes[x+1][y].owner == "none" &&
+                    ( tileCornerNodes[x+1][y].rightRoadOwner == currentPlayerTurn ||
+                      ( (x+y)%2 == 0 && tileCornerNodes[x+1][y-1].bottomRoadOwner == currentPlayerTurn ) ||
+                      ( (x+y)%2 == 1 && tileCornerNodes[x+1][y].bottomRoadOwner == currentPlayerTurn )))))) {
             if(!isGameStateBoardSetup() ||
               ((lastBuiltObject.x == x || lastBuiltObject.x == x+1) && lastBuiltObject.y == y && lastBuiltObject.player == currentPlayerTurn)) {
               boardContent.push(
@@ -97,18 +98,19 @@ export default function RoadNodes() {
           const lineStartY=y*50+20+9;
           const lineEndX=(x+1)*30;
           const lineEndY=(y+1)*50-9;
-          if((isTurnStateBuildingARoad() ||
-              isTurnStateRoadBuilderCardFirstRoad() ||
-              isTurnStateRoadBuilderCardSecondRoad()) &&
-              tileCornerNodes[x][y].bottomRoadOwner == "none" &&
-              ( tileCornerNodes[x][y].owner == currentPlayerTurn ||
-                tileCornerNodes[x][y+1].owner == currentPlayerTurn ||
-                tileCornerNodes[x][y].owner == "none" &&
-                ( tileCornerNodes[x][y].rightRoadOwner == currentPlayerTurn ||
-                  tileCornerNodes[x-1][y].rightRoadOwner == currentPlayerTurn ) ||
-              ( tileCornerNodes[x][y+1].owner == "none" &&
-                ( tileCornerNodes[x][y+1].rightRoadOwner == currentPlayerTurn ||
-                  tileCornerNodes[x-1][y+1].rightRoadOwner == currentPlayerTurn )))) {
+          if((isClientPlayersTurn() && (
+                isTurnStateBuildingARoad() ||
+                isTurnStateRoadBuilderCardFirstRoad() ||
+                isTurnStateRoadBuilderCardSecondRoad()) &&
+                tileCornerNodes[x][y].bottomRoadOwner == "none" &&
+                ( tileCornerNodes[x][y].owner == currentPlayerTurn ||
+                  tileCornerNodes[x][y+1].owner == currentPlayerTurn ||
+                  tileCornerNodes[x][y].owner == "none" &&
+                  ( tileCornerNodes[x][y].rightRoadOwner == currentPlayerTurn ||
+                    tileCornerNodes[x-1][y].rightRoadOwner == currentPlayerTurn ) ||
+                ( tileCornerNodes[x][y+1].owner == "none" &&
+                  ( tileCornerNodes[x][y+1].rightRoadOwner == currentPlayerTurn ||
+                    tileCornerNodes[x-1][y+1].rightRoadOwner == currentPlayerTurn ))))) {
             if(!isGameStateBoardSetup() ||
               (lastBuiltObject.x == x && (lastBuiltObject.y == y || lastBuiltObject.y == y+1) && lastBuiltObject.player == currentPlayerTurn))
               boardContent.push(

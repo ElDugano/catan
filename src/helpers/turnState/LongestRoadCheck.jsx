@@ -57,8 +57,8 @@ export default function LongestRoadCheck() {
       }
       else {
         console.log("^^^^START THE GAME^^^^");
-        setGameStateToMainGame();
-        setTurnStateToStartTurn();
+        addToMessagePayloadToAllPlayers(setGameStateToMainGame());
+        addToMessagePayloadToAllPlayers(setTurnStateToStartTurn());
       }
     }
     else if(isTurnStateRoadBuilderCardFirstRoadLongestRoadCheck())

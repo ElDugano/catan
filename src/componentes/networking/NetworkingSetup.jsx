@@ -17,7 +17,7 @@ import { CurrentPlayerTurnContext } from "../../state/currentPlayerTurn/CurrentP
 
 export const NetworkingSetup = () => {
   const {conn, setConn, setNewestConn, isHost, setIsHost, hostPeerIDPrefix} = useContext(NetworkingContext);
-  const {addToMessagePayloadToHost, addToMessagePayloadToPlayer, addToMessagePayloadToAllPlayers, sendTheMessages} = useContext(NetworkingMessageSenderContext);
+  const {addToMessagePayloadToHost, addToMessagePayloadToAllPlayers, sendTheMessages} = useContext(NetworkingMessageSenderContext);
   const {setGameStateToBoardSetup} = useContext(GameStateContext);
 
   //This should ultimately be split into two, networking setup, and gameSetup.
