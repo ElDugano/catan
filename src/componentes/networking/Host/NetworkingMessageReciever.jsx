@@ -19,7 +19,7 @@ import { PlayerResourceCardsContext } from "../../../state/playerResourceCards/P
 
 const NetworkingMessageReciever = (props) => {
   const { recievedMessages, clearMessage, recievedMessagesPlayer } = useContext(NetworkingContext);
-  const { setGameState, setGameStateToBoardSetup } = useContext(GameStateContext);  //Now, to simplify, we might just use setStates, not helper functions.
+  const { setGameState } = useContext(GameStateContext);  //Now, to simplify, we might just use setStates, not helper functions.
   const { setTurnState } = useContext(TurnStateContext);
 
   const { setLandTileNumbers } = useContext(LandTileNumbersContext);
@@ -44,11 +44,9 @@ const NetworkingMessageReciever = (props) => {
           switch (recievedMessages.header) {
             case "Board Setup":
               console.log*("Did we get into the board game setup stage?")
-              //setGameStateToBoardSetup();//TODO: Needs improvement, maybe? IDK, this is just going to happen, doesn't need to be sent.
             break;
             case "Building a Settlement":
               console.log("We are building a settlement.")
-              //setTurnStateToBuildingARoad();//TODO: This needs better logic here, because this is correct at all.
             break;
           }
           //Host ->Board Setup
