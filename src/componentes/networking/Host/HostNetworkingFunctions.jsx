@@ -28,6 +28,7 @@ const HostNetworkingFunctions = () => {
           isTurnStateBuildingARoad,
           isTurnStateRoadBuilderCardFirstRoad,
           isTurnStateRoadBuilderCardSecondRoad,
+          setTurnStateToStartTurn,
           setTurnStateToBuildingARoadLongestRoadCheck,
           setTurnStateToRoadBuilderCardFirstRoadLongestRoadCheck,
           setTurnStateToRoadBuilderCarSecondRoadLongestRoadCheck,
@@ -35,7 +36,7 @@ const HostNetworkingFunctions = () => {
           setTurnStateToRemoveHalfResources }= useContext(TurnStateContext);
 
   const { scorePoint, setLongestRoad, longestRoadOwner } = useContext(ScoreBoardContext);
-  const { currentPlayerTurn, numberOfPlayers } = useContext(CurrentPlayerTurnContext);
+  const { currentPlayerTurn, numberOfPlayers, gotoNextPlayerTurn } = useContext(CurrentPlayerTurnContext);
   const { returnAvailableSettlements,
           removeSettlementFromAvailableBuildings,
           removeRoadFromAvailableBuildings } = useContext(PlayerAvailableBuildingsContext);
@@ -110,17 +111,25 @@ const HostNetworkingFunctions = () => {
       addToMessagePayloadToAllPlayers(setTurnStateToGatheringResources());
     else {
       addToMessagePayloadToAllPlayers(setTurnStateToRemoveHalfResources());
+        //This code will much more likely want to have the host tell individuals they have to remove resources.
     }
     console.log("We did roll the dice here.");
     sendTheMessages();
-  } 
+  }
+
+  const endTurn = () => {
+    addToMessagePayloadToAllPlayers(gotoNextPlayerTurn());
+    addToMessagePayloadToAllPlayers(setTurnStateToStartTurn());
+    sendTheMessages();
+  }
 
   return (
   <>
     <NetworkingMessageReciever
-      buildSettlement={buildSettlement}
-      buildRoad={buildRoad}
-      rollTheDice={rollTheDice}
+      buildSettlement = {buildSettlement}
+      buildRoad = {buildRoad}
+      rollTheDice = {rollTheDice}
+      endTurn = {endTurn}
     />
   </>
   );

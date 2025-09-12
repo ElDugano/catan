@@ -78,6 +78,7 @@ const NetworkingMessageReciever = (props) => {
           "turnState"                 in recievedMessages && setTurnState(recievedMessages.turnState);
           "gameState"                 in recievedMessages && setGameState(recievedMessages.gameState);
           "rollTheDice"               in recievedMessages && props.rollTheDice();
+          "endTurn"                   in recievedMessages && props.endTurn();
           //"" in recievedMessages && 
           //"" in recievedMessages && 
           //"" in recievedMessages && 

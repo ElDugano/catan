@@ -49,8 +49,8 @@ export default function TurnInterface() {
     isTurnStateTradingWithTheBoard
   } = useContext(TurnStateContext);
 
-  if (isClientPlayersTurn()){
-    return(
+  if (isClientPlayersTurn()) {
+    return (
       <>
       {isTurnStateRollingTheDice() && <RollDiceMenu />}
       {isTurnStateGatheringResourcesAcknowledgement() && <GatherResroucesAcknowledgement />}
@@ -75,6 +75,13 @@ export default function TurnInterface() {
       {isTurnStateTradingWithTheBoard() && <TradeWithBoardMenu />}
       </>
     )}
-  else
-    return //TODO, recieving a trade offer will be below in this return.
+  else {
+    return (
+      <>
+        {isTurnStateGatheringResourcesAcknowledgement() && <GatherResroucesAcknowledgement />}
+        {isTurnStateRemoveHalfResources() && <RemoveHalfResourcesMenu />}
+      </>
+    )
+    
+  }
 }
