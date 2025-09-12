@@ -1,6 +1,5 @@
 import { useContext } from "react";
 import { TurnStateContext } from "../../../state/turnState/TurnStateContext.js"
-import { DiceContext } from "../../../state/dice/DiceContext.js";
 import { DevelopmentCardsContext } from "../../../state/developmentCards/DevelopmentCardsContext.js";
 import { CurrentPlayerTurnContext } from "../../../state/currentPlayerTurn/CurrentPlayerTurnContext.js";
 

@@ -89,6 +89,7 @@ const NetworkingMessageReciever = (props) => {
           //"" in recievedMessages && 
           //"" in recievedMessages && 
           //"" in recievedMessages && 
+          "cheat"                   in recievedMessages && props.cheat(recievedMessages.cheat);
         }
         else
           console.log("ERROR: We were sent some information that wasn't in object form.");

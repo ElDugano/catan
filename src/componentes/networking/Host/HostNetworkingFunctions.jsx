@@ -49,7 +49,7 @@ const HostNetworkingFunctions = () => {
           setNodeBottomRoadOwner } = useContext(TileCornerNodesContext);
   const { landTiles } = useContext(LandTilesContext);
   const { setPortOwner } = useContext(PortOwnerContext);
-  const { rollDice } = useContext(DiceContext);
+  const { rollDice, setDice } = useContext(DiceContext);
 
   const { addToMessagePayloadToPlayer, addToMessagePayloadToAllPlayers, sendTheMessages } = useContext(NetworkingMessageSenderContext);
 
@@ -123,6 +123,19 @@ const HostNetworkingFunctions = () => {
     sendTheMessages();
   }
 
+  const cheat = (cheatType) => {
+    console.log(cheatType);
+    if (cheatType == "Give Resources To Current Player") {
+      console.log("We are going to cheat real quickly here.");
+      addToMessagePayloadToAllPlayers(addCollectionOfResourcesToPlayer(currentPlayerTurn,{Wool:5, Lumber:5, Grain:5, Brick:5, Ore:5}));
+    }
+    if (cheatType == "Roll 7") {
+        setDice([3,4]);
+        addToMessagePayloadToAllPlayers(setTurnStateToRemoveHalfResources());
+    }
+    sendTheMessages();
+  }
+
   return (
   <>
     <NetworkingMessageReciever
@@ -130,6 +143,8 @@ const HostNetworkingFunctions = () => {
       buildRoad = {buildRoad}
       rollTheDice = {rollTheDice}
       endTurn = {endTurn}
+
+      cheat = {cheat}
     />
   </>
   );
