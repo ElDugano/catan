@@ -9,6 +9,7 @@ import { ScoreBoardContext } from "../../../state/scoreBoard/ScoreBoardContext";
 import { CurrentPlayerTurnContext } from "../../../state/currentPlayerTurn/CurrentPlayerTurnContext";
 import { PlayerAvailableBuildingsContext } from "../../../state/playerAvailableBuildings/PlayerAvailableBuildingsContext";
 import { PlayerResourceCardsContext } from "../../../state/playerResourceCards/PlayerResourceCardsContext";
+import { DiceContext } from "../../../state/dice/DiceContext";
 
 import { TileCornerNodesContext } from "../../gameboard/state/tileCornerNodes/TileCornerNodesContext";
 import { LandTilesContext } from "../../gameboard/state/landTiles/LandTilesContext";
@@ -29,7 +30,9 @@ const HostNetworkingFunctions = () => {
           isTurnStateRoadBuilderCardSecondRoad,
           setTurnStateToBuildingARoadLongestRoadCheck,
           setTurnStateToRoadBuilderCardFirstRoadLongestRoadCheck,
-          setTurnStateToRoadBuilderCarSecondRoadLongestRoadCheck }= useContext(TurnStateContext);
+          setTurnStateToRoadBuilderCarSecondRoadLongestRoadCheck,
+          setTurnStateToGatheringResources,
+          setTurnStateToRemoveHalfResources }= useContext(TurnStateContext);
 
   const { scorePoint, setLongestRoad, longestRoadOwner } = useContext(ScoreBoardContext);
   const { currentPlayerTurn, numberOfPlayers } = useContext(CurrentPlayerTurnContext);
@@ -45,6 +48,7 @@ const HostNetworkingFunctions = () => {
           setNodeBottomRoadOwner } = useContext(TileCornerNodesContext);
   const { landTiles } = useContext(LandTilesContext);
   const { setPortOwner } = useContext(PortOwnerContext);
+  const { rollDice } = useContext(DiceContext);
 
   const { addToMessagePayloadToPlayer, addToMessagePayloadToAllPlayers, sendTheMessages } = useContext(NetworkingMessageSenderContext);
 
@@ -85,26 +89,38 @@ const HostNetworkingFunctions = () => {
     sendTheMessages();
   }
 
-  function buildRoad(x, y, direction) {
+  const buildRoad = (x, y, direction) => {
     if (direction == "right")
       addToMessagePayloadToAllPlayers(setNodeRightRoadOwner(x, y, currentPlayerTurn));
     else
       addToMessagePayloadToAllPlayers(setNodeBottomRoadOwner(x, y, currentPlayerTurn));
     addToMessagePayloadToAllPlayers(removeRoadFromAvailableBuildings(x, y, currentPlayerTurn));
     if (isTurnStateBuildingARoad())
-      setTurnStateToBuildingARoadLongestRoadCheck();
+      addToMessagePayloadToAllPlayers(setTurnStateToBuildingARoadLongestRoadCheck());
     if(isTurnStateRoadBuilderCardFirstRoad())
-      setTurnStateToRoadBuilderCardFirstRoadLongestRoadCheck();
+      addToMessagePayloadToAllPlayers(setTurnStateToRoadBuilderCardFirstRoadLongestRoadCheck());
     if(isTurnStateRoadBuilderCardSecondRoad())
-      setTurnStateToRoadBuilderCarSecondRoadLongestRoadCheck();
+      addToMessagePayloadToAllPlayers(setTurnStateToRoadBuilderCarSecondRoadLongestRoadCheck());
     //sendTheMessages();
   }
+
+  const rollTheDice = () => {
+      //Notice, we are not passing the dice roll to the players, they probably don't need it.
+    if (rollDice() != 7)
+      addToMessagePayloadToAllPlayers(setTurnStateToGatheringResources());
+    else {
+      addToMessagePayloadToAllPlayers(setTurnStateToRemoveHalfResources());
+    }
+    console.log("We did roll the dice here.");
+    sendTheMessages();
+  } 
 
   return (
   <>
     <NetworkingMessageReciever
       buildSettlement={buildSettlement}
       buildRoad={buildRoad}
+      rollTheDice={rollTheDice}
     />
   </>
   );

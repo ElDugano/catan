@@ -1,8 +1,9 @@
 import { useContext } from "react";
 
 import { TurnStateContext } from "../../state/turnState/TurnStateContext";
+import { CurrentPlayerTurnContext } from "../../state/currentPlayerTurn/CurrentPlayerTurnContext.js";
 
-import RollDiceButton from "./components/RollDiceMenu.jsx";
+import RollDiceMenu from "./components/RollDiceMenu.jsx";
 import GatherResroucesAcknowledgement from "./components/GatherResourcesAcknowledgement";
   //---------- Thief Related ----------//
 import RemoveHalfResourcesMenu from "./components/thief/RemoveHalfResourcesMenu";
@@ -24,6 +25,8 @@ import ConfirmBuyDevelopmentCardMenu from "./components/buildMenu/ConfirmBuyDeve
 import TradeWithBoardMenu from "./components/trading/TradeWithBoardMenu.jsx";
 
 export default function TurnInterface() {
+  const {isClientPlayersTurn} = useContext(CurrentPlayerTurnContext);
+
   const {isTurnStateRollingTheDice,
     isTurnStateGatheringResourcesAcknowledgement,
     isTurnStateRemoveHalfResources,
@@ -46,29 +49,32 @@ export default function TurnInterface() {
     isTurnStateTradingWithTheBoard
   } = useContext(TurnStateContext);
 
-  return(
-    <>
-    {isTurnStateRollingTheDice() && <RollDiceButton />}
-    {isTurnStateGatheringResourcesAcknowledgement() && <GatherResroucesAcknowledgement />}
-      {/*---------- Theif Related ----------*/}
-    {isTurnStateRemoveHalfResources() && <RemoveHalfResourcesMenu />}
-    {isTurnStatePillageResourceCard() && <PillageResourceCardMenu />}
-      {/*---------- Main Turn ----------*/}
-    {isTurnStateIdle() && <IdleMenu />}
-      {/*---------- Build Menu ----------*/}
-    {isTurnStateBuildMenu() && <BuildMenu />}
-      {(isTurnStateBuildingARoad() || isTurnStateBuildingASettlement() || isTurnStateBuildingACity()) && <BuildOnMapMenu />}
-      {isTurnStateConfirmBuyingDevelopmentCard() && <ConfirmBuyDevelopmentCardMenu />}
-      {/*---------- Select & Playing Development Card ----------*/}
-    {isTurnStateSelectingADevelopmentCard() && <SelectDevelopmentCardMenu />}
-    {isTurnStateConfirmPlayKnightDevelopmentCard() && <ConfirmPlayKnightDevelopmentCard />}
-    {isTurnStateConfirmPlayRoadBuilderDevelopmentCard() && <ConfirmPlayRoadBuildingDevelopmentCard />}
-    {isTurnStateConfirmPlayYearOfPlentyDevelopmentCard() && <ConfirmPlayYearOfPlentyDevelopmentCard />}
-      {isTurnStateYearOfPlenty() && <YearOfPlentyMenu />}
-    {isTurnStateConfirmPlayMonopolyDevelopmentCard() && <ConfirmPlayMonopolyDevelopmentCard />}
-      {isTurnStateMonopoly() && <MonopolyMenu />}
-    {/*---------- Trading With the Board ----------*/}
-    {isTurnStateTradingWithTheBoard() && <TradeWithBoardMenu />}
-    </>
-  )
+  if (isClientPlayersTurn()){
+    return(
+      <>
+      {isTurnStateRollingTheDice() && <RollDiceMenu />}
+      {isTurnStateGatheringResourcesAcknowledgement() && <GatherResroucesAcknowledgement />}
+        {/*---------- Theif Related ----------*/}
+      {isTurnStateRemoveHalfResources() && <RemoveHalfResourcesMenu />}
+      {isTurnStatePillageResourceCard() && <PillageResourceCardMenu />}
+        {/*---------- Main Turn ----------*/}
+      {isTurnStateIdle() && <IdleMenu />}
+        {/*---------- Build Menu ----------*/}
+      {isTurnStateBuildMenu() && <BuildMenu />}
+        {(isTurnStateBuildingARoad() || isTurnStateBuildingASettlement() || isTurnStateBuildingACity()) && <BuildOnMapMenu />}
+        {isTurnStateConfirmBuyingDevelopmentCard() && <ConfirmBuyDevelopmentCardMenu />}
+        {/*---------- Select & Playing Development Card ----------*/}
+      {isTurnStateSelectingADevelopmentCard() && <SelectDevelopmentCardMenu />}
+      {isTurnStateConfirmPlayKnightDevelopmentCard() && <ConfirmPlayKnightDevelopmentCard />}
+      {isTurnStateConfirmPlayRoadBuilderDevelopmentCard() && <ConfirmPlayRoadBuildingDevelopmentCard />}
+      {isTurnStateConfirmPlayYearOfPlentyDevelopmentCard() && <ConfirmPlayYearOfPlentyDevelopmentCard />}
+        {isTurnStateYearOfPlenty() && <YearOfPlentyMenu />}
+      {isTurnStateConfirmPlayMonopolyDevelopmentCard() && <ConfirmPlayMonopolyDevelopmentCard />}
+        {isTurnStateMonopoly() && <MonopolyMenu />}
+      {/*---------- Trading With the Board ----------*/}
+      {isTurnStateTradingWithTheBoard() && <TradeWithBoardMenu />}
+      </>
+    )}
+  else
+    return //TODO, recieving a trade offer will be below in this return.
 }

@@ -77,6 +77,7 @@ const NetworkingMessageReciever = (props) => {
           "buildRoad"                 in recievedMessages && props.buildRoad(recievedMessages.buildRoad.x, recievedMessages.buildRoad.y, recievedMessages.buildRoad.direction);
           "turnState"                 in recievedMessages && setTurnState(recievedMessages.turnState);
           "gameState"                 in recievedMessages && setGameState(recievedMessages.gameState);
+          "rollTheDice"               in recievedMessages && props.rollTheDice();
           //"" in recievedMessages && 
           //"" in recievedMessages && 
           //"" in recievedMessages && 

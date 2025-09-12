@@ -4,7 +4,9 @@ import { DiceContext } from "../../../state/dice/DiceContext.js";
 import { DevelopmentCardsContext } from "../../../state/developmentCards/DevelopmentCardsContext.js";
 import { CurrentPlayerTurnContext } from "../../../state/currentPlayerTurn/CurrentPlayerTurnContext.js";
 
-export default function RollDiceButton() {
+import { NetworkingMessageSenderContext } from "../../networking/Host/NetworkingMessageSenderContext.js";
+
+export default function RollDiceMenu() {
   const { setTurnStateToGatheringResources, setTurnStateToRemoveHalfResources, setTurnStateToConfirmPlayKnightDevelopmentCard }= useContext(TurnStateContext);
   const { rollDice } = useContext(DiceContext);
   const { doesPlayerOwnsKnightDevelopmentCard } = useContext(DevelopmentCardsContext)
@@ -12,13 +14,20 @@ export default function RollDiceButton() {
 
   const PlayKnightButton = doesPlayerOwnsKnightDevelopmentCard(currentPlayerTurn) ? <button onClick={() => setTurnStateToConfirmPlayKnightDevelopmentCard()}>Knight</button> :<button disabled>Knight</button>;
 
+  const { addToMessagePayloadToHost, sendTheMessages } = useContext(NetworkingMessageSenderContext);
+
+
   function rollTheDice() {
-    if (rollDice() != 7)
-      setTurnStateToGatheringResources();
-    else {
-      console.log("!!! A 7 was rolled so we are going to steal resrouces and move the thief.");
-      setTurnStateToRemoveHalfResources();
-    }
+    addToMessagePayloadToHost({header: "Player Rolling the Dice"});
+    addToMessagePayloadToHost({rollTheDice:true});
+    sendTheMessages();
+    //sendTheMessages();
+    //if (rollDice() != 7)
+    //  setTurnStateToGatheringResources();
+    //else {
+    //  console.log("!!! A 7 was rolled so we are going to steal resrouces and move the thief.");
+    //  setTurnStateToRemoveHalfResources();
+    //}
   }
 
   return(
