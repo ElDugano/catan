@@ -37,7 +37,7 @@ export const NetworkingSetup = () => {
   const hostStartTheGame = () => {
     console.log("This should be handled elsewhere, but we are testing the functionality.");
     addToMessagePayloadToAllPlayers({ header:"Board Setup" });
-    addToMessagePayloadToAllPlayers({ gameState:"setGameStateToBoardSetup" });
+    addToMessagePayloadToAllPlayers(setGameStateToBoardSetup());
     addToMessagePayloadToAllPlayers({ landTileNumbers:landTileNumbers });
     addToMessagePayloadToAllPlayers({ landTiles:landTiles });
     addToMessagePayloadToAllPlayers({ desertLocation:desertLocation });
@@ -46,7 +46,7 @@ export const NetworkingSetup = () => {
     addToMessagePayloadToAllPlayers({ tileCornerNodes:tileCornerNodes });
     addToMessagePayloadToAllPlayers({ setupClientPlayerOrder:playerOrder });
     sendTheMessages();
-    setGameStateToBoardSetup();
+    //setGameStateToBoardSetup();
   }
   //---------- Should be moved into GameSetup -----------//
   const sendClientMessage = () => {

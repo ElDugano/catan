@@ -75,8 +75,7 @@ const HostNetworkingFunctions = () => {
       addToMessagePayloadToAllPlayers(addCollectionOfResourcesToPlayer(currentPlayerTurn, resourcesGained));
     }
     if(isGameStateBoardSetup()) {
-      setTurnStateToBuildingARoad();
-      addToMessagePayloadToPlayer({turnState:"Building a road"}, currentPlayerTurn) //TODO: THIS SHOULD BE UPDATED SO THE FUNCTION RETURNS THIS
+      addToMessagePayloadToAllPlayers(setTurnStateToBuildingARoad());
     }
     else{
       removePlayerResourcesToBuildSettlement(currentPlayerTurn);

@@ -20,7 +20,7 @@ export default function LongestRoadCheck() {
           setGameStateToMainGame } = useContext(GameStateContext);
   const { isTurnStateRoadBuilderCardFirstRoadLongestRoadCheck,
           isTurnStateRoadBuilderCardSecondRoadLongestRoadCheck,
-          setTurnStateToRoadBuilderCarSecondRoad,
+          setTurnStateToRoadBuilderCardSecondRoad,
           setTurnStateToBuildingASettlement,
           setTurnStateToStartTurn,
           setTurnStateToIdle }= useContext(TurnStateContext);
@@ -62,7 +62,7 @@ export default function LongestRoadCheck() {
       }
     }
     else if(isTurnStateRoadBuilderCardFirstRoadLongestRoadCheck())
-      setTurnStateToRoadBuilderCarSecondRoad();
+      setTurnStateToRoadBuilderCardSecondRoad();
     else if (isTurnStateRoadBuilderCardSecondRoadLongestRoadCheck())
       setTurnStateToIdle();
     else {
