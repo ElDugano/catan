@@ -43,20 +43,24 @@ export const CurrentPlayerTurn = ({ children }) => {
       if (playerOrderArrayPosition < numberOfPlayers-1){
         setCurrentPlayerTurn(playerOrder[playerOrderArrayPosition+1]);
         setPlayerOrderArrayPosition(playerOrderArrayPosition+1);
+        return {currentPlayerTurn:playerOrder[playerOrderArrayPosition+1]};
       }
       else {
         setCurrentPlayerTurn(playerOrder[0]);
         setPlayerOrderArrayPosition(0);
+        return {currentPlayerTurn:0};
       }
   }
   const gotoPreviousPlayerTurn= () => {
     if(playerOrderArrayPosition > 0) {
       setCurrentPlayerTurn(playerOrder[playerOrderArrayPosition-1]);
       setPlayerOrderArrayPosition(playerOrderArrayPosition-1);
+      return {currentPlayerTurn:playerOrder[playerOrderArrayPosition-1]};
     }
     else {
       setCurrentPlayerTurn(playerOrder[numberOfPlayers-1]);
       setPlayerOrderArrayPosition(numberOfPlayers-1);
+      return {currentPlayerTurn:playerOrder[numberOfPlayers-1]};
     }
   }
 

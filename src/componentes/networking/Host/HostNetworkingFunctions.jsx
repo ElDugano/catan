@@ -23,16 +23,26 @@ const HostNetworkingFunctions = () => {
   const { isGameStateBoardSetup }= useContext(GameStateContext);
     //Currently gets stuck here because this isn't a react component. This is being called like a regular function
   const { setTurnStateToBuildingARoad,
-          setTurnStateToIdle }= useContext(TurnStateContext);
+          setTurnStateToIdle,
+          isTurnStateBuildingARoad,
+          isTurnStateRoadBuilderCardFirstRoad,
+          isTurnStateRoadBuilderCardSecondRoad,
+          setTurnStateToBuildingARoadLongestRoadCheck,
+          setTurnStateToRoadBuilderCardFirstRoadLongestRoadCheck,
+          setTurnStateToRoadBuilderCarSecondRoadLongestRoadCheck }= useContext(TurnStateContext);
 
   const { scorePoint, setLongestRoad, longestRoadOwner } = useContext(ScoreBoardContext);
   const { currentPlayerTurn, numberOfPlayers } = useContext(CurrentPlayerTurnContext);
   const { returnAvailableSettlements,
-          removeSettlementFromAvailableBuildings } = useContext(PlayerAvailableBuildingsContext);
+          removeSettlementFromAvailableBuildings,
+          removeRoadFromAvailableBuildings } = useContext(PlayerAvailableBuildingsContext);
   const { addCollectionOfResourcesToPlayer,
           removePlayerResourcesToBuildSettlement}  = useContext(PlayerResourceCardsContext);
 
-  const { tileCornerNodes, setNodeValueToSettlement } = useContext(TileCornerNodesContext);
+  const { tileCornerNodes,
+          setNodeValueToSettlement,
+          setNodeRightRoadOwner,
+          setNodeBottomRoadOwner } = useContext(TileCornerNodesContext);
   const { landTiles } = useContext(LandTilesContext);
   const { setPortOwner } = useContext(PortOwnerContext);
 
@@ -76,10 +86,26 @@ const HostNetworkingFunctions = () => {
     sendTheMessages();
   }
 
+  function buildRoad(x, y, direction) {
+    if (direction == "right")
+      addToMessagePayloadToAllPlayers(setNodeRightRoadOwner(x, y, currentPlayerTurn));
+    else
+      addToMessagePayloadToAllPlayers(setNodeBottomRoadOwner(x, y, currentPlayerTurn));
+    addToMessagePayloadToAllPlayers(removeRoadFromAvailableBuildings(x, y, currentPlayerTurn));
+    if (isTurnStateBuildingARoad())
+      setTurnStateToBuildingARoadLongestRoadCheck();
+    if(isTurnStateRoadBuilderCardFirstRoad())
+      setTurnStateToRoadBuilderCardFirstRoadLongestRoadCheck();
+    if(isTurnStateRoadBuilderCardSecondRoad())
+      setTurnStateToRoadBuilderCarSecondRoadLongestRoadCheck();
+    //sendTheMessages();
+  }
+
   return (
   <>
     <NetworkingMessageReciever
       buildSettlement={buildSettlement}
+      buildRoad={buildRoad}
     />
   </>
   );

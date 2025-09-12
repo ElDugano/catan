@@ -145,7 +145,8 @@ export const TurnState = ({ children }) => {
       setTurnStateToTradingWithTheBoard,
       //----- Extra Checks for readability -----//
       isTurnStateLongestRoadCheck,
-      turnState
+      turnState,
+      setTurnState
     }}>
       {children}
     </TurnStateContext.Provider>

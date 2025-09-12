@@ -20,7 +20,7 @@ import { PlayerResourceCardsContext } from "../../../state/playerResourceCards/P
 const NetworkingMessageReciever = (props) => {
   const { recievedMessages, clearMessage, recievedMessagesPlayer } = useContext(NetworkingContext);
   const { setGameStateToBoardSetup } = useContext(GameStateContext);  //Now, to simplify, we might just use setStates, not helper functions.
-  const { setTurnStateToBuildingARoad } = useContext(TurnStateContext);
+  const { setTurnState, setTurnStateToBuildingARoad } = useContext(TurnStateContext);
 
   const { setLandTileNumbers } = useContext(LandTileNumbersContext);
   const { setLandTiles, setDesertLocation} = useContext(LandTilesContext);
@@ -63,7 +63,7 @@ const NetworkingMessageReciever = (props) => {
           "clientPlayerNumber"        in recievedMessages && setClientPlayerNumber(recievedMessages.clientPlayerNumber);
           "currentPlayerTurn"         in recievedMessages && setCurrentPlayerTurn(recievedMessages.currentPlayerTurn);
           //Client -> Build Settlement
-          "buildSettlement"           in recievedMessages && props.buildSettlement(recievedMessages.buildSettlement.x,recievedMessages.buildSettlement.y)
+          "buildSettlement"           in recievedMessages && props.buildSettlement(recievedMessages.buildSettlement.x, recievedMessages.buildSettlement.y)
           //Host -> Build Settlement
             //tileCornerNodes
           "scoreBoard"                in recievedMessages && setScoreBoard(recievedMessages.scoreBoard);
@@ -76,7 +76,16 @@ const NetworkingMessageReciever = (props) => {
           "lastBuiltObject"           in recievedMessages && setLastBuiltObject(recievedMessages.lastBuiltObject);
           "playerAvailableBuildings"  in recievedMessages && setPlayerAvailableBuildings(recievedMessages.playerAvailableBuildings);
           "playerResourceCards"       in recievedMessages && setPlayerResourceCards(recievedMessages.playerResourceCards);
-          //"" in recievedMessages && setLastBuiltObject
+          "buildRoad"                 in recievedMessages && props.buildRoad(recievedMessages.buildRoad.x, recievedMessages.buildRoad.y, recievedMessages.buildRoad.direction);
+          "turnState"                 in recievedMessages && setTurnState(recievedMessages.turnState);
+          //"" in recievedMessages && 
+          //"" in recievedMessages && 
+          //"" in recievedMessages && 
+          //"" in recievedMessages && 
+          //"" in recievedMessages && 
+          //"" in recievedMessages && 
+          //"" in recievedMessages && 
+          //"" in recievedMessages && 
           //"" in recievedMessages && 
           //"" in recievedMessages && 
           //"" in recievedMessages && 

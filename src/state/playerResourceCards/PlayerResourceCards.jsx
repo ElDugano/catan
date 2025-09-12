@@ -172,6 +172,7 @@ export const PlayerResourceCards = ({ children }) => {
   return (
       <PlayerResourceCardsContext.Provider value={{
         playerResourceCards,
+        setPlayerResourceCards,
         addResourcesFromDiceRollToPlayerResourceCards,
         getAPlayersResourceCards,
         getAllPlayersTotalResourceCards,

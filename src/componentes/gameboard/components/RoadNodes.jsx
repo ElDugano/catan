@@ -10,45 +10,34 @@ import { PlayerAvailableBuildingsContext } from '../../../state/playerAvailableB
 import BuildRoadButton from "./BuildRoadButton";
 import Road from "./Road";
 
+import { NetworkingMessageSenderContext } from '../../networking/Host/NetworkingMessageSenderContext.js';
+
 export default function RoadNodes() {
   const {isGameStateBoardSetup}= useContext(GameStateContext);
   const { isTurnStateBuildingARoad,
           isTurnStateRoadBuilderCardFirstRoad,
-          isTurnStateRoadBuilderCardSecondRoad,
-          setTurnStateToBuildingARoadLongestRoadCheck,
-          setTurnStateToRoadBuilderCardFirstRoadLongestRoadCheck,
-          setTurnStateToRoadBuilderCarSecondRoadLongestRoadCheck}= useContext(TurnStateContext);
+          isTurnStateRoadBuilderCardSecondRoad}= useContext(TurnStateContext);
 
-  const { lastBuiltObject, removeRoadFromAvailableBuildings } = useContext(PlayerAvailableBuildingsContext);
+  const { lastBuiltObject } = useContext(PlayerAvailableBuildingsContext);
   const { currentPlayerTurn } = useContext(CurrentPlayerTurnContext);
 
-  const {tileCornerNodes, setNodeRightRoadOwner, setNodeBottomRoadOwner} = useContext(TileCornerNodesContext);
+  const {tileCornerNodes } = useContext(TileCornerNodesContext);
+
+  const { addToMessagePayloadToHost, sendTheMessages } = useContext(NetworkingMessageSenderContext);
 
   let boardContent=[];
 
   function buildRightRoad(x, y) {
-    setNodeRightRoadOwner(x, y, currentPlayerTurn);
-    buildRoad(x, y);
+    addToMessagePayloadToHost({header: "Building a Road"});
+    addToMessagePayloadToHost({buildRoad:{x:x,y:y,direction:"right"}});
+    sendTheMessages();
   }
 
   function buildBottomRoad(x, y) {
-    setNodeBottomRoadOwner(x, y, currentPlayerTurn);
-    buildRoad(x, y);
+    addToMessagePayloadToHost({header: "Building a Road"});
+    addToMessagePayloadToHost({buildRoad:{x:x,y:y,direction:"bottom"}});
+    sendTheMessages();
   }
-
-  function buildRoad(x, y) {
-    removeRoadFromAvailableBuildings(x, y, currentPlayerTurn);
-    if (isTurnStateBuildingARoad())
-      setTurnStateToBuildingARoadLongestRoadCheck();
-    if(isTurnStateRoadBuilderCardFirstRoad())
-      setTurnStateToRoadBuilderCardFirstRoadLongestRoadCheck();
-    if(isTurnStateRoadBuilderCardSecondRoad())
-      setTurnStateToRoadBuilderCarSecondRoadLongestRoadCheck();
-  }
-
-  console.log(isTurnStateBuildingARoad());
-  console.log(isGameStateBoardSetup());
-  //console.log(tileCornerNodes());         ///REMOVE THIS CRAP
   
   for (let x=1; x <= 12; x++) {
     for (let y=1; y <= 6; y++) {

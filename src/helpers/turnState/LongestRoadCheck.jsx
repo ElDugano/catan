@@ -13,6 +13,8 @@ import { TileCornerNodesContext } from '../../componentes/gameboard/state/tileCo
 
 import findThePlayersLongestRoad from '../../componentes/gameboard/helpers/FindLongestRoad.jsx';
 
+import { NetworkingMessageSenderContext } from '../../componentes/networking/Host/NetworkingMessageSenderContext.js';
+
 export default function LongestRoadCheck() {
   const { isGameStateBoardSetup,
           setGameStateToMainGame } = useContext(GameStateContext);
@@ -31,24 +33,26 @@ export default function LongestRoadCheck() {
   const { checkIfLongestRoad } = useContext(ScoreBoardContext);
   const { tileCornerNodes } = useContext(TileCornerNodesContext);
 
+  const { addToMessagePayloadToPlayer, addToMessagePayloadToAllPlayers, sendTheMessages } = useContext(NetworkingMessageSenderContext);
+
   //THIS NEEDS TO BE NAMED SOMETHING ELSE, IT IS CONFUSING.
   //THIS IS JUST FOR A SPECIFIC STATE TO MOVE INTO THE NEXT STATE
 
   useEffect(() => {
     checkIfLongestRoad(findThePlayersLongestRoad(tileCornerNodes, currentPlayerTurn, returnUsedRoads(currentPlayerTurn)), currentPlayerTurn);
+      //We will likely need to do a score check within that.
     if(isGameStateBoardSetup()){
       setTurnStateToBuildingASettlement();
-      //if(returnAvailableSettlements(currentPlayerTurn) == 4 && currentPlayerTurn < numberOfPlayers-1) {
+      addToMessagePayloadToAllPlayers({turnState:"Building a settlement"});  //TODO fix, return from above.
       if(returnAvailableSettlements(currentPlayerTurn) == 4 && isPlayerOrderArrayPositionEnd()) {
         console.log("Time to reverse course");
       }
-      //else if(returnAvailableSettlements(currentPlayerTurn) == 4 && currentPlayerTurn == numberOfPlayers-1) {
       else if(returnAvailableSettlements(currentPlayerTurn) == 4) {
-        gotoNextPlayerTurn();
+        addToMessagePayloadToAllPlayers(gotoNextPlayerTurn());
         console.log("moving forward");
       }
       else if(returnAvailableSettlements(currentPlayerTurn) == 3 && !isPlayerOrderArrayPositionStart()) {
-        gotoPreviousPlayerTurn();
+        addToMessagePayloadToAllPlayers(gotoPreviousPlayerTurn());
         console.log("moving backwards");
       }
       else {
@@ -65,6 +69,8 @@ export default function LongestRoadCheck() {
       setTurnStateToIdle();
       removePlayerResourcesToBuildRoad(currentPlayerTurn);
     }
+    console.log("Send the messages!!!!");
+    sendTheMessages();
   })
   
   return (
