@@ -16,10 +16,7 @@ export default function RollDiceMenu() {
   const { addToMessagePayloadToHost, sendTheMessages } = useContext(NetworkingMessageSenderContext);
 
   const playKnightCard = () => {
-    addToMessagePayloadToHost(setTurnStateToConfirmPlayKnightDevelopmentCard());
-    console.log("We clicked the button to play a knight card, but we haven't _really_ written this networking code.");
-    console.log("We should double check what is going on, we might want the client to go to an idle state, actually.");
-    sendTheMessages();
+    setTurnStateToConfirmPlayKnightDevelopmentCard();
   }
 
   const rollTheDice = () => {
