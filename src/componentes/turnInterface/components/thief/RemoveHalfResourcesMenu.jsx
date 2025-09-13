@@ -9,11 +9,9 @@ export default function RemoveHalfResourcesMenu() {
   const { playerResourceCards,
           discardHalfResourcesPlayers,
           discardHalfResourcesCardAmount } = useContext(PlayerResourceCardsContext);
-  const { setTurnStateToMoveTheThief } = useContext(TurnStateContext);
   const { clientPlayerNumber } = useContext(CurrentPlayerTurnContext);
   const { addToMessagePayloadToHost, sendTheMessages } = useContext(NetworkingMessageSenderContext);
 
-    //This doesn't need to be an array anymore.
   const [discardingResources, setDiscardingResrouces] = useState({Wool:0, Lumber:0, Grain:0, Brick:0, Ore:0});
 
   function updateDiscardingResources(resource, changeAmount) {
@@ -36,8 +34,6 @@ export default function RemoveHalfResourcesMenu() {
     addToMessagePayloadToHost({removeHalfResources:{player: clientPlayerNumber, discardingResources: discardingResources}});
     sendTheMessages();
   }
-
-  //const content=[];//This doesn't need to be an array.
 
   if(discardHalfResourcesPlayers[clientPlayerNumber] == true) {
     let playersDiscardedCards=totalDiscardCards();
@@ -91,12 +87,4 @@ export default function RemoveHalfResourcesMenu() {
   else return (
     <>You are all good, brotha.</>
   )
-
-
- //return (
- //  <>
- //  {content}
- //    <button onClick={() => setTurnStateToMoveTheThief()}>Continue your turn.</button>
- //  </>
- //)
 }

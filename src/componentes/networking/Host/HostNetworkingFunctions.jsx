@@ -47,8 +47,6 @@ const HostNetworkingFunctions = () => {
           removeCityFromAvailableBuildings,
           removeRoadFromAvailableBuildings } = useContext(PlayerAvailableBuildingsContext);
   const { addCollectionOfResourcesToPlayer,
-          discardHalfResourcesPlayers,
-          setDiscardHalfResourcesPlayers,
           removePlayerResourcesToBuildSettlement,
           removePlayerResourcesToBuildCity,
           findAndSetDiscardHalfResourcesPlayers,
@@ -71,7 +69,7 @@ const HostNetworkingFunctions = () => {
   const { setAndReturnThiefLocation } = useContext(ThiefLocationContext);
   const { rollDice, setDice, haveDiceBeenRolledThisTurn, setDiceRolledThisTurn } = useContext(DiceContext);
 
-  const { addToMessagePayloadToPlayer, addToMessagePayloadToAllPlayers, sendTheMessages } = useContext(NetworkingMessageSenderContext);
+  const { /*addToMessagePayloadToPlayer,*/ addToMessagePayloadToAllPlayers, sendTheMessages } = useContext(NetworkingMessageSenderContext);
 
 
   const buildSettlement = (x, y) => {
@@ -200,6 +198,11 @@ const HostNetworkingFunctions = () => {
     sendTheMessages();
   }
 
+  const nobodyToRob = () => {
+    addToMessagePayloadToAllPlayers(setTurnStateToIdle());
+    sendTheMessages();
+  }
+
   const endTurn = () => {
     addToMessagePayloadToAllPlayers(gotoNextPlayerTurn());
     addToMessagePayloadToAllPlayers(setTurnStateToStartTurn());
@@ -239,6 +242,7 @@ const HostNetworkingFunctions = () => {
       removeHalfResources = {removeHalfResources}
       moveTheThief = {moveTheThief}
       stealACard = {stealACard}
+      nobodyToRob = {nobodyToRob}
       endTurn = {endTurn}
       buildCity = {buildCity}
 

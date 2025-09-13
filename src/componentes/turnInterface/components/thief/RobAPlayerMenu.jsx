@@ -1,12 +1,9 @@
 import { useContext } from "react"
-import { TurnStateContext } from "../../../../state/turnState/TurnStateContext"
 import { PlayerResourceCardsContext } from "../../../../state/playerResourceCards/PlayerResourceCardsContext";
 import { CurrentPlayerTurnContext } from "../../../../state/currentPlayerTurn/CurrentPlayerTurnContext";
-import { DiceContext } from "../../../../state/dice/DiceContext";
 import { NetworkingMessageSenderContext } from "../../../networking/Host/NetworkingMessageSenderContext";
 
 export default function RobAPlayer() {
-  const { setTurnStateToIdle } = useContext(TurnStateContext);
   const { robbingTargetPlayers, getAllPlayersTotalResourceCards } = useContext(PlayerResourceCardsContext);
   const { currentPlayerTurn } = useContext(CurrentPlayerTurnContext);
   const { addToMessagePayloadToHost, sendTheMessages } = useContext(NetworkingMessageSenderContext);
@@ -34,9 +31,17 @@ export default function RobAPlayer() {
     }
   })
   if (content.length===0){
-    content.push(<span key={crypto.randomUUID()}>You had nobody to rob. <button onClick={()=> {setTurnStateToIdle()}}>Continue</button></span>)
-  }//THIS NEEDS TO PUSH A MESSAGE
-
+    const nobodyToRob = () => {
+      addToMessagePayloadToHost({header: "Nobody To Rob"});
+      addToMessagePayloadToHost({nobodyToRob:true});
+      sendTheMessages();
+    }
+    return (
+    <>
+      You had nobody to rob. <button onClick={nobodyToRob}>Continue</button>
+    </>
+    )
+  }
   return (
     <>
     <h3>Pick the poor fool you wish to pillage a resource from.</h3>
