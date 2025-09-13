@@ -37,11 +37,11 @@ export default function RemoveHalfResourcesMenu() {
     sendTheMessages();
   }
 
-  const content=[];//This doesn't need to be an array.
+  //const content=[];//This doesn't need to be an array.
 
   if(discardHalfResourcesPlayers[clientPlayerNumber] == true) {
     let playersDiscardedCards=totalDiscardCards();
-    content.push(
+    return (
       <div key={crypto.randomUUID()}>
         <h4>Player {clientPlayerNumber} needs to discard {discardHalfResourcesCardAmount[clientPlayerNumber]} in total.</h4>
         <div style={{display: "flex", textAlign: "center"}}>
@@ -88,12 +88,15 @@ export default function RemoveHalfResourcesMenu() {
       </div>
     )
   }
-
-
-  return (
-    <>
-    {content}
-      <button onClick={() => setTurnStateToMoveTheThief()}>Continue your turn.</button>
-    </>
+  else return (
+    <>You are all good, brotha.</>
   )
+
+
+ //return (
+ //  <>
+ //  {content}
+ //    <button onClick={() => setTurnStateToMoveTheThief()}>Continue your turn.</button>
+ //  </>
+ //)
 }

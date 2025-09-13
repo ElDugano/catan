@@ -37,7 +37,7 @@ const HostNetworkingFunctions = () => {
           setTurnStateToGatheringResources,
           setTurnStateToRemoveHalfResources,
           setTurnStateToMoveTheThief,
-          setTurnStateToPillageResourceCard }= useContext(TurnStateContext);
+          setTurnStateToRobAPlayer }= useContext(TurnStateContext);
 
   const { scorePoint, setLongestRoad, longestRoadOwner } = useContext(ScoreBoardContext);
   const { currentPlayerTurn, numberOfPlayers, gotoNextPlayerTurn } = useContext(CurrentPlayerTurnContext);
@@ -54,7 +54,7 @@ const HostNetworkingFunctions = () => {
           findAndSetDiscardHalfResourcesCardAmount,
           updateDiscardHalfResourcesPlayers,
           removeCollectionOfResourcesFromPlayer,
-          setRobbingTargetPlayers }  = useContext(PlayerResourceCardsContext);
+          setAndReturnRobbingTargetPlayers }  = useContext(PlayerResourceCardsContext);
 
   const { tileCornerNodes,
           setNodeValueToSettlement,
@@ -183,8 +183,10 @@ const HostNetworkingFunctions = () => {
           robbingTargetPlayers[getTileNodeOwner(x,y)] = true;
       }
     }
-    addToMessagePayloadToAllPlayers(setRobbingTargetPlayers(robbingTargetPlayers));
-    addToMessagePayloadToAllPlayers(setTurnStateToPillageResourceCard()); //Rename this step.
+    console.log("These are the idiots who are able to be robbed");
+    console.log(robbingTargetPlayers);
+    addToMessagePayloadToAllPlayers(setAndReturnRobbingTargetPlayers(robbingTargetPlayers));
+    addToMessagePayloadToAllPlayers(setTurnStateToRobAPlayer()); //Rename this step.
 
     sendTheMessages();
   }

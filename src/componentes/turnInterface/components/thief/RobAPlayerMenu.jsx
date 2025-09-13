@@ -4,7 +4,7 @@ import { PlayerResourceCardsContext } from "../../../../state/playerResourceCard
 import { CurrentPlayerTurnContext } from "../../../../state/currentPlayerTurn/CurrentPlayerTurnContext";
 import { DiceContext } from "../../../../state/dice/DiceContext";
 
-export default function PillageResourceCardMenu() {
+export default function RobAPlayer() {
   const { setTurnStateToIdle, setTurnStateToRollingTheDice } = useContext(TurnStateContext);
   const { robbingTargetPlayers, getAllPlayersTotalResourceCards, stealRandomCardFromPlayer } = useContext(PlayerResourceCardsContext);
   const { currentPlayerTurn } = useContext(CurrentPlayerTurnContext);
@@ -12,7 +12,7 @@ export default function PillageResourceCardMenu() {
 
   let content=[];
 
-  function stealCardsOnClick(victimPlayer){
+  function stealCardsOnClick(victimPlayer){ //This will be sent over to HostNetworkingFunctions.
     stealRandomCardFromPlayer(currentPlayerTurn, victimPlayer);
     console.log(haveDiceBeenRolledThisTurn());
     if (haveDiceBeenRolledThisTurn())

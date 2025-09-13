@@ -54,7 +54,6 @@ const NetworkingMessageReciever = (props) => {
               console.log("We are building a settlement.")
             break;
           }
-          //Host ->Board Setup
           "landTileNumbers"           in recievedMessages && setLandTileNumbers(recievedMessages.landTileNumbers);
           "landTiles"                 in recievedMessages && setLandTiles(recievedMessages.landTiles);
           "desertLocation"            in recievedMessages && setDesertLocation(recievedMessages.desertLocation);
@@ -62,13 +61,9 @@ const NetworkingMessageReciever = (props) => {
           "thiefLocation"             in recievedMessages && setThiefLocation(recievedMessages.thiefLocation);
           "tileCornerNodes"           in recievedMessages && setTileCornerNodes(recievedMessages.tileCornerNodes);
           "setupClientPlayerOrder"    in recievedMessages && setupClientPlayerOrder(recievedMessages.setupClientPlayerOrder);
-          //Host -> NetworkingSetup
           "clientPlayerNumber"        in recievedMessages && setClientPlayerNumber(recievedMessages.clientPlayerNumber);
           "currentPlayerTurn"         in recievedMessages && setCurrentPlayerTurn(recievedMessages.currentPlayerTurn);
-          //Client -> Build Settlement
           "buildSettlement"           in recievedMessages && props.buildSettlement(recievedMessages.buildSettlement.x, recievedMessages.buildSettlement.y)
-          //Host -> Build Settlement
-            //tileCornerNodes
           "scoreBoard"                in recievedMessages && setScoreBoard(recievedMessages.scoreBoard);
           "standardPortOwner"         in recievedMessages && setPortOwner(recievedMessages.orePortOwner, "Standard");
           "woolPortOwner"             in recievedMessages && setPortOwner(recievedMessages.orePortOwner, "Wool");

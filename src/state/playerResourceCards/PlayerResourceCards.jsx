@@ -237,6 +237,7 @@ export const PlayerResourceCards = ({ children }) => {
 
         robbingTargetPlayers,//This is used for thief.
         setRobbingTargetPlayers,
+        setAndReturnRobbingTargetPlayers,
         stealRandomCardFromPlayer,
         //---------- Build Menu Check ----------//
         canPlayerAffordRoad,

@@ -24,9 +24,9 @@ export const TurnState = ({ children }) => {
     const isTurnStateMoveTheThief = () => {return turnState == "Move the thief" ? true : false};
     const setTurnStateToMoveTheThief = () =>     {setTurnState("Move the thief");
                                              return {turnState:"Move the thief"};};
-    const isTurnStatePillageResourceCard = () => {return turnState == "Pillage resource card" ? true : false};
-    const setTurnStateToPillageResourceCard = () =>     {setTurnState("Pillage resource card");
-                                                    return {turnState:"Pillage resource card"};};
+    const isTurnStateRobAPlayer = () => {return turnState == "Rob a player" ? true : false};
+    const setTurnStateToRobAPlayer = () =>     {setTurnState("Rob a player");
+                                                    return {turnState:"Rob a player"};};
     //---------- Main Turn ----------//
     const isTurnStateIdle = () => {return turnState == "idle" ? true : false};
     const setTurnStateToIdle = () =>     {setTurnState("idle");
@@ -121,8 +121,8 @@ export const TurnState = ({ children }) => {
       setTurnStateToRemoveHalfResources,
       isTurnStateMoveTheThief,
       setTurnStateToMoveTheThief,
-      isTurnStatePillageResourceCard,
-      setTurnStateToPillageResourceCard,
+      isTurnStateRobAPlayer,
+      setTurnStateToRobAPlayer,
     //---------- Main Turn ----------//
       isTurnStateIdle,
       setTurnStateToIdle,
