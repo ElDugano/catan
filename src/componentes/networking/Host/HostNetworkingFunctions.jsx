@@ -31,6 +31,7 @@ const HostNetworkingFunctions = () => {
           isTurnStateRoadBuilderCardFirstRoad,
           isTurnStateRoadBuilderCardSecondRoad,
           setTurnStateToStartTurn,
+          setTurnStateToRollingTheDice,
           setTurnStateToBuildingARoadLongestRoadCheck,
           setTurnStateToRoadBuilderCardFirstRoadLongestRoadCheck,
           setTurnStateToRoadBuilderCarSecondRoadLongestRoadCheck,
@@ -54,7 +55,8 @@ const HostNetworkingFunctions = () => {
           findAndSetDiscardHalfResourcesCardAmount,
           updateDiscardHalfResourcesPlayers,
           removeCollectionOfResourcesFromPlayer,
-          setAndReturnRobbingTargetPlayers }  = useContext(PlayerResourceCardsContext);
+          setAndReturnRobbingTargetPlayers,
+          stealRandomCardFromPlayer }  = useContext(PlayerResourceCardsContext);
 
   const { tileCornerNodes,
           setNodeValueToSettlement,
@@ -67,7 +69,7 @@ const HostNetworkingFunctions = () => {
   const { landTiles } = useContext(LandTilesContext);
   const { setPortOwner } = useContext(PortOwnerContext);
   const { setAndReturnThiefLocation } = useContext(ThiefLocationContext);
-  const { rollDice, setDice } = useContext(DiceContext);
+  const { rollDice, setDice, haveDiceBeenRolledThisTurn, setDiceRolledThisTurn } = useContext(DiceContext);
 
   const { addToMessagePayloadToPlayer, addToMessagePayloadToAllPlayers, sendTheMessages } = useContext(NetworkingMessageSenderContext);
 
@@ -156,7 +158,7 @@ const HostNetworkingFunctions = () => {
       }
 
     }
-    console.log("We did roll the dice here.");
+    addToMessagePayloadToAllPlayers({setDiceRolledThisTurn:true});
     sendTheMessages();
   }
 
@@ -183,11 +185,18 @@ const HostNetworkingFunctions = () => {
           robbingTargetPlayers[getTileNodeOwner(x,y)] = true;
       }
     }
-    console.log("These are the idiots who are able to be robbed");
-    console.log(robbingTargetPlayers);
     addToMessagePayloadToAllPlayers(setAndReturnRobbingTargetPlayers(robbingTargetPlayers));
-    addToMessagePayloadToAllPlayers(setTurnStateToRobAPlayer()); //Rename this step.
+    addToMessagePayloadToAllPlayers(setTurnStateToRobAPlayer());
+    sendTheMessages();
+  }
 
+  const stealACard = (victimPlayer) => {
+    console.log(currentPlayerTurn, victimPlayer);
+    addToMessagePayloadToAllPlayers(stealRandomCardFromPlayer(currentPlayerTurn, victimPlayer));
+    if (haveDiceBeenRolledThisTurn())
+      addToMessagePayloadToAllPlayers(setTurnStateToIdle());
+    else
+      addToMessagePayloadToAllPlayers(setTurnStateToRollingTheDice());
     sendTheMessages();
   }
 
@@ -214,7 +223,10 @@ const HostNetworkingFunctions = () => {
         addToMessagePayloadToAllPlayers(discardHalfResourcePlayers);
         addToMessagePayloadToAllPlayers(findAndSetDiscardHalfResourcesCardAmount());
       }
+      setDiceRolledThisTurn(true);
+      addToMessagePayloadToAllPlayers({setDiceRolledThisTurn:true});
     }
+    
     sendTheMessages();
   }
 
@@ -226,6 +238,7 @@ const HostNetworkingFunctions = () => {
       rollTheDice = {rollTheDice}
       removeHalfResources = {removeHalfResources}
       moveTheThief = {moveTheThief}
+      stealACard = {stealACard}
       endTurn = {endTurn}
       buildCity = {buildCity}
 

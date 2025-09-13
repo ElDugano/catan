@@ -23,6 +23,7 @@ export const Dice = ({ children }) => {
       <DiceContext.Provider value={{
         haveDiceBeenRolledThisTurn,
         resetDiceRolledThisTurn,
+        setDiceRolledThisTurn,
         rollDice,
         diceAdded,
         setDice

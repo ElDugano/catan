@@ -128,6 +128,7 @@ export const PlayerResourceCards = ({ children }) => {
     newPlayerResourceCards[robbingPlayer][stolenResourceCardType] +=1;
     newPlayerResourceCards[victimPlayer][stolenResourceCardType] -=1;
     setPlayerResourceCards(newPlayerResourceCards);
+    return {playerResourceCards:newPlayerResourceCards};
   }
 
 
