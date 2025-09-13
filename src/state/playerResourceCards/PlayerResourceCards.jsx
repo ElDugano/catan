@@ -10,7 +10,8 @@ export const PlayerResourceCards = ({ children }) => {
     {Wool:0, Lumber:0, Grain:0, Brick:0, Ore:0}
   ]);
   const [previouslyGainedResources, setPreviouslyGainedResources] = useState(new Array(4));
-  const [plunderedResourcePlayers, setPlunderedResourcePlayers] = useState(new Array(4));
+
+  
 
   function addResourcesFromDiceRollToPlayerResourceCards(playerNewResources) {
     let newPlayerResourceCards = [...playerResourceCards];
@@ -75,6 +76,40 @@ export const PlayerResourceCards = ({ children }) => {
     }
     setPlayerResourceCards(newPlayerResourceCards);
   }
+
+  //---------- Thief Related ----------//
+  const [discardHalfResourcesPlayers, setDiscardHalfResourcesPlayers] = useState(new Array(4));
+  const [discardHalfResourcesCardAmount, setDiscardHalfResourcesCardAmount] = useState(new Array(4));
+
+  const findAndSetDiscardHalfResourcesPlayers = () => {
+    const AllPlayersTotalCards = getAllPlayersTotalResourceCards();
+    let newDiscardHalfResourcesPlayers = [false, false, false, false];
+    AllPlayersTotalCards.forEach((numberOfCards, playerNumber) => {
+      if (numberOfCards >= 8) {
+        console.log("Player "+playerNumber+" has too many cards!");
+        newDiscardHalfResourcesPlayers[playerNumber]=true;
+      }
+    })
+    setDiscardHalfResourcesPlayers(newDiscardHalfResourcesPlayers);
+    return {discardHalfResourcesPlayers:newDiscardHalfResourcesPlayers};
+  }
+  const updateDiscardHalfResourcesPlayers = (player) => {
+    let newDiscardHalfResourcesPlayers = [...discardHalfResourcesPlayers];
+    newDiscardHalfResourcesPlayers[player] = false;
+    setDiscardHalfResourcesPlayers(newDiscardHalfResourcesPlayers);
+    return newDiscardHalfResourcesPlayers;
+  }
+  const findAndSetDiscardHalfResourcesCardAmount = () => {
+    const AllPlayersTotalCards = getAllPlayersTotalResourceCards();
+    let newDiscardHalfResourcesCardAmount = new Array(4);
+    AllPlayersTotalCards.forEach((numberOfCards, playerNumber) => {
+      newDiscardHalfResourcesCardAmount[playerNumber] = Math.floor(numberOfCards/2)
+    });
+    setDiscardHalfResourcesCardAmount(newDiscardHalfResourcesCardAmount);
+    return {discardHalfResourcesCardAmount:newDiscardHalfResourcesCardAmount};
+  }
+
+  const [robbingTargetPlayers, setRobbingTargetPlayers] = useState(new Array(4));
 
   function stealRandomCardFromPlayer(robbingPlayer, victimPlayer) {
     let victimPlayerHand = [];
@@ -185,10 +220,20 @@ export const PlayerResourceCards = ({ children }) => {
         removeCollectionOfResourcesFromPlayer,
         addCollectionOfResourcesToPlayer,
         tradeResources,
-        stealRandomCardFromPlayer,
         previouslyGainedResources,
-        plunderedResourcePlayers,//This is used for thief.
-        setPlunderedResourcePlayers,
+        //---------- Thief----------//
+        discardHalfResourcesPlayers,
+        setDiscardHalfResourcesPlayers,
+        findAndSetDiscardHalfResourcesPlayers,
+        updateDiscardHalfResourcesPlayers,
+
+        discardHalfResourcesCardAmount,
+        setDiscardHalfResourcesCardAmount,
+        findAndSetDiscardHalfResourcesCardAmount,
+
+        robbingTargetPlayers,//This is used for thief.
+        setRobbingTargetPlayers,
+        stealRandomCardFromPlayer,
         //---------- Build Menu Check ----------//
         canPlayerAffordRoad,
         canPlayerAffordSettlement,

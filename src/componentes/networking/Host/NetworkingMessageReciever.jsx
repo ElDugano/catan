@@ -32,7 +32,7 @@ const NetworkingMessageReciever = (props) => {
   const { setScoreBoard } = useContext(ScoreBoardContext);
   const { setPortOwner } = useContext(PortOwnerContext);
   const { setPlayerAvailableBuildings, setLastBuiltObject } = useContext(PlayerAvailableBuildingsContext);
-  const { setPlayerResourceCards } = useContext(PlayerResourceCardsContext);
+  const { setPlayerResourceCards, setDiscardHalfResourcesPlayers, setDiscardHalfResourcesCardAmount } = useContext(PlayerResourceCardsContext);
   const { newPlayerDevelopmentCardJustPurchased } = useContext(DevelopmentCardsContext);
 
   const { setCurrentPlayerTurn, setupClientPlayerOrder, setClientPlayerNumber } = useContext(CurrentPlayerTurnContext);
@@ -83,14 +83,19 @@ const NetworkingMessageReciever = (props) => {
           "endTurn"                   in recievedMessages && props.endTurn();
           "buildCity"                 in recievedMessages && props.buildCity(recievedMessages.buildCity.x, recievedMessages.buildCity.y);
           "newPlayerDevelopmentCardJustPurchased" in recievedMessages && newPlayerDevelopmentCardJustPurchased(recievedMessages.newPlayerDevelopmentCardJustPurchased);
-          //"" in recievedMessages && 
-          //"" in recievedMessages && 
-          //"" in recievedMessages && 
-          //"" in recievedMessages && 
-          //"" in recievedMessages && 
-          //"" in recievedMessages && 
-          //"" in recievedMessages && 
-          //"" in recievedMessages && 
+          "discardHalfResourcesPlayers" in recievedMessages && setDiscardHalfResourcesPlayers(recievedMessages.discardHalfResourcesPlayers);
+          "discardHalfResourcesCardAmount" in recievedMessages && setDiscardHalfResourcesCardAmount(recievedMessages.discardHalfResourcesCardAmount);
+          "removeHalfResources"       in recievedMessages && props.removeHalfResources(recievedMessages.removeHalfResources.player, recievedMessages.removeHalfResources.discardingResources);
+          //"" in recievedMessages && (recievedMessages.);
+          //"" in recievedMessages && (recievedMessages.);
+          //"" in recievedMessages && (recievedMessages.);
+          //"" in recievedMessages && (recievedMessages.);
+          //"" in recievedMessages && (recievedMessages.);
+          //"" in recievedMessages && (recievedMessages.);
+          //"" in recievedMessages && (recievedMessages.);
+          //"" in recievedMessages && (recievedMessages.);
+          //"" in recievedMessages && (recievedMessages.);
+          //"" in recievedMessages && (recievedMessages.);
           "cheat"                   in recievedMessages && props.cheat(recievedMessages.cheat);
         }
         else

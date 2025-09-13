@@ -34,7 +34,8 @@ const HostNetworkingFunctions = () => {
           setTurnStateToRoadBuilderCardFirstRoadLongestRoadCheck,
           setTurnStateToRoadBuilderCarSecondRoadLongestRoadCheck,
           setTurnStateToGatheringResources,
-          setTurnStateToRemoveHalfResources }= useContext(TurnStateContext);
+          setTurnStateToRemoveHalfResources,
+          setTurnStateToMoveTheThief }= useContext(TurnStateContext);
 
   const { scorePoint, setLongestRoad, longestRoadOwner } = useContext(ScoreBoardContext);
   const { currentPlayerTurn, numberOfPlayers, gotoNextPlayerTurn } = useContext(CurrentPlayerTurnContext);
@@ -43,8 +44,14 @@ const HostNetworkingFunctions = () => {
           removeCityFromAvailableBuildings,
           removeRoadFromAvailableBuildings } = useContext(PlayerAvailableBuildingsContext);
   const { addCollectionOfResourcesToPlayer,
+          discardHalfResourcesPlayers,
+          setDiscardHalfResourcesPlayers,
           removePlayerResourcesToBuildSettlement,
-          removePlayerResourcesToBuildCity }  = useContext(PlayerResourceCardsContext);
+          removePlayerResourcesToBuildCity,
+          findAndSetDiscardHalfResourcesPlayers,
+          findAndSetDiscardHalfResourcesCardAmount,
+          updateDiscardHalfResourcesPlayers,
+          removeCollectionOfResourcesFromPlayer }  = useContext(PlayerResourceCardsContext);
 
   const { tileCornerNodes,
           setNodeValueToSettlement,
@@ -128,15 +135,44 @@ const HostNetworkingFunctions = () => {
   const rollTheDice = () => {
       //Notice, we are not passing the dice roll to the players, they probably don't need it.
     if (rollDice() != 7){
-      //TODO This will want to calculate who is goign to lose resources.
       addToMessagePayloadToAllPlayers(setTurnStateToGatheringResources());
     }
     else {
       addToMessagePayloadToAllPlayers(setTurnStateToRemoveHalfResources());
-        //This code will much more likely want to have the host tell individuals they have to remove resources.
+      addToMessagePayloadToAllPlayers(findAndSetDiscardHalfResourcesPlayers());
+      addToMessagePayloadToAllPlayers(findAndSetDiscardHalfResourcesCardAmount());
     }
     console.log("We did roll the dice here.");
     sendTheMessages();
+  }
+
+  const removeHalfResources = (player, discardingResources) => {
+    console.log("HEY MAN, we did do something here, at the least.");
+    console.log("Player: ", player);
+    console.log("Discarding resources: ", discardingResources)
+
+
+    addToMessagePayloadToAllPlayers(removeCollectionOfResourcesFromPlayer(player, discardingResources));
+    let newDiscardHalfResourcesPlayers = updateDiscardHalfResourcesPlayers(player);
+    console.log("Player Discarding cards array is now:");
+    console.log(newDiscardHalfResourcesPlayers);
+    if(newDiscardHalfResourcesPlayers.every(val => val === false)) {
+      console.log("Okay, we done now.");
+      addToMessagePayloadToAllPlayers(setTurnStateToMoveTheThief());
+    }
+    else {
+      console.log("Not done yet.");
+      addToMessagePayloadToAllPlayers({discardHalfResourcesPlayers:newDiscardHalfResourcesPlayers});
+    }
+    sendTheMessages();
+
+
+    //let updatedPlayersToBePillaged = discardHalfResourcesPlayers;
+    //updatedPlayersToBePillaged[player] = false;
+    //if(updatedPlayersToBePillaged.every(val => val === false))
+    //  addToMessagePayloadToAllPlayers(setTurnStateToMoveTheThief());
+    //else
+    //  setDiscardHalfResourcesPlayers(updatedPlayersToBePillaged);
   }
 
   const endTurn = () => {
@@ -154,6 +190,11 @@ const HostNetworkingFunctions = () => {
     if (cheatType == "Roll 7") {
       setDice([3,4]);
       addToMessagePayloadToAllPlayers(setTurnStateToRemoveHalfResources());
+      addToMessagePayloadToAllPlayers(findAndSetDiscardHalfResourcesPlayers());
+      addToMessagePayloadToAllPlayers(findAndSetDiscardHalfResourcesCardAmount());
+      console.log("We are sending the following information to the client");
+      console.log(findAndSetDiscardHalfResourcesPlayers());
+      console.log(findAndSetDiscardHalfResourcesCardAmount());
     }
     sendTheMessages();
   }
@@ -164,6 +205,7 @@ const HostNetworkingFunctions = () => {
       buildSettlement = {buildSettlement}
       buildRoad = {buildRoad}
       rollTheDice = {rollTheDice}
+      removeHalfResources = {removeHalfResources}
       endTurn = {endTurn}
       buildCity = {buildCity}
 

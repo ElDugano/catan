@@ -4,7 +4,7 @@ import BanditIcon from "./components/BanditIcon.jsx";
 import Tiles from "./components/Tiles.jsx";
 import Ports from "./components/Ports.jsx";
 import RoadNodes from "./components/RoadNodes.jsx";
-import ThiefMoveButtons from "./components/TheifMoveButtons.jsx";
+import ThiefMoveButtons from "./components/ThiefMoveButtons.jsx";
 
 import { TileCornerNodes } from './state/tileCornerNodes/TileCornerNodes.jsx'
 import { LandTiles } from './state/landTiles/LandTiles.jsx'
