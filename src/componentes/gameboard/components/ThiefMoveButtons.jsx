@@ -3,30 +3,23 @@ import { LandTilesContext } from "../state/landTiles/LandTilesContext";
 import { TurnStateContext } from "../../../state/turnState/TurnStateContext";
 import { ThiefLocationContext } from "../state/thiefLocation/ThiefLocationContext";
 
-import { TileCornerNodesContext } from "../state/tileCornerNodes/TileCornerNodesContext";
-import { PlayerResourceCardsContext } from "../../../state/playerResourceCards/PlayerResourceCardsContext";
+import { CurrentPlayerTurnContext } from "../../../state/currentPlayerTurn/CurrentPlayerTurnContext";
+import { NetworkingMessageSenderContext } from "../../networking/Host/NetworkingMessageSenderContext";
 
 export default function ThiefMoveButtons() {
   const { landTiles } = useContext(LandTilesContext);
-  const { isTurnStateMoveTheThief, setTurnStateToPillageResourceCard } = useContext(TurnStateContext);
-  const { thiefLocation, setThiefLocation } = useContext(ThiefLocationContext)
+  const { isTurnStateMoveTheThief } = useContext(TurnStateContext);
+  const { thiefLocation } = useContext(ThiefLocationContext)
 
-  const {isNodeValueSettlement, isNodeValueCity, getTileNodeOwner } = useContext(TileCornerNodesContext);
-  const { setPlunderedResourcePlayers } = useContext(PlayerResourceCardsContext);
+  const { isClientPlayersTurn } = useContext(CurrentPlayerTurnContext);
+  const { addToMessagePayloadToHost, sendTheMessages } = useContext(NetworkingMessageSenderContext);
 
   let boardContent = [];
 
-  function moveTheThief(xCoordinate, yCoordinate) {
-    setThiefLocation({x:xCoordinate, y:yCoordinate});
-    let pillagedPlayers = new Array(false,false,false,false);
-    for (let x = xCoordinate - 1; x <= xCoordinate + 1; x++) {
-      for (let y = yCoordinate; y <= yCoordinate + 1; y++) {
-        if (isNodeValueSettlement(x,y) || isNodeValueCity(x,y))
-          pillagedPlayers[getTileNodeOwner(x,y)] = true;
-      }
-    }
-    setPlunderedResourcePlayers(pillagedPlayers);//This needs to be renamed to make more sense.
-    setTurnStateToPillageResourceCard();
+  function moveTheThief(x, y) {
+    addToMessagePayloadToHost({header: "Move The Thief"});
+    addToMessagePayloadToHost({moveTheThief:{x:x,y:y}});
+    sendTheMessages();
   }
 
 
@@ -38,7 +31,8 @@ export default function ThiefMoveButtons() {
   for (let x in landTiles) {
     for (let y in landTiles[x]) {
       let translateValue = "translate(" + (x*30) + "," + (y*50) + ")";
-      if(isTurnStateMoveTheThief() && (
+      if( isClientPlayersTurn() &&
+          isTurnStateMoveTheThief() && (
             typeof landTiles[x] != "undefined" &&
             typeof landTiles[x][y] != "undefined") && !(
             x == thiefLocation.x &&

@@ -7,10 +7,16 @@ export const ThiefLocation = ({ children }) => {
   const {desertLocation} = useContext(LandTilesContext);
   const [thiefLocation, setThiefLocation] = useState(desertLocation);
 
+  const setAndReturnThiefLocation = (newLocation) => {
+    setThiefLocation(newLocation);
+    return {thiefLocation:newLocation};
+  }
+
   return (
       <ThiefLocationContext.Provider value={{
         thiefLocation,
-        setThiefLocation
+        setThiefLocation,
+        setAndReturnThiefLocation
       }}>
         {children}
       </ThiefLocationContext.Provider>

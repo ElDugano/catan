@@ -6,7 +6,7 @@ import { DiceContext } from "../../../../state/dice/DiceContext";
 
 export default function PillageResourceCardMenu() {
   const { setTurnStateToIdle, setTurnStateToRollingTheDice } = useContext(TurnStateContext);
-  const { robbingTargetPlaters, getAllPlayersTotalResourceCards, stealRandomCardFromPlayer } = useContext(PlayerResourceCardsContext);
+  const { robbingTargetPlayers, getAllPlayersTotalResourceCards, stealRandomCardFromPlayer } = useContext(PlayerResourceCardsContext);
   const { currentPlayerTurn } = useContext(CurrentPlayerTurnContext);
   const { haveDiceBeenRolledThisTurn } = useContext(DiceContext);
 
@@ -22,7 +22,7 @@ export default function PillageResourceCardMenu() {
   }
 
   const AllPlayersTotalCards = getAllPlayersTotalResourceCards();
-  robbingTargetPlaters.forEach((isPlayerPillaged, possibleVictimPlayer) => {
+  robbingTargetPlayers.forEach((isPlayerPillaged, possibleVictimPlayer) => {
     if (isPlayerPillaged && possibleVictimPlayer != currentPlayerTurn){
       if(AllPlayersTotalCards[possibleVictimPlayer] != 0){
       content.push(

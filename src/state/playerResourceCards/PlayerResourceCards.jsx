@@ -97,7 +97,7 @@ export const PlayerResourceCards = ({ children }) => {
     let newDiscardHalfResourcesPlayers = [...discardHalfResourcesPlayers];
     newDiscardHalfResourcesPlayers[player] = false;
     setDiscardHalfResourcesPlayers(newDiscardHalfResourcesPlayers);
-    return newDiscardHalfResourcesPlayers;
+    return {discardHalfResourcesPlayers:newDiscardHalfResourcesPlayers};
   }
   const findAndSetDiscardHalfResourcesCardAmount = () => {
     const AllPlayersTotalCards = getAllPlayersTotalResourceCards();
@@ -110,6 +110,10 @@ export const PlayerResourceCards = ({ children }) => {
   }
 
   const [robbingTargetPlayers, setRobbingTargetPlayers] = useState(new Array(4));
+  const setAndReturnRobbingTargetPlayers = (targetPlayers) => {
+    setRobbingTargetPlayers(targetPlayers);
+    return {robbingTargetPlayers:targetPlayers};
+  }
 
   function stealRandomCardFromPlayer(robbingPlayer, victimPlayer) {
     let victimPlayerHand = [];

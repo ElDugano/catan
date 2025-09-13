@@ -32,7 +32,10 @@ const NetworkingMessageReciever = (props) => {
   const { setScoreBoard } = useContext(ScoreBoardContext);
   const { setPortOwner } = useContext(PortOwnerContext);
   const { setPlayerAvailableBuildings, setLastBuiltObject } = useContext(PlayerAvailableBuildingsContext);
-  const { setPlayerResourceCards, setDiscardHalfResourcesPlayers, setDiscardHalfResourcesCardAmount } = useContext(PlayerResourceCardsContext);
+  const { setPlayerResourceCards,
+          setDiscardHalfResourcesPlayers,
+          setDiscardHalfResourcesCardAmount,
+          setRobbingTargetPlayers } = useContext(PlayerResourceCardsContext);
   const { newPlayerDevelopmentCardJustPurchased } = useContext(DevelopmentCardsContext);
 
   const { setCurrentPlayerTurn, setupClientPlayerOrder, setClientPlayerNumber } = useContext(CurrentPlayerTurnContext);
@@ -86,10 +89,9 @@ const NetworkingMessageReciever = (props) => {
           "discardHalfResourcesPlayers" in recievedMessages && setDiscardHalfResourcesPlayers(recievedMessages.discardHalfResourcesPlayers);
           "discardHalfResourcesCardAmount" in recievedMessages && setDiscardHalfResourcesCardAmount(recievedMessages.discardHalfResourcesCardAmount);
           "removeHalfResources"       in recievedMessages && props.removeHalfResources(recievedMessages.removeHalfResources.player, recievedMessages.removeHalfResources.discardingResources);
-          //"" in recievedMessages && (recievedMessages.);
-          //"" in recievedMessages && (recievedMessages.);
-          //"" in recievedMessages && (recievedMessages.);
-          //"" in recievedMessages && (recievedMessages.);
+          "moveTheThief"              in recievedMessages && props.moveTheThief(recievedMessages.moveTheThief.x, recievedMessages.moveTheThief.y);
+          "robbingTargetPlayers"      in recievedMessages && setRobbingTargetPlayers(recievedMessages.robbingTargetPlayers);
+          "thiefLocation"             in recievedMessages && setThiefLocation(recievedMessages.thiefLocation);
           //"" in recievedMessages && (recievedMessages.);
           //"" in recievedMessages && (recievedMessages.);
           //"" in recievedMessages && (recievedMessages.);

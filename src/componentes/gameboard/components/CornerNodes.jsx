@@ -9,10 +9,6 @@ import BuildCityButton from './BuildCityButton.jsx';
 import Settlement from './Settlement';
 import City from './City.jsx';
 
-import { PlayerResourceCardsContext } from "../../../state/playerResourceCards/PlayerResourceCardsContext.js";
-import { PlayerAvailableBuildingsContext } from "../../../state/playerAvailableBuildings/PlayerAvailableBuildingsContext.js";
-import { ScoreBoardContext } from "../../../state/scoreBoard/ScoreBoardContext.js";
-
 import { NetworkingMessageSenderContext } from '../../networking/Host/NetworkingMessageSenderContext.js';
 
 export default function CornerNodes() {

@@ -14,6 +14,7 @@ import { DiceContext } from "../../../state/dice/DiceContext";
 import { TileCornerNodesContext } from "../../gameboard/state/tileCornerNodes/TileCornerNodesContext";
 import { LandTilesContext } from "../../gameboard/state/landTiles/LandTilesContext";
 import { PortOwnerContext } from "../../../state/portOwner/PortOwnerContext";
+import { ThiefLocationContext } from "../../gameboard/state/thiefLocation/ThiefLocationContext";
 
 import checkIfSettlmentSplitLongestRoad from "../../gameboard/helpers/CheckIfSettlmentSplitLongestRoad";
 import mapTileTypeToResourceType from "../../../helpers/turnState/MapTileTypeToResourceType";
@@ -35,7 +36,8 @@ const HostNetworkingFunctions = () => {
           setTurnStateToRoadBuilderCarSecondRoadLongestRoadCheck,
           setTurnStateToGatheringResources,
           setTurnStateToRemoveHalfResources,
-          setTurnStateToMoveTheThief }= useContext(TurnStateContext);
+          setTurnStateToMoveTheThief,
+          setTurnStateToPillageResourceCard }= useContext(TurnStateContext);
 
   const { scorePoint, setLongestRoad, longestRoadOwner } = useContext(ScoreBoardContext);
   const { currentPlayerTurn, numberOfPlayers, gotoNextPlayerTurn } = useContext(CurrentPlayerTurnContext);
@@ -51,15 +53,20 @@ const HostNetworkingFunctions = () => {
           findAndSetDiscardHalfResourcesPlayers,
           findAndSetDiscardHalfResourcesCardAmount,
           updateDiscardHalfResourcesPlayers,
-          removeCollectionOfResourcesFromPlayer }  = useContext(PlayerResourceCardsContext);
+          removeCollectionOfResourcesFromPlayer,
+          setRobbingTargetPlayers }  = useContext(PlayerResourceCardsContext);
 
   const { tileCornerNodes,
           setNodeValueToSettlement,
           setNodeValueToCity,
           setNodeRightRoadOwner,
-          setNodeBottomRoadOwner, } = useContext(TileCornerNodesContext);
+          setNodeBottomRoadOwner,
+          isNodeValueSettlement,
+          isNodeValueCity,
+          getTileNodeOwner } = useContext(TileCornerNodesContext);
   const { landTiles } = useContext(LandTilesContext);
   const { setPortOwner } = useContext(PortOwnerContext);
+  const { setAndReturnThiefLocation } = useContext(ThiefLocationContext);
   const { rollDice, setDice } = useContext(DiceContext);
 
   const { addToMessagePayloadToPlayer, addToMessagePayloadToAllPlayers, sendTheMessages } = useContext(NetworkingMessageSenderContext);
@@ -138,41 +145,48 @@ const HostNetworkingFunctions = () => {
       addToMessagePayloadToAllPlayers(setTurnStateToGatheringResources());
     }
     else {
-      addToMessagePayloadToAllPlayers(setTurnStateToRemoveHalfResources());
-      addToMessagePayloadToAllPlayers(findAndSetDiscardHalfResourcesPlayers());
-      addToMessagePayloadToAllPlayers(findAndSetDiscardHalfResourcesCardAmount());
+      const discardHalfResourcePlayers = findAndSetDiscardHalfResourcesPlayers();
+      if(discardHalfResourcePlayers.discardHalfResourcesPlayers.every(val => val === false)) {
+        addToMessagePayloadToAllPlayers(setTurnStateToMoveTheThief());
+      }
+      else {
+        addToMessagePayloadToAllPlayers(setTurnStateToRemoveHalfResources());
+        addToMessagePayloadToAllPlayers(discardHalfResourcePlayers);
+        addToMessagePayloadToAllPlayers(findAndSetDiscardHalfResourcesCardAmount());
+      }
+
     }
     console.log("We did roll the dice here.");
     sendTheMessages();
   }
 
   const removeHalfResources = (player, discardingResources) => {
-    console.log("HEY MAN, we did do something here, at the least.");
-    console.log("Player: ", player);
-    console.log("Discarding resources: ", discardingResources)
-
-
     addToMessagePayloadToAllPlayers(removeCollectionOfResourcesFromPlayer(player, discardingResources));
     let newDiscardHalfResourcesPlayers = updateDiscardHalfResourcesPlayers(player);
-    console.log("Player Discarding cards array is now:");
-    console.log(newDiscardHalfResourcesPlayers);
-    if(newDiscardHalfResourcesPlayers.every(val => val === false)) {
+    if(newDiscardHalfResourcesPlayers.discardHalfResourcesPlayers.every(val => val === false)) {
       console.log("Okay, we done now.");
       addToMessagePayloadToAllPlayers(setTurnStateToMoveTheThief());
     }
     else {
       console.log("Not done yet.");
-      addToMessagePayloadToAllPlayers({discardHalfResourcesPlayers:newDiscardHalfResourcesPlayers});
+      addToMessagePayloadToAllPlayers(newDiscardHalfResourcesPlayers);
     }
     sendTheMessages();
+  }
 
+  const moveTheThief = (xCoordinate, yCoordinate) => {
+    addToMessagePayloadToAllPlayers(setAndReturnThiefLocation({x:xCoordinate, y:yCoordinate}));
+    let robbingTargetPlayers = new Array(false,false,false,false);
+    for (let x = xCoordinate - 1; x <= xCoordinate + 1; x++) {
+      for (let y = yCoordinate; y <= yCoordinate + 1; y++) {
+        if (isNodeValueSettlement(x,y) || isNodeValueCity(x,y))
+          robbingTargetPlayers[getTileNodeOwner(x,y)] = true;
+      }
+    }
+    addToMessagePayloadToAllPlayers(setRobbingTargetPlayers(robbingTargetPlayers));
+    addToMessagePayloadToAllPlayers(setTurnStateToPillageResourceCard()); //Rename this step.
 
-    //let updatedPlayersToBePillaged = discardHalfResourcesPlayers;
-    //updatedPlayersToBePillaged[player] = false;
-    //if(updatedPlayersToBePillaged.every(val => val === false))
-    //  addToMessagePayloadToAllPlayers(setTurnStateToMoveTheThief());
-    //else
-    //  setDiscardHalfResourcesPlayers(updatedPlayersToBePillaged);
+    sendTheMessages();
   }
 
   const endTurn = () => {
@@ -189,12 +203,15 @@ const HostNetworkingFunctions = () => {
     }
     if (cheatType == "Roll 7") {
       setDice([3,4]);
-      addToMessagePayloadToAllPlayers(setTurnStateToRemoveHalfResources());
-      addToMessagePayloadToAllPlayers(findAndSetDiscardHalfResourcesPlayers());
-      addToMessagePayloadToAllPlayers(findAndSetDiscardHalfResourcesCardAmount());
-      console.log("We are sending the following information to the client");
-      console.log(findAndSetDiscardHalfResourcesPlayers());
-      console.log(findAndSetDiscardHalfResourcesCardAmount());
+      const discardHalfResourcePlayers = findAndSetDiscardHalfResourcesPlayers();
+      if(discardHalfResourcePlayers.discardHalfResourcesPlayers.every(val => val === false)) {
+        addToMessagePayloadToAllPlayers(setTurnStateToMoveTheThief());
+      }
+      else {
+        addToMessagePayloadToAllPlayers(setTurnStateToRemoveHalfResources());
+        addToMessagePayloadToAllPlayers(discardHalfResourcePlayers);
+        addToMessagePayloadToAllPlayers(findAndSetDiscardHalfResourcesCardAmount());
+      }
     }
     sendTheMessages();
   }
@@ -206,6 +223,7 @@ const HostNetworkingFunctions = () => {
       buildRoad = {buildRoad}
       rollTheDice = {rollTheDice}
       removeHalfResources = {removeHalfResources}
+      moveTheThief = {moveTheThief}
       endTurn = {endTurn}
       buildCity = {buildCity}
 
