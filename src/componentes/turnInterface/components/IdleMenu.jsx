@@ -13,12 +13,27 @@ export default function IdleMenu() {
     addToMessagePayloadToHost({endTurn:true});
     sendTheMessages();
   }
+  const buildMenu = () => {
+    addToMessagePayloadToHost({header: "Goto Build Menu"});
+    addToMessagePayloadToHost(setTurnStateToBuildMenu());
+    sendTheMessages();
+  }
+  const playDevelopmentCardMenu = () => {
+    addToMessagePayloadToHost({header: "Goto Play Development Card Menu"});
+    addToMessagePayloadToHost(setTurnStateToSelectingADevelopmentCard());
+    sendTheMessages();
+  }
+  const tradeResourcesMenu = () => {
+    addToMessagePayloadToHost({header: "Goto Trade Resources Menu"});
+    addToMessagePayloadToHost(setTurnStateToTradingWithTheBoard());
+    sendTheMessages();
+  }
 
   return (
     <>
-      <button onClick={setTurnStateToBuildMenu}>Build Something</button>
-      <button onClick={setTurnStateToSelectingADevelopmentCard}>Play a development card</button>
-      <button onClick={setTurnStateToTradingWithTheBoard}>Trade Resources</button>
+      <button onClick={buildMenu}>Build Something</button>
+      <button onClick={playDevelopmentCardMenu}>Play a development card</button>
+      <button onClick={tradeResourcesMenu}>Trade Resources</button>
       <button onClick={endTurn}>End Turn</button>
     </>
   )

@@ -6,7 +6,7 @@ export default function NetworkingHostSetup(props) {
     //This doesn't really need to be held in state. but something is likely needed to be held in state.
     //Maybe if I make this a memo?
   
-  
+  //console.log("Update Check 9");
 
   useEffect(() => {
     if(myPeerID == null) {
@@ -24,6 +24,27 @@ export default function NetworkingHostSetup(props) {
           props.setNewestConn(newConn);
         });
         setMyPeerID(shortID);
+        result.peer.on('disconnected', function(){
+          console.log("HEY, SOMEONE JUST DISCONNECTED.")
+        });
+        result.peer.on('iceConnectionStateChange', (state) => {
+          if (state === 'disconnected' || state === 'failed') {
+              console.log("We caught the disconnection here, an attempt to reconnect should be trying to happen.");
+              //Really, a reconnect should be attempted on the client side, most likely.
+          }
+        });
+        result.peer.on('error', (err) => {
+          console.log(err.type);
+          if (err.type === 'ice-failed') {
+            console.log('ICE failed, attempting to reconnect...');
+            setTimeout(() => {
+            // Logic to re-establish connection
+              console.log("Need to call reconnect function...");
+            }, 5000); // Retry after 5 seconds
+          }
+          console.log("HEY, We got an error.");
+          //console.log(err.type);
+        });
       });
     }
   }, [myPeerID, props]);

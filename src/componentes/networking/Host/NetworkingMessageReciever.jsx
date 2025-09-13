@@ -16,6 +16,7 @@ import { CurrentPlayerTurnContext } from "../../../state/currentPlayerTurn/Curre
 import { PortOwnerContext } from "../../../state/portOwner/PortOwnerContext";
 import { PlayerAvailableBuildingsContext } from "../../../state/playerAvailableBuildings/PlayerAvailableBuildingsContext";
 import { PlayerResourceCardsContext } from "../../../state/playerResourceCards/PlayerResourceCardsContext";
+import { DevelopmentCardsContext } from "../../../state/developmentCards/DevelopmentCardsContext";
 
 const NetworkingMessageReciever = (props) => {
   const { recievedMessages, clearMessage, recievedMessagesPlayer } = useContext(NetworkingContext);
@@ -32,6 +33,7 @@ const NetworkingMessageReciever = (props) => {
   const { setPortOwner } = useContext(PortOwnerContext);
   const { setPlayerAvailableBuildings, setLastBuiltObject } = useContext(PlayerAvailableBuildingsContext);
   const { setPlayerResourceCards } = useContext(PlayerResourceCardsContext);
+  const { newPlayerDevelopmentCardJustPurchased } = useContext(DevelopmentCardsContext);
 
   const { setCurrentPlayerTurn, setupClientPlayerOrder, setClientPlayerNumber } = useContext(CurrentPlayerTurnContext);
 
@@ -79,8 +81,8 @@ const NetworkingMessageReciever = (props) => {
           "gameState"                 in recievedMessages && setGameState(recievedMessages.gameState);
           "rollTheDice"               in recievedMessages && props.rollTheDice();
           "endTurn"                   in recievedMessages && props.endTurn();
-          //"" in recievedMessages && 
-          //"" in recievedMessages && 
+          "buildCity"                 in recievedMessages && props.buildCity(recievedMessages.buildCity.x, recievedMessages.buildCity.y);
+          "newPlayerDevelopmentCardJustPurchased" in recievedMessages && 
           //"" in recievedMessages && 
           //"" in recievedMessages && 
           //"" in recievedMessages && 

@@ -18,15 +18,10 @@ import { NetworkingMessageSenderContext } from '../../networking/Host/Networking
 export default function CornerNodes() {
   const {isGameStateBoardSetup}= useContext(GameStateContext);
   const { isTurnStateBuildingASettlement,
-          isTurnStateBuildingACity,
-          setTurnStateToIdle }= useContext(TurnStateContext);
+          isTurnStateBuildingACity }= useContext(TurnStateContext);
 
   const {currentPlayerTurn, isClientPlayersTurn} = useContext(CurrentPlayerTurnContext);
-  const {tileCornerNodes, isNodeValueSettlement, isNodeValueCity, isNodeValueLand, setNodeValueToCity} = useContext(TileCornerNodesContext);
-
-  const { scorePoint } = useContext(ScoreBoardContext);
-  const { removeCityFromAvailableBuildings } = useContext(PlayerAvailableBuildingsContext);
-  const { removePlayerResourcesToBuildCity } = useContext(PlayerResourceCardsContext);
+  const {tileCornerNodes, isNodeValueSettlement, isNodeValueCity, isNodeValueLand} = useContext(TileCornerNodesContext);
 
   const { addToMessagePayloadToHost, sendTheMessages } = useContext(NetworkingMessageSenderContext);
 
@@ -37,11 +32,9 @@ export default function CornerNodes() {
   }
 
   function buildCity(x, y) {
-    setNodeValueToCity(x, y);
-    scorePoint(currentPlayerTurn);
-    removeCityFromAvailableBuildings(x, y, currentPlayerTurn);
-    removePlayerResourcesToBuildCity(currentPlayerTurn);
-    setTurnStateToIdle();
+    addToMessagePayloadToHost({header: "Building a City"});
+    addToMessagePayloadToHost({buildCity:{x:x,y:y}});
+    sendTheMessages();
   }
 
   let boardContent=[];
@@ -74,7 +67,7 @@ export default function CornerNodes() {
           />
         );
       }
-      if(isNodeValueSettlement(x,y)) {
+      if( isClientPlayersTurn() && isNodeValueSettlement(x,y) ) {
 //---------- Display a Build City Button ----------//
         if(isTurnStateBuildingACity() && tileCornerNodes[x][y].owner == currentPlayerTurn)
           boardContent.push(

@@ -17,6 +17,8 @@ export const Networking = ({ children }) => {
     setRecievedMessages(null);
     setRecievedMessagesPlayer(null);
   }
+  //if(isHost == false)
+    //alert("Networking ran");
 
   useEffect(() => {
     if(newestConn != null) {
@@ -36,6 +38,12 @@ export const Networking = ({ children }) => {
               clientPlayerNumber:playerNumber });
           //Cant use NetworkingMessageSender because it is below in context.
         });
+        newestConn.on('error', (err) => {
+          console.log(err);
+          console.log(err.type);
+          console.log("There was an error over here in Conn world.");
+          //alert(err.type);
+        });
         let newConn;
         if(conn == null)
           newConn = newestConn;
@@ -47,6 +55,7 @@ export const Networking = ({ children }) => {
         setNewestConn(null);
       }
       else if(isHost == false){
+        //alert("going to open the newestConn.on");
         newestConn.on('open', function() {
           // Receive messages
           newestConn.on('data', function(data,) {

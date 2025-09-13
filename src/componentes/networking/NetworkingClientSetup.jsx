@@ -14,9 +14,30 @@ export default function NetworkingClientSetup(props) {
         setMyPeerID(id);
         setPeer(newPeer);
       })
+      newPeer.on('error', (err) => {
+        alert(err.type);//network.
+        if (err.type === "network"){
+          setTimeout(reconnect, 5000);
+        }
+          
+      })
+
+      function reconnect() {
+        //var newPeer = new Peer();
+        //newPeer.on('open', function(id) {
+        //  console.log("The peerID is: "+id);
+        //  setMyPeerID(id);
+        //  setPeer(newPeer);
+        //})
+        alert("reconnect called, going to try to reconnect");
+        alert(props.hostPeerIDPrefix+connectionID);
+        let newConn = peer.connect(props.hostPeerIDPrefix+connectionID);//connectionID doesn't get passed correctly into here.
+            //When this first gets setup, connectionID is going to be blank, because this sets up at the start of the whole thing.
+        props.setNewestConn(newConn);
+      }
     }
 
-  }, [myPeerID]);
+  }, [myPeerID, connectionID, peer, props]);
 
  const connectionButton= () => {
    console.log("Clicked connection button.");

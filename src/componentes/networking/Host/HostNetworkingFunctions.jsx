@@ -24,6 +24,7 @@ const HostNetworkingFunctions = () => {
   const { isGameStateBoardSetup }= useContext(GameStateContext);
     //Currently gets stuck here because this isn't a react component. This is being called like a regular function
   const { setTurnStateToBuildingARoad,
+            turnState,
           setTurnStateToIdle,
           isTurnStateBuildingARoad,
           isTurnStateRoadBuilderCardFirstRoad,
@@ -39,14 +40,17 @@ const HostNetworkingFunctions = () => {
   const { currentPlayerTurn, numberOfPlayers, gotoNextPlayerTurn } = useContext(CurrentPlayerTurnContext);
   const { returnAvailableSettlements,
           removeSettlementFromAvailableBuildings,
+          removeCityFromAvailableBuildings,
           removeRoadFromAvailableBuildings } = useContext(PlayerAvailableBuildingsContext);
   const { addCollectionOfResourcesToPlayer,
-          removePlayerResourcesToBuildSettlement}  = useContext(PlayerResourceCardsContext);
+          removePlayerResourcesToBuildSettlement,
+          removePlayerResourcesToBuildCity }  = useContext(PlayerResourceCardsContext);
 
   const { tileCornerNodes,
           setNodeValueToSettlement,
+          setNodeValueToCity,
           setNodeRightRoadOwner,
-          setNodeBottomRoadOwner } = useContext(TileCornerNodesContext);
+          setNodeBottomRoadOwner, } = useContext(TileCornerNodesContext);
   const { landTiles } = useContext(LandTilesContext);
   const { setPortOwner } = useContext(PortOwnerContext);
   const { rollDice, setDice } = useContext(DiceContext);
@@ -86,23 +90,39 @@ const HostNetworkingFunctions = () => {
       removePlayerResourcesToBuildSettlement(currentPlayerTurn);
       setTurnStateToIdle();
     }
-    console.log("That was pretty cool, actually. I should tell all the other players about this!");
     sendTheMessages();
   }
 
   const buildRoad = (x, y, direction) => {
+    console.log("Building a road.");
     if (direction == "right")
       addToMessagePayloadToAllPlayers(setNodeRightRoadOwner(x, y, currentPlayerTurn));
     else
       addToMessagePayloadToAllPlayers(setNodeBottomRoadOwner(x, y, currentPlayerTurn));
     addToMessagePayloadToAllPlayers(removeRoadFromAvailableBuildings(x, y, currentPlayerTurn));
     if (isTurnStateBuildingARoad())
-      addToMessagePayloadToAllPlayers(setTurnStateToBuildingARoadLongestRoadCheck());
+      setTurnStateToBuildingARoadLongestRoadCheck();
     if(isTurnStateRoadBuilderCardFirstRoad())
-      addToMessagePayloadToAllPlayers(setTurnStateToRoadBuilderCardFirstRoadLongestRoadCheck());
+      setTurnStateToRoadBuilderCardFirstRoadLongestRoadCheck();
     if(isTurnStateRoadBuilderCardSecondRoad())
-      addToMessagePayloadToAllPlayers(setTurnStateToRoadBuilderCarSecondRoadLongestRoadCheck());
+      setTurnStateToRoadBuilderCarSecondRoadLongestRoadCheck();
     //sendTheMessages();
+    console.log("This is the turnState: ", turnState);
+  }
+
+  const buildCity = (x, y) => {
+    console.log("Got to this part of building a city.")
+    addToMessagePayloadToAllPlayers(setNodeValueToCity(x, y));
+    console.log("1");
+    addToMessagePayloadToAllPlayers(scorePoint(currentPlayerTurn));
+    console.log("2");
+    addToMessagePayloadToAllPlayers(removeCityFromAvailableBuildings(x, y, currentPlayerTurn));
+    console.log("3");
+    addToMessagePayloadToAllPlayers(removePlayerResourcesToBuildCity(currentPlayerTurn));
+    console.log("4");
+    addToMessagePayloadToAllPlayers(setTurnStateToIdle());
+    console.log("5");
+    sendTheMessages();
   }
 
   const rollTheDice = () => {
@@ -143,6 +163,7 @@ const HostNetworkingFunctions = () => {
       buildRoad = {buildRoad}
       rollTheDice = {rollTheDice}
       endTurn = {endTurn}
+      buildCity = {buildCity}
 
       cheat = {cheat}
     />

@@ -120,6 +120,7 @@ export const PlayerResourceCards = ({ children }) => {
     newPlayerResourceCards[player].Brick--;
     newPlayerResourceCards[player].Lumber--;
     setPlayerResourceCards(newPlayerResourceCards);
+    return {playerResourceCards:newPlayerResourceCards};
   }
 
   function removePlayerResourcesToBuildSettlement(player) {
@@ -129,6 +130,7 @@ export const PlayerResourceCards = ({ children }) => {
     newPlayerResourceCards[player].Wool--;
     newPlayerResourceCards[player].Grain--;
     setPlayerResourceCards(newPlayerResourceCards);
+    return {playerResourceCards:newPlayerResourceCards};
   }
 
   function removePlayerResourcesToBuildCity(player) {
@@ -136,6 +138,7 @@ export const PlayerResourceCards = ({ children }) => {
     newPlayerResourceCards[player].Grain-=2;
     newPlayerResourceCards[player].Ore-=3;
     setPlayerResourceCards(newPlayerResourceCards);
+    return {playerResourceCards:newPlayerResourceCards};
   }
 
   function removePlayerResourcesToBuildDevelopmentCard(player) {
@@ -144,6 +147,7 @@ export const PlayerResourceCards = ({ children }) => {
     newPlayerResourceCards[player].Ore--;
     newPlayerResourceCards[player].Wool--;
     setPlayerResourceCards(newPlayerResourceCards);
+    return {playerResourceCards:newPlayerResourceCards};
   }
 
   function monopolizeWool(player){monopolizeResource(player, "Wool")}

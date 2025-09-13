@@ -66,7 +66,7 @@ function App() {
   if (isClientPlayersTurn()) {
     console.log("Snap, it is my turn!");
   }
-
+    console.log("Again, the turnState is: ",turnState)
     const longestRoadCheck = isTurnStateLongestRoadCheck() ? <LongestRoadCheck /> : null;
     return (
       <>

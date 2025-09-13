@@ -37,6 +37,7 @@ export default function LongestRoadCheck() {
 
   //THIS NEEDS TO BE NAMED SOMETHING ELSE, IT IS CONFUSING.
   //THIS IS JUST FOR A SPECIFIC STATE TO MOVE INTO THE NEXT STATE
+  console.log("We got to check the longest road.");
 
   useEffect(() => {
     checkIfLongestRoad(findThePlayersLongestRoad(tileCornerNodes, currentPlayerTurn, returnUsedRoads(currentPlayerTurn)), currentPlayerTurn);
@@ -62,12 +63,12 @@ export default function LongestRoadCheck() {
       }
     }
     else if(isTurnStateRoadBuilderCardFirstRoadLongestRoadCheck())
-      setTurnStateToRoadBuilderCardSecondRoad();
+      addToMessagePayloadToAllPlayers(setTurnStateToRoadBuilderCardSecondRoad());
     else if (isTurnStateRoadBuilderCardSecondRoadLongestRoadCheck())
-      setTurnStateToIdle();
+      addToMessagePayloadToAllPlayers(setTurnStateToIdle());
     else {
-      setTurnStateToIdle();
-      removePlayerResourcesToBuildRoad(currentPlayerTurn);
+      addToMessagePayloadToAllPlayers(setTurnStateToIdle());
+      addToMessagePayloadToAllPlayers(removePlayerResourcesToBuildRoad(currentPlayerTurn));
     }
     console.log("Send the messages!!!!");
     sendTheMessages();
