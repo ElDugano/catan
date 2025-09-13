@@ -15,7 +15,7 @@ import { TileCornerNodesContext } from "../../gameboard/state/tileCornerNodes/Ti
 import { LandTilesContext } from "../../gameboard/state/landTiles/LandTilesContext";
 import { PortOwnerContext } from "../../../state/portOwner/PortOwnerContext";
 
-import checkIfSettlmentSplitLongestRoad from "../../gameboard/helpers/checkIfSettlmentSplitLongestRoad";
+import checkIfSettlmentSplitLongestRoad from "../../gameboard/helpers/CheckIfSettlmentSplitLongestRoad";
 import mapTileTypeToResourceType from "../../../helpers/turnState/MapTileTypeToResourceType";
 
 import { NetworkingMessageSenderContext } from "./NetworkingMessageSenderContext";
@@ -127,8 +127,10 @@ const HostNetworkingFunctions = () => {
 
   const rollTheDice = () => {
       //Notice, we are not passing the dice roll to the players, they probably don't need it.
-    if (rollDice() != 7)
+    if (rollDice() != 7){
+      //TODO This will want to calculate who is goign to lose resources.
       addToMessagePayloadToAllPlayers(setTurnStateToGatheringResources());
+    }
     else {
       addToMessagePayloadToAllPlayers(setTurnStateToRemoveHalfResources());
         //This code will much more likely want to have the host tell individuals they have to remove resources.
@@ -150,8 +152,8 @@ const HostNetworkingFunctions = () => {
       addToMessagePayloadToAllPlayers(addCollectionOfResourcesToPlayer(currentPlayerTurn,{Wool:5, Lumber:5, Grain:5, Brick:5, Ore:5}));
     }
     if (cheatType == "Roll 7") {
-        setDice([3,4]);
-        addToMessagePayloadToAllPlayers(setTurnStateToRemoveHalfResources());
+      setDice([3,4]);
+      addToMessagePayloadToAllPlayers(setTurnStateToRemoveHalfResources());
     }
     sendTheMessages();
   }

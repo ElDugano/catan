@@ -25,7 +25,7 @@ export default function ThiefMoveButtons() {
           pillagedPlayers[getTileNodeOwner(x,y)] = true;
       }
     }
-    setPlunderedResourcePlayers(pillagedPlayers);
+    setPlunderedResourcePlayers(pillagedPlayers);//This needs to be renamed to make more sense.
     setTurnStateToPillageResourceCard();
   }
 

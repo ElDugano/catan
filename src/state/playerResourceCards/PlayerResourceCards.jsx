@@ -178,14 +178,16 @@ export const PlayerResourceCards = ({ children }) => {
         playerResourceCards,
         setPlayerResourceCards,
         addResourcesFromDiceRollToPlayerResourceCards,
+
         getAPlayersResourceCards,
         getAllPlayersTotalResourceCards,
+
         removeCollectionOfResourcesFromPlayer,
         addCollectionOfResourcesToPlayer,
         tradeResources,
         stealRandomCardFromPlayer,
         previouslyGainedResources,
-        plunderedResourcePlayers,
+        plunderedResourcePlayers,//This is used for thief.
         setPlunderedResourcePlayers,
         //---------- Build Menu Check ----------//
         canPlayerAffordRoad,

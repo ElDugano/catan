@@ -1,12 +1,12 @@
 import { useContext, useState } from "react"
 import { PlayerResourceCardsContext } from "../../../../state/playerResourceCards/PlayerResourceCardsContext"
 import { TurnStateContext } from "../../../../state/turnState/TurnStateContext";
-import { NumberOfPlayersContext } from "../../../../state/REMOVEMEnumberOfPlayers/NumberOfPlayersContext";
+import { CurrentPlayerTurnContext } from "../../../../state/currentPlayerTurn/CurrentPlayerTurnContext";
 
 export default function RemoveHalfResourcesMenu() {
   const { playerResourceCards, getAllPlayersTotalResourceCards, removeCollectionOfResourcesFromPlayer } = useContext(PlayerResourceCardsContext);
   const { setTurnStateToMoveTheThief } = useContext(TurnStateContext);
-  const { numberOfPlayers } = useContext(NumberOfPlayersContext);
+  const { numberOfPlayers, clientPlayerNumber } = useContext(CurrentPlayerTurnContext);
 
   const AllPlayersTotalCards = getAllPlayersTotalResourceCards();
 
@@ -33,7 +33,10 @@ export default function RemoveHalfResourcesMenu() {
     });
     return numberOfCardsNeededToDiscard;
   })
-
+  //TODO, the above should be sent over by the host.
+  //Clients should send back the cards they have removed.
+  //When enough cards have been removed, continue to the next step.
+  //These can likely be placed in PlayerResourceCards.
 
   function updateDiscardingResources(player, resource, changeAmount) {
     let newDiscardingResources = [...discardingResources];
@@ -59,58 +62,56 @@ export default function RemoveHalfResourcesMenu() {
       setPlayersToBePillaged(updatedPlayersToBePillaged);
   }
 
-  const content=[];
+  const content=[];//This doesn't need to be an array.
 
-  for (let playerNumber = 0; playerNumber < numberOfPlayers; playerNumber++) {
-    if(playersToBePillaged[playerNumber] == true) {
-      let playersDiscardedCards=totalDiscardCards(playerNumber);
-      content.push(
-        <div key={crypto.randomUUID()}>
-          <h4>Player {playerNumber} needs to discard {numberOfCardsTobePillaged[playerNumber]} in total.</h4>
-          <div style={{display: "flex", textAlign: "center"}}>
-            <div>
-              Wool<br />
-              {playerResourceCards[playerNumber].Wool}<br />
-              <span style={{color: "red"}}>{discardingResources[playerNumber].Wool}</span><br />
-              <button onClick={(() => {updateDiscardingResources(playerNumber, "Wool", 1)})}>+</button><br />
-              <button onClick={(() => {updateDiscardingResources(playerNumber, "Wool", -1)})}>-</button>
-            </div>
-            <div>
-              Lumber<br />
-              {playerResourceCards[playerNumber].Lumber}<br />
-              <span style={{color: "red"}}>{discardingResources[playerNumber].Lumber}</span><br />
-              <button onClick={(() => {updateDiscardingResources(playerNumber, "Lumber", 1)})}>+</button><br />
-              <button onClick={(() => {updateDiscardingResources(playerNumber, "Lumber", -1)})}>-</button>
-            </div>
-            <div>
-              Grain<br />
-              {playerResourceCards[playerNumber].Grain}<br />
-              <span style={{color: "red"}}>{discardingResources[playerNumber].Grain}</span><br />
-              <button onClick={(() => {updateDiscardingResources(playerNumber, "Grain", 1)})}>+</button><br />
-              <button onClick={(() => {updateDiscardingResources(playerNumber, "Grain", -1)})}>-</button>
-            </div>
-            <div>
-              Brick<br />
-              {playerResourceCards[playerNumber].Brick}<br />
-              <span style={{color: "red"}}>{discardingResources[playerNumber].Brick}</span><br />
-              <button onClick={(() => {updateDiscardingResources(playerNumber, "Brick", 1)})}>+</button><br />
-              <button onClick={(() => {updateDiscardingResources(playerNumber, "Brick", -1)})}>-</button>
-            </div>
-            <div>
-              Ore<br />
-              {playerResourceCards[playerNumber].Ore}<br />
-              <span style={{color: "red"}}>{discardingResources[playerNumber].Ore}</span><br />
-              <button onClick={(() => {updateDiscardingResources(playerNumber, "Ore", 1)})}>+</button><br />
-              <button onClick={(() => {updateDiscardingResources(playerNumber, "Ore", -1)})}>-</button>
-            </div>
-            <div>
-            Total Selected cards: {playersDiscardedCards}<br /><br />
-            {playersDiscardedCards == numberOfCardsTobePillaged[playerNumber] && <button onClick={() => {removeCardsFromPlayer(playerNumber)}}>Discard Selected Cards</button>}
-            </div>
+  if(playersToBePillaged[clientPlayerNumber] == true) {
+    let playersDiscardedCards=totalDiscardCards(clientPlayerNumber);
+    content.push(
+      <div key={crypto.randomUUID()}>
+        <h4>Player {clientPlayerNumber} needs to discard {numberOfCardsTobePillaged[clientPlayerNumber]} in total.</h4>
+        <div style={{display: "flex", textAlign: "center"}}>
+          <div>
+            Wool<br />
+            {playerResourceCards[clientPlayerNumber].Wool}<br />
+            <span style={{color: "red"}}>{discardingResources[clientPlayerNumber].Wool}</span><br />
+            <button onClick={(() => {updateDiscardingResources(clientPlayerNumber, "Wool", 1)})}>+</button><br />
+            <button onClick={(() => {updateDiscardingResources(clientPlayerNumber, "Wool", -1)})}>-</button>
+          </div>
+          <div>
+            Lumber<br />
+            {playerResourceCards[clientPlayerNumber].Lumber}<br />
+            <span style={{color: "red"}}>{discardingResources[clientPlayerNumber].Lumber}</span><br />
+            <button onClick={(() => {updateDiscardingResources(clientPlayerNumber, "Lumber", 1)})}>+</button><br />
+            <button onClick={(() => {updateDiscardingResources(clientPlayerNumber, "Lumber", -1)})}>-</button>
+          </div>
+          <div>
+            Grain<br />
+            {playerResourceCards[clientPlayerNumber].Grain}<br />
+            <span style={{color: "red"}}>{discardingResources[clientPlayerNumber].Grain}</span><br />
+            <button onClick={(() => {updateDiscardingResources(clientPlayerNumber, "Grain", 1)})}>+</button><br />
+            <button onClick={(() => {updateDiscardingResources(clientPlayerNumber, "Grain", -1)})}>-</button>
+          </div>
+          <div>
+            Brick<br />
+            {playerResourceCards[clientPlayerNumber].Brick}<br />
+            <span style={{color: "red"}}>{discardingResources[clientPlayerNumber].Brick}</span><br />
+            <button onClick={(() => {updateDiscardingResources(clientPlayerNumber, "Brick", 1)})}>+</button><br />
+            <button onClick={(() => {updateDiscardingResources(clientPlayerNumber, "Brick", -1)})}>-</button>
+          </div>
+          <div>
+            Ore<br />
+            {playerResourceCards[clientPlayerNumber].Ore}<br />
+            <span style={{color: "red"}}>{discardingResources[clientPlayerNumber].Ore}</span><br />
+            <button onClick={(() => {updateDiscardingResources(clientPlayerNumber, "Ore", 1)})}>+</button><br />
+            <button onClick={(() => {updateDiscardingResources(clientPlayerNumber, "Ore", -1)})}>-</button>
+          </div>
+          <div>
+          Total Selected cards: {playersDiscardedCards}<br /><br />
+          {playersDiscardedCards == numberOfCardsTobePillaged[clientPlayerNumber] && <button onClick={() => {removeCardsFromPlayer(playerNumber)}}>Discard Selected Cards</button>}
           </div>
         </div>
-      )
-    }
+      </div>
+    )
   }
 
 

@@ -82,7 +82,7 @@ const NetworkingMessageReciever = (props) => {
           "rollTheDice"               in recievedMessages && props.rollTheDice();
           "endTurn"                   in recievedMessages && props.endTurn();
           "buildCity"                 in recievedMessages && props.buildCity(recievedMessages.buildCity.x, recievedMessages.buildCity.y);
-          "newPlayerDevelopmentCardJustPurchased" in recievedMessages && 
+          "newPlayerDevelopmentCardJustPurchased" in recievedMessages && newPlayerDevelopmentCardJustPurchased(recievedMessages.newPlayerDevelopmentCardJustPurchased);
           //"" in recievedMessages && 
           //"" in recievedMessages && 
           //"" in recievedMessages && 

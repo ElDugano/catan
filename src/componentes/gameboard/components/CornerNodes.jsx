@@ -67,9 +67,9 @@ export default function CornerNodes() {
           />
         );
       }
-      if( isClientPlayersTurn() && isNodeValueSettlement(x,y) ) {
+      if(  isNodeValueSettlement(x,y) ) {
 //---------- Display a Build City Button ----------//
-        if(isTurnStateBuildingACity() && tileCornerNodes[x][y].owner == currentPlayerTurn)
+        if(isClientPlayersTurn() && isTurnStateBuildingACity() && tileCornerNodes[x][y].owner == currentPlayerTurn)
           boardContent.push(
             <BuildCityButton
               key={crypto.randomUUID()}

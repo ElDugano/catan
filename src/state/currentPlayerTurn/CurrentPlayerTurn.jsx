@@ -75,16 +75,19 @@ export const CurrentPlayerTurn = ({ children }) => {
   return (
       <CurrentPlayerTurnContext.Provider value={{
           currentPlayerTurn,
+          setCurrentPlayerTurn,
           gotoNextPlayerTurn,
           gotoPreviousPlayerTurn,
+
           playerOrder,
-          addPlayer,
-          numberOfPlayers,
           isPlayerOrderArrayPositionEnd,
           isPlayerOrderArrayPositionStart,
+
+          addPlayer,
+          numberOfPlayers,
+          
           clientPlayerNumber,
           setClientPlayerNumber,
-          setCurrentPlayerTurn,
           setupClientPlayerOrder,
           isClientPlayersTurn
         }}>
