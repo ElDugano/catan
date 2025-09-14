@@ -61,7 +61,7 @@ export const DevelopmentCards = ({ children }) => {
     console.log(newPlayerDevelopmentCardJustPurchased);
     setPlayerDevelopmentCardJustPurchased(newPlayerDevelopmentCardJustPurchased);
     setDevelopmentCardDeck(newDevelopmentCardDeck);
-    return {newPlayerDevelopmentCardJustPurchased:newPlayerDevelopmentCardJustPurchased};
+    return {playerDevelopmentCardJustPurchased:newPlayerDevelopmentCardJustPurchased};
   }
 
     function makePlayerPurchasedDevelopmentAvailableToPlay(player) {

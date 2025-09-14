@@ -53,6 +53,7 @@ function App() {
 
   useEffect (() => {
     if(isTurnStateStartTurn()){
+      console.log("Here in App.jsx, we need to have the host handle this stuff.");
       addPointsToPlayerHiddenPoints(currentPlayerTurn, getJustPurchasedPlayerVictoryPointCards(currentPlayerTurn));
       makePlayerPurchasedDevelopmentAvailableToPlay(currentPlayerTurn);
       setTurnStateToRollingTheDice();

@@ -21,8 +21,8 @@ import mapTileTypeToResourceType from "../../../helpers/turnState/MapTileTypeToR
 
 import { NetworkingMessageSenderContext } from "./NetworkingMessageSenderContext";
 
-const HostNetworkingFunctions = () => {
-  const { isGameStateBoardSetup }= useContext(GameStateContext);
+const HostBuildSettlement = () => {
+const { isGameStateBoardSetup }= useContext(GameStateContext);
     //Currently gets stuck here because this isn't a react component. This is being called like a regular function
   const { setTurnStateToBuildingARoad,
             turnState,
@@ -71,6 +71,7 @@ const HostNetworkingFunctions = () => {
 
   const { /*addToMessagePayloadToPlayer,*/ addToMessagePayloadToAllPlayers, sendTheMessages } = useContext(NetworkingMessageSenderContext);
 
+
   const buildSettlement = (x, y) => {
     console.log("We got told to build a settlment at x: "+x+" y:"+y);
     addToMessagePayloadToAllPlayers({header:"Building a Settlement"});
@@ -105,150 +106,7 @@ const HostNetworkingFunctions = () => {
     }
     sendTheMessages();
   }
-
-  const buildRoad = (x, y, direction) => {
-    console.log("Building a road.");
-    if (direction == "right")
-      addToMessagePayloadToAllPlayers(setNodeRightRoadOwner(x, y, currentPlayerTurn));
-    else
-      addToMessagePayloadToAllPlayers(setNodeBottomRoadOwner(x, y, currentPlayerTurn));
-    addToMessagePayloadToAllPlayers(removeRoadFromAvailableBuildings(x, y, currentPlayerTurn));
-    if (isTurnStateBuildingARoad())
-      setTurnStateToBuildingARoadLongestRoadCheck();
-    if(isTurnStateRoadBuilderCardFirstRoad())
-      setTurnStateToRoadBuilderCardFirstRoadLongestRoadCheck();
-    if(isTurnStateRoadBuilderCardSecondRoad())
-      setTurnStateToRoadBuilderCarSecondRoadLongestRoadCheck();
-    //sendTheMessages();
-    console.log("This is the turnState: ", turnState);
-  }
-
-  const buildCity = (x, y) => {
-    console.log("Got to this part of building a city.")
-    addToMessagePayloadToAllPlayers(setNodeValueToCity(x, y));
-    console.log("1");
-    addToMessagePayloadToAllPlayers(scorePoint(currentPlayerTurn));
-    console.log("2");
-    addToMessagePayloadToAllPlayers(removeCityFromAvailableBuildings(x, y, currentPlayerTurn));
-    console.log("3");
-    addToMessagePayloadToAllPlayers(removePlayerResourcesToBuildCity(currentPlayerTurn));
-    console.log("4");
-    addToMessagePayloadToAllPlayers(setTurnStateToIdle());
-    console.log("5");
-    sendTheMessages();
-  }
-
-  const rollTheDice = () => {
-      //Notice, we are not passing the dice roll to the players, they probably don't need it.
-    if (rollDice() != 7){
-      addToMessagePayloadToAllPlayers(setTurnStateToGatheringResources());
-    }
-    else {
-      const discardHalfResourcePlayers = findAndSetDiscardHalfResourcesPlayers();
-      if(discardHalfResourcePlayers.discardHalfResourcesPlayers.every(val => val === false)) {
-        addToMessagePayloadToAllPlayers(setTurnStateToMoveTheThief());
-      }
-      else {
-        addToMessagePayloadToAllPlayers(setTurnStateToRemoveHalfResources());
-        addToMessagePayloadToAllPlayers(discardHalfResourcePlayers);
-        addToMessagePayloadToAllPlayers(findAndSetDiscardHalfResourcesCardAmount());
-      }
-
-    }
-    addToMessagePayloadToAllPlayers({setDiceRolledThisTurn:true});
-    sendTheMessages();
-  }
-
-  const removeHalfResources = (player, discardingResources) => {
-    addToMessagePayloadToAllPlayers(removeCollectionOfResourcesFromPlayer(player, discardingResources));
-    let newDiscardHalfResourcesPlayers = updateDiscardHalfResourcesPlayers(player);
-    if(newDiscardHalfResourcesPlayers.discardHalfResourcesPlayers.every(val => val === false)) {
-      console.log("Okay, we done now.");
-      addToMessagePayloadToAllPlayers(setTurnStateToMoveTheThief());
-    }
-    else {
-      console.log("Not done yet.");
-      addToMessagePayloadToAllPlayers(newDiscardHalfResourcesPlayers);
-    }
-    sendTheMessages();
-  }
-
-  const moveTheThief = (xCoordinate, yCoordinate) => {
-    addToMessagePayloadToAllPlayers(setAndReturnThiefLocation({x:xCoordinate, y:yCoordinate}));
-    let robbingTargetPlayers = new Array(false,false,false,false);
-    for (let x = xCoordinate - 1; x <= xCoordinate + 1; x++) {
-      for (let y = yCoordinate; y <= yCoordinate + 1; y++) {
-        if (isNodeValueSettlement(x,y) || isNodeValueCity(x,y))
-          robbingTargetPlayers[getTileNodeOwner(x,y)] = true;
-      }
-    }
-    addToMessagePayloadToAllPlayers(setAndReturnRobbingTargetPlayers(robbingTargetPlayers));
-    addToMessagePayloadToAllPlayers(setTurnStateToRobAPlayer());
-    sendTheMessages();
-  }
-
-  const stealACard = (victimPlayer) => {
-    console.log(currentPlayerTurn, victimPlayer);
-    addToMessagePayloadToAllPlayers(stealRandomCardFromPlayer(currentPlayerTurn, victimPlayer));
-    if (haveDiceBeenRolledThisTurn())
-      addToMessagePayloadToAllPlayers(setTurnStateToIdle());
-    else
-      addToMessagePayloadToAllPlayers(setTurnStateToRollingTheDice());
-    sendTheMessages();
-  }
-
-  const nobodyToRob = () => {
-    addToMessagePayloadToAllPlayers(setTurnStateToIdle());
-    sendTheMessages();
-  }
-
-  const endTurn = () => {
-    addToMessagePayloadToAllPlayers(gotoNextPlayerTurn());
-    addToMessagePayloadToAllPlayers(setTurnStateToStartTurn());
-    sendTheMessages();
-  }
-
-  const cheat = (cheatType) => {
-    console.log(cheatType);
-    if (cheatType == "Give Resources To Current Player") {
-      console.log("We are going to cheat real quickly here.");
-      addToMessagePayloadToAllPlayers(addCollectionOfResourcesToPlayer(currentPlayerTurn,{Wool:5, Lumber:5, Grain:5, Brick:5, Ore:5}));
-    }
-    if (cheatType == "Roll 7") {
-      setDice([3,4]);
-      const discardHalfResourcePlayers = findAndSetDiscardHalfResourcesPlayers();
-      if(discardHalfResourcePlayers.discardHalfResourcesPlayers.every(val => val === false)) {
-        addToMessagePayloadToAllPlayers(setTurnStateToMoveTheThief());
-      }
-      else {
-        addToMessagePayloadToAllPlayers(setTurnStateToRemoveHalfResources());
-        addToMessagePayloadToAllPlayers(discardHalfResourcePlayers);
-        addToMessagePayloadToAllPlayers(findAndSetDiscardHalfResourcesCardAmount());
-      }
-      setDiceRolledThisTurn(true);
-      addToMessagePayloadToAllPlayers({setDiceRolledThisTurn:true});
-    }
-    
-    sendTheMessages();
-  }
-
-  return (
-  <>
-    <NetworkingMessageReciever
-      buildSettlement = {buildSettlement}
-      buildRoad = {buildRoad}
-      rollTheDice = {rollTheDice}
-      removeHalfResources = {removeHalfResources}
-      moveTheThief = {moveTheThief}
-      stealACard = {stealACard}
-      nobodyToRob = {nobodyToRob}
-      endTurn = {endTurn}
-      buildCity = {buildCity}
-
-      cheat = {cheat}
-    />
-  </>
-  );
+  return {buildSettlement};
 }
 
-export default HostNetworkingFunctions;
+export default HostBuildSettlement;

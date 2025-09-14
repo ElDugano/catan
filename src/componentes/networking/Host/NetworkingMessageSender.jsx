@@ -5,14 +5,12 @@ import { NetworkingContext } from "../State/NetworkingContext";
 export const NetworkingMessageSender = ( {children} ) => {
   const {conn, isHost} = useContext(NetworkingContext);
   
-  //const [messagePayload, setMessagePayload] = useState([new Array(), new Array(), new Array(), new Array()]);
   const [messagePayload, setMessagePayload] = useState([{},{},{},{}]);
   const [sendMessages, setSendMessages] = useState(false);
 
   const addToMessagePayloadToHost = (message) => {
     setMessagePayload((prevMessages) => {
       let newMessageArray = [...prevMessages];
-      //newMessageArray[0].push(message);
       newMessageArray[0] = {...newMessageArray[0], ...message}
       return newMessageArray;
     });
@@ -20,7 +18,6 @@ export const NetworkingMessageSender = ( {children} ) => {
   const addToMessagePayloadToPlayer = (message, player) => {
     setMessagePayload((prevMessages) => {
       let newMessageArray = [...prevMessages];
-      //newMessageArray[player].push(message);
       newMessageArray[player] = {...newMessageArray[player], ...message}
       return newMessageArray;
     });
@@ -29,7 +26,6 @@ export const NetworkingMessageSender = ( {children} ) => {
     setMessagePayload((prevMessages) => {
       let newMessageArray = [...prevMessages];
       newMessageArray.forEach((playerMessages, player) => {
-        //playerMessages.push(message);
         newMessageArray[player] = {...playerMessages, ...message};
       })
       return newMessageArray;

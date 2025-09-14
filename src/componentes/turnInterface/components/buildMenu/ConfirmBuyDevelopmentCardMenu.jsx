@@ -13,6 +13,7 @@ export default function ConfirmBuyDevelopmentCardMenu() {
   const { addToMessagePayloadToHost, sendTheMessages } = useContext(NetworkingMessageSenderContext);
 
   const buyDevelopmentCard = () => {
+    //This should be sending a message to the host, which handles this.
     addToMessagePayloadToHost(givePlayerDevelopmentCardFromDeck(currentPlayerTurn));     //TODO
     addToMessagePayloadToHost(removePlayerResourcesToBuildDevelopmentCard(currentPlayerTurn));
     addToMessagePayloadToHost(setTurnStateToIdle());
@@ -20,6 +21,7 @@ export default function ConfirmBuyDevelopmentCardMenu() {
   }
 
   const goBackButton = () => {
+    //The host shouldn't have to know about players moving between these menues.
     addToMessagePayloadToHost({header: "Goto Build Menu"});
     addToMessagePayloadToHost(setTurnStateToIdle());
     sendTheMessages();
