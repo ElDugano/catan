@@ -64,18 +64,17 @@ export default function LongestRoadCheck() {
       else {
         console.log("^^^^START THE GAME^^^^");
         addToMessagePayloadToAllPlayers(setGameStateToMainGame());
-        addToMessagePayloadToAllPlayers(setTurnStateToStartTurn());//Should this only be sent to plater to start?
+        addToMessagePayloadToPlayer(setTurnStateToStartTurn(), currentPlayerTurn);//Should this only be sent to plater to start?
       }
     }
-    else if(isTurnStateRoadBuilderCardFirstRoadLongestRoadCheck())
+    else if(isTurnStateRoadBuilderCardFirstRoadLongestRoadCheck())//Below not implemented yet.
       addToMessagePayloadToAllPlayers(setTurnStateToRoadBuilderCardSecondRoad());
     else if (isTurnStateRoadBuilderCardSecondRoadLongestRoadCheck())
       addToMessagePayloadToAllPlayers(setTurnStateToIdle());
     else {
-      addToMessagePayloadToAllPlayers(setTurnStateToIdle());
+      addToMessagePayloadToPlayer(setTurnStateToIdle(), currentPlayerTurn);
       addToMessagePayloadToAllPlayers(removePlayerResourcesToBuildRoad(currentPlayerTurn));
     }
-    console.log("Longest Road is Send the messages!!!!");
     sendTheMessages();
   })
   

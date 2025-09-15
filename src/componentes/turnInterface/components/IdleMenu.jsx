@@ -20,14 +20,16 @@ export default function IdleMenu() {
     setTurnStateToBuildMenu();
   }
   const playDevelopmentCardMenu = () => {
-    addToMessagePayloadToHost({header: "Goto Play Development Card Menu"});
-    addToMessagePayloadToHost(setTurnStateToSelectingADevelopmentCard());
-    sendTheMessages();
+    //addToMessagePayloadToHost({header: "Goto Play Development Card Menu"});
+    //addToMessagePayloadToHost(setTurnStateToSelectingADevelopmentCard());
+    //sendTheMessages();
+    setTurnStateToSelectingADevelopmentCard()
   }
   const tradeResourcesMenu = () => {
-    addToMessagePayloadToHost({header: "Goto Trade Resources Menu"});
-    addToMessagePayloadToHost(setTurnStateToTradingWithTheBoard());
-    sendTheMessages();
+    //addToMessagePayloadToHost({header: "Goto Trade Resources Menu"});
+    //addToMessagePayloadToHost(setTurnStateToTradingWithTheBoard());
+    //sendTheMessages();
+    setTurnStateToTradingWithTheBoard()
   }
 
   return (

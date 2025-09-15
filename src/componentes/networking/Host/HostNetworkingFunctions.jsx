@@ -10,6 +10,7 @@ import { CurrentPlayerTurnContext } from "../../../state/currentPlayerTurn/Curre
 import { PlayerAvailableBuildingsContext } from "../../../state/playerAvailableBuildings/PlayerAvailableBuildingsContext";
 import { PlayerResourceCardsContext } from "../../../state/playerResourceCards/PlayerResourceCardsContext";
 import { DiceContext } from "../../../state/dice/DiceContext";
+import { DevelopmentCardsContext } from "../../../state/developmentCards/DevelopmentCardsContext";
 
 import { TileCornerNodesContext } from "../../gameboard/state/tileCornerNodes/TileCornerNodesContext";
 import { LandTilesContext } from "../../gameboard/state/landTiles/LandTilesContext";
@@ -51,6 +52,7 @@ const HostNetworkingFunctions = () => {
   const { addCollectionOfResourcesToPlayer,
           removePlayerResourcesToBuildSettlement,
           removePlayerResourcesToBuildCity,
+          removePlayerResourcesToBuildDevelopmentCard,
           findAndSetDiscardHalfResourcesPlayers,
           findAndSetDiscardHalfResourcesCardAmount,
           updateDiscardHalfResourcesPlayers,
@@ -70,6 +72,7 @@ const HostNetworkingFunctions = () => {
   const { setPortOwner } = useContext(PortOwnerContext);
   const { setAndReturnThiefLocation } = useContext(ThiefLocationContext);
   const { rollDice, setDice, haveDiceBeenRolledThisTurn, setDiceRolledThisTurn } = useContext(DiceContext);
+  const { givePlayerDevelopmentCardFromDeck } = useContext(DevelopmentCardsContext);
 
   const { addToMessagePayloadToPlayer, addToMessagePayloadToAllPlayers, sendTheMessages } = useContext(NetworkingMessageSenderContext);
 
@@ -102,8 +105,8 @@ const HostNetworkingFunctions = () => {
       addToMessagePayloadToPlayer(setClientTurnStateToBuildingARoad(), currentPlayerTurn);
     }
     else{
-      removePlayerResourcesToBuildSettlement(currentPlayerTurn);
-      setTurnStateToIdle();
+      addToMessagePayloadToAllPlayers(removePlayerResourcesToBuildSettlement(currentPlayerTurn)); //Should be sent to just the player.
+      addToMessagePayloadToPlayer(setTurnStateToIdle(), currentPlayerTurn);
     }
     sendTheMessages();
   }
@@ -121,26 +124,35 @@ const HostNetworkingFunctions = () => {
       setTurnStateToRoadBuilderCardFirstRoadLongestRoadCheck();
     if(isTurnStateRoadBuilderCardSecondRoad(clientTurnState))
       setTurnStateToRoadBuilderCarSecondRoadLongestRoadCheck();
+    //The TurnStates in this shouldn't really exist. We should figure out another way to call this.
+    //this would allow the host to basically always be in the idle state of the game.
+      //Making turnState a client thing, really.
     //sendTheMessages();
   }
 
   const buildCity = (x, y) => {
-    console.log("Got to this part of building a city.")
     addToMessagePayloadToAllPlayers(setNodeValueToCity(x, y));
-    console.log("1");
     addToMessagePayloadToAllPlayers(scorePoint(currentPlayerTurn));
-    console.log("2");
     addToMessagePayloadToAllPlayers(removeCityFromAvailableBuildings(x, y, currentPlayerTurn));
-    console.log("3");
     addToMessagePayloadToAllPlayers(removePlayerResourcesToBuildCity(currentPlayerTurn));
-    console.log("4");
-    addToMessagePayloadToAllPlayers(setTurnStateToIdle());
-    console.log("5");
+    addToMessagePayloadToPlayer(setTurnStateToIdle(), currentPlayerTurn);
+
+    sendTheMessages();
+  }
+
+  const buyDevelopmentCard = () => {
+    addToMessagePayloadToPlayer(givePlayerDevelopmentCardFromDeck(currentPlayerTurn), currentPlayerTurn);
+    addToMessagePayloadToPlayer(removePlayerResourcesToBuildDevelopmentCard(currentPlayerTurn), currentPlayerTurn);
+    addToMessagePayloadToPlayer(setTurnStateToIdle(), currentPlayerTurn);
+    //Something should be in here about returning what card they just got.
+    //That can end up being some kind of state, an object, which is used when players actually get resources.
+    //Like, it basically makes a pop up that you can close. Maybe also have things like it closes at the start of a new turn.
+    //Or something similar.
+    //This would also get called when you rob someone.
     sendTheMessages();
   }
 
   const rollTheDice = () => {
-      //Notice, we are not passing the dice roll to the players, they probably don't need it.
     if (rollDice() != 7){
       addToMessagePayloadToAllPlayers(setTurnStateToGatheringResources());
     }
@@ -238,13 +250,14 @@ const HostNetworkingFunctions = () => {
     <NetworkingMessageReciever
       buildSettlement = {buildSettlement}
       buildRoad = {buildRoad}
+      buildCity = {buildCity}
+      buyDevelopmentCard = {buyDevelopmentCard}
       rollTheDice = {rollTheDice}
       removeHalfResources = {removeHalfResources}
       moveTheThief = {moveTheThief}
       stealACard = {stealACard}
       nobodyToRob = {nobodyToRob}
       endTurn = {endTurn}
-      buildCity = {buildCity}
 
       cheat = {cheat}
     />

@@ -62,6 +62,7 @@ export const DevelopmentCards = ({ children }) => {
     setPlayerDevelopmentCardJustPurchased(newPlayerDevelopmentCardJustPurchased);
     setDevelopmentCardDeck(newDevelopmentCardDeck);
     return {playerDevelopmentCardJustPurchased:newPlayerDevelopmentCardJustPurchased};
+      //Likely, this should only send back the player's cards from the array.
   }
 
     function makePlayerPurchasedDevelopmentAvailableToPlay(player) {

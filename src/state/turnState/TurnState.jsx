@@ -8,47 +8,34 @@ export const TurnState = ({ children }) => {
     const isTurnStateStartTurn = () =>        {return turnState == "Start Turn" ? true : false};
     const setTurnStateToStartTurn = () =>            {setTurnState("Start Turn"); 
                                                  return {turnState:"Start Turn"};};
-    //const setClientTurnStateToStartTurn = () => {return {turnState:"Start Turn"}};
-
     const isTurnStateRollingTheDice = () => {return turnState == "Rolling the dice" ? true : false};
     const setTurnStateToRollingTheDice = () =>     {setTurnState("Rolling the dice");
                                                 return {turnState:"Rolling the dice"};};
-    //const setClientTurnStateTo = () => {return {turnState:""}};
-
     const isTurnStateGatheringResources = () => {return turnState == "Gathering resources" ? true : false};
     const setTurnStateToGatheringResources = () =>     {setTurnState("Gathering resources");
                                                   return {turnState:"Gathering resources"};};
-    //const setClientTurnStateTo = () => {return {turnState:""}};
-
     const isTurnStateGatheringResourcesAcknowledgement = () => {return turnState == "Gathering resources Acknowledgement" ? true : false};
     const setTurnStateToGatheringResourcescAknowledgement = () =>     {setTurnState("Gathering resources Acknowledgement");
                                                                   return {turnState:"Gathering resources Acknowledgement"};};
-   // const setClientTurnStateTo = () => {return {turnState:""}};
     //---------- Thief Related ----------//
     const isTurnStateRemoveHalfResources = () => {return turnState == "Remove half resources" ? true : false};
     const setTurnStateToRemoveHalfResources = () =>     {setTurnState("Remove half resources");
                                                     return {turnState:"Remove half resources"};};
-    //const setClientTurnStateTo = () => {return {turnState:""}};
-
     const isTurnStateMoveTheThief = () => {return turnState == "Move the thief" ? true : false};
     const setTurnStateToMoveTheThief = () =>     {setTurnState("Move the thief");
                                              return {turnState:"Move the thief"};};
-    //const setClientTurnStateTo = () => {return {turnState:""}};
-
     const isTurnStateRobAPlayer = () => {return turnState == "Rob a player" ? true : false};
     const setTurnStateToRobAPlayer = () =>     {setTurnState("Rob a player");
                                                     return {turnState:"Rob a player"};};
-    //const setClientTurnStateTo = () => {return {turnState:""}};
     //---------- Main Turn ----------//
     const isTurnStateIdle = () => {return turnState == "Idle" ? true : false};
     const setTurnStateToIdle = () =>     {setTurnState("Idle");
                                      return {turnState:"Idle"};};
-    const setClientTurnStateToIdle = () => {return {turnState:"Idle"}};
+    const setClientTurnStateToIdle = () => {return {turnState:"Idle"}}; //Should we remove these, and just have set only return?
     //---------- Building Related ----------//
     const isTurnStateBuildMenu = () => {return turnState == "BuildMenu" ? true : false};
     const setTurnStateToBuildMenu = () =>     {setTurnState("BuildMenu");
                                           return {turnState:"BuildMenu"};};
-
     
     const isClientTurnStateBuildingARoad = (clientTurnState) => {
                                       return clientTurnState == "Building a road" ? true : false};
@@ -56,20 +43,16 @@ export const TurnState = ({ children }) => {
     const isTurnStateBuildingARoad = () => {return turnState == "Building a road" ? true : false};
     const setTurnStateToBuildingARoad = () =>     {setTurnState("Building a road");
                                               return {turnState:"Building a road"};};
-
       const isTurnStateBuildingARoadLongestRoadCheck = () => {return turnState == "Building a road Longest Road Check" ? true : false};
       const setTurnStateToBuildingARoadLongestRoadCheck = () =>     {setTurnState("Building a road Longest Road Check");
                                                                 return {turnState:"Building a road Longest Road Check"};};
-
     const setClientTurnStateToBuildingASettlement = () => {return {turnState:"Building a settlement"}};
     const isTurnStateBuildingASettlement = () => {return turnState == "Building a settlement" ? true : false};
     const setTurnStateToBuildingASettlement = () =>     {setTurnState("Building a settlement");
                                                     return {turnState:"Building a settlement"};};
-
     const isTurnStateBuildingACity = () => {return turnState == "Building a city" ? true : false};
     const setTurnStateToBuildingACity = () =>     {setTurnState("Building a city");
                                               return {turnState:"Building a city"};};
-
     const isTurnStateConfirmBuyingDevelopmentCard = () => {return turnState == "Confirm Buying Development Card" ? true : false};
     const setTurnStateToConfirmBuyingDevelopmentCard = () =>     {setTurnState("Confirm Buying Development Card");
                                                              return {turnState:"Confirm Buying Development Card"};};
@@ -85,23 +68,19 @@ export const TurnState = ({ children }) => {
       const isTurnStateConfirmPlayRoadBuilderDevelopmentCard = () => {return turnState == "Play Road Builder Development Card" ? true : false};
       const setTurnStateToConfirmPlayRoadBuilderDevelopmentCard = () =>     {setTurnState("Play Road Builder Development Card");
                                                                         return {turnState:"Play Road Builder Development Card"};};
-
       const isClientStateRoadBuilderCardFirstRoad = (clientTurnState) => {
                                                    return clientTurnState == "Road Builder Card First Road" ? true : false};
       const isTurnStateRoadBuilderCardFirstRoad = () => {return turnState == "Road Builder Card First Road" ? true : false};
       const setTurnStateToRoadBuilderCardFirstRoad = () =>     {setTurnState("Road Builder Card First Road");
                                                            return {turnState:"Road Builder Card First Road"};};
-
         const isTurnStateRoadBuilderCardFirstRoadLongestRoadCheck = () => {return turnState == "Road Builder Card First Road Longest Road Check" ? true : false};
         const setTurnStateToRoadBuilderCardFirstRoadLongestRoadCheck = () =>     {setTurnState("Road Builder Card First Road Longest Road Check");
                                                                              return {turnState:"Road Builder Card First Road Longest Road Check"};};
-
       const isClientStateRoadBuilderCardSecondRoad = (clientTurnState) => {
                                                     return clientTurnState == "Road Builder Card Second Road" ? true : false};
       const isTurnStateRoadBuilderCardSecondRoad = () => {return turnState == "Road Builder Card Second Road" ? true : false};
       const setTurnStateToRoadBuilderCardSecondRoad = () =>     {setTurnState("Road Builder Card Second Road");
                                                            return {turnState:"Road Builder Card Second Road"};};
-
         const isTurnStateRoadBuilderCardSecondRoadLongestRoadCheck = () => {return turnState == "Road Builder Card Second Road Longest Road Check" ? true : false};
         const setTurnStateToRoadBuilderCarSecondRoadLongestRoadCheck = () =>     {setTurnState("Road Builder Card Second Road Longest Road Check");
                                                                              return {turnState:"Road Builder Card Second Road Longest Road Check"};};
@@ -109,7 +88,6 @@ export const TurnState = ({ children }) => {
       const isTurnStateConfirmPlayYearOfPlentyDevelopmentCard = () => {return turnState == "Play Year Of Plenty Development Card" ? true : false};
       const setTurnStateToConfirmPlayYearOfPlentyDevelopmentCard = () =>     {setTurnState("Play Year Of Plenty Development Card");
                                                                          return {turnState:"Play Year Of Plenty Development Card"};};
-
       const isTurnStateYearOfPlenty = () => {return turnState == "Year of Plenty" ? true : false};
       const setTurnStateToYearOfPlenty = () =>     {setTurnState("Year of Plenty");
                                                return {turnState:"Year of Plenty"};};
@@ -117,7 +95,6 @@ export const TurnState = ({ children }) => {
       const isTurnStateConfirmPlayMonopolyDevelopmentCard = () => {return turnState == "Play Monopoly Development Card" ? true : false};
       const setTurnStateToConfirmPlayMonopolyDevelopmentCard = () =>     {setTurnState("Play Monopoly Development Card");
                                                                      return {turnState:"Play Monopoly Development Card"};};
-
       const isTurnStateMonopoly = () => {return turnState == "Monopoly" ? true : false};
       const setTurnStateToMonopoly = () =>     {setTurnState("Monopoly");
                                            return {turnState:"Monopoly"};};

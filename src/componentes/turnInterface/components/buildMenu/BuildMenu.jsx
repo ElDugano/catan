@@ -29,19 +29,22 @@ export default function BuildMenu() {
     setTurnStateToBuildingARoad();
   }
   const buildSettlementFunction = () => {
-    addToMessagePayloadToHost({header: "Goto Build A Road"});
-    addToMessagePayloadToHost(setTurnStateToBuildingASettlement());
-    sendTheMessages();
+    //addToMessagePayloadToHost({header: "Goto Build A Settlement"});
+    //addToMessagePayloadToHost(setTurnStateToBuildingASettlement());
+    //sendTheMessages();
+    setTurnStateToBuildingASettlement();
   }
   const buildCityFunction = () => {
-    addToMessagePayloadToHost({header: "Goto Build A Road"});
-    addToMessagePayloadToHost(setTurnStateToBuildingACity());
-    sendTheMessages();
+    //addToMessagePayloadToHost({header: "Goto Build A City"});
+    //addToMessagePayloadToHost(setTurnStateToBuildingACity());
+    //sendTheMessages();
+    setTurnStateToBuildingACity();
   }
   const BuyDevelopmentCardFunction = () => {
-    addToMessagePayloadToHost({header: "Goto Build A Road"});
-    addToMessagePayloadToHost(setTurnStateToConfirmBuyingDevelopmentCard());
-    sendTheMessages();
+    //addToMessagePayloadToHost({header: "Goto Buying a Development Card"});
+    //addToMessagePayloadToHost(setTurnStateToConfirmBuyingDevelopmentCard());
+    //sendTheMessages();
+    setTurnStateToConfirmBuyingDevelopmentCard()
   }
 
   const BuildRoadButton = canPlayerAffordRoad(currentPlayerTurn) && returnAvailableRoads(currentPlayerTurn) ? <button onClick={buildRoadFunction}>Build Road</button> : <button disabled>Build Road</button>;

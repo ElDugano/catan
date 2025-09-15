@@ -37,7 +37,7 @@ const NetworkingMessageReciever = (props) => {
           setDiscardHalfResourcesPlayers,
           setDiscardHalfResourcesCardAmount,
           setRobbingTargetPlayers } = useContext(PlayerResourceCardsContext);
-  const { playerDevelopmentCardJustPurchased } = useContext(DevelopmentCardsContext);
+  const { setPlayerDevelopmentCardJustPurchased } = useContext(DevelopmentCardsContext);
   const { setDiceRolledThisTurn } = useContext(DiceContext);
 
   const { setCurrentPlayerTurn, setupClientPlayerOrder, setClientPlayerNumber } = useContext(CurrentPlayerTurnContext);
@@ -82,7 +82,7 @@ const NetworkingMessageReciever = (props) => {
           "rollTheDice"               in recievedMessages && props.rollTheDice();
           "endTurn"                   in recievedMessages && props.endTurn();
           "buildCity"                 in recievedMessages && props.buildCity(recievedMessages.buildCity.x, recievedMessages.buildCity.y);
-          "playerDevelopmentCardJustPurchased" in recievedMessages && playerDevelopmentCardJustPurchased(recievedMessages.playerDevelopmentCardJustPurchased);
+          "playerDevelopmentCardJustPurchased" in recievedMessages && setPlayerDevelopmentCardJustPurchased(recievedMessages.playerDevelopmentCardJustPurchased);
           "discardHalfResourcesPlayers" in recievedMessages && setDiscardHalfResourcesPlayers(recievedMessages.discardHalfResourcesPlayers);
           "discardHalfResourcesCardAmount" in recievedMessages && setDiscardHalfResourcesCardAmount(recievedMessages.discardHalfResourcesCardAmount);
           "removeHalfResources"       in recievedMessages && props.removeHalfResources(recievedMessages.removeHalfResources.player, recievedMessages.removeHalfResources.discardingResources);
@@ -92,7 +92,7 @@ const NetworkingMessageReciever = (props) => {
           "stealACard"                in recievedMessages && props.stealACard(recievedMessages.stealACard);
           "setDiceRolledThisTurn"     in recievedMessages && setDiceRolledThisTurn(recievedMessages.setDiceRolledThisTurn);
           "nobodyToRob"               in recievedMessages && props.nobodyToRob();
-          //"" in recievedMessages && (recievedMessages.);
+          "buyDevelopmentCard"        in recievedMessages && props.buyDevelopmentCard();
           //"" in recievedMessages && (recievedMessages.);
           //"" in recievedMessages && (recievedMessages.);
           //"" in recievedMessages && (recievedMessages.);
