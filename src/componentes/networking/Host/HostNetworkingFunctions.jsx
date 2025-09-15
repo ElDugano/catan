@@ -21,18 +21,21 @@ import checkIfSettlmentSplitLongestRoad from "../../gameboard/helpers/CheckIfSet
 import mapTileTypeToResourceType from "../../../helpers/turnState/MapTileTypeToResourceType";
 
 import { NetworkingMessageSenderContext } from "./NetworkingMessageSenderContext";
+import findThePlayersLongestRoad from "../../gameboard/helpers/FindLongestRoad";
 
 //import BuildSettlement from "./buildSettlement";
 
 const HostNetworkingFunctions = () => {
-  const { isGameStateBoardSetup }= useContext(GameStateContext);
+  const { isGameStateBoardSetup, setGameStateToMainGame }= useContext(GameStateContext);
     //Currently gets stuck here because this isn't a react component. This is being called like a regular function
   const { setTurnStateToBuildingARoad,
             turnState,
           setTurnStateToIdle,
+          setClientTurnStateToIdle,
           isTurnStateBuildingARoad,
           setClientTurnStateToBuildingARoad,
           isClientTurnStateBuildingARoad,
+          setClientTurnStateToBuildingASettlement,
           isTurnStateRoadBuilderCardFirstRoad,
           isTurnStateRoadBuilderCardSecondRoad,
           setTurnStateToStartTurn,
@@ -43,15 +46,27 @@ const HostNetworkingFunctions = () => {
           setTurnStateToGatheringResources,
           setTurnStateToRemoveHalfResources,
           setTurnStateToMoveTheThief,
-          setTurnStateToRobAPlayer }= useContext(TurnStateContext);
+          setTurnStateToRobAPlayer,
+          isTurnStateRoadBuilderCardFirstRoadLongestRoadCheck,
+          setTurnStateToRoadBuilderCardSecondRoad,
+          isTurnStateRoadBuilderCardSecondRoadLongestRoadCheck }= useContext(TurnStateContext);
 
-  const { scorePoint, setLongestRoad, longestRoadOwner } = useContext(ScoreBoardContext);
-  const { currentPlayerTurn, numberOfPlayers, gotoNextPlayerTurn } = useContext(CurrentPlayerTurnContext);
-  const { returnAvailableSettlements,
+  const { scorePoint, checkIfLongestRoad, setLongestRoad, longestRoadOwner } = useContext(ScoreBoardContext);
+  const { currentPlayerTurn,
+          numberOfPlayers,
+          gotoNextPlayerTurn,
+          gotoPreviousPlayerTurn,
+          nextPlayerTurn,
+          previousPlayerTurn,
+          isPlayerOrderArrayPositionEnd,
+          isPlayerOrderArrayPositionStart } = useContext(CurrentPlayerTurnContext);
+  const { returnUsedRoads,
+          returnAvailableSettlements,
           removeSettlementFromAvailableBuildings,
           removeCityFromAvailableBuildings,
           removeRoadFromAvailableBuildings } = useContext(PlayerAvailableBuildingsContext);
   const { addCollectionOfResourcesToPlayer,
+          removePlayerResourcesToBuildRoad,
           removePlayerResourcesToBuildSettlement,
           removePlayerResourcesToBuildCity,
           removePlayerResourcesToBuildDevelopmentCard,
@@ -121,24 +136,47 @@ const HostNetworkingFunctions = () => {
 
   const buildRoad = (x, y, direction, clientTurnState) => {
     console.log("We are checking the tileCornerNodes after building a road.")
-    console.log(tileCornerNodes[6][4].bottomRoadOwner);
     if (direction == "right")
       addToMessagePayloadToAllPlayers(setNodeRightRoadOwner(x, y, currentPlayerTurn));
     else// direction == down
       addToMessagePayloadToAllPlayers(setNodeBottomRoadOwner(x, y, currentPlayerTurn));
-    console.log(tileCornerNodes[6][4].bottomRoadOwner);
     addToMessagePayloadToAllPlayers(removeRoadFromAvailableBuildings(x, y, currentPlayerTurn));
     addToMessagePayloadToAllPlayers(setTurnStateToIdle());
-    if (isClientTurnStateBuildingARoad(clientTurnState))//or is turnstate idle, if we were not at the start of the game.
-      setTurnStateToBuildingARoadLongestRoadCheck();
-    if(isTurnStateRoadBuilderCardFirstRoad(clientTurnState))//Road Building, the host may want to be in their own state, and just tell the client to build roads.
-      setTurnStateToRoadBuilderCardFirstRoadLongestRoadCheck();
-    if(isTurnStateRoadBuilderCardSecondRoad(clientTurnState))
-      setTurnStateToRoadBuilderCarSecondRoadLongestRoadCheck();
-    //The TurnStates in this shouldn't really exist. We should figure out another way to call this.
-    //this would allow the host to basically always be in the idle state of the game.
-      //Making turnState a client thing, really.
-    //sendTheMessages();
+
+    checkIfLongestRoad(findThePlayersLongestRoad(tileCornerNodes, currentPlayerTurn, returnUsedRoads(currentPlayerTurn)), currentPlayerTurn);
+      //We will likely need to do a score check within that.
+    if(isGameStateBoardSetup()){
+      addToMessagePayloadToPlayer(setClientTurnStateToIdle(), currentPlayerTurn);
+      setTurnStateToIdle();
+      if(returnAvailableSettlements(currentPlayerTurn) == 4 && isPlayerOrderArrayPositionEnd()) {
+        addToMessagePayloadToPlayer(setClientTurnStateToBuildingASettlement(), currentPlayerTurn);
+        console.log("Time to reverse course");
+      }
+      else if(returnAvailableSettlements(currentPlayerTurn) == 4) {
+        addToMessagePayloadToPlayer(setClientTurnStateToBuildingASettlement(), nextPlayerTurn());
+        addToMessagePayloadToAllPlayers(gotoNextPlayerTurn());
+        console.log("moving forward");
+      }
+      else if(returnAvailableSettlements(currentPlayerTurn) == 3 && !isPlayerOrderArrayPositionStart()) {
+        addToMessagePayloadToPlayer(setClientTurnStateToBuildingASettlement(), previousPlayerTurn());
+        addToMessagePayloadToAllPlayers(gotoPreviousPlayerTurn());
+        console.log("moving backwards");
+      }
+      else {
+        console.log("^^^^START THE GAME^^^^");
+        addToMessagePayloadToAllPlayers(setGameStateToMainGame());
+        addToMessagePayloadToPlayer(setTurnStateToStartTurn(), currentPlayerTurn);//Should this only be sent to plater to start?
+      }
+    }
+    else if(isTurnStateRoadBuilderCardFirstRoadLongestRoadCheck())//Below not implemented yet.
+      addToMessagePayloadToAllPlayers(setTurnStateToRoadBuilderCardSecondRoad());
+    else if (isTurnStateRoadBuilderCardSecondRoadLongestRoadCheck())
+      addToMessagePayloadToAllPlayers(setTurnStateToIdle());
+    else {
+      addToMessagePayloadToPlayer(setTurnStateToIdle(), currentPlayerTurn);
+      addToMessagePayloadToAllPlayers(removePlayerResourcesToBuildRoad(currentPlayerTurn));
+    }
+    sendTheMessages();
   }
 
   const buildCity = (x, y) => {

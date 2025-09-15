@@ -2,7 +2,7 @@ import { useContext, useEffect } from 'react';
 import Gameboard from './componentes/gameboard/Gameboard.jsx';
 import TurnInterface from './componentes/turnInterface/TurnInterface.jsx';
 import GatherResourcesFromRoll from './helpers/turnState/GatherResourcesFromRoll.jsx';
-import LongestRoadCheck from './helpers/turnState/LongestRoadCheck.jsx';
+
 
 //import Networking from './componentes/networking/Networking.jsx';
 import NetworkingSetup from './componentes/networking/NetworkingSetup.jsx';
@@ -67,8 +67,6 @@ function App() {
   if (isClientPlayersTurn()) {
     console.log("Snap, it is my turn!");
   }
-    console.log("Again, the turnState is: ",turnState)
-    const longestRoadCheck = isTurnStateLongestRoadCheck() ? <LongestRoadCheck /> : null;
     return (
       <>
         it is <span style={{color: getAPlayersColor(currentPlayerTurn)}}>player {currentPlayerTurn}'s</span> turn. 
@@ -83,7 +81,6 @@ function App() {
           <Gameboard>
             {isGameStateGameSetup() ? <NetworkingSetup /> : null}
             <GatherResourcesFromRoll />
-            {longestRoadCheck}
             <HostNetworkingFunctions />
           </Gameboard>
           <Debug />
