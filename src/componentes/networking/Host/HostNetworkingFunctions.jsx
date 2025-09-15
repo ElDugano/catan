@@ -1,4 +1,4 @@
-import { useContext } from "react";
+import { useContext, useState } from "react";
 
 import NetworkingMessageReciever from "./NetworkingMessageReciever";
 
@@ -21,6 +21,8 @@ import checkIfSettlmentSplitLongestRoad from "../../gameboard/helpers/CheckIfSet
 import mapTileTypeToResourceType from "../../../helpers/turnState/MapTileTypeToResourceType";
 
 import { NetworkingMessageSenderContext } from "./NetworkingMessageSenderContext";
+
+//import BuildSettlement from "./buildSettlement";
 
 const HostNetworkingFunctions = () => {
   const { isGameStateBoardSetup }= useContext(GameStateContext);
@@ -76,8 +78,14 @@ const HostNetworkingFunctions = () => {
 
   const { addToMessagePayloadToPlayer, addToMessagePayloadToAllPlayers, sendTheMessages } = useContext(NetworkingMessageSenderContext);
 
+  //This is a way I can place these functions in another file.
+  //This creates unnessessary rerendering, however, so it doesn't seem like a better solution.
+  //const [buildSettlementFunction, setBuildSettlementFunction] = useState(null);
+  //const buildSettlement = (x, y) => {
+  //  setBuildSettlementFunction(<BuildSettlement x={x} y={y} destructer={setBuildSettlementFunction} />);
+  //}
+
   const buildSettlement = (x, y) => {
-    console.log("We got told to build a settlment at x: "+x+" y:"+y);
     addToMessagePayloadToAllPlayers({header:"Building a Settlement"});
     addToMessagePayloadToAllPlayers(setNodeValueToSettlement(x, y, currentPlayerTurn));
     addToMessagePayloadToAllPlayers(scorePoint(currentPlayerTurn));
@@ -112,10 +120,13 @@ const HostNetworkingFunctions = () => {
   }
 
   const buildRoad = (x, y, direction, clientTurnState) => {
+    console.log("We are checking the tileCornerNodes after building a road.")
+    console.log(tileCornerNodes[6][4].bottomRoadOwner);
     if (direction == "right")
       addToMessagePayloadToAllPlayers(setNodeRightRoadOwner(x, y, currentPlayerTurn));
-    else
+    else// direction == down
       addToMessagePayloadToAllPlayers(setNodeBottomRoadOwner(x, y, currentPlayerTurn));
+    console.log(tileCornerNodes[6][4].bottomRoadOwner);
     addToMessagePayloadToAllPlayers(removeRoadFromAvailableBuildings(x, y, currentPlayerTurn));
     addToMessagePayloadToAllPlayers(setTurnStateToIdle());
     if (isClientTurnStateBuildingARoad(clientTurnState))//or is turnstate idle, if we were not at the start of the game.
@@ -261,6 +272,7 @@ const HostNetworkingFunctions = () => {
 
       cheat = {cheat}
     />
+    {/*buildSettlementFunction*/}
   </>
   );
 }
