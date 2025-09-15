@@ -37,19 +37,29 @@ export const CurrentPlayerTurn = ({ children }) => {
   }
 
 
-
-
+  const nextPlayerTurn = () => {
+    if (playerOrderArrayPosition < numberOfPlayers-1)
+      return playerOrder[playerOrderArrayPosition+1];
+    else
+      return playerOrder[0];
+  }
   const gotoNextPlayerTurn = () => {
-      if (playerOrderArrayPosition < numberOfPlayers-1){
+    if (playerOrderArrayPosition < numberOfPlayers-1){
         setCurrentPlayerTurn(playerOrder[playerOrderArrayPosition+1]);
         setPlayerOrderArrayPosition(playerOrderArrayPosition+1);
         return {currentPlayerTurn:playerOrder[playerOrderArrayPosition+1]};
       }
-      else {
-        setCurrentPlayerTurn(playerOrder[0]);
-        setPlayerOrderArrayPosition(0);
-        return {currentPlayerTurn:0};
-      }
+    else {
+      setCurrentPlayerTurn(playerOrder[0]);
+      setPlayerOrderArrayPosition(0);
+      return {currentPlayerTurn:playerOrder[0]};
+    }
+  }
+  const previousPlayerTurn = () => {
+    if (playerOrderArrayPosition > 0)
+      return playerOrder[playerOrderArrayPosition-1];
+    else
+      return playerOrder[numberOfPlayers-1];
   }
   const gotoPreviousPlayerTurn= () => {
     if(playerOrderArrayPosition > 0) {
@@ -76,7 +86,9 @@ export const CurrentPlayerTurn = ({ children }) => {
       <CurrentPlayerTurnContext.Provider value={{
           currentPlayerTurn,
           setCurrentPlayerTurn,
+          nextPlayerTurn,
           gotoNextPlayerTurn,
+          previousPlayerTurn,
           gotoPreviousPlayerTurn,
 
           playerOrder,

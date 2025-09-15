@@ -28,6 +28,7 @@ const HostNetworkingFunctions = () => {
             turnState,
           setTurnStateToIdle,
           isTurnStateBuildingARoad,
+          setClientTurnStateToBuildingARoad,
           isClientTurnStateBuildingARoad,
           isTurnStateRoadBuilderCardFirstRoad,
           isTurnStateRoadBuilderCardSecondRoad,
@@ -70,7 +71,7 @@ const HostNetworkingFunctions = () => {
   const { setAndReturnThiefLocation } = useContext(ThiefLocationContext);
   const { rollDice, setDice, haveDiceBeenRolledThisTurn, setDiceRolledThisTurn } = useContext(DiceContext);
 
-  const { /*addToMessagePayloadToPlayer,*/ addToMessagePayloadToAllPlayers, sendTheMessages } = useContext(NetworkingMessageSenderContext);
+  const { addToMessagePayloadToPlayer, addToMessagePayloadToAllPlayers, sendTheMessages } = useContext(NetworkingMessageSenderContext);
 
   const buildSettlement = (x, y) => {
     console.log("We got told to build a settlment at x: "+x+" y:"+y);
@@ -98,7 +99,7 @@ const HostNetworkingFunctions = () => {
       addToMessagePayloadToAllPlayers(addCollectionOfResourcesToPlayer(currentPlayerTurn, resourcesGained));
     }
     if(isGameStateBoardSetup()) {
-      addToMessagePayloadToAllPlayers(setTurnStateToBuildingARoad());
+      addToMessagePayloadToPlayer(setClientTurnStateToBuildingARoad(), currentPlayerTurn);
     }
     else{
       removePlayerResourcesToBuildSettlement(currentPlayerTurn);
@@ -108,18 +109,15 @@ const HostNetworkingFunctions = () => {
   }
 
   const buildRoad = (x, y, direction, clientTurnState) => {
-    console.log("clientTurnState: ",clientTurnState);
-    console.log(isClientTurnStateBuildingARoad(clientTurnState));
     if (direction == "right")
       addToMessagePayloadToAllPlayers(setNodeRightRoadOwner(x, y, currentPlayerTurn));
     else
       addToMessagePayloadToAllPlayers(setNodeBottomRoadOwner(x, y, currentPlayerTurn));
     addToMessagePayloadToAllPlayers(removeRoadFromAvailableBuildings(x, y, currentPlayerTurn));
     addToMessagePayloadToAllPlayers(setTurnStateToIdle());
-    //Send to everyone else to be in an idle state. But we need to check longest roads ourselves.
-    if (isClientTurnStateBuildingARoad(clientTurnState))//Game should be in an idle state, unless we have the client pass this over.
+    if (isClientTurnStateBuildingARoad(clientTurnState))//or is turnstate idle, if we were not at the start of the game.
       setTurnStateToBuildingARoadLongestRoadCheck();
-    if(isTurnStateRoadBuilderCardFirstRoad(clientTurnState))
+    if(isTurnStateRoadBuilderCardFirstRoad(clientTurnState))//Road Building, the host may want to be in their own state, and just tell the client to build roads.
       setTurnStateToRoadBuilderCardFirstRoadLongestRoadCheck();
     if(isTurnStateRoadBuilderCardSecondRoad(clientTurnState))
       setTurnStateToRoadBuilderCarSecondRoadLongestRoadCheck();

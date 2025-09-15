@@ -22,6 +22,8 @@ export default function LongestRoadCheck() {
           isTurnStateRoadBuilderCardSecondRoadLongestRoadCheck,
           setTurnStateToRoadBuilderCardSecondRoad,
           setTurnStateToBuildingASettlement,
+          setClientTurnStateToBuildingASettlement,
+          setClientTurnStateToIdle,
           setTurnStateToStartTurn,
           setTurnStateToIdle }= useContext(TurnStateContext);
 
@@ -29,7 +31,7 @@ export default function LongestRoadCheck() {
           returnUsedRoads } = useContext(PlayerAvailableBuildingsContext);
   const { removePlayerResourcesToBuildRoad } = useContext(PlayerResourceCardsContext);
 
-  const { currentPlayerTurn, gotoNextPlayerTurn, gotoPreviousPlayerTurn, isPlayerOrderArrayPositionEnd, isPlayerOrderArrayPositionStart } = useContext(CurrentPlayerTurnContext);
+  const { currentPlayerTurn, nextPlayerTurn, gotoNextPlayerTurn, previousPlayerTurn, gotoPreviousPlayerTurn, isPlayerOrderArrayPositionEnd, isPlayerOrderArrayPositionStart } = useContext(CurrentPlayerTurnContext);
   const { checkIfLongestRoad } = useContext(ScoreBoardContext);
   const { tileCornerNodes } = useContext(TileCornerNodesContext);
 
@@ -43,23 +45,26 @@ export default function LongestRoadCheck() {
     checkIfLongestRoad(findThePlayersLongestRoad(tileCornerNodes, currentPlayerTurn, returnUsedRoads(currentPlayerTurn)), currentPlayerTurn);
       //We will likely need to do a score check within that.
     if(isGameStateBoardSetup()){
-      setTurnStateToBuildingASettlement();
-      addToMessagePayloadToAllPlayers({turnState:"Building a settlement"});  //TODO fix, return from above.
+      addToMessagePayloadToPlayer(setClientTurnStateToIdle(), currentPlayerTurn);
+      setTurnStateToIdle();
       if(returnAvailableSettlements(currentPlayerTurn) == 4 && isPlayerOrderArrayPositionEnd()) {
+        addToMessagePayloadToPlayer(setClientTurnStateToBuildingASettlement(), currentPlayerTurn);
         console.log("Time to reverse course");
       }
       else if(returnAvailableSettlements(currentPlayerTurn) == 4) {
+        addToMessagePayloadToPlayer(setClientTurnStateToBuildingASettlement(), nextPlayerTurn());
         addToMessagePayloadToAllPlayers(gotoNextPlayerTurn());
         console.log("moving forward");
       }
       else if(returnAvailableSettlements(currentPlayerTurn) == 3 && !isPlayerOrderArrayPositionStart()) {
+        addToMessagePayloadToPlayer(setClientTurnStateToBuildingASettlement(), previousPlayerTurn());
         addToMessagePayloadToAllPlayers(gotoPreviousPlayerTurn());
         console.log("moving backwards");
       }
       else {
         console.log("^^^^START THE GAME^^^^");
         addToMessagePayloadToAllPlayers(setGameStateToMainGame());
-        addToMessagePayloadToAllPlayers(setTurnStateToStartTurn());
+        addToMessagePayloadToAllPlayers(setTurnStateToStartTurn());//Should this only be sent to plater to start?
       }
     }
     else if(isTurnStateRoadBuilderCardFirstRoadLongestRoadCheck())
@@ -70,7 +75,7 @@ export default function LongestRoadCheck() {
       addToMessagePayloadToAllPlayers(setTurnStateToIdle());
       addToMessagePayloadToAllPlayers(removePlayerResourcesToBuildRoad(currentPlayerTurn));
     }
-    console.log("Send the messages!!!!");
+    console.log("Longest Road is Send the messages!!!!");
     sendTheMessages();
   })
   
