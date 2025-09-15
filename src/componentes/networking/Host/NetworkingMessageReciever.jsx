@@ -76,7 +76,7 @@ const NetworkingMessageReciever = (props) => {
           "lastBuiltObject"           in recievedMessages && setLastBuiltObject(recievedMessages.lastBuiltObject);
           "playerAvailableBuildings"  in recievedMessages && setPlayerAvailableBuildings(recievedMessages.playerAvailableBuildings);
           "playerResourceCards"       in recievedMessages && setPlayerResourceCards(recievedMessages.playerResourceCards);
-          "buildRoad"                 in recievedMessages && props.buildRoad(recievedMessages.buildRoad.x, recievedMessages.buildRoad.y, recievedMessages.buildRoad.direction);
+          "buildRoad"                 in recievedMessages && props.buildRoad(recievedMessages.buildRoad.x, recievedMessages.buildRoad.y, recievedMessages.buildRoad.direction, recievedMessages.buildRoad.clientTurnState);
           "turnState"                 in recievedMessages && setTurnState(recievedMessages.turnState);
           "gameState"                 in recievedMessages && setGameState(recievedMessages.gameState);
           "rollTheDice"               in recievedMessages && props.rollTheDice();

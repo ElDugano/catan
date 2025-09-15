@@ -14,9 +14,10 @@ export default function IdleMenu() {
     sendTheMessages();
   }
   const buildMenu = () => {
-    addToMessagePayloadToHost({header: "Goto Build Menu"});
-    addToMessagePayloadToHost(setTurnStateToBuildMenu());
-    sendTheMessages();
+    //addToMessagePayloadToHost({header: "Goto Build Menu"});
+    //addToMessagePayloadToHost(setTurnStateToBuildMenu());
+    //sendTheMessages();
+    setTurnStateToBuildMenu();
   }
   const playDevelopmentCardMenu = () => {
     addToMessagePayloadToHost({header: "Goto Play Development Card Menu"});

@@ -23,9 +23,10 @@ export default function BuildMenu() {
   } = useContext(TurnStateContext);
 
   const buildRoadFunction = () => {
-    addToMessagePayloadToHost({header: "Goto Build A Road"});
-    addToMessagePayloadToHost(setTurnStateToBuildingARoad());
-    sendTheMessages();
+    //addToMessagePayloadToHost({header: "Goto Build A Road"});
+    //addToMessagePayloadToHost(setTurnStateToBuildingARoad());
+    //sendTheMessages();
+    setTurnStateToBuildingARoad();
   }
   const buildSettlementFunction = () => {
     addToMessagePayloadToHost({header: "Goto Build A Road"});

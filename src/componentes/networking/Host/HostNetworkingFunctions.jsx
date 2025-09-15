@@ -28,6 +28,7 @@ const HostNetworkingFunctions = () => {
             turnState,
           setTurnStateToIdle,
           isTurnStateBuildingARoad,
+          isClientTurnStateBuildingARoad,
           isTurnStateRoadBuilderCardFirstRoad,
           isTurnStateRoadBuilderCardSecondRoad,
           setTurnStateToStartTurn,
@@ -106,21 +107,23 @@ const HostNetworkingFunctions = () => {
     sendTheMessages();
   }
 
-  const buildRoad = (x, y, direction) => {
-    console.log("Building a road.");
+  const buildRoad = (x, y, direction, clientTurnState) => {
+    console.log("clientTurnState: ",clientTurnState);
+    console.log(isClientTurnStateBuildingARoad(clientTurnState));
     if (direction == "right")
       addToMessagePayloadToAllPlayers(setNodeRightRoadOwner(x, y, currentPlayerTurn));
     else
       addToMessagePayloadToAllPlayers(setNodeBottomRoadOwner(x, y, currentPlayerTurn));
     addToMessagePayloadToAllPlayers(removeRoadFromAvailableBuildings(x, y, currentPlayerTurn));
-    if (isTurnStateBuildingARoad())
+    addToMessagePayloadToAllPlayers(setTurnStateToIdle());
+    //Send to everyone else to be in an idle state. But we need to check longest roads ourselves.
+    if (isClientTurnStateBuildingARoad(clientTurnState))//Game should be in an idle state, unless we have the client pass this over.
       setTurnStateToBuildingARoadLongestRoadCheck();
-    if(isTurnStateRoadBuilderCardFirstRoad())
+    if(isTurnStateRoadBuilderCardFirstRoad(clientTurnState))
       setTurnStateToRoadBuilderCardFirstRoadLongestRoadCheck();
-    if(isTurnStateRoadBuilderCardSecondRoad())
+    if(isTurnStateRoadBuilderCardSecondRoad(clientTurnState))
       setTurnStateToRoadBuilderCarSecondRoadLongestRoadCheck();
     //sendTheMessages();
-    console.log("This is the turnState: ", turnState);
   }
 
   const buildCity = (x, y) => {

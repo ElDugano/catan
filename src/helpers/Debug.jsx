@@ -1,11 +1,6 @@
 import { useContext } from 'react';
 import { TurnStateContext } from '../state/turnState/TurnStateContext.js';
-import { DiceContext } from '../state/dice/DiceContext.js';
-import { PlayerResourceCardsContext } from '../state/playerResourceCards/PlayerResourceCardsContext.js';
-
 import { NetworkingMessageSenderContext } from '../componentes/networking/Host/NetworkingMessageSenderContext.js';
-
-import { CurrentPlayerTurnContext } from '../state/currentPlayerTurn/CurrentPlayerTurnContext.js';
 
 export default function Debug() {
   const {isTurnStateRollingTheDice} = useContext(TurnStateContext);

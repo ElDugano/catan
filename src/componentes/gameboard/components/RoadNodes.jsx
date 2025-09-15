@@ -14,7 +14,8 @@ import { NetworkingMessageSenderContext } from '../../networking/Host/Networking
 
 export default function RoadNodes() {
   const {isGameStateBoardSetup}= useContext(GameStateContext);
-  const { isTurnStateBuildingARoad,
+  const { turnState,
+          isTurnStateBuildingARoad,
           isTurnStateRoadBuilderCardFirstRoad,
           isTurnStateRoadBuilderCardSecondRoad}= useContext(TurnStateContext);
 
@@ -29,13 +30,13 @@ export default function RoadNodes() {
 
   function buildRightRoad(x, y) {
     addToMessagePayloadToHost({header: "Building a Road"});
-    addToMessagePayloadToHost({buildRoad:{x:x,y:y,direction:"right"}});
+    addToMessagePayloadToHost({buildRoad:{x:x,y:y,direction:"right",clientTurnState:turnState}});
     sendTheMessages();
   }
 
   function buildBottomRoad(x, y) {
     addToMessagePayloadToHost({header: "Building a Road"});
-    addToMessagePayloadToHost({buildRoad:{x:x,y:y,direction:"bottom"}});
+    addToMessagePayloadToHost({buildRoad:{x:x,y:y,direction:"bottom",clientTurnState:turnState}});
     sendTheMessages();
   }
   
