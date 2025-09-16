@@ -12,6 +12,8 @@ export const ScoreBoard = ({ children }) => {
       let newScoreBoard = [...previousScore];
       newScoreBoard[player]++;
       checkIfWinner(newScoreBoard, hiddenPoints);
+      console.log("New Scoreboard");
+      console.log(newScoreBoard);
       return newScoreBoard;
     })};
   }
@@ -19,13 +21,16 @@ export const ScoreBoard = ({ children }) => {
   function addPointsToPlayerHiddenPoints(player, playersHiddenPoints) {
     if(playersHiddenPoints != 0) {
       let newHiddenPoints = [...hiddenPoints];
-      newHiddenPoints[player] = playersHiddenPoints;
+      newHiddenPoints[player] += playersHiddenPoints;
       setHiddenPoints(newHiddenPoints);
-      checkIfWinner(scoreBoard, newHiddenPoints)
+      checkIfWinner(scoreBoard, newHiddenPoints);
+      console.log("Hidden Points:");
+      console.log(newHiddenPoints);
     }
   }
 
   function checkIfWinner(checkScoreboard, checkHiddenScore) {
+    console.log("Checking If Winner: ",checkScoreboard,checkHiddenScore);
     checkScoreboard.forEach((playerScore, player) => {
       if (playerScore+checkHiddenScore[player] >= 10) {
         setWiner(player);

@@ -40,7 +40,7 @@ function App() {
           isTurnStateLongestRoadCheck,
           isTurnStateStartTurn,
           setTurnStateToRollingTheDice } = useContext(TurnStateContext);
-  const { currentPlayerTurn, isClientPlayersTurn } = useContext(CurrentPlayerTurnContext);
+  const { currentPlayerTurn, isClientPlayersTurn, clientPlayerNumber } = useContext(CurrentPlayerTurnContext);
   const { getJustPurchasedPlayerVictoryPointCards,
           makePlayerPurchasedDevelopmentAvailableToPlay } = useContext(DevelopmentCardsContext);
   const { addPointsToPlayerHiddenPoints, winner } = useContext(ScoreBoardContext);
@@ -52,9 +52,10 @@ function App() {
   const currentPlayerResources = getAPlayersResourceCards(currentPlayerTurn);
 
   useEffect (() => {
-    if(isTurnStateStartTurn()){
+    if(isTurnStateStartTurn() ){
       console.log("Here in App.jsx, we need to have the host handle this stuff.");
-      addPointsToPlayerHiddenPoints(currentPlayerTurn, getJustPurchasedPlayerVictoryPointCards(currentPlayerTurn));
+      if (clientPlayerNumber == null)
+        addPointsToPlayerHiddenPoints(currentPlayerTurn, getJustPurchasedPlayerVictoryPointCards(currentPlayerTurn));
       makePlayerPurchasedDevelopmentAvailableToPlay(currentPlayerTurn);
       setTurnStateToRollingTheDice();
       resetDiceRolledThisTurn();
