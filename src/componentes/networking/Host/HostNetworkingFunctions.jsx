@@ -142,13 +142,13 @@ const HostNetworkingFunctions = () => {
     else// direction == down
       addToMessagePayloadToAllPlayers(setNodeBottomRoadOwner(x, y, currentPlayerTurn));
     addToMessagePayloadToAllPlayers(removeRoadFromAvailableBuildings(x, y, currentPlayerTurn));
-    addToMessagePayloadToAllPlayers(setTurnStateToIdle());
+    //addToMessagePayloadToAllPlayers(setTurnStateToIdle());
 
     checkIfLongestRoad(findThePlayersLongestRoad(tileCornerNodes, currentPlayerTurn, returnUsedRoads(currentPlayerTurn)), currentPlayerTurn);
       //We will likely need to do a score check within that.
     if(isGameStateBoardSetup()){
       addToMessagePayloadToPlayer(setClientTurnStateToIdle(), currentPlayerTurn);
-      setTurnStateToIdle();
+      //setTurnStateToIdle();
       if(returnAvailableSettlements(currentPlayerTurn) == 4 && isPlayerOrderArrayPositionEnd()) {
         addToMessagePayloadToPlayer(setClientTurnStateToBuildingASettlement(), currentPlayerTurn);
         console.log("Time to reverse course");
@@ -169,13 +169,8 @@ const HostNetworkingFunctions = () => {
         addToMessagePayloadToPlayer(setTurnStateToStartTurn(), currentPlayerTurn);//Should this only be sent to plater to start?
       }
     }
-    //else if(isClientStateRoadBuilderCardFirstRoad(clientTurnState))//Below not implemented yet.
-    //  addToMessagePayloadToAllPlayers(setTurnStateToRoadBuilderCardSecondRoad());
-    //else if (isTurnStateRoadBuilderCardSecondRoadLongestRoadCheck())
-    //  addToMessagePayloadToAllPlayers(setTurnStateToIdle());
-    else {
-    //  addToMessagePayloadToPlayer(setTurnStateToIdle(), currentPlayerTurn);
-      addToMessagePayloadToPlayer(removePlayerResourcesToBuildRoad(currentPlayerTurn));
+    else if (isClientTurnStateBuildingARoad(clientTurnState)) { //Only remove resources if they are building a road normally.
+      addToMessagePayloadToPlayer(removePlayerResourcesToBuildRoad(currentPlayerTurn), currentPlayerTurn);
     }
     sendTheMessages();
   }
