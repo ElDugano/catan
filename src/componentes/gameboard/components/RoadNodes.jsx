@@ -15,9 +15,11 @@ import { NetworkingMessageSenderContext } from '../../networking/Host/Networking
 export default function RoadNodes() {
   const {isGameStateBoardSetup}= useContext(GameStateContext);
   const { turnState,
+          setTurnStateToIdle,
           isTurnStateBuildingARoad,
           isTurnStateRoadBuilderCardFirstRoad,
-          isTurnStateRoadBuilderCardSecondRoad}= useContext(TurnStateContext);
+          isTurnStateRoadBuilderCardSecondRoad,
+          setTurnStateToRoadBuilderCardSecondRoad }= useContext(TurnStateContext);
 
   const { lastBuiltObject } = useContext(PlayerAvailableBuildingsContext);
   const { currentPlayerTurn, isClientPlayersTurn } = useContext(CurrentPlayerTurnContext);
@@ -32,12 +34,20 @@ export default function RoadNodes() {
     addToMessagePayloadToHost({header: "Building a Road"});
     addToMessagePayloadToHost({buildRoad:{x:x,y:y,direction:"right",clientTurnState:turnState}});
     sendTheMessages();
+    if(isTurnStateRoadBuilderCardFirstRoad())
+      setTurnStateToRoadBuilderCardSecondRoad();
+    else
+      setTurnStateToIdle();
   }
 
   function buildBottomRoad(x, y) {
     addToMessagePayloadToHost({header: "Building a Road"});
     addToMessagePayloadToHost({buildRoad:{x:x,y:y,direction:"bottom",clientTurnState:turnState}});
     sendTheMessages();
+    if(isTurnStateRoadBuilderCardFirstRoad())
+      setTurnStateToRoadBuilderCardSecondRoad();
+    else
+      setTurnStateToIdle();
   }
   
   for (let x=1; x <= 12; x++) {

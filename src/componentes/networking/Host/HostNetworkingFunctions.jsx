@@ -42,6 +42,7 @@ const HostNetworkingFunctions = () => {
           setTurnStateToRollingTheDice,
           setTurnStateToBuildingARoadLongestRoadCheck,
           setTurnStateToRoadBuilderCardFirstRoadLongestRoadCheck,
+          isClientStateRoadBuilderCardFirstRoad,
           setTurnStateToRoadBuilderCarSecondRoadLongestRoadCheck,
           setTurnStateToGatheringResources,
           setTurnStateToRemoveHalfResources,
@@ -168,13 +169,13 @@ const HostNetworkingFunctions = () => {
         addToMessagePayloadToPlayer(setTurnStateToStartTurn(), currentPlayerTurn);//Should this only be sent to plater to start?
       }
     }
-    else if(isTurnStateRoadBuilderCardFirstRoadLongestRoadCheck())//Below not implemented yet.
-      addToMessagePayloadToAllPlayers(setTurnStateToRoadBuilderCardSecondRoad());
-    else if (isTurnStateRoadBuilderCardSecondRoadLongestRoadCheck())
-      addToMessagePayloadToAllPlayers(setTurnStateToIdle());
+    //else if(isClientStateRoadBuilderCardFirstRoad(clientTurnState))//Below not implemented yet.
+    //  addToMessagePayloadToAllPlayers(setTurnStateToRoadBuilderCardSecondRoad());
+    //else if (isTurnStateRoadBuilderCardSecondRoadLongestRoadCheck())
+    //  addToMessagePayloadToAllPlayers(setTurnStateToIdle());
     else {
-      addToMessagePayloadToPlayer(setTurnStateToIdle(), currentPlayerTurn);
-      addToMessagePayloadToAllPlayers(removePlayerResourcesToBuildRoad(currentPlayerTurn));
+    //  addToMessagePayloadToPlayer(setTurnStateToIdle(), currentPlayerTurn);
+      addToMessagePayloadToPlayer(removePlayerResourcesToBuildRoad(currentPlayerTurn));
     }
     sendTheMessages();
   }

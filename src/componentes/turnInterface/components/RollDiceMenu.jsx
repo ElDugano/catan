@@ -9,14 +9,12 @@ export default function RollDiceMenu() {
   const {  setTurnStateToConfirmPlayKnightDevelopmentCard }= useContext(TurnStateContext);
   const { doesPlayerOwnsKnightDevelopmentCard } = useContext(DevelopmentCardsContext)
   const { currentPlayerTurn } = useContext(CurrentPlayerTurnContext);
-
-  const PlayKnightButton = doesPlayerOwnsKnightDevelopmentCard(currentPlayerTurn) ? <button onClick={playKnightCard}>Knight</button> :<button disabled>Knight</button>;
-
   const { addToMessagePayloadToHost, sendTheMessages } = useContext(NetworkingMessageSenderContext);
 
   const playKnightCard = () => {
     setTurnStateToConfirmPlayKnightDevelopmentCard();
   }
+  const PlayKnightButton = doesPlayerOwnsKnightDevelopmentCard(currentPlayerTurn) ? <button onClick={playKnightCard}>Knight</button> :<button disabled>Knight</button>;
 
   const rollTheDice = () => {
     addToMessagePayloadToHost({header: "Player Rolling the Dice"});
