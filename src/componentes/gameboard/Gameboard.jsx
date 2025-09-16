@@ -19,8 +19,9 @@ export default function Gameboard({children}) {
         <PortTiles>
           <ThiefLocation>
             <LandTileNumbers>
-              { children }
+              { children }                
               <svg className="hex-grid" viewBox="0 0 420 370">
+                <g>
                 <Tiles />
                 <Ports />
                 <TileNumbers />
@@ -28,6 +29,7 @@ export default function Gameboard({children}) {
                 <RoadNodes />
                 <BanditIcon />
                 <ThiefMoveButtons />
+                </g>
               </svg>
             </LandTileNumbers>
           </ThiefLocation>

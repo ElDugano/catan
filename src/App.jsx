@@ -1,6 +1,7 @@
 import { useContext } from 'react';
 import Gameboard from './componentes/gameboard/Gameboard.jsx';
 import TurnInterface from './componentes/turnInterface/TurnInterface.jsx';
+import HostTurnInterface from './componentes/hostTurnInterface/HostTurnInterface.jsx';
 import GatherResourcesFromRoll from './helpers/turnState/GatherResourcesFromRoll.jsx';
 
 import NetworkingSetup from './componentes/networking/NetworkingSetup.jsx';
@@ -41,15 +42,16 @@ function App() {
         <br />
         The turnState is: {turnState}<br />
           <TurnInterface />
+          <HostTurnInterface />
           <Gameboard>
             {isGameStateGameSetup() ? <NetworkingSetup /> : null}
             <GatherResourcesFromRoll />
             <HostNetworkingFunctions />
           </Gameboard>
           <Debug />
+          <div style={{height: "20vh"}} />
       </>
     )
-  //}
 }
 
 export default App

@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import { useContext } from "react";
 
 import NetworkingMessageReciever from "./NetworkingMessageReciever";
 
@@ -28,13 +28,12 @@ import findThePlayersLongestRoad from "../../gameboard/helpers/FindLongestRoad";
 const HostNetworkingFunctions = () => {
   const { isGameStateBoardSetup, setGameStateToMainGame, setGameStateToGameOver }= useContext(GameStateContext);
     //Currently gets stuck here because this isn't a react component. This is being called like a regular function
-  const { turnState,
+  const { //turnState,
           setTurnStateToIdle,
           setClientTurnStateToIdle,
           setClientTurnStateToBuildingARoad,
           isClientTurnStateBuildingARoad,
           setClientTurnStateToBuildingASettlement,
-          setTurnStateToStartTurn,
           setClientTurnStateToRollingTheDice,
           setTurnStateToGatheringResources,
           setTurnStateToRemoveHalfResources,
