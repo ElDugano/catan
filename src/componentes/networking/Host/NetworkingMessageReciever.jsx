@@ -37,7 +37,7 @@ const NetworkingMessageReciever = (props) => {
           setDiscardHalfResourcesPlayers,
           setDiscardHalfResourcesCardAmount,
           setRobbingTargetPlayers } = useContext(PlayerResourceCardsContext);
-  const { setPlayerDevelopmentCardJustPurchased } = useContext(DevelopmentCardsContext);
+  const { setPlayerDevelopmentCardJustPurchased, setPlayerDevelopmentCardHand } = useContext(DevelopmentCardsContext);
   const { setDiceRolledThisTurn } = useContext(DiceContext);
 
   const { setCurrentPlayerTurn, setupClientPlayerOrder, setClientPlayerNumber } = useContext(CurrentPlayerTurnContext);
@@ -93,7 +93,7 @@ const NetworkingMessageReciever = (props) => {
           "setDiceRolledThisTurn"     in recievedMessages && setDiceRolledThisTurn(recievedMessages.setDiceRolledThisTurn);
           "nobodyToRob"               in recievedMessages && props.nobodyToRob();
           "buyDevelopmentCard"        in recievedMessages && props.buyDevelopmentCard();
-          //"" in recievedMessages && (recievedMessages.);
+          "playerDevelopmentCardHand" in recievedMessages && setPlayerDevelopmentCardHand(recievedMessages.playerDevelopmentCardHand);
           //"" in recievedMessages && (recievedMessages.);
           //"" in recievedMessages && (recievedMessages.);
           //"" in recievedMessages && (recievedMessages.);

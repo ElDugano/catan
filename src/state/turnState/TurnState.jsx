@@ -5,9 +5,7 @@ export const TurnState = ({ children }) => {
   const [turnState, setTurnState] = useState("Idle");
 
     //---------- Turn Start ----------//
-    const isTurnStateStartTurn = () =>        {return turnState == "Start Turn" ? true : false};
-    const setTurnStateToStartTurn = () =>            {setTurnState("Start Turn"); 
-                                                 return {turnState:"Start Turn"};};
+    const setClientTurnStateToRollingTheDice = () => {return {turnState:"Rolling the dice"}};
     const isTurnStateRollingTheDice = () => {return turnState == "Rolling the dice" ? true : false};
     const setTurnStateToRollingTheDice = () =>     {setTurnState("Rolling the dice");
                                                 return {turnState:"Rolling the dice"};};
@@ -43,9 +41,6 @@ export const TurnState = ({ children }) => {
     const isTurnStateBuildingARoad = () => {return turnState == "Building a road" ? true : false};
     const setTurnStateToBuildingARoad = () =>     {setTurnState("Building a road");
                                               return {turnState:"Building a road"};};
-      //const isTurnStateBuildingARoadLongestRoadCheck = () => {return turnState == "Building a road Longest Road Check" ? true : false};
-      //const setTurnStateToBuildingARoadLongestRoadCheck = () =>     {setTurnState("Building a road Longest Road Check");
-      //                                                          return {turnState:"Building a road Longest Road Check"};};
     const setClientTurnStateToBuildingASettlement = () => {return {turnState:"Building a settlement"}};
     const isTurnStateBuildingASettlement = () => {return turnState == "Building a settlement" ? true : false};
     const setTurnStateToBuildingASettlement = () =>     {setTurnState("Building a settlement");
@@ -73,17 +68,11 @@ export const TurnState = ({ children }) => {
       const isTurnStateRoadBuilderCardFirstRoad = () => {return turnState == "Road Builder Card First Road" ? true : false};
       const setTurnStateToRoadBuilderCardFirstRoad = () =>     {setTurnState("Road Builder Card First Road");
                                                            return {turnState:"Road Builder Card First Road"};};
-        //const isTurnStateRoadBuilderCardFirstRoadLongestRoadCheck = () => {return turnState == "Road Builder Card First Road Longest Road Check" ? true : false};
-        //const setTurnStateToRoadBuilderCardFirstRoadLongestRoadCheck = () =>     {setTurnState("Road Builder Card First Road Longest Road Check");
-        //                                                                     return {turnState:"Road Builder Card First Road Longest Road Check"};};
       const isClientStateRoadBuilderCardSecondRoad = (clientTurnState) => {
                                                     return clientTurnState == "Road Builder Card Second Road" ? true : false};
       const isTurnStateRoadBuilderCardSecondRoad = () => {return turnState == "Road Builder Card Second Road" ? true : false};
       const setTurnStateToRoadBuilderCardSecondRoad = () =>     {setTurnState("Road Builder Card Second Road");
                                                            return {turnState:"Road Builder Card Second Road"};};
-        //const isTurnStateRoadBuilderCardSecondRoadLongestRoadCheck = () => {return turnState == "Road Builder Card Second Road Longest Road Check" ? true : false};
-        //const setTurnStateToRoadBuilderCarSecondRoadLongestRoadCheck = () =>     {setTurnState("Road Builder Card Second Road Longest Road Check");
-        //                                                                     return {turnState:"Road Builder Card Second Road Longest Road Check"};};
       //----- Year of Plenty Card
       const isTurnStateConfirmPlayYearOfPlentyDevelopmentCard = () => {return turnState == "Play Year Of Plenty Development Card" ? true : false};
       const setTurnStateToConfirmPlayYearOfPlentyDevelopmentCard = () =>     {setTurnState("Play Year Of Plenty Development Card");
@@ -106,22 +95,14 @@ export const TurnState = ({ children }) => {
     //const isTurnState = () => {return turnState == "" ? true : false};
     //const setTurnStateTo = () =>     {setTurnState("")};
 
-    //const isTurnStateLongestRoadCheck = () => {
-    //  if( isTurnStateBuildingARoadLongestRoadCheck() ||
-    //    isTurnStateRoadBuilderCardFirstRoadLongestRoadCheck() ||
-    //    isTurnStateRoadBuilderCardSecondRoadLongestRoadCheck())
-    //    return true;
-    //  return false;
-    //}
 
 
   return (
     <TurnStateContext.Provider value={{
     //---------- Turn Start ----------//
-      isTurnStateStartTurn,
-      setTurnStateToStartTurn,
       isTurnStateRollingTheDice,
       setTurnStateToRollingTheDice,
+        setClientTurnStateToRollingTheDice,
       isTurnStateGatheringResources,
       setTurnStateToGatheringResources,
       isTurnStateGatheringResourcesAcknowledgement,
@@ -136,7 +117,7 @@ export const TurnState = ({ children }) => {
     //---------- Main Turn ----------//
       isTurnStateIdle,
       setTurnStateToIdle,
-      setClientTurnStateToIdle,
+        setClientTurnStateToIdle,
     //---------- Building Related ----------//
       isTurnStateBuildMenu,
       setTurnStateToBuildMenu,
@@ -144,11 +125,9 @@ export const TurnState = ({ children }) => {
       setTurnStateToBuildingARoad,
         isClientTurnStateBuildingARoad,
         setClientTurnStateToBuildingARoad,
-       // isTurnStateBuildingARoadLongestRoadCheck,
-       // setTurnStateToBuildingARoadLongestRoadCheck,
       isTurnStateBuildingASettlement,
       setTurnStateToBuildingASettlement,
-      setClientTurnStateToBuildingASettlement,
+        setClientTurnStateToBuildingASettlement,
       isTurnStateBuildingACity,
       setTurnStateToBuildingACity,
       isTurnStateConfirmBuyingDevelopmentCard,
@@ -165,13 +144,9 @@ export const TurnState = ({ children }) => {
         isTurnStateRoadBuilderCardFirstRoad,
           isClientStateRoadBuilderCardFirstRoad,
         setTurnStateToRoadBuilderCardFirstRoad,
-         // setTurnStateToRoadBuilderCardFirstRoadLongestRoadCheck,
-         // isTurnStateRoadBuilderCardFirstRoadLongestRoadCheck,
         isTurnStateRoadBuilderCardSecondRoad,
           isClientStateRoadBuilderCardSecondRoad,
         setTurnStateToRoadBuilderCardSecondRoad,
-         // setTurnStateToRoadBuilderCarSecondRoadLongestRoadCheck,
-         // isTurnStateRoadBuilderCardSecondRoadLongestRoadCheck,
         //----- Year of Plenty Card
         isTurnStateConfirmPlayYearOfPlentyDevelopmentCard,
         setTurnStateToConfirmPlayYearOfPlentyDevelopmentCard,
@@ -185,8 +160,11 @@ export const TurnState = ({ children }) => {
       //---------- Trading Related ----------//
       isTurnStateTradingWithTheBoard,
       setTurnStateToTradingWithTheBoard,
-      //----- Extra Checks for readability -----//
-      //isTurnStateLongestRoadCheck,
+      //----- Client Only States -----//
+      
+      
+      
+      
       turnState,
       setTurnState
     }}>

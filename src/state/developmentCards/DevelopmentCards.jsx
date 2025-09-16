@@ -76,6 +76,7 @@ export const DevelopmentCards = ({ children }) => {
       newPlayerDevelopmentCardJustPurchased[player] = {"Knight":0, "Road Building":0, "Year of Plenty":0, "Monopoly":0, "Victory Point":0};
       setPlayerDevelopmentCardHand(newDevelopmentCardDeck);
       setPlayerDevelopmentCardJustPurchased(newPlayerDevelopmentCardJustPurchased)
+      return {playerDevelopmentCardHand:newDevelopmentCardDeck};
     }
 
   function PlayerDevelopmentCardsAvailableToPlay(player) {
@@ -123,7 +124,8 @@ export const DevelopmentCards = ({ children }) => {
         playMonopolyDevelopmentCard,
         getPlayerArmyStrength,
         getJustPurchasedPlayerVictoryPointCards,
-        setPlayerDevelopmentCardJustPurchased
+        setPlayerDevelopmentCardJustPurchased,
+        setPlayerDevelopmentCardHand
       }}>
         {children}
       </DevelopmentCardsContext.Provider>

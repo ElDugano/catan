@@ -26,33 +26,22 @@ import findThePlayersLongestRoad from "../../gameboard/helpers/FindLongestRoad";
 //import BuildSettlement from "./buildSettlement";
 
 const HostNetworkingFunctions = () => {
-  const { isGameStateBoardSetup, setGameStateToMainGame }= useContext(GameStateContext);
+  const { isGameStateBoardSetup, setGameStateToMainGame, setGameStateToGameOver }= useContext(GameStateContext);
     //Currently gets stuck here because this isn't a react component. This is being called like a regular function
-  const { setTurnStateToBuildingARoad,
-            turnState,
+  const { turnState,
           setTurnStateToIdle,
           setClientTurnStateToIdle,
-          isTurnStateBuildingARoad,
           setClientTurnStateToBuildingARoad,
           isClientTurnStateBuildingARoad,
           setClientTurnStateToBuildingASettlement,
-          isTurnStateRoadBuilderCardFirstRoad,
-          isTurnStateRoadBuilderCardSecondRoad,
           setTurnStateToStartTurn,
-          setTurnStateToRollingTheDice,
-          setTurnStateToBuildingARoadLongestRoadCheck,
-          setTurnStateToRoadBuilderCardFirstRoadLongestRoadCheck,
-          isClientStateRoadBuilderCardFirstRoad,
-          setTurnStateToRoadBuilderCarSecondRoadLongestRoadCheck,
+          setClientTurnStateToRollingTheDice,
           setTurnStateToGatheringResources,
           setTurnStateToRemoveHalfResources,
           setTurnStateToMoveTheThief,
-          setTurnStateToRobAPlayer,
-          isTurnStateRoadBuilderCardFirstRoadLongestRoadCheck,
-          setTurnStateToRoadBuilderCardSecondRoad,
-          isTurnStateRoadBuilderCardSecondRoadLongestRoadCheck }= useContext(TurnStateContext);
+          setTurnStateToRobAPlayer }= useContext(TurnStateContext);
 
-  const { scorePoint, checkIfLongestRoad, setLongestRoad, longestRoadOwner } = useContext(ScoreBoardContext);
+  const { scorePoint, checkIfLongestRoad, setLongestRoad, longestRoadOwner, addPointsToPlayerHiddenPoints, winner } = useContext(ScoreBoardContext);
   const { currentPlayerTurn,
           numberOfPlayers,
           gotoNextPlayerTurn,
@@ -89,8 +78,10 @@ const HostNetworkingFunctions = () => {
   const { landTiles } = useContext(LandTilesContext);
   const { setPortOwner } = useContext(PortOwnerContext);
   const { setAndReturnThiefLocation } = useContext(ThiefLocationContext);
-  const { rollDice, setDice, haveDiceBeenRolledThisTurn, setDiceRolledThisTurn } = useContext(DiceContext);
-  const { givePlayerDevelopmentCardFromDeck } = useContext(DevelopmentCardsContext);
+  const { rollDice, setDice, haveDiceBeenRolledThisTurn, setDiceRolledThisTurn, resetDiceRolledThisTurn } = useContext(DiceContext);
+  const { givePlayerDevelopmentCardFromDeck,
+          makePlayerPurchasedDevelopmentAvailableToPlay,
+          getJustPurchasedPlayerVictoryPointCards } = useContext(DevelopmentCardsContext);
 
   const { addToMessagePayloadToPlayer, addToMessagePayloadToAllPlayers, sendTheMessages } = useContext(NetworkingMessageSenderContext);
 
@@ -166,7 +157,7 @@ const HostNetworkingFunctions = () => {
       else {
         console.log("^^^^START THE GAME^^^^");
         addToMessagePayloadToAllPlayers(setGameStateToMainGame());
-        addToMessagePayloadToPlayer(setTurnStateToStartTurn(), currentPlayerTurn);//Should this only be sent to plater to start?
+        addToMessagePayloadToPlayer(setClientTurnStateToRollingTheDice(), currentPlayerTurn);//Should this only be sent to plater to start?
       }
     }
     else if (isClientTurnStateBuildingARoad(clientTurnState)) { //Only remove resources if they are building a road normally.
@@ -250,19 +241,41 @@ const HostNetworkingFunctions = () => {
     addToMessagePayloadToAllPlayers(stealRandomCardFromPlayer(currentPlayerTurn, victimPlayer));
     if (haveDiceBeenRolledThisTurn())
       addToMessagePayloadToAllPlayers(setTurnStateToIdle());
-    else
-      addToMessagePayloadToAllPlayers(setTurnStateToRollingTheDice());
+    else {
+      addToMessagePayloadToAllPlayers(setTurnStateToIdle());        //This is Janky and not tested yet. A SendMessagesToAllButPlayer should be written.
+      addToMessagePayloadToPlayer(setClientTurnStateToRollingTheDice(), currentPlayerTurn);
+    }
     sendTheMessages();
   }
 
   const nobodyToRob = () => {
-    addToMessagePayloadToAllPlayers(setTurnStateToIdle());
+    if (haveDiceBeenRolledThisTurn())
+      addToMessagePayloadToAllPlayers(setTurnStateToIdle());
+    else {
+      addToMessagePayloadToAllPlayers(setTurnStateToIdle());        //This is Janky and not tested yet. A SendMessagesToAllButPlayer should be written.
+      addToMessagePayloadToPlayer(setClientTurnStateToRollingTheDice(), currentPlayerTurn);
+    }
     sendTheMessages();
   }
 
   const endTurn = () => {
     addToMessagePayloadToAllPlayers(gotoNextPlayerTurn());
-    addToMessagePayloadToAllPlayers(setTurnStateToStartTurn());
+    addToMessagePayloadToPlayer(setClientTurnStateToRollingTheDice(), nextPlayerTurn());
+    console.log(nextPlayerTurn());
+    console.log(setClientTurnStateToRollingTheDice());
+      addPointsToPlayerHiddenPoints(currentPlayerTurn, getJustPurchasedPlayerVictoryPointCards(currentPlayerTurn));
+      //TODO, send hidden points to each player.
+      addToMessagePayloadToAllPlayers(makePlayerPurchasedDevelopmentAvailableToPlay(currentPlayerTurn));
+    
+      resetDiceRolledThisTurn();//Does the host only need to know this?
+
+    if(winner != null) {
+      console.log("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+      console.log("We have a winner, who is Player "+winner+"!");
+      console.log("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+      setGameStateToGameOver();
+    }
+
     sendTheMessages();
   }
 

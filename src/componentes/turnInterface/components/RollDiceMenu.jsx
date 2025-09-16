@@ -6,7 +6,7 @@ import { CurrentPlayerTurnContext } from "../../../state/currentPlayerTurn/Curre
 import { NetworkingMessageSenderContext } from "../../networking/Host/NetworkingMessageSenderContext.js";
 
 export default function RollDiceMenu() {
-  const {  setTurnStateToConfirmPlayKnightDevelopmentCard }= useContext(TurnStateContext);
+  const { setTurnStateToConfirmPlayKnightDevelopmentCard }= useContext(TurnStateContext);
   const { doesPlayerOwnsKnightDevelopmentCard } = useContext(DevelopmentCardsContext)
   const { currentPlayerTurn } = useContext(CurrentPlayerTurnContext);
   const { addToMessagePayloadToHost, sendTheMessages } = useContext(NetworkingMessageSenderContext);
