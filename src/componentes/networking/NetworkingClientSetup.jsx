@@ -2,8 +2,6 @@ import { useState, useEffect } from 'react'
 import Peer from 'peerjs';
 
 export default function NetworkingClientSetup(props) {
-  //const [myPeerID, setMyPeerID] = useState(null);
-  //const [peer, setPeer] = useState(null);
   const [connectionIDInput, setConnectionIDInput] = useState("");
   const [connectionID, setConnectionID] = useState(null);
   const [doOnce, setDoOnce] = useState(false);
@@ -20,18 +18,8 @@ export default function NetworkingClientSetup(props) {
           newPeer = new Peer(myPeerID);
         newPeer.on('open', function(id) {
           console.log("The peerID is: "+id);
-          //if (myPeerID == null)
-          //  setMyPeerID(id);
-          //setPeer(newPeer);
           resolve({peer:newPeer, id:id});
         })
-        //newPeer.on('error', (err) => {
-        //  alert(err.type);//network.
-        //  if (err.type === "network"){
-        //    setTimeout(setupConnection, 1000);
-        //  }
-        //})
-        console.log("Here")
       })
       newPeerPromise.then(peerInfo =>{
         console.log(peerInfo);
@@ -47,37 +35,6 @@ export default function NetworkingClientSetup(props) {
       })
     }
 
-    //const reconnect = () => {
-    //  let newPeerPromise = new Promise((resolve/*, reject*/) => {
-    //    console.log("start");
-    //    var newPeer = new Peer(myPeerID);//Man diff from above.
-    //    newPeer.on('open', function() {
-    //      setPeer(newPeer);
-    //      resolve(newPeer);
-    //    })
-    //    newPeer.on('error', (err) => {
-    //      alert(err.type);
-    //      if (err.type === "network"){
-    //        setTimeout(reconnect, 1000);
-    //      }
-    //    })
-    //  })
-    //  newPeerPromise.then(peer =>{
-    //    let newConn = peer.connect(connectionID);
-    //    props.setNewestConn(newConn);
-    //  })
-    //}
-
-    //if (peer != null) {
-    //  peer.on('error', (err) => {
-    //    alert(err.type);
-    //    if (err.type === "network"){
-    //      setTimeout(reconnect, 1000);
-    //    }
-    //  })
-    //}
-
-
     if (connectionID != null && doOnce == false){
       setupConnection();
     }
@@ -88,9 +45,6 @@ export default function NetworkingClientSetup(props) {
     console.log("Clicked connection button.");
     console.log(props.hostPeerIDPrefix+connectionIDInput);
   }
-
-
-
   return (
     <>
       <h2>Hello Player</h2>
