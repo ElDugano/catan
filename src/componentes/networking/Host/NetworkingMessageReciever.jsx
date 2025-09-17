@@ -48,14 +48,16 @@ const NetworkingMessageReciever = (props) => {
       console.log('Received:', recievedMessages);
       console.log("This was sent from Player: "+recievedMessagesPlayer)
         if (typeof recievedMessages === 'object'){
-          switch (recievedMessages.header) {
-            case "Board Setup":
-              console.log*("Did we get into the board game setup stage?")
-            break;
-            case "Building a Settlement":
-              console.log("We are building a settlement.")
-            break;
-          }
+          //switch (recievedMessages.header) {
+          //  case "Board Setup":
+          //    console.log*("Did we get into the board game setup stage?")
+          //  break;
+          //  case "Building a Settlement":
+          //    console.log("We are building a settlement.")
+          //  break;
+          //}
+          "gameState"                 in recievedMessages && setGameState(recievedMessages.gameState);
+          "turnState"                 in recievedMessages && setTurnState(recievedMessages.turnState);
           "landTileNumbers"           in recievedMessages && setLandTileNumbers(recievedMessages.landTileNumbers);
           "landTiles"                 in recievedMessages && setLandTiles(recievedMessages.landTiles);
           "desertLocation"            in recievedMessages && setDesertLocation(recievedMessages.desertLocation);
@@ -65,45 +67,56 @@ const NetworkingMessageReciever = (props) => {
           "setupClientPlayerOrder"    in recievedMessages && setupClientPlayerOrder(recievedMessages.setupClientPlayerOrder);
           "clientPlayerNumber"        in recievedMessages && setClientPlayerNumber(recievedMessages.clientPlayerNumber);
           "currentPlayerTurn"         in recievedMessages && setCurrentPlayerTurn(recievedMessages.currentPlayerTurn);
-          "buildSettlement"           in recievedMessages && props.buildSettlement(recievedMessages.buildSettlement.x, recievedMessages.buildSettlement.y)
           "scoreBoard"                in recievedMessages && setScoreBoard(recievedMessages.scoreBoard);
-          "standardPortOwner"         in recievedMessages && setPortOwner(recievedMessages.orePortOwner, "Standard");
-          "woolPortOwner"             in recievedMessages && setPortOwner(recievedMessages.orePortOwner, "Wool");
-          "grainPortOwner"            in recievedMessages && setPortOwner(recievedMessages.orePortOwner, "Grain");
-          "lumberPortOwner"           in recievedMessages && setPortOwner(recievedMessages.orePortOwner, "Lumber");
-          "brickPortOwner"            in recievedMessages && setPortOwner(recievedMessages.orePortOwner, "Brick");
+          //"hiddenPoints"              in recievedMessages && (recievedMessages.hiddenPoints);
+          //"winner"                    in recievedMessages && (recievedMessages.winner);
+          //"longestRoadOwner"          in recievedMessages && (recievedMessages.longestRoadOwner);
+          //"longestRoadDistance"       in recievedMessages && (recievedMessages.longestRoadDistance);
+          //"playerLongestRoad"         in recievedMessages && (recievedMessages.playerLongestRoad);
+          "standardPortOwner"         in recievedMessages && setPortOwner(recievedMessages.standardPortOwner, "Standard");
+          "woolPortOwner"             in recievedMessages && setPortOwner(recievedMessages.woolPortOwner, "Wool");
+          "grainPortOwner"            in recievedMessages && setPortOwner(recievedMessages.grainPortOwner, "Grain");
+          "lumberPortOwner"           in recievedMessages && setPortOwner(recievedMessages.lumberPortOwner, "Lumber");
+          "brickPortOwner"            in recievedMessages && setPortOwner(recievedMessages.brickPortOwner, "Brick");
           "orePortOwner"              in recievedMessages && setPortOwner(recievedMessages.orePortOwner, "Ore");
-          "lastBuiltObject"           in recievedMessages && setLastBuiltObject(recievedMessages.lastBuiltObject);
           "playerAvailableBuildings"  in recievedMessages && setPlayerAvailableBuildings(recievedMessages.playerAvailableBuildings);
+          "lastBuiltObject"           in recievedMessages && setLastBuiltObject(recievedMessages.lastBuiltObject);
           "playerResourceCards"       in recievedMessages && setPlayerResourceCards(recievedMessages.playerResourceCards);
+          //"previouslyGainedResources" in recievedMessages && (recievedMessages.previouslyGainedResources);
+          "discardHalfResourcesPlayers" in recievedMessages && setDiscardHalfResourcesPlayers(recievedMessages.discardHalfResourcesPlayers);
+          "discardHalfResourcesCardAmount" in recievedMessages && setDiscardHalfResourcesCardAmount(recievedMessages.discardHalfResourcesCardAmount);
+          "robbingTargetPlayers"      in recievedMessages && setRobbingTargetPlayers(recievedMessages.robbingTargetPlayers);
+          "playerDevelopmentCardJustPurchased" in recievedMessages && setPlayerDevelopmentCardJustPurchased(recievedMessages.playerDevelopmentCardJustPurchased);
+          "playerDevelopmentCardHand" in recievedMessages && setPlayerDevelopmentCardHand(recievedMessages.playerDevelopmentCardHand);
+          //"playerDevelopmentCardPlayed" in recievedMessages && (recievedMessages.playerDevelopmentCardPlayed);
+          "diceRolledThisTurn"        in recievedMessages && setDiceRolledThisTurn(recievedMessages.diceRolledThisTurn);
+          //"playerOrder" in recievedMessages && (recievedMessages.playerOrder);
+          //"currentPlayerTurn" in recievedMessages && (recievedMessages.currentPlayerTurn);
+          //"numberOfPlayers" in recievedMessages && (recievedMessages.numberOfPlayers);
+          //"playerOrderArrayPosition" in recievedMessages && (recievedMessages.playerOrderArrayPosition);
+          //"clientPlayerNumber" in recievedMessages && (recievedMessages.clientPlayerNumber);
+          
+          
+          //"" in recievedMessages && (recievedMessages.);
+          //"" in recievedMessages && (recievedMessages.);
+          //"" in recievedMessages && (recievedMessages.);
+          //"" in recievedMessages && (recievedMessages.);
+          //"" in recievedMessages && (recievedMessages.);
+          //"" in recievedMessages && (recievedMessages.);
+          //"" in recievedMessages && (recievedMessages.);
+          //"" in recievedMessages && (recievedMessages.);
+          "buildSettlement"           in recievedMessages && props.buildSettlement(recievedMessages.buildSettlement.x, recievedMessages.buildSettlement.y)
           "buildRoad"                 in recievedMessages && props.buildRoad(recievedMessages.buildRoad.x, recievedMessages.buildRoad.y, recievedMessages.buildRoad.direction, recievedMessages.buildRoad.clientTurnState);
-          "turnState"                 in recievedMessages && setTurnState(recievedMessages.turnState);
-          "gameState"                 in recievedMessages && setGameState(recievedMessages.gameState);
           "rollTheDice"               in recievedMessages && props.rollTheDice();
           "endTurn"                   in recievedMessages && props.endTurn();
           "buildCity"                 in recievedMessages && props.buildCity(recievedMessages.buildCity.x, recievedMessages.buildCity.y);
-          "playerDevelopmentCardJustPurchased" in recievedMessages && setPlayerDevelopmentCardJustPurchased(recievedMessages.playerDevelopmentCardJustPurchased);
-          "discardHalfResourcesPlayers" in recievedMessages && setDiscardHalfResourcesPlayers(recievedMessages.discardHalfResourcesPlayers);
-          "discardHalfResourcesCardAmount" in recievedMessages && setDiscardHalfResourcesCardAmount(recievedMessages.discardHalfResourcesCardAmount);
           "removeHalfResources"       in recievedMessages && props.removeHalfResources(recievedMessages.removeHalfResources.player, recievedMessages.removeHalfResources.discardingResources);
           "moveTheThief"              in recievedMessages && props.moveTheThief(recievedMessages.moveTheThief.x, recievedMessages.moveTheThief.y);
-          "robbingTargetPlayers"      in recievedMessages && setRobbingTargetPlayers(recievedMessages.robbingTargetPlayers);
-          "thiefLocation"             in recievedMessages && setThiefLocation(recievedMessages.thiefLocation);
           "stealACard"                in recievedMessages && props.stealACard(recievedMessages.stealACard);
-          "diceRolledThisTurn"        in recievedMessages && setDiceRolledThisTurn(recievedMessages.diceRolledThisTurn);
           "nobodyToRob"               in recievedMessages && props.nobodyToRob();
           "buyDevelopmentCard"        in recievedMessages && props.buyDevelopmentCard();
-          "playerDevelopmentCardHand" in recievedMessages && setPlayerDevelopmentCardHand(recievedMessages.playerDevelopmentCardHand);
           "playKnight"                in recievedMessages && props.playKnight();
-          //"" in recievedMessages && (recievedMessages.);
-          //"" in recievedMessages && (recievedMessages.);
-          //"" in recievedMessages && (recievedMessages.);
-          //"" in recievedMessages && (recievedMessages.);
-          //"" in recievedMessages && (recievedMessages.);
-          //"" in recievedMessages && (recievedMessages.);
-          //"" in recievedMessages && (recievedMessages.);
-          //"" in recievedMessages && (recievedMessages.);
-          "cheat"                   in recievedMessages && props.cheat(recievedMessages.cheat);
+          "cheat"                     in recievedMessages && props.cheat(recievedMessages.cheat);
         }
         else
           console.log("ERROR: We were sent some information that wasn't in object form.");

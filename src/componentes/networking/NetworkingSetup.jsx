@@ -66,7 +66,6 @@ export const NetworkingSetup = () => {
     setConn(null);
   }
 
-
   return (
     <>
       <h1>Welcome to catan</h1>

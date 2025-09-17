@@ -49,7 +49,13 @@ export const PortOwner = ({ children }) => {
         doesPlayerOwnLumberPort,
         doesPlayerOwnBrickPort,
         doesPlayerOwnOrePort,
-        setPortOwner
+        setPortOwner,
+        standardPortOwner,
+        woolPortOwner,
+        grainPortOwner,
+        lumberPortOwner,
+        brickPortOwner,
+        orePortOwner
       }}>
         {children}
       </PortOwnerContext.Provider>

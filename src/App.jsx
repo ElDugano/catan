@@ -15,6 +15,7 @@ import { CurrentPlayerTurnContext } from './state/currentPlayerTurn/CurrentPlaye
 import { PlayerColorContext } from './state/playerColor/PlayerColorContext.js';
 import { PlayerResourceCardsContext } from './state/playerResourceCards/PlayerResourceCardsContext.js';
 import { NetworkingContext } from './componentes/networking/State/NetworkingContext.js';
+import NetworkReconnectStateUpdate from './componentes/networking/Host/NetworkReconnectStateUpdate.jsx'
 
 import './App.css';
 
@@ -54,6 +55,7 @@ function App() {
             {isGameStateGameSetup() ? <NetworkingSetup /> : null}
             <GatherResourcesFromRoll />
             <HostNetworkingFunctions />
+            <NetworkReconnectStateUpdate />
           </Gameboard>
           <Debug />
           <div style={{height: "20vh"}} />

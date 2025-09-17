@@ -28,7 +28,6 @@ export const DevelopmentCards = ({ children }) => {
     {"Knight":0, "Road Building":0, "Year of Plenty":0, "Monopoly":0, "Victory Point":0},
     {"Knight":0, "Road Building":0, "Year of Plenty":0, "Monopoly":0, "Victory Point":0}
   ]);
-  //const [totalPlayerDevelopmentCardJustPurchased, setTotalPlayerDevelopmentCardJustPurchased] = useState([0,0,0,0]);;
 
   //Cards that can be played
   const [playerDevelopmentCardHand, setPlayerDevelopmentCardHand] = useState([
@@ -46,7 +45,6 @@ export const DevelopmentCards = ({ children }) => {
     {"Knight":0, "Road Building":0, "Year of Plenty":0, "Monopoly":0, "Victory Point":0},
     {"Knight":0, "Road Building":0, "Year of Plenty":0, "Monopoly":0, "Victory Point":0}
   ]);
-  //const [totalPlayerDevelopmentCardsPlayed, setTotalPlayerDevelopmentCardsPlayed] = useState([0,0,0,0]);;
 
   function returnAvailableDevelopmentCards() {
     return developmentCardDeck.length;
@@ -110,7 +108,11 @@ export const DevelopmentCards = ({ children }) => {
     return playerDevelopmentCardHand(player);
   }
 
-  function doesPlayerOwnsKnightDevelopmentCard(player) {return playerDevelopmentCardHand[player]["Knight"] > 0 ? true : false};
+  function doesPlayerOwnsKnightDevelopmentCard(player) {
+    console.log("Looking into this...");
+    console.log("player is",player);
+    console.log(playerDevelopmentCardHand);
+    return playerDevelopmentCardHand[player]["Knight"] > 0 ? true : false};
   function doesPlayerOwnsRoadBuildingDevelopmentCard(player) {return playerDevelopmentCardHand[player]["Road Building"] > 0 ? true : false};
   function doesPlayerOwnsYearOfPlentyDevelopmentCard(player) {return playerDevelopmentCardHand[player]["Year of Plenty"] > 0 ? true : false};
   function doesPlayerOwnsMonopolyDevelopmentCard(player) {return playerDevelopmentCardHand[player]["Monopoly"] > 0 ? true : false};
@@ -157,7 +159,11 @@ export const DevelopmentCards = ({ children }) => {
         getPlayerArmyStrength,
         getJustPurchasedPlayerVictoryPointCards,
         setPlayerDevelopmentCardJustPurchased,
+        playerDevelopmentCardJustPurchased,
         setPlayerDevelopmentCardHand,
+        playerDevelopmentCardHand,
+        setPlayerDevelopmentCardPlayed,
+        playerDevelopmentCardPlayed,
         //totalDevelopmentCardsInHand,
         totalPlayerDevelopmentCardHand
       }}>

@@ -9,6 +9,7 @@ export const Networking = ({ children }) => {
   const [conn, setConn] = useState(null);
   const [recievedMessages, setRecievedMessages] = useState(null);
   const [recievedMessagesPlayer, setRecievedMessagesPlayer] = useState(null);
+  const [reconnectingPlayer, setReconnectingPlayer] = useState(null);
   const hostPeerIDPrefix = "elduganocatangame-";
 
   const { addPlayer } = useContext(CurrentPlayerTurnContext);
@@ -46,8 +47,10 @@ export const Networking = ({ children }) => {
           newestConn.send(
             { message:"You have connected to the boardgame!",
               clientPlayerNumber:playerNumber });
+              setReconnectingPlayer(playerNumber);
               //TODO: We may need to send an updated payload of the whole game.
               //This can be done on reconnect, or really just when the player connects anytime, like, whynot, then we don't need to send stuff at startup.
+              //This would want to set a state that gets past to the networking sender.
           });
           newestConn.on('error', (err) => {
             console.log(err);
@@ -92,7 +95,9 @@ export const Networking = ({ children }) => {
     recievedMessages,        //Used in Reciever
     recievedMessagesPlayer, //Used in Reciever
     clearMessage,           //Used in Reciever
-    hostPeerIDPrefix
+    hostPeerIDPrefix,
+    setReconnectingPlayer,
+    reconnectingPlayer
   }}>
     {children}
   </NetworkingContext.Provider>

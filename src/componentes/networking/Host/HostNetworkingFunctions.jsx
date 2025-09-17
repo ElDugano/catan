@@ -99,6 +99,25 @@ const HostNetworkingFunctions = () => {
   //  setBuildSettlementFunction(<BuildSettlement x={x} y={y} destructer={setBuildSettlementFunction} />);
   //}
 
+  const rollTheDice = () => {
+    if (rollDice() != 7){
+      addToMessagePayloadToAllPlayers(setTurnStateToGatheringResources());
+    }
+    else {
+      const discardHalfResourcePlayers = findAndSetDiscardHalfResourcesPlayers();
+      if(discardHalfResourcePlayers.discardHalfResourcesPlayers.every(val => val === false)) {
+        addToMessagePayloadToAllPlayers(setTurnStateToMoveTheThief());
+      }
+      else {
+        addToMessagePayloadToAllPlayers(setTurnStateToRemoveHalfResources());
+        addToMessagePayloadToAllPlayers(discardHalfResourcePlayers);
+        addToMessagePayloadToAllPlayers(findAndSetDiscardHalfResourcesCardAmount());
+      }
+    }
+    addToMessagePayloadToAllPlayers({diceRolledThisTurn:true});
+    sendTheMessages();
+  }
+
   const buildSettlement = (x, y) => {
     addToMessagePayloadToAllPlayers({header:"Building a Settlement"});
     addToMessagePayloadToAllPlayers(setNodeValueToSettlement(x, y, currentPlayerTurn));
@@ -192,25 +211,6 @@ const HostNetworkingFunctions = () => {
     //Like, it basically makes a pop up that you can close. Maybe also have things like it closes at the start of a new turn.
     //Or something similar.
     //This would also get called when you rob someone.
-    sendTheMessages();
-  }
-
-  const rollTheDice = () => {
-    if (rollDice() != 7){
-      addToMessagePayloadToAllPlayers(setTurnStateToGatheringResources());
-    }
-    else {
-      const discardHalfResourcePlayers = findAndSetDiscardHalfResourcesPlayers();
-      if(discardHalfResourcePlayers.discardHalfResourcesPlayers.every(val => val === false)) {
-        addToMessagePayloadToAllPlayers(setTurnStateToMoveTheThief());
-      }
-      else {
-        addToMessagePayloadToAllPlayers(setTurnStateToRemoveHalfResources());
-        addToMessagePayloadToAllPlayers(discardHalfResourcePlayers);
-        addToMessagePayloadToAllPlayers(findAndSetDiscardHalfResourcesCardAmount());
-      }
-    }
-    addToMessagePayloadToAllPlayers({diceRolledThisTurn:true});
     sendTheMessages();
   }
 
@@ -318,11 +318,11 @@ const HostNetworkingFunctions = () => {
   return (
   <>
     <NetworkingMessageReciever
+      rollTheDice = {rollTheDice}
       buildSettlement = {buildSettlement}
       buildRoad = {buildRoad}
       buildCity = {buildCity}
       buyDevelopmentCard = {buyDevelopmentCard}
-      rollTheDice = {rollTheDice}
       removeHalfResources = {removeHalfResources}
       moveTheThief = {moveTheThief}
       stealACard = {stealACard}

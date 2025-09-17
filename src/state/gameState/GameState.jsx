@@ -27,7 +27,8 @@ export const GameState = ({ children }) => {
         setGameStateToMainGame,
         isGameStateGameOver,
         setGameStateToGameOver,
-        setGameState
+        setGameState,
+        gameState
       }}>
         {children}
       </GameStateContext.Provider>

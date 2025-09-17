@@ -94,6 +94,7 @@ export const CurrentPlayerTurn = ({ children }) => {
           playerOrder,
           isPlayerOrderArrayPositionEnd,
           isPlayerOrderArrayPositionStart,
+          playerOrderArrayPosition,
 
           addPlayer,
           numberOfPlayers,
