@@ -40,12 +40,18 @@ export const ScoreBoard = ({ children }) => {
 
   const [longestRoadOwner, setLongestRoadOwner] = useState(null);
   const [longestRoadDistance, setLongestRoadDistance] = useState(4);
+  const [playerLongestRoad, setPlayerLongestRoad] = useState([0,0,0,0]);
 
   function checkIfLongestRoad(roadLength, player){
     console.log("checking this player's road length of "+roadLength);
     if (roadLength > longestRoadDistance) {
       console.log("We have a new longest road!");
       setLongestRoad(roadLength, player)
+    }
+    if(roadLength > playerLongestRoad[player]) {
+      let newPlayerLongestRoad = [...playerLongestRoad];
+      newPlayerLongestRoad[player] = roadLength;
+      setPlayerLongestRoad(newPlayerLongestRoad);
     }
   }
 
@@ -95,8 +101,9 @@ export const ScoreBoard = ({ children }) => {
         checkIfLongestRoad,
         longestRoadOwner,
         longestRoadDistance,
+        playerLongestRoad,
         winner,
-        scoreBoard
+        scoreBoard,
       }}>
         {children}
       </ScoreBoardContext.Provider>

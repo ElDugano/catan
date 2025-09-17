@@ -14,7 +14,7 @@ import largestArmyIcon from "../../assets/largestArmyIcon.svg"
 const HostTurnInterface = () => {
   const { playerOrder, currentPlayerTurn, numberOfPlayers } = useContext(CurrentPlayerTurnContext);
   const { playerColor } = useContext(PlayerColorContext);
-  const { scoreBoard } = useContext(ScoreBoardContext);
+  const { scoreBoard, playerLongestRoad } = useContext(ScoreBoardContext);
   const { getPlayerArmyStrength, totalPlayerDevelopmentCardHand } = useContext(DevelopmentCardsContext);
   const { getAllPlayersTotalResourceCards } = useContext(PlayerResourceCardsContext);
 
@@ -30,7 +30,6 @@ const HostTurnInterface = () => {
   //const totalDevelopmentCards = totalPlayerDevelopmentCardHand;
   const totalResourceCards = getAllPlayersTotalResourceCards()
   playerOrder.forEach((player, index) => {
-    console.log(player);
     content.push(
       <div key={crypto.randomUUID()} className={"playerScoreCard "+scoreCardWidth+" playerColor"+playerColor[player]}>
         <div className="playerInformationHolder">
@@ -38,7 +37,7 @@ const HostTurnInterface = () => {
           <div className="playerData"><img src={resourceCardsIcon} />{totalResourceCards[player]}</div>
           <div className="playerData"><img src={largestArmyIcon} />{getPlayerArmyStrength(player)}</div>
           <div className="playerData"><img src={developmentCardsIcon} />{totalPlayerDevelopmentCardHand[player]}</div>
-          <div className="playerData"><img src={longestRoadIcon} />0</div>
+          <div className="playerData"><img src={longestRoadIcon} />{playerLongestRoad[player]}</div>
         </div>
         <div className="playerScore">
           {scoreBoard[player]}
