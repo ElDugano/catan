@@ -95,7 +95,8 @@ export const ScoreBoard = ({ children }) => {
         checkIfLongestRoad,
         longestRoadOwner,
         longestRoadDistance,
-        winner
+        winner,
+        scoreBoard
       }}>
         {children}
       </ScoreBoardContext.Provider>

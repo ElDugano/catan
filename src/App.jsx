@@ -14,6 +14,7 @@ import { CurrentPlayerTurnContext } from './state/currentPlayerTurn/CurrentPlaye
 
 import { PlayerColorContext } from './state/playerColor/PlayerColorContext.js';
 import { PlayerResourceCardsContext } from './state/playerResourceCards/PlayerResourceCardsContext.js';
+import { NetworkingContext } from './componentes/networking/State/NetworkingContext.js';
 
 import './App.css';
 
@@ -26,10 +27,17 @@ function App() {
   const { turnState } = useContext(TurnStateContext);
   const { currentPlayerTurn } = useContext(CurrentPlayerTurnContext);
 
-  const {getAPlayersColor} = useContext(PlayerColorContext);
-  const {getAPlayersResourceCards} = useContext(PlayerResourceCardsContext)
-
+  const { getAPlayersColor } = useContext(PlayerColorContext);
+  const { getAPlayersResourceCards } = useContext(PlayerResourceCardsContext);
+  const { isHost } = useContext(NetworkingContext);
+  
   const currentPlayerResources = getAPlayersResourceCards(currentPlayerTurn);
+
+  let displayInterface = null;
+  if (isHost == true)
+    displayInterface = <HostTurnInterface />;
+  else
+    displayInterface = <TurnInterface />
 
     return (
       <>
@@ -41,8 +49,7 @@ function App() {
         Ore: {currentPlayerResources.Ore}
         <br />
         The turnState is: {turnState}<br />
-          <TurnInterface />
-          <HostTurnInterface />
+          {displayInterface}
           <Gameboard>
             {isGameStateGameSetup() ? <NetworkingSetup /> : null}
             <GatherResourcesFromRoll />

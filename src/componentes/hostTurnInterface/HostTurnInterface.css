@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css2?family=Jockey+One&family=Sigmar+One&display=swap');
 .scoreCardsHolder {
   display: flex;
   width: 100%;
@@ -10,19 +11,50 @@
   color: #333333;
 }
 
+.playerColorGold {
+  background-image: linear-gradient(0deg,rgb(209, 211, 107) 0%, rgba(255, 255, 255, 1) 100%);
+}
+.playerColorGold .playerScore {
+  color: gold;
+}
+.playerColorBlue {
+  background-image: linear-gradient(0deg,rgb(42, 91, 155) 0%, rgba(255, 255, 255, 1) 100%);
+}
+.playerColorBlue .playerScore {
+  color: blue;
+}
+.playerColorRed {
+  background-image: linear-gradient(0deg,rgb(146, 98, 98) 0%, rgba(255, 255, 255, 1) 100%);
+}
+.playerColorRed .playerScore {
+  color: red;
+}
+.playerColorIndigo {
+  background-image: linear-gradient(0deg,rgb(117, 79, 121) 0%, rgba(255, 255, 255, 1) 100%);
+}
+.playerColorIndigo .playerScore {
+  color: indigo;
+}
+
+
 .twoPlayerScoreCard {
   width: 50%;
+}
+.twoPlayerScoreCard .playerName {
+  font-size: 3.3vh;
 }
 
 .threePlayerScoreCard {
   width: 33.3333%;
 }
 .threePlayerScoreCard .playerName {
-  width: 33.3333%;
   font-size: 3.3vh;
 }
 .fourPlayerScoreCard {
   width: 25vw;
+}
+.fourPlayerScoreCard .playerName {
+  font-size: 3.8vh;
 }
 
 .playerScoreCard {
@@ -37,24 +69,59 @@
 }
 
 .playerScore {
+  font-family: "Ranchers", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+
   width: 34%;
+  min-width: 34%;
   height: 100%;
-  font-size: 20vh;
-  line-height: 19vh;
+  font-size: 10vw;
+  line-height: 20vh;
   text-align: center;
+  vertical-align: middle;
+  text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000, 6px 6px 3px rgba(0, 0, 0, 0.5);
 }
 
 .playerName {
+  font-family: "Sigmar One", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+
   min-width: 100%;
   min-height: 34%;
   max-height: 34%;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  text-indent: 1.666vh;
+  line-height: 6.666vh;
+  vertical-align: middle;
+  color: white;
+  text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000, 3px 3px 1px rgba(0, 0, 0, 0.8);
 }
 
 .playerData {
+  font-family: "Ranchers", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+
   min-width: 50%;
   min-height: 33%;
   max-height: 33%;
+  font-size: 4.444vh;
+  line-height: 4.444vh;
+  text-indent: 1.666vh;
+  vertical-align: middle;
+  color: white;
+  text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000, 3px 3px 1px rgba(0, 0, 0, 0.8);
+}
+
+.playerData img {
+  width: 6.666vh;
+  height: 6.666vh;
+  vertical-align:middle;
+  position: relative;
+  top: -1.111vh;
+  padding-right: 1.111vh;
 }

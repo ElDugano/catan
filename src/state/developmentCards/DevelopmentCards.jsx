@@ -28,6 +28,7 @@ export const DevelopmentCards = ({ children }) => {
     {"Knight":0, "Road Building":0, "Year of Plenty":0, "Monopoly":0, "Victory Point":0},
     {"Knight":0, "Road Building":0, "Year of Plenty":0, "Monopoly":0, "Victory Point":0}
   ]);
+  //const [totalPlayerDevelopmentCardJustPurchased, setTotalPlayerDevelopmentCardJustPurchased] = useState([0,0,0,0]);;
 
   //Cards that can be played
   const [playerDevelopmentCardHand, setPlayerDevelopmentCardHand] = useState([
@@ -36,6 +37,7 @@ export const DevelopmentCards = ({ children }) => {
     {"Knight":0, "Road Building":0, "Year of Plenty":0, "Monopoly":0, "Victory Point":0},
     {"Knight":0, "Road Building":0, "Year of Plenty":0, "Monopoly":0, "Victory Point":0}
   ]);
+  const [totalPlayerDevelopmentCardHand, setTotalPlayerDevelopmentCardHand] = useState([0,0,0,0]);;
 
   //Cards that have already been played.
   const [playerDevelopmentCardPlayed, setPlayerDevelopmentCardPlayed] = useState([
@@ -44,9 +46,27 @@ export const DevelopmentCards = ({ children }) => {
     {"Knight":0, "Road Building":0, "Year of Plenty":0, "Monopoly":0, "Victory Point":0},
     {"Knight":0, "Road Building":0, "Year of Plenty":0, "Monopoly":0, "Victory Point":0}
   ]);
+  //const [totalPlayerDevelopmentCardsPlayed, setTotalPlayerDevelopmentCardsPlayed] = useState([0,0,0,0]);;
 
   function returnAvailableDevelopmentCards() {
     return developmentCardDeck.length;
+  }
+
+  const totalDevelopmentCardsInHand = () => {
+    let totalDevelopmentCards = [];
+    playerDevelopmentCardJustPurchased.forEach((playerCards, player) => {
+      totalDevelopmentCards.push( playerDevelopmentCardJustPurchased[player]["Knight"] +
+                                  playerDevelopmentCardJustPurchased[player]["Road Building"] + 
+                                  playerDevelopmentCardJustPurchased[player]["Year of Plenty"] + 
+                                  playerDevelopmentCardJustPurchased[player]["Monopoly"] + 
+                                  playerDevelopmentCardJustPurchased[player]["Victory Point"] + 
+                                  playerDevelopmentCardHand[player]["Knight"] + 
+                                  playerDevelopmentCardHand[player]["Road Building"] + 
+                                  playerDevelopmentCardHand[player]["Year of Plenty"] + 
+                                  playerDevelopmentCardHand[player]["Monopoly"] + 
+                                  playerDevelopmentCardHand[player]["Victory Point"] )
+    })
+    return totalDevelopmentCards;
   }
 
 
@@ -55,12 +75,16 @@ export const DevelopmentCards = ({ children }) => {
     console.log(developmentCardDeck);
     let newDevelopmentCardDeck = [...developmentCardDeck];
     let newCard = newDevelopmentCardDeck.pop();
-    //let newPlayerDevelopmentCardHand = [...playerDevelopmentCardHand];
     let newPlayerDevelopmentCardJustPurchased = [...playerDevelopmentCardJustPurchased];
     newPlayerDevelopmentCardJustPurchased[player][newCard]++;
     console.log(newPlayerDevelopmentCardJustPurchased);
     setPlayerDevelopmentCardJustPurchased(newPlayerDevelopmentCardJustPurchased);
     setDevelopmentCardDeck(newDevelopmentCardDeck);
+
+    let newTotalPlayerDevelopmentCardHand = [...totalPlayerDevelopmentCardHand];
+    newTotalPlayerDevelopmentCardHand[player] = totalPlayerDevelopmentCardHand[player]+1;
+    setTotalPlayerDevelopmentCardHand(newTotalPlayerDevelopmentCardHand);
+
     return {playerDevelopmentCardJustPurchased:newPlayerDevelopmentCardJustPurchased};
       //Likely, this should only send back the player's cards from the array.
   }
@@ -76,6 +100,9 @@ export const DevelopmentCards = ({ children }) => {
       newPlayerDevelopmentCardJustPurchased[player] = {"Knight":0, "Road Building":0, "Year of Plenty":0, "Monopoly":0, "Victory Point":0};
       setPlayerDevelopmentCardHand(newDevelopmentCardDeck);
       setPlayerDevelopmentCardJustPurchased(newPlayerDevelopmentCardJustPurchased)
+
+
+
       return {playerDevelopmentCardHand:newDevelopmentCardDeck};
     }
 
@@ -96,10 +123,14 @@ export const DevelopmentCards = ({ children }) => {
   function playDevelopmentCard(player, cardName) {
     let newPlayerDevelopmentCardHand = [...playerDevelopmentCardHand];
     let newPlayerDevelopmentCardPlayed = [...playerDevelopmentCardPlayed];
-      newPlayerDevelopmentCardHand[player][cardName]--;
-      newPlayerDevelopmentCardPlayed[player][cardName]++;
-      setPlayerDevelopmentCardHand(newPlayerDevelopmentCardHand);
-      setPlayerDevelopmentCardPlayed(newPlayerDevelopmentCardPlayed);
+    newPlayerDevelopmentCardHand[player][cardName]--;
+    newPlayerDevelopmentCardPlayed[player][cardName]++;
+    setPlayerDevelopmentCardHand(newPlayerDevelopmentCardHand);
+    setPlayerDevelopmentCardPlayed(newPlayerDevelopmentCardPlayed);
+
+    let newTotalPlayerDevelopmentCardHand = [...totalPlayerDevelopmentCardHand];
+    newTotalPlayerDevelopmentCardHand[player] = totalPlayerDevelopmentCardHand[player]-1;
+    setTotalPlayerDevelopmentCardHand(newTotalPlayerDevelopmentCardHand);
   }
 
   function getPlayerArmyStrength(player) {return playerDevelopmentCardPlayed[player].Knight;}
@@ -125,7 +156,9 @@ export const DevelopmentCards = ({ children }) => {
         getPlayerArmyStrength,
         getJustPurchasedPlayerVictoryPointCards,
         setPlayerDevelopmentCardJustPurchased,
-        setPlayerDevelopmentCardHand
+        setPlayerDevelopmentCardHand,
+        //totalDevelopmentCardsInHand,
+        totalPlayerDevelopmentCardHand
       }}>
         {children}
       </DevelopmentCardsContext.Provider>

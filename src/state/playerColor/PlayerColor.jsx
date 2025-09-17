@@ -2,7 +2,7 @@ import { PlayerColorContext } from "./PlayerColorContext";
 import { useState } from 'react'
 
 export const PlayerColor = ({ children }) => {
-  const [playerColor, setPlayerColor] = useState(["blue", "red", "indigo", "gold"]);
+  const [playerColor, setPlayerColor] = useState(["Blue", "Red", "Indigo", "Gold"]);
   
 
   function getAPlayersColor(player) {
