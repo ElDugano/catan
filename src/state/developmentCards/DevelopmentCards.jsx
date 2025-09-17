@@ -115,10 +115,10 @@ export const DevelopmentCards = ({ children }) => {
   function doesPlayerOwnsYearOfPlentyDevelopmentCard(player) {return playerDevelopmentCardHand[player]["Year of Plenty"] > 0 ? true : false};
   function doesPlayerOwnsMonopolyDevelopmentCard(player) {return playerDevelopmentCardHand[player]["Monopoly"] > 0 ? true : false};
 
-  function playKnightDevelopmentCard(player) {playDevelopmentCard(player, "Knight");}
-  function playRoadBuildingDevelopmentCard(player) {playDevelopmentCard(player, "Road Building");}
-  function playYearOfPlentyDevelopmentCard(player) {playDevelopmentCard(player, "Year of Plenty");}
-  function playMonopolyDevelopmentCard(player) {playDevelopmentCard(player, "Monopoly");}
+  function playKnightDevelopmentCard(player) {return playDevelopmentCard(player, "Knight");}
+  function playRoadBuildingDevelopmentCard(player) {return playDevelopmentCard(player, "Road Building");}
+  function playYearOfPlentyDevelopmentCard(player) {return playDevelopmentCard(player, "Year of Plenty");}
+  function playMonopolyDevelopmentCard(player) {return playDevelopmentCard(player, "Monopoly");}
 
   function playDevelopmentCard(player, cardName) {
     let newPlayerDevelopmentCardHand = [...playerDevelopmentCardHand];
@@ -131,6 +131,7 @@ export const DevelopmentCards = ({ children }) => {
     let newTotalPlayerDevelopmentCardHand = [...totalPlayerDevelopmentCardHand];
     newTotalPlayerDevelopmentCardHand[player] = totalPlayerDevelopmentCardHand[player]-1;
     setTotalPlayerDevelopmentCardHand(newTotalPlayerDevelopmentCardHand);
+    return {playerDevelopmentCardHand:newPlayerDevelopmentCardHand};
   }
 
   function getPlayerArmyStrength(player) {return playerDevelopmentCardPlayed[player].Knight;}

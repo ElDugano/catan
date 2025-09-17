@@ -90,11 +90,11 @@ const NetworkingMessageReciever = (props) => {
           "robbingTargetPlayers"      in recievedMessages && setRobbingTargetPlayers(recievedMessages.robbingTargetPlayers);
           "thiefLocation"             in recievedMessages && setThiefLocation(recievedMessages.thiefLocation);
           "stealACard"                in recievedMessages && props.stealACard(recievedMessages.stealACard);
-          "setDiceRolledThisTurn"     in recievedMessages && setDiceRolledThisTurn(recievedMessages.setDiceRolledThisTurn);
+          "diceRolledThisTurn"        in recievedMessages && setDiceRolledThisTurn(recievedMessages.diceRolledThisTurn);
           "nobodyToRob"               in recievedMessages && props.nobodyToRob();
           "buyDevelopmentCard"        in recievedMessages && props.buyDevelopmentCard();
           "playerDevelopmentCardHand" in recievedMessages && setPlayerDevelopmentCardHand(recievedMessages.playerDevelopmentCardHand);
-          //"" in recievedMessages && (recievedMessages.);
+          "playKnight"                in recievedMessages && props.playKnight();
           //"" in recievedMessages && (recievedMessages.);
           //"" in recievedMessages && (recievedMessages.);
           //"" in recievedMessages && (recievedMessages.);

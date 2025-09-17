@@ -40,7 +40,13 @@ const HostNetworkingFunctions = () => {
           setTurnStateToMoveTheThief,
           setTurnStateToRobAPlayer }= useContext(TurnStateContext);
 
-  const { scorePoint, checkIfLongestRoad, setLongestRoad, longestRoadOwner, addPointsToPlayerHiddenPoints, winner } = useContext(ScoreBoardContext);
+  const { scorePoint,
+          checkIfLongestRoad,
+          setLongestRoad,
+          longestRoadOwner,
+          checkIfLargestArmy,
+          addPointsToPlayerHiddenPoints,
+          winner } = useContext(ScoreBoardContext);
   const { currentPlayerTurn,
           numberOfPlayers,
           gotoNextPlayerTurn,
@@ -80,7 +86,9 @@ const HostNetworkingFunctions = () => {
   const { rollDice, setDice, haveDiceBeenRolledThisTurn, setDiceRolledThisTurn, resetDiceRolledThisTurn } = useContext(DiceContext);
   const { givePlayerDevelopmentCardFromDeck,
           makePlayerPurchasedDevelopmentAvailableToPlay,
-          getJustPurchasedPlayerVictoryPointCards } = useContext(DevelopmentCardsContext);
+          getJustPurchasedPlayerVictoryPointCards,
+          playKnightDevelopmentCard,
+          getPlayerArmyStrength } = useContext(DevelopmentCardsContext);
 
   const { addToMessagePayloadToPlayer, addToMessagePayloadToAllPlayers, sendTheMessages } = useContext(NetworkingMessageSenderContext);
 
@@ -201,9 +209,8 @@ const HostNetworkingFunctions = () => {
         addToMessagePayloadToAllPlayers(discardHalfResourcePlayers);
         addToMessagePayloadToAllPlayers(findAndSetDiscardHalfResourcesCardAmount());
       }
-
     }
-    addToMessagePayloadToAllPlayers({setDiceRolledThisTurn:true});
+    addToMessagePayloadToAllPlayers({diceRolledThisTurn:true});
     sendTheMessages();
   }
 
@@ -257,6 +264,12 @@ const HostNetworkingFunctions = () => {
     sendTheMessages();
   }
 
+  const playKnight = () => {
+    checkIfLargestArmy(currentPlayerTurn, getPlayerArmyStrength(currentPlayerTurn)+1);
+    addToMessagePayloadToPlayer(playKnightDevelopmentCard(currentPlayerTurn));
+    sendTheMessages();
+  }
+
   const endTurn = () => {
     addToMessagePayloadToAllPlayers(gotoNextPlayerTurn());
     addToMessagePayloadToPlayer(setClientTurnStateToRollingTheDice(), nextPlayerTurn());
@@ -266,7 +279,7 @@ const HostNetworkingFunctions = () => {
       //TODO, send hidden points to each player.
       addToMessagePayloadToAllPlayers(makePlayerPurchasedDevelopmentAvailableToPlay(currentPlayerTurn));
     
-      resetDiceRolledThisTurn();//Does the host only need to know this?
+      addToMessagePayloadToAllPlayers(resetDiceRolledThisTurn());
 
     if(winner != null) {
       console.log("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
@@ -314,6 +327,7 @@ const HostNetworkingFunctions = () => {
       moveTheThief = {moveTheThief}
       stealACard = {stealACard}
       nobodyToRob = {nobodyToRob}
+      playKnight = {playKnight}
       endTurn = {endTurn}
 
       cheat = {cheat}
