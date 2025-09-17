@@ -22,6 +22,7 @@ export default function NetworkingHostSetup(props) {
         result.peer.on('connection', function(newConn) {
           console.log("We just connected!");
           props.setNewestConn(newConn);
+          console.log("Their PeerID is:", newConn.peer)
         });
         setMyPeerID(shortID);
         result.peer.on('disconnected', function(){

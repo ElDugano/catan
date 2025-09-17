@@ -23,36 +23,48 @@ export const Networking = ({ children }) => {
   useEffect(() => {
     if(newestConn != null) {
       if(isHost == true){
-        //const playerNumber = conn.length;
-        const playerNumber = addPlayer();
-        newestConn.on('open', function() {
+        let reconnectingPlayer = null;
+        conn.forEach((testConn, connPlayer) => {
+          if (testConn.peer == newestConn.peer) { //This is a reconnection.
+            reconnectingPlayer = connPlayer;
+            console.log("We are reconnecting player "+connPlayer);
+          }
+        });
+        let playerNumber;
+        if (reconnectingPlayer == null) {
+          playerNumber = addPlayer();
+        }
+        else {
+          playerNumber = reconnectingPlayer;
+        }
+          newestConn.on('open', function() {
           console.log("When does this get displayed. and PlayerNumber: "+playerNumber)
-          // Receive messages
           newestConn.on('data', function(data,) {
             setRecievedMessages(data);
             setRecievedMessagesPlayer(playerNumber);        
           });
-          // Send a test message messages
           newestConn.send(
             { message:"You have connected to the boardgame!",
               clientPlayerNumber:playerNumber });
-          //Cant use NetworkingMessageSender because it is below in context.
-        });
-        newestConn.on('error', (err) => {
-          console.log(err);
-          console.log(err.type);
-          console.log("There was an error over here in Conn world.");
-          //alert(err.type);
-        });
-        let newConn;
-        if(conn == null)
-          newConn = newestConn;
-        else {
-          newConn = [...conn];
-          newConn.push(newestConn);
-        }
-        setConn(newConn);
-        setNewestConn(null);
+              //TODO: We may need to send an updated payload of the whole game.
+              //This can be done on reconnect, or really just when the player connects anytime, like, whynot, then we don't need to send stuff at startup.
+          });
+          newestConn.on('error', (err) => {
+            console.log(err);
+            console.log(err.type);
+          });
+          let newConn;
+          if(conn == null)
+            newConn = newestConn;
+          else {
+            newConn = [...conn];
+            if (reconnectingPlayer == null)
+              newConn.push(newestConn);
+            else
+              newConn[playerNumber] = newestConn;
+          }
+          setConn(newConn);
+          setNewestConn(null);
       }
       else if(isHost == false){
         //alert("going to open the newestConn.on");
