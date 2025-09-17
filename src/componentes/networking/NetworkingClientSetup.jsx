@@ -2,72 +2,86 @@ import { useState, useEffect } from 'react'
 import Peer from 'peerjs';
 
 export default function NetworkingClientSetup(props) {
-  const [myPeerID, setMyPeerID] = useState(null);
-  const [peer, setPeer] = useState(null);
+  //const [myPeerID, setMyPeerID] = useState(null);
+  //const [peer, setPeer] = useState(null);
   const [connectionIDInput, setConnectionIDInput] = useState("");
   const [connectionID, setConnectionID] = useState(null);
+  const [doOnce, setDoOnce] = useState(false);
 
   useEffect(() => {
-    const setupConnection = () => {
+    const setupConnection = (myPeerID = null) => {
+      setDoOnce(true);
       let newPeerPromise = new Promise((resolve/*, reject*/) => {
         console.log("start");
-        var newPeer = new Peer();
+        var newPeer;
+        if (myPeerID == null)
+          newPeer = new Peer();
+        else
+          newPeer = new Peer(myPeerID);
         newPeer.on('open', function(id) {
           console.log("The peerID is: "+id);
-          setMyPeerID(id);
-          setPeer(newPeer);
-          resolve(newPeer);
+          //if (myPeerID == null)
+          //  setMyPeerID(id);
+          //setPeer(newPeer);
+          resolve({peer:newPeer, id:id});
         })
         //newPeer.on('error', (err) => {
         //  alert(err.type);//network.
         //  if (err.type === "network"){
-        //    setTimeout(setupConnection, 5000);
+        //    setTimeout(setupConnection, 1000);
         //  }
         //})
         console.log("Here")
       })
-      newPeerPromise.then(peer =>{
-        let newConn = peer.connect(connectionID);
-        props.setNewestConn(newConn);
-      })
-    }
-
-    const reconnect = () => {
-      let newPeerPromise = new Promise((resolve/*, reject*/) => {
-        console.log("start");
-        var newPeer = new Peer(myPeerID);
-        newPeer.on('open', function() {
-          setPeer(newPeer);
-          resolve(newPeer);
-        })
-        newPeer.on('error', (err) => {
-          alert(err.type);
+      newPeerPromise.then(peerInfo =>{
+        console.log(peerInfo);
+        peerInfo.peer.on('error', (err) => {
+          alert(err.type);//network.
           if (err.type === "network"){
-            setTimeout(reconnect, 1000);
+            setTimeout(setupConnection(peerInfo.id), 1000);
           }
         })
-      })
-      newPeerPromise.then(peer =>{
-        let newConn = peer.connect(connectionID);
+
+        let newConn = peerInfo.peer.connect(connectionID);
         props.setNewestConn(newConn);
       })
     }
 
-    if (peer != null) {
-      peer.on('error', (err) => {
-        alert(err.type);
-        alert("First One of these");
-        if (err.type === "network"){
-          setTimeout(reconnect, 1000);
-        }
-      })
-    }
+    //const reconnect = () => {
+    //  let newPeerPromise = new Promise((resolve/*, reject*/) => {
+    //    console.log("start");
+    //    var newPeer = new Peer(myPeerID);//Man diff from above.
+    //    newPeer.on('open', function() {
+    //      setPeer(newPeer);
+    //      resolve(newPeer);
+    //    })
+    //    newPeer.on('error', (err) => {
+    //      alert(err.type);
+    //      if (err.type === "network"){
+    //        setTimeout(reconnect, 1000);
+    //      }
+    //    })
+    //  })
+    //  newPeerPromise.then(peer =>{
+    //    let newConn = peer.connect(connectionID);
+    //    props.setNewestConn(newConn);
+    //  })
+    //}
+
+    //if (peer != null) {
+    //  peer.on('error', (err) => {
+    //    alert(err.type);
+    //    if (err.type === "network"){
+    //      setTimeout(reconnect, 1000);
+    //    }
+    //  })
+    //}
 
 
-    if (connectionID != null && myPeerID == null)
+    if (connectionID != null && doOnce == false){
       setupConnection();
-
-  }, [connectionID, myPeerID, peer, props]);
+    }
+  }, [connectionID, props, doOnce]);
 
   const connectionButton= () => {
     setConnectionID(props.hostPeerIDPrefix+connectionIDInput);
