@@ -2,6 +2,7 @@ import { useContext } from "react";
 
 import { TurnStateContext } from "../../state/turnState/TurnStateContext";
 import { CurrentPlayerTurnContext } from "../../state/currentPlayerTurn/CurrentPlayerTurnContext.js";
+import { PlayerColorContext } from "../../state/playerColor/PlayerColorContext.js";
 
 import ClientHud from "./components/clientHud/ClientHud.jsx";
 
@@ -27,7 +28,9 @@ import ConfirmBuyDevelopmentCardMenu from "./components/buildMenu/ConfirmBuyDeve
 import TradeWithBoardMenu from "./components/trading/TradeWithBoardMenu.jsx";
 
 export default function TurnInterface() {
-  const { isClientPlayersTurn } = useContext(CurrentPlayerTurnContext);
+  const { isClientPlayersTurn, clientPlayerNumber } = useContext(CurrentPlayerTurnContext);
+  const { playerColor } = useContext(PlayerColorContext);
+  const localPlayerColor = playerColor[clientPlayerNumber];
 
   const {isTurnStateRollingTheDice,
     isTurnStateGatheringResourcesAcknowledgement,
@@ -54,7 +57,7 @@ export default function TurnInterface() {
 
   if (isClientPlayersTurn()) {
     return (
-      <>
+      <div className={"clientMenu clientMenuColor"+localPlayerColor}>
       <ClientHud />
       {isTurnStateRollingTheDice() && <RollDiceMenu />}
       {isTurnStateGatheringResourcesAcknowledgement() && <GatherResroucesAcknowledgement />}
@@ -77,15 +80,15 @@ export default function TurnInterface() {
         {isTurnStateMonopoly() && <MonopolyMenu />}
       {/*---------- Trading With the Board ----------*/}
       {isTurnStateTradingWithTheBoard() && <TradeWithBoardMenu />}
-      </>
+      </div>
     )}
   else {
     return (
-      <>
+      <div className={"clientMenu clientMenuColor"+localPlayerColor}>
         <ClientHud />
         {isTurnStateGatheringResourcesAcknowledgement() && <GatherResroucesAcknowledgement />}
         {isTurnStateRemoveHalfResources() && <RemoveHalfResourcesMenu />}
-      </>
+      </div>
     )
     
   }

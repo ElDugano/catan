@@ -74,7 +74,7 @@ export default function BuildMenu() {
 
 
   return (
-    <div className={"clientMenu buildMenu"}>
+    <div className={"buildMenu"}>
     <h2>Build Menu</h2>
       {BuildRoadButton}
       {BuildSettlementButton}

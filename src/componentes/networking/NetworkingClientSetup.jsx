@@ -41,7 +41,7 @@ export default function NetworkingClientSetup(props) {
   }, [connectionID, props, doOnce]);
 
   const connectionButton= () => {
-    setConnectionID(props.hostPeerIDPrefix+connectionIDInput);
+    setConnectionID(props.hostPeerIDPrefix+connectionIDInput.toUpperCase());
     console.log("Clicked connection button.");
     console.log(props.hostPeerIDPrefix+connectionIDInput);
   }
@@ -49,7 +49,7 @@ export default function NetworkingClientSetup(props) {
     <>
       <h2>Hello Player</h2>
       Input the ID you see on the screen below.<br />
-      <label>Connection ID: <input value={connectionIDInput} name="connectionID" onChange={e => setConnectionIDInput(e.target.value)} /></label><br />
+      <label>Connection ID: <input style={{textTransform: "uppercase"}} value={connectionIDInput} name="connectionID" onChange={e => setConnectionIDInput(e.target.value)} /></label><br />
       <button onClick={connectionButton}>Connect</button>
     </>
   )

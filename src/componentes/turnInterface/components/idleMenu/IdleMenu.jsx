@@ -58,12 +58,11 @@ export default function IdleMenu() {
 
   return (
     <>
-      <div className={"clientMenu clientMenuColor"+localPlayerColor}>
+    <h2>It is Your Turn</h2>
         {buildButton}
         {developmentCardButton}
         {tradeResourcesButton}
         <button onClick={endTurn}>End Turn</button>
-      </div>
     </>
   )
 }

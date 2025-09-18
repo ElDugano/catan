@@ -24,9 +24,9 @@ export default function RollDiceMenu() {
 
   return(
     <>
-    <h3>Roll the Dice</h3>
-    {PlayKnightButton}
+    <h2>Roll the Dice</h2>
     <button onClick={rollTheDice}>Roll the Dice!</button>
+    {PlayKnightButton}
     </>
   )
 }
