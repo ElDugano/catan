@@ -37,7 +37,7 @@ function App() {
   let displayInterface = null;
   if (isHost == true)
     displayInterface = <HostTurnInterface />;
-  else
+  else if(isHost == false)
     displayInterface = <TurnInterface />
 
     return (

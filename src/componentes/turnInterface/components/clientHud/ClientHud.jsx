@@ -17,8 +17,9 @@ const ClientHud = () => {
   const { playerResourceCards } = useContext(PlayerResourceCardsContext);
   const { playerColor } = useContext(PlayerColorContext);
 
-  const localPlayerColor = playerColor[clientPlayerNumber];
-
+  if (clientPlayerNumber == null)
+    return;
+  let localPlayerColor = playerColor[clientPlayerNumber];
   return (
     <div className={"clientHud clientHudPlayerColor"+localPlayerColor}>
       <div className={"clientHudTitle"}>Your Resources</div>

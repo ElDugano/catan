@@ -1,3 +1,5 @@
+body {user-select: none;}
+
 .parent {
     margin: 0;
     display: flex;
