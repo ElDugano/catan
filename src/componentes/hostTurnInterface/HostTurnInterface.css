@@ -1,3 +1,25 @@
+.diceDisplay {
+  position: fixed;
+  bottom: 20vh;
+  left: 2vw;
+  color: white;
+  z-index: 6;
+
+  font-family: "Ranchers", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+  text-align: center;
+}
+
+.diceDisplay div {
+  font-size: 6vh;
+  line-height: 6vh;
+}
+
+.diceDisplay img{
+  width: 5vw;
+}
+
 .scoreCardsHolder {
   display: flex;
   width: 100%;
@@ -34,7 +56,6 @@
 .playerColorIndigo .playerScore {
   color: indigo;
 }
-
 
 .twoPlayerScoreCard {
   width: 50%;

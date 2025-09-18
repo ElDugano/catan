@@ -90,11 +90,7 @@ export const DevelopmentCards = ({ children }) => {
     return playerDevelopmentCardHand(player);
   }
 
-  function doesPlayerOwnsKnightDevelopmentCard(player) {
-    console.log("Looking into this...");
-    console.log("player is",player);
-    console.log(playerDevelopmentCardHand);
-    return playerDevelopmentCardHand[player]["Knight"] > 0 ? true : false};
+  function doesPlayerOwnsKnightDevelopmentCard(player) {return playerDevelopmentCardHand[player]["Knight"] > 0 ? true : false};
   function doesPlayerOwnsRoadBuildingDevelopmentCard(player) {return playerDevelopmentCardHand[player]["Road Building"] > 0 ? true : false};
   function doesPlayerOwnsYearOfPlentyDevelopmentCard(player) {return playerDevelopmentCardHand[player]["Year of Plenty"] > 0 ? true : false};
   function doesPlayerOwnsMonopolyDevelopmentCard(player) {return playerDevelopmentCardHand[player]["Monopoly"] > 0 ? true : false};

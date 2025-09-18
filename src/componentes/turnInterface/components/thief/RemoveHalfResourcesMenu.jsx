@@ -53,7 +53,6 @@ export default function RemoveHalfResourcesMenu() {
   if(discardHalfResourcesPlayers[clientPlayerNumber] == true) {
     return (
       <div>
-        
         <div className="discardHalfResourcesMenuHeader">
           {totalCardsToDiscardLeft == 0 ? <button onClick={removeCardsFromPlayer}>Discard Selected Cards</button> : <h4>Select { totalCardsToDiscardLeft } Resources<br />to discard</h4>}
         </div>

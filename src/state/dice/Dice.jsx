@@ -29,7 +29,8 @@ export const Dice = ({ children }) => {
         rollDice,
         diceAdded,
         setDice,
-        diceRolledThisTurn
+        diceRolledThisTurn,
+        dice
       }}>
         {children}
       </DiceContext.Provider>

@@ -14,7 +14,7 @@ export default function RollDiceMenu() {
   const playKnightCard = () => {
     setTurnStateToConfirmPlayKnightDevelopmentCard();
   }
-  const PlayKnightButton = doesPlayerOwnsKnightDevelopmentCard(currentPlayerTurn) ? <button onClick={playKnightCard}>Knight</button> :<button disabled>Knight</button>;
+  const PlayKnightButton = doesPlayerOwnsKnightDevelopmentCard(currentPlayerTurn) ? <button onClick={playKnightCard}>Play Knight Card</button> :<button disabled>Play Knight Card</button>;
 
   const rollTheDice = () => {
     addToMessagePayloadToHost({header: "Player Rolling the Dice"});
@@ -24,8 +24,8 @@ export default function RollDiceMenu() {
 
   return(
     <>
-    <h2>Roll the Dice</h2>
-    <button onClick={rollTheDice}>Roll the Dice!</button>
+    <h2>It is Your Turn</h2>
+    <button onClick={rollTheDice}>Roll the Dice</button>
     {PlayKnightButton}
     </>
   )

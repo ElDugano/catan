@@ -1,5 +1,6 @@
 import { useContext } from "react";
 
+import { GameStateContext } from "../../state/gameState/GameStateContext.js";
 import { TurnStateContext } from "../../state/turnState/TurnStateContext";
 import { CurrentPlayerTurnContext } from "../../state/currentPlayerTurn/CurrentPlayerTurnContext.js";
 import { PlayerColorContext } from "../../state/playerColor/PlayerColorContext.js";
@@ -28,6 +29,7 @@ import ConfirmBuyDevelopmentCardMenu from "./components/buildMenu/ConfirmBuyDeve
 import TradeWithBoardMenu from "./components/trading/TradeWithBoardMenu.jsx";
 
 export default function TurnInterface() {
+  const { isGameStateMainGame } = useContext(GameStateContext);
   const { isClientPlayersTurn, clientPlayerNumber } = useContext(CurrentPlayerTurnContext);
   const { playerColor } = useContext(PlayerColorContext);
   const localPlayerColor = playerColor[clientPlayerNumber];
@@ -55,7 +57,7 @@ export default function TurnInterface() {
   } = useContext(TurnStateContext);
   
 
-  if (isClientPlayersTurn()) {
+  if (isClientPlayersTurn() && isGameStateMainGame()) {
     return (
       <div className={"clientMenu clientMenuColor"+localPlayerColor}>
       <ClientHud />

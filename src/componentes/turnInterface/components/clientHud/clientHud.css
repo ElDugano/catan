@@ -1,4 +1,4 @@
-.clientHudTitle {
+.clientHud .clientHudTitle {
   font-family: "Sigmar One", sans-serif;
   font-weight: 400;
   font-style: normal;
@@ -19,14 +19,15 @@
   line-height: 8vw;
 }
 
-.clientHudPlayerColorBlue > .clientHudTitle {
+.clientHud .clientHudPlayerColorBlue > .clientHudTitle {
   background-color: darkblue;
 }
-.clientHudPlayerColorRed > .clientHudTitle {
+.clientHud .clientHudPlayerColorRed > .clientHudTitle {
   background-color: maroon;
 }
 
-.clientHudPlayerResources {
+.clientHud .clientHudPlayerResources {
+  position: relative;
   font-family: "Sigmar One", sans-serif;
   font-weight: 400;
   font-style: normal;
@@ -35,16 +36,16 @@
   justify-content: center;
 }
 
-.clientHudPlayerResources div:first-child {
+.clientHud .clientHudPlayerResources div:first-child {
   border-bottom-left-radius: 2vw;
 }
 
-.clientHudPlayerResources div:last-child {
+.clientHud .clientHudPlayerResources div:last-child {
   border-right: 0.5vw solid white;
   border-bottom-right-radius: 2vw;
 }
 
-.clieentHudResourceTotal {
+.clientHud .clieentHudResourceTotal {
   width: 19vw;
   line-height: 10vw;
   vertical-align: middle;
@@ -56,9 +57,44 @@
   background-color: #333;
 }
 
-.clieentHudResourceTotal img {
+
+.clientHud .clieentHudResourceTotal img {
   width: 8vw;
   height: 8vw;
   vertical-align:middle;
   padding-right: 2vw;
+}
+
+.clientHud .recievedResources {
+  position: relative;
+}
+
+.clientHud .recievedResources .resourcesGained {
+  position: absolute;
+  z-index: 2;
+  top: -3vh;
+  color: yellow;
+  font-size: 4vw;
+  text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
+}
+
+.clientHud .recievedResources .resourceGainedLumber {
+  left: 8vw;
+}
+.clientHud .recievedResources .resourceGainedBrick {
+  left: 27vw;
+}
+.clientHud .recievedResources .resourceGainedWool {
+  left: 46vw;
+}
+.clientHud .recievedResources .resourceGainedWheat {
+  left: 65vw;
+}
+.clientHud .recievedResources .resourceGainedOre {
+  left: 84vw;
+}
+
+.clientHud .recievedResources img {
+  width: 8vw;
+  height: 8vw;
 }

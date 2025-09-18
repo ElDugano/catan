@@ -23,6 +23,7 @@ export default function GatherResourcesFromRoll() {
 
   useEffect(() => {
     if (isTurnStateGatheringResources()) {
+      console.log("&&&&&&&&&&&&&&&&&&&&& THIS DID SOMETHING &&&&&&&&&&&&&&&&&&");
       let diceNumber = diceAdded();
       let playerResourceCardsGained= [{},{},{},{}];
       for (let key in landTileNumbers[diceNumber]) {

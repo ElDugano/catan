@@ -38,7 +38,7 @@ const NetworkReconnectStateUpdate = () => {
   const { standardPortOwner, woolPortOwner, grainPortOwner, lumberPortOwner, brickPortOwner, orePortOwner} = useContext(PortOwnerContext);
   const { playerAvailableBuildings, lastBuiltObject } = useContext(PlayerAvailableBuildingsContext);
   const { playerResourceCards,
-          /*previouslyGainedResources,*/
+          previouslyGainedResources,
           discardHalfResourcesPlayers,
           discardHalfResourcesCardAmount,
           robbingTargetPlayers } = useContext(PlayerResourceCardsContext);
@@ -75,7 +75,7 @@ const NetworkReconnectStateUpdate = () => {
       addToMessagePayloadToPlayer({playerAvailableBuildings:playerAvailableBuildings}, reconnectingPlayer);
       addToMessagePayloadToPlayer({lastBuiltObject:lastBuiltObject}, reconnectingPlayer);
       addToMessagePayloadToPlayer({playerResourceCards:playerResourceCards}, reconnectingPlayer);
-      //addToMessagePayloadToPlayer({previouslyGainedResources:previouslyGainedResources}, reconnectingPlayer);
+      addToMessagePayloadToPlayer({previouslyGainedResources:previouslyGainedResources}, reconnectingPlayer);
       addToMessagePayloadToPlayer({discardHalfResourcesPlayers:discardHalfResourcesPlayers}, reconnectingPlayer);
       addToMessagePayloadToPlayer({discardHalfResourcesCardAmount:discardHalfResourcesCardAmount}, reconnectingPlayer);
       addToMessagePayloadToPlayer({robbingTargetPlayers:robbingTargetPlayers}, reconnectingPlayer);
@@ -120,7 +120,7 @@ const NetworkReconnectStateUpdate = () => {
       playerAvailableBuildings,
       lastBuiltObject,
       playerResourceCards,
-      //previouslyGainedResources,
+      previouslyGainedResources,
       discardHalfResourcesPlayers,
       discardHalfResourcesCardAmount,
       robbingTargetPlayers,

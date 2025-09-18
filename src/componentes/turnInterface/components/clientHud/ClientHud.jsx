@@ -1,4 +1,4 @@
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import { CurrentPlayerTurnContext } from "../../../../state/currentPlayerTurn/CurrentPlayerTurnContext.js";
 import { PlayerResourceCardsContext } from "../../../../state/playerResourceCards/PlayerResourceCardsContext.js";
 import { PlayerColorContext } from "../../../../state/playerColor/PlayerColorContext.js";
@@ -14,7 +14,7 @@ import oreIcon from "../../../../assets/oreIcon.svg"
 
 const ClientHud = () => {
   const { clientPlayerNumber } = useContext(CurrentPlayerTurnContext);
-  const { playerResourceCards } = useContext(PlayerResourceCardsContext);
+  const { playerResourceCards, previouslyGainedResources } = useContext(PlayerResourceCardsContext);
   const { playerColor } = useContext(PlayerColorContext);
 
   if (clientPlayerNumber == null)
@@ -29,6 +29,24 @@ const ClientHud = () => {
         <div className={"clieentHudResourceTotal"}><img src={woolIcon} />{playerResourceCards[clientPlayerNumber].Wool}</div>
         <div className={"clieentHudResourceTotal"}><img src={grainIcon} />{playerResourceCards[clientPlayerNumber].Grain}</div>
         <div className={"clieentHudResourceTotal"}><img src={oreIcon} />{playerResourceCards[clientPlayerNumber].Ore}</div>
+      </div>
+      <div className={"recievedResources"}>
+        <div className={"resourcesGained resourceGainedLumber"}>
+          {"Lumber" in previouslyGainedResources[clientPlayerNumber] && "+"+previouslyGainedResources[clientPlayerNumber].Lumber}
+        </div>
+        <div className={"resourcesGained resourceGainedBrick"}>
+          {"Brick" in previouslyGainedResources[clientPlayerNumber] && "+"+previouslyGainedResources[clientPlayerNumber].Brick}
+        </div>
+        <div className={"resourcesGained resourceGainedWool"}>
+          {"Wool" in previouslyGainedResources[clientPlayerNumber] && "+"+previouslyGainedResources[clientPlayerNumber].Wool}
+        </div>
+        <div className={"resourcesGained resourceGainedWheat"}>
+          {"Grain" in previouslyGainedResources[clientPlayerNumber] && "+"+previouslyGainedResources[clientPlayerNumber].Grain}
+        </div>
+        <div className={"resourcesGained resourceGainedOre"}>
+          {"Ore" in previouslyGainedResources[clientPlayerNumber] && "+"+previouslyGainedResources[clientPlayerNumber].Ore}
+        </div>
+        <div>Hello World</div>
       </div>
     </div>
   )

@@ -14,6 +14,7 @@ import { DevelopmentCardsContext } from "../../../state/developmentCards/Develop
 
 import { TileCornerNodesContext } from "../../gameboard/state/tileCornerNodes/TileCornerNodesContext";
 import { LandTilesContext } from "../../gameboard/state/landTiles/LandTilesContext";
+import { LandTileNumbersContext } from "../../gameboard/state/landTileNumbers/LandTileNumbersContext";
 import { PortOwnerContext } from "../../../state/portOwner/PortOwnerContext";
 import { ThiefLocationContext } from "../../gameboard/state/thiefLocation/ThiefLocationContext";
 
@@ -70,6 +71,7 @@ const HostNetworkingFunctions = () => {
           updateDiscardHalfResourcesPlayers,
           removeCollectionOfResourcesFromPlayer,
           setAndReturnRobbingTargetPlayers,
+          addResourcesFromDiceRollToPlayerResourceCards,
           stealRandomCardFromPlayer }  = useContext(PlayerResourceCardsContext);
 
   const { tileCornerNodes,
@@ -80,6 +82,7 @@ const HostNetworkingFunctions = () => {
           isNodeValueSettlement,
           isNodeValueCity,
           getTileNodeOwner } = useContext(TileCornerNodesContext);
+  const { landTileNumbers } = useContext(LandTileNumbersContext);
   const { landTiles } = useContext(LandTilesContext);
   const { setPortOwner } = useContext(PortOwnerContext);
   const { setAndReturnThiefLocation } = useContext(ThiefLocationContext);
@@ -100,8 +103,38 @@ const HostNetworkingFunctions = () => {
   //}
 
   const rollTheDice = () => {
-    if (rollDice() != 7){
-      addToMessagePayloadToAllPlayers(setTurnStateToGatheringResources());
+    const diceRoll=rollDice();
+    if (diceRoll != 7){
+      //addToMessagePayloadToAllPlayers(setTurnStateToGatheringResources());
+      let playerResourceCardsGained= [{},{},{},{}];
+      for (let key in landTileNumbers[diceRoll]) {
+        const landTileX = landTileNumbers[diceRoll][key].x;
+        const landTileY = landTileNumbers[diceRoll][key].y;
+        let landType = landTiles[landTileX][landTileY];
+        let resource = mapTileTypeToResourceType(landType);
+        for (let x=landTileX-1; x <= landTileX+1; x++) {
+          for (let y=landTileY; y <= landTileY+1; y++) {
+            if (isNodeValueSettlement(x,y)) {
+              if (playerResourceCardsGained[getTileNodeOwner(x, y)][resource])
+                playerResourceCardsGained[getTileNodeOwner(x, y)][resource] = playerResourceCardsGained[getTileNodeOwner(x, y)][resource] + 1;
+              else
+                playerResourceCardsGained[getTileNodeOwner(x, y)][resource] = 1;
+            }
+            if (isNodeValueCity(x,y)) {
+              if (playerResourceCardsGained[getTileNodeOwner(x, y)][resource])
+                playerResourceCardsGained[getTileNodeOwner(x, y)][resource] = playerResourceCardsGained[getTileNodeOwner(x, y)][resource] + 2;
+              else
+                playerResourceCardsGained[getTileNodeOwner(x, y)][resource] = 2;
+            }
+          }
+        }
+      }
+      console.log(playerResourceCardsGained);
+      addToMessagePayloadToAllPlayers(addResourcesFromDiceRollToPlayerResourceCards(playerResourceCardsGained));
+      //addToMessagePayloadToAllPlayers({previouslyGainedResources:playerResourceCardsGained});
+      //setTurnStateToGatheringResourcescAknowledgement();
+      addToMessagePayloadToAllPlayers(setTurnStateToIdle());
+      sendTheMessages();
     }
     else {
       const discardHalfResourcePlayers = findAndSetDiscardHalfResourcesPlayers();

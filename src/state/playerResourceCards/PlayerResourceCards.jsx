@@ -9,7 +9,7 @@ export const PlayerResourceCards = ({ children }) => {
     {Wool:0, Lumber:0, Grain:0, Brick:0, Ore:0},
     {Wool:0, Lumber:0, Grain:0, Brick:0, Ore:0}
   ]);
-  const [previouslyGainedResources, setPreviouslyGainedResources] = useState(new Array(4));
+  const [previouslyGainedResources, setPreviouslyGainedResources] = useState([{}, {}, {}, {}]);
 
   
 
@@ -22,6 +22,7 @@ export const PlayerResourceCards = ({ children }) => {
     });
     setPlayerResourceCards(newPlayerResourceCards);
     setPreviouslyGainedResources(playerNewResources);
+    return {playerResourceCards: newPlayerResourceCards,previouslyGainedResources:playerNewResources};
   }
 
   function getAPlayersResourceCards(player) {
@@ -234,6 +235,7 @@ export const PlayerResourceCards = ({ children }) => {
         removeCollectionOfResourcesFromPlayer,
         addCollectionOfResourcesToPlayer,
         tradeResources,
+        setPreviouslyGainedResources,
         previouslyGainedResources,
         //---------- Thief----------//
         discardHalfResourcesPlayers,

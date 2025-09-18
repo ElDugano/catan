@@ -36,7 +36,8 @@ const NetworkingMessageReciever = (props) => {
   const { setPlayerResourceCards,
           setDiscardHalfResourcesPlayers,
           setDiscardHalfResourcesCardAmount,
-          setRobbingTargetPlayers } = useContext(PlayerResourceCardsContext);
+          setRobbingTargetPlayers,
+          setPreviouslyGainedResources } = useContext(PlayerResourceCardsContext);
   const { setPlayerDevelopmentCardJustPurchased, setPlayerDevelopmentCardHand } = useContext(DevelopmentCardsContext);
   const { setDiceRolledThisTurn } = useContext(DiceContext);
 
@@ -82,7 +83,7 @@ const NetworkingMessageReciever = (props) => {
           "playerAvailableBuildings"  in recievedMessages && setPlayerAvailableBuildings(recievedMessages.playerAvailableBuildings);
           "lastBuiltObject"           in recievedMessages && setLastBuiltObject(recievedMessages.lastBuiltObject);
           "playerResourceCards"       in recievedMessages && setPlayerResourceCards(recievedMessages.playerResourceCards);
-          //"previouslyGainedResources" in recievedMessages && (recievedMessages.previouslyGainedResources);
+          "previouslyGainedResources" in recievedMessages && setPreviouslyGainedResources(recievedMessages.previouslyGainedResources);
           "discardHalfResourcesPlayers" in recievedMessages && setDiscardHalfResourcesPlayers(recievedMessages.discardHalfResourcesPlayers);
           "discardHalfResourcesCardAmount" in recievedMessages && setDiscardHalfResourcesCardAmount(recievedMessages.discardHalfResourcesCardAmount);
           "robbingTargetPlayers"      in recievedMessages && setRobbingTargetPlayers(recievedMessages.robbingTargetPlayers);
