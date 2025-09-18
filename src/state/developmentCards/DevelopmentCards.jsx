@@ -50,24 +50,6 @@ export const DevelopmentCards = ({ children }) => {
     return developmentCardDeck.length;
   }
 
-  const totalDevelopmentCardsInHand = () => {
-    let totalDevelopmentCards = [];
-    playerDevelopmentCardJustPurchased.forEach((playerCards, player) => {
-      totalDevelopmentCards.push( playerDevelopmentCardJustPurchased[player]["Knight"] +
-                                  playerDevelopmentCardJustPurchased[player]["Road Building"] + 
-                                  playerDevelopmentCardJustPurchased[player]["Year of Plenty"] + 
-                                  playerDevelopmentCardJustPurchased[player]["Monopoly"] + 
-                                  playerDevelopmentCardJustPurchased[player]["Victory Point"] + 
-                                  playerDevelopmentCardHand[player]["Knight"] + 
-                                  playerDevelopmentCardHand[player]["Road Building"] + 
-                                  playerDevelopmentCardHand[player]["Year of Plenty"] + 
-                                  playerDevelopmentCardHand[player]["Monopoly"] + 
-                                  playerDevelopmentCardHand[player]["Victory Point"] )
-    })
-    return totalDevelopmentCards;
-  }
-
-
   function givePlayerDevelopmentCardFromDeck(player) {
     console.log("The development card deck now looks like this:");
     console.log(developmentCardDeck);

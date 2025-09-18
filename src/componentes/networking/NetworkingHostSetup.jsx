@@ -61,7 +61,7 @@ export default function NetworkingHostSetup(props) {
   }
   return (
     <>
-      <h2>{myPeerID}</h2>
+      <h2 style={{userSelect: "all"}}>{myPeerID}</h2>
       Use this code to join the game!
     </>
   )

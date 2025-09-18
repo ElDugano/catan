@@ -28,6 +28,14 @@ export const PlayerResourceCards = ({ children }) => {
     return playerResourceCards[player];
   }
 
+  function getPlayerTotalResourceCards(player) {
+    let playerTotalCards = 0
+    for (let resourceName in playerResourceCards[player]) {
+      playerTotalCards += playerResourceCards[player][resourceName];
+    }
+    return playerTotalCards;
+  }
+
   function getAllPlayersTotalResourceCards() {
     let allPlayersTotalCards = []
     playerResourceCards.forEach((playerResourceObject, player) => {
@@ -220,6 +228,7 @@ export const PlayerResourceCards = ({ children }) => {
         addResourcesFromDiceRollToPlayerResourceCards,
 
         getAPlayersResourceCards,
+        getPlayerTotalResourceCards,
         getAllPlayersTotalResourceCards,
 
         removeCollectionOfResourcesFromPlayer,

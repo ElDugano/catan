@@ -1,4 +1,4 @@
-.idleMenu {
+.clientMenu {
   font-family: "Sigmar One", sans-serif;
   font-weight: 400;
   font-style: normal;
@@ -11,7 +11,12 @@
   text-align: center;
 }
 
-.idleMenu button {
+.clientMenu h2{
+  margin-top: 0;
+  margin-bottom: 2vh;
+}
+
+.clientMenu button {
   width: 90vw;
   background-color: darkblue;
   border: 0.5vw solid white;
@@ -24,14 +29,37 @@
   text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000, 3px 3px 1px rgba(0, 0, 0, 0.8);
   box-shadow: 8px 8px 4px rgba(0, 0, 0, 0.8);
 }
-.idleMenuColorBlue button { 
+.clientMenu button:disabled {
+  pointer-events: none;
+  background-color: #333;
+  color: #999;
+  border-color: #999;
+}
+
+.clientMenu button img {
+  height: 5vw;
+  width: 5vw;
+  padding-left: 0.5vw;
+  padding-right: 0.5vw;
+}
+
+.clientMenu button:disabled img {
+  filter: grayscale(80%);
+}
+
+.clientMenu button img.notEnoughResources {
+  filter: grayscale(100%);
+  opacity: 0.5;
+}
+
+.clientMenuColorBlue button { 
   background-color: darkblue;
 }
-.idleMenuColorRed button { 
+.clientMenuColorRed button { 
   background-color: maroon;
 }
 
-.idleMenu button:active {
+.clientMenu button:active {
   background-color:#220e6b;
   border-color: lightblue;
   margin-left: 8px;
@@ -39,11 +67,16 @@
   box-shadow: none;
   box-shadow: -3px -3px 3px rgba(0, 0, 0, 0.5), 3px -3px 3px rgba(0, 0, 0, 0.5), -3px 3px 3px rgba(0, 0, 0, 0.5), 3px 3px 3px rgba(0, 0, 0, 0.5);
 }
-.idleMenuColorBlue button:active {
+.clientMenuColorBlue button:active {
   background-color:#220e6b;
   border-color: lightblue;
 }
-.idleMenuColorRed button:active {
+.clientMenuColorRed button:active {
   background-color:#410b0b;
   border-color: pink;
+}
+
+.buildMenu button{
+  padding-top: 1vh;
+  padding-bottom: 1vw;
 }
