@@ -1,0 +1,49 @@
+.idleMenu {
+  font-family: "Sigmar One", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+  font-size: 6vw;
+  margin-left: auto;
+  margin-right: auto;
+  justify-content: center;
+  width: 100%;
+  padding-top: 5vw;
+  text-align: center;
+}
+
+.idleMenu button {
+  width: 90vw;
+  background-color: darkblue;
+  border: 0.5vw solid white;
+  border-radius: 4vw;
+  color: white;
+  margin-bottom: 5vw;
+  margin-left: auto;
+  margin-right: auto;
+  justify-content: center;
+  text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000, 3px 3px 1px rgba(0, 0, 0, 0.8);
+  box-shadow: 8px 8px 4px rgba(0, 0, 0, 0.8);
+}
+.idleMenuColorBlue button { 
+  background-color: darkblue;
+}
+.idleMenuColorRed button { 
+  background-color: maroon;
+}
+
+.idleMenu button:active {
+  background-color:#220e6b;
+  border-color: lightblue;
+  margin-left: 8px;
+  margin-top: 8px;
+  box-shadow: none;
+  box-shadow: -3px -3px 3px rgba(0, 0, 0, 0.5), 3px -3px 3px rgba(0, 0, 0, 0.5), -3px 3px 3px rgba(0, 0, 0, 0.5), 3px 3px 3px rgba(0, 0, 0, 0.5);
+}
+.idleMenuColorBlue button:active {
+  background-color:#220e6b;
+  border-color: lightblue;
+}
+.idleMenuColorRed button:active {
+  background-color:#410b0b;
+  border-color: pink;
+}

@@ -3,13 +3,15 @@ import { useContext } from "react";
 import { TurnStateContext } from "../../state/turnState/TurnStateContext";
 import { CurrentPlayerTurnContext } from "../../state/currentPlayerTurn/CurrentPlayerTurnContext.js";
 
+import ClientHud from "./components/clientHud/ClientHud.jsx";
+
 import RollDiceMenu from "./components/RollDiceMenu.jsx";
 import GatherResroucesAcknowledgement from "./components/GatherResourcesAcknowledgement";
   //---------- Thief Related ----------//
 import RemoveHalfResourcesMenu from "./components/thief/RemoveHalfResourcesMenu";
 import RobAPlayerMenu from "./components/thief/RobAPlayerMenu.jsx";
   //---------- Main turn ----------//
-import IdleMenu from "./components/IdleMenu";
+import IdleMenu from "./components/idleMenu/IdleMenu.jsx";
 import BuildMenu from "./components/buildMenu/BuildMenu";
 import BuildOnMapMenu from "./components/buildMenu/BuiltOnMapMenu";
 import ConfirmBuyDevelopmentCardMenu from "./components/buildMenu/ConfirmBuyDevelopmentCardMenu";
@@ -25,7 +27,7 @@ import ConfirmBuyDevelopmentCardMenu from "./components/buildMenu/ConfirmBuyDeve
 import TradeWithBoardMenu from "./components/trading/TradeWithBoardMenu.jsx";
 
 export default function TurnInterface() {
-  const {isClientPlayersTurn} = useContext(CurrentPlayerTurnContext);
+  const { isClientPlayersTurn } = useContext(CurrentPlayerTurnContext);
 
   const {isTurnStateRollingTheDice,
     isTurnStateGatheringResourcesAcknowledgement,
@@ -48,10 +50,12 @@ export default function TurnInterface() {
     //----- Trading -----//
     isTurnStateTradingWithTheBoard
   } = useContext(TurnStateContext);
+  
 
   if (isClientPlayersTurn()) {
     return (
       <>
+      <ClientHud />
       {isTurnStateRollingTheDice() && <RollDiceMenu />}
       {isTurnStateGatheringResourcesAcknowledgement() && <GatherResroucesAcknowledgement />}
         {/*---------- Theif Related ----------*/}
@@ -78,6 +82,7 @@ export default function TurnInterface() {
   else {
     return (
       <>
+        <ClientHud />
         {isTurnStateGatheringResourcesAcknowledgement() && <GatherResroucesAcknowledgement />}
         {isTurnStateRemoveHalfResources() && <RemoveHalfResourcesMenu />}
       </>
