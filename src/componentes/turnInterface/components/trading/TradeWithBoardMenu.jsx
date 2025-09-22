@@ -3,6 +3,7 @@ import { PortOwnerContext } from "../../../../state/portOwner/PortOwnerContext"
 import { CurrentPlayerTurnContext } from "../../../../state/currentPlayerTurn/CurrentPlayerTurnContext";
 import { TurnStateContext } from "../../../../state/turnState/TurnStateContext";
 import { PlayerResourceCardsContext } from "../../../../state/playerResourceCards/PlayerResourceCardsContext";
+import { NetworkingMessageSenderContext } from "../../../networking/Host/NetworkingMessageSenderContext";
 
 import "./tradeWithBoard.css";
 
@@ -22,6 +23,7 @@ export default function TradeWithBoardMenu() {
   const { currentPlayerTurn } = useContext(CurrentPlayerTurnContext);
   const { setTurnStateToIdle } = useContext(TurnStateContext);
   const { getAPlayersResourceCards, tradeResources } = useContext(PlayerResourceCardsContext);
+  const { addToMessagePayloadToHost, sendTheMessages } = useContext(NetworkingMessageSenderContext);
 
   const defaultTradeCost = doesPlayerOwnStandardPort(currentPlayerTurn)  ? 3 : 4;
   const lumberPortTradeCost = doesPlayerOwnLumberPort(currentPlayerTurn) ? 2 : defaultTradeCost;
@@ -63,11 +65,24 @@ export default function TradeWithBoardMenu() {
         amountToTrade = orePortTradeCost;
         break;
     }
-
-    tradeResources(currentPlayerTurn,{[giveTradeItem]:amountToTrade},null,{[recieveTradeItem]:1});
+    addToMessagePayloadToHost({header: "Trade Resources"});
+    addToMessagePayloadToHost(
+      { tradeResourceCards:
+        { 
+          giveTradeItem:giveTradeItem,
+          giveTradeAmount: amountToTrade,
+          recieveTradeItem: recieveTradeItem,
+          recieveTradeAmount: 1,
+          tradeTarget: null
+        }
+      }
+    );
+    //tradeResources(currentPlayerTurn,{[giveTradeItem]:amountToTrade},null,{[recieveTradeItem]:1});
+    sendTheMessages();
 
     setTurnStateToIdle();
   }
+
   return(
     <>
       <h3>Trade with the board</h3>
@@ -165,7 +180,7 @@ export default function TradeWithBoardMenu() {
           <div>{oneOreIcon} {playerResources.Ore - (giveTradeItem == "Ore" && orePortTradeCost) + (recieveTradeItem == "Ore" && 1)}</div>
         </div>
       </div>
-      {(giveTradeItem != null && recieveTradeItem != null) && <button onClick={completeTrade}>Offer Trade</button>}
+      {(giveTradeItem != null && recieveTradeItem != null) && <button onClick={completeTrade}>Make Trade</button>}
       <button onClick={() => setTurnStateToIdle()}>Go Back</button>
 
     </>

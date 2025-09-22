@@ -36,7 +36,6 @@ const HostNetworkingFunctions = () => {
           isClientTurnStateBuildingARoad,
           setClientTurnStateToBuildingASettlement,
           setClientTurnStateToRollingTheDice,
-          setTurnStateToGatheringResources,
           setTurnStateToRemoveHalfResources,
           setTurnStateToMoveTheThief,
           setTurnStateToRobAPlayer }= useContext(TurnStateContext);
@@ -72,7 +71,8 @@ const HostNetworkingFunctions = () => {
           removeCollectionOfResourcesFromPlayer,
           setAndReturnRobbingTargetPlayers,
           addResourcesFromDiceRollToPlayerResourceCards,
-          stealRandomCardFromPlayer }  = useContext(PlayerResourceCardsContext);
+          stealRandomCardFromPlayer,
+          tradeResources }  = useContext(PlayerResourceCardsContext);
 
   const { tileCornerNodes,
           setNodeValueToSettlement,
@@ -299,7 +299,16 @@ const HostNetworkingFunctions = () => {
 
   const playKnight = () => {
     checkIfLargestArmy(currentPlayerTurn, getPlayerArmyStrength(currentPlayerTurn)+1);
-    addToMessagePayloadToPlayer(playKnightDevelopmentCard(currentPlayerTurn));
+    addToMessagePayloadToPlayer(playKnightDevelopmentCard(currentPlayerTurn), currentPlayerTurn);
+    sendTheMessages();
+  }
+
+  //const playYearOfPlenty = () => {}
+  //const playRoadBuilder= () => {}
+  //const playMonopoly = () => {}
+
+  const tradeResourceCards = (giveTradeItem, giveTradeAmount, recieveTradeItem, recieveTradeAmount, tradeTarget) => {
+    addToMessagePayloadToPlayer(tradeResources(currentPlayerTurn, {[giveTradeItem]:giveTradeAmount},tradeTarget,{[recieveTradeItem]:recieveTradeAmount}), currentPlayerTurn);
     sendTheMessages();
   }
 
@@ -361,6 +370,7 @@ const HostNetworkingFunctions = () => {
       stealACard = {stealACard}
       nobodyToRob = {nobodyToRob}
       playKnight = {playKnight}
+      tradeResourceCards = {tradeResourceCards}
       endTurn = {endTurn}
 
       cheat = {cheat}

@@ -84,6 +84,7 @@ export const PlayerResourceCards = ({ children }) => {
         newPlayerResourceCards[tradingPlayerB][resource] = newPlayerResourceCards[tradingPlayerB][resource] - playerBTradedResources[resource];
     }
     setPlayerResourceCards(newPlayerResourceCards);
+    return {playerResourceCards:newPlayerResourceCards};
   }
 
   //---------- Thief Related ----------//

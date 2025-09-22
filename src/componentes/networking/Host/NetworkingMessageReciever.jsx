@@ -122,6 +122,7 @@ const NetworkingMessageReciever = (props) => {
           "nobodyToRob"               in recievedMessages && props.nobodyToRob();
           "buyDevelopmentCard"        in recievedMessages && props.buyDevelopmentCard();
           "playKnight"                in recievedMessages && props.playKnight();
+          "tradeResourceCards"        in recievedMessages && props.tradeResourceCards(recievedMessages.tradeResourceCards.giveTradeItem, recievedMessages.tradeResourceCards.giveTradeAmount, recievedMessages.tradeResourceCards.recieveTradeItem, recievedMessages.tradeResourceCards.recieveTradeAmount, recievedMessages.tradeResourceCards.tradeTarget);
           "cheat"                     in recievedMessages && props.cheat(recievedMessages.cheat);
         }
         else
