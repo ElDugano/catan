@@ -19,7 +19,11 @@ export default function BuildMenu() {
           canPlayerAffordCity,
           canPlayerAffordDevelopmentCard } = useContext(PlayerResourceCardsContext);
   const { clientPlayerNumber } = useContext(CurrentPlayerTurnContext)
-  const { returnAvailableRoads, returnAvailableSettlements, returnAvailableCities } = useContext(PlayerAvailableBuildingsContext);
+  const { returnAvailableRoads,
+          returnAvailableSettlements,
+          returnAvailableCities,
+          buildSettlementPlacementAvailable,
+          buildCityPlacementAvailable } = useContext(PlayerAvailableBuildingsContext);
   const { returnAvailableDevelopmentCards } = useContext(DevelopmentCardsContext);
 
   const { setTurnStateToIdle,
@@ -56,12 +60,12 @@ export default function BuildMenu() {
     <button disabled>Road<br/>{oneLumberIcon}{oneBrickIcon}</button>
   );
   const BuildSettlementButton = (
-    canPlayerAffordSettlement(clientPlayerNumber) && returnAvailableSettlements(clientPlayerNumber) ?
+    canPlayerAffordSettlement(clientPlayerNumber) && returnAvailableSettlements(clientPlayerNumber) && buildSettlementPlacementAvailable ?
     <button onClick={buildSettlementFunction}>Settlement<br/>{oneLumberIcon}{oneBrickIcon}{oneWoolIcon}{oneGrainIcon}</button> :
     <button disabled>Settlement<br/>{oneLumberIcon}{oneBrickIcon}{oneWoolIcon}{oneGrainIcon}</button>
   );
   const BuildCityButton = (
-    canPlayerAffordCity(clientPlayerNumber) && returnAvailableCities(clientPlayerNumber) ?
+    canPlayerAffordCity(clientPlayerNumber) && returnAvailableCities(clientPlayerNumber) && buildCityPlacementAvailable ?
     <button onClick={buildCityFunction}>City<br/>{oneGrainIcon}{twoGrainIcon}{oneOreIcon}{twoOreIcon}{threeOreIcon}</button> :
     <button disabled>City<br/>{oneGrainIcon}{twoGrainIcon}{oneOreIcon}{twoOreIcon}{threeOreIcon}</button>
   );

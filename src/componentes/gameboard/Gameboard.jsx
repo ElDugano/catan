@@ -25,7 +25,8 @@ export default function Gameboard({children}) {
           isTurnStateBuildingASettlement,
           isTurnStateBuildingACity,
           isTurnStateRoadBuilderCardFirstRoad,
-          isTurnStateRoadBuilderCardSecondRoad} = useContext(TurnStateContext);
+          isTurnStateRoadBuilderCardSecondRoad,
+          isTurnStateMoveTheThief } = useContext(TurnStateContext);
 
   let gameBoardClass = "";
   if ( isHost || 
@@ -34,7 +35,8 @@ export default function Gameboard({children}) {
           isTurnStateBuildingASettlement() ||
           isTurnStateBuildingACity() ||
           isTurnStateRoadBuilderCardFirstRoad() ||
-          isTurnStateRoadBuilderCardSecondRoad()))) {
+          isTurnStateRoadBuilderCardSecondRoad() ||
+          isTurnStateMoveTheThief()))) {
     gameBoardClass = "gameBoard";
   }
   else {

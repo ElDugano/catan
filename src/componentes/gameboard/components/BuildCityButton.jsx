@@ -7,7 +7,7 @@ export default function BuildCityButton(props) {
         r="8"
         cx={props.centerX}
         cy={props.centerY}
-        className="cornerNodeBuildable"
+        className={"cornerNodeBuildable " + props.class}
       />
       <Settlement
         centerX={props.centerX}

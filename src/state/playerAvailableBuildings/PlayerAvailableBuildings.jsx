@@ -19,18 +19,6 @@ export const PlayerAvailableBuildings = ({ children }) => {
     setLastBuiltObject({value: "Road", player:playerNumber,x: x, y: y});
     return {playerAvailableBuildings:newplayerAvailableBuildings};
   }
-  //const removeRightRoadFromAvailableBuildings = (x,y, playerNumber) => {
-  //  let newplayerAvailableBuildings = [...playerAvailableBuildings];
-  //  newplayerAvailableBuildings[playerNumber].roads--;
-  //  setPlayerAvailableBuildings(newplayerAvailableBuildings);
-  //  setLastBuiltObject({value: "Right Road", player:playerNumber,x: x, y: y})
-  //}
-  //const removeBottomRoadFromAvailableBuildings = (x,y, playerNumber) => {
-  //  let newplayerAvailableBuildings = [...playerAvailableBuildings];
-  //  newplayerAvailableBuildings[playerNumber].roads--;
-  //  setPlayerAvailableBuildings(newplayerAvailableBuildings);
-  //  setLastBuiltObject({value: "Bottom Road", player:playerNumber,x: x, y: y})
-  //}
   const removeSettlementFromAvailableBuildings = (x,y, playerNumber) => {
     let newplayerAvailableBuildings = [...playerAvailableBuildings];
     newplayerAvailableBuildings[playerNumber].settlements--;
@@ -59,6 +47,9 @@ export const PlayerAvailableBuildings = ({ children }) => {
   //const lastBuiltObjectPlayer = () => {return lastBuiltObject.player}
   //const lastBuiltObjectValue = () => {return lastBuiltObject.player}
 
+  const [buildSettlementPlacementAvailable, setBuildSettlementPlacementAvailable] = useState(false);
+  const [buildCityPlacementAvailable, setABuildCityPlacementAvailable] = useState(false);
+
 
   return (
       <PlayerAvailableBuildingsContext.Provider value={{
@@ -78,7 +69,11 @@ export const PlayerAvailableBuildings = ({ children }) => {
         lastBuiltObjectCoordinantes,
         //lastBuiltObjectPlayer,
         lastBuiltObject,
-        setLastBuiltObject
+        setLastBuiltObject,
+        buildSettlementPlacementAvailable,
+        setBuildSettlementPlacementAvailable,
+        buildCityPlacementAvailable,
+        setABuildCityPlacementAvailable
       }}>
         {children}
       </PlayerAvailableBuildingsContext.Provider>

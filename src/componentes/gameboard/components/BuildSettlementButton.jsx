@@ -5,7 +5,7 @@ export default function BuildSettlementButton(props) {
           r="5"
           cx={props.centerX}
           cy={props.centerY}
-          className="cornerNodeBuildable"
+          className={"cornerNodeBuildable " + props.class}
         />
       );
 }
