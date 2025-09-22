@@ -1,12 +1,14 @@
-.hex-grid {
+.gameBoard {
     width: 100%; /* Adjust size as needed */
     height: 88.095%;
     max-height: 90vh;
     border-top: 1px solid white;
     border-bottom: 1px solid white;
-    perspective: 400px;
 }
 
+.hideBoard {
+  display: none;
+}
 
 
 .hex {

@@ -1,3 +1,4 @@
+import { useContext } from "react";
 import CornerNodes from "./components/CornerNodes.jsx";
 import TileNumbers from "./components/TileNumbers.jsx";
 import BanditIcon from "./components/BanditIcon.jsx";
@@ -13,7 +14,33 @@ import { PortTiles } from "./state/portTiles/PortTiles.jsx";
 import { ThiefLocation } from './state/thiefLocation/ThiefLocation.jsx'
 import { LandTileNumbers } from './state/landTileNumbers/LandTileNumbers.jsx'
 
+import { CurrentPlayerTurnContext } from "../../state/currentPlayerTurn/CurrentPlayerTurnContext.js";
+import { NetworkingContext } from "../networking/State/NetworkingContext.js";
+import { TurnStateContext } from "../../state/turnState/TurnStateContext.js";
+
 export default function Gameboard({children}) {
+  const { currentPlayerTurn, clientPlayerNumber} = useContext(CurrentPlayerTurnContext)
+  const { isHost } = useContext(NetworkingContext);
+  const { isTurnStateBuildingARoad,
+          isTurnStateBuildingASettlement,
+          isTurnStateBuildingACity,
+          isTurnStateRoadBuilderCardFirstRoad,
+          isTurnStateRoadBuilderCardSecondRoad} = useContext(TurnStateContext);
+
+  let gameBoardClass = "";
+  if ( isHost || 
+      ((currentPlayerTurn == clientPlayerNumber ) &&
+        ( isTurnStateBuildingARoad() ||
+          isTurnStateBuildingASettlement() ||
+          isTurnStateBuildingACity() ||
+          isTurnStateRoadBuilderCardFirstRoad() ||
+          isTurnStateRoadBuilderCardSecondRoad()))) {
+    gameBoardClass = "gameBoard";
+  }
+  else {
+    gameBoardClass = "gameBoard hideBoard";
+  }
+
   return (
     <TileCornerNodes>
       <LandTiles>
@@ -21,15 +48,15 @@ export default function Gameboard({children}) {
           <ThiefLocation>
             <LandTileNumbers>
               { children }                
-              <svg className="hex-grid" viewBox="0 0 420 370">
+              <svg className={gameBoardClass} viewBox="0 0 420 370">
                 <g>
-                <Tiles />
-                <Ports />
-                <TileNumbers />
-                <CornerNodes />
-                <RoadNodes />
-                <BanditIcon />
-                <ThiefMoveButtons />
+                  <Tiles />
+                  <Ports />
+                  <TileNumbers />
+                  <CornerNodes />
+                  <RoadNodes />
+                  <BanditIcon />
+                  <ThiefMoveButtons />
                 </g>
               </svg>
             </LandTileNumbers>
