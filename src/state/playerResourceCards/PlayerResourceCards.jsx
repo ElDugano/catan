@@ -199,13 +199,6 @@ export const PlayerResourceCards = ({ children }) => {
     setPlayerResourceCards(newPlayerResourceCards);
     return {playerResourceCards:newPlayerResourceCards};
   }
-
-  function monopolizeWool(player){monopolizeResource(player, "Wool")}
-  function monopolizeLumber(player){monopolizeResource(player, "Lumber")}
-  function monopolizeGrain(player){monopolizeResource(player, "Grain")}
-  function monopolizeBrick(player){monopolizeResource(player, "Brick")}
-  function monopolizeOre(player){monopolizeResource(player, "Ore")}
-
   //We should maybe make a state of how many cards each player lost to monopoly.
   function monopolizeResource(monopolizingPlayer, resourceName) {
     let newPlayerResourceCards = [...playerResourceCards];
@@ -219,6 +212,7 @@ export const PlayerResourceCards = ({ children }) => {
     });
     newPlayerResourceCards[monopolizingPlayer][resourceName] += monopolizedResources[monopolizingPlayer];
     setPlayerResourceCards(newPlayerResourceCards);
+    return {playerResourceCards:newPlayerResourceCards};
     //set //monopolizedResources[monopolizingPlayer] //This can be used if we want to see what the outcome of the monopoly was on the screen.
     //Perhaps we could use previouslyGainedResources or plunderedResourcePlayers for this.
   }
@@ -263,11 +257,7 @@ export const PlayerResourceCards = ({ children }) => {
         removePlayerResourcesToBuildCity,
         removePlayerResourcesToBuildDevelopmentCard,
         //---------- Monopoly Card ----------//
-        monopolizeWool,
-        monopolizeLumber,
-        monopolizeGrain,
-        monopolizeBrick,
-        monopolizeOre
+        monopolizeResource
       }}>
         {children}
       </PlayerResourceCardsContext.Provider>

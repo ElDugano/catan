@@ -72,7 +72,8 @@ const HostNetworkingFunctions = () => {
           setAndReturnRobbingTargetPlayers,
           addResourcesFromDiceRollToPlayerResourceCards,
           stealRandomCardFromPlayer,
-          tradeResources }  = useContext(PlayerResourceCardsContext);
+          tradeResources,
+          monopolizeResource }  = useContext(PlayerResourceCardsContext);
 
   const { tileCornerNodes,
           setNodeValueToSettlement,
@@ -308,7 +309,10 @@ const HostNetworkingFunctions = () => {
     sendTheMessages();
   }
   //const playRoadBuilder= () => {}
-  //const playMonopoly = () => {}
+  const playMonopoly = (resource) => {
+    addToMessagePayloadToAllPlayers(monopolizeResource(currentPlayerTurn, resource));
+    sendTheMessages();
+  }
 
   const tradeResourceCards = (giveTradeItem, giveTradeAmount, recieveTradeItem, recieveTradeAmount, tradeTarget) => {
     addToMessagePayloadToPlayer(tradeResources(currentPlayerTurn, {[giveTradeItem]:giveTradeAmount},tradeTarget,{[recieveTradeItem]:recieveTradeAmount}), currentPlayerTurn);
@@ -374,6 +378,7 @@ const HostNetworkingFunctions = () => {
       nobodyToRob = {nobodyToRob}
       playKnight = {playKnight}
       playYearOfPlenty = {playYearOfPlenty}
+      playMonopoly = {playMonopoly}
       tradeResourceCards = {tradeResourceCards}
       endTurn = {endTurn}
 
