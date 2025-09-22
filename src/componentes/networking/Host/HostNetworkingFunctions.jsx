@@ -303,7 +303,10 @@ const HostNetworkingFunctions = () => {
     sendTheMessages();
   }
 
-  //const playYearOfPlenty = () => {}
+  const playYearOfPlenty = (receivingResources) => {
+    addToMessagePayloadToPlayer(addCollectionOfResourcesToPlayer(currentPlayerTurn, receivingResources), currentPlayerTurn);
+    sendTheMessages();
+  }
   //const playRoadBuilder= () => {}
   //const playMonopoly = () => {}
 
@@ -317,11 +320,11 @@ const HostNetworkingFunctions = () => {
     addToMessagePayloadToPlayer(setClientTurnStateToRollingTheDice(), nextPlayerTurn());
     console.log(nextPlayerTurn());
     console.log(setClientTurnStateToRollingTheDice());
-      addPointsToPlayerHiddenPoints(currentPlayerTurn, getJustPurchasedPlayerVictoryPointCards(currentPlayerTurn));
-      //TODO, send hidden points to each player.
-      addToMessagePayloadToAllPlayers(makePlayerPurchasedDevelopmentAvailableToPlay(currentPlayerTurn));
-    
-      addToMessagePayloadToAllPlayers(resetDiceRolledThisTurn());
+    addPointsToPlayerHiddenPoints(currentPlayerTurn, getJustPurchasedPlayerVictoryPointCards(currentPlayerTurn));
+    //TODO, send hidden points to each player.
+    addToMessagePayloadToAllPlayers(makePlayerPurchasedDevelopmentAvailableToPlay(nextPlayerTurn()));
+  
+    addToMessagePayloadToAllPlayers(resetDiceRolledThisTurn());
 
     if(winner != null) {
       console.log("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
@@ -370,6 +373,7 @@ const HostNetworkingFunctions = () => {
       stealACard = {stealACard}
       nobodyToRob = {nobodyToRob}
       playKnight = {playKnight}
+      playYearOfPlenty = {playYearOfPlenty}
       tradeResourceCards = {tradeResourceCards}
       endTurn = {endTurn}
 

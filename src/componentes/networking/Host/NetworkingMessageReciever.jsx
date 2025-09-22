@@ -43,7 +43,7 @@ const NetworkingMessageReciever = (props) => {
           setDiscardHalfResourcesCardAmount,
           setRobbingTargetPlayers,
           setPreviouslyGainedResources } = useContext(PlayerResourceCardsContext);
-  const { setPlayerDevelopmentCardJustPurchased, setPlayerDevelopmentCardHand } = useContext(DevelopmentCardsContext);
+  const { setPlayerDevelopmentCardJustPurchased, setPlayerDevelopmentCardHand, setTotalPlayerDevelopmentCardHand } = useContext(DevelopmentCardsContext);
   const { setDiceRolledThisTurn } = useContext(DiceContext);
 
   const { setCurrentPlayerTurn, setupClientPlayerOrder, setClientPlayerNumber } = useContext(CurrentPlayerTurnContext);
@@ -103,7 +103,7 @@ const NetworkingMessageReciever = (props) => {
           //"clientPlayerNumber" in recievedMessages && (recievedMessages.clientPlayerNumber);
           
           
-          //"" in recievedMessages && (recievedMessages.);
+          "totalPlayerDevelopmentCardHand" in recievedMessages && setTotalPlayerDevelopmentCardHand(recievedMessages.totalPlayerDevelopmentCardHand);
           //"" in recievedMessages && (recievedMessages.);
           //"" in recievedMessages && (recievedMessages.);
           //"" in recievedMessages && (recievedMessages.);
@@ -122,6 +122,7 @@ const NetworkingMessageReciever = (props) => {
           "nobodyToRob"               in recievedMessages && props.nobodyToRob();
           "buyDevelopmentCard"        in recievedMessages && props.buyDevelopmentCard();
           "playKnight"                in recievedMessages && props.playKnight();
+          "playYearOfPlenty"          in recievedMessages && props.playYearOfPlenty(recievedMessages.playYearOfPlenty);
           "tradeResourceCards"        in recievedMessages && props.tradeResourceCards(recievedMessages.tradeResourceCards.giveTradeItem, recievedMessages.tradeResourceCards.giveTradeAmount, recievedMessages.tradeResourceCards.recieveTradeItem, recievedMessages.tradeResourceCards.recieveTradeAmount, recievedMessages.tradeResourceCards.tradeTarget);
           "cheat"                     in recievedMessages && props.cheat(recievedMessages.cheat);
         }

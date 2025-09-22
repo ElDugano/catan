@@ -43,17 +43,17 @@ export default function IdleMenu() {
     canPlayerAffordSettlement(clientPlayerNumber) != false ||
     canPlayerAffordCity(clientPlayerNumber) != false ?
     <button onClick={buildMenu}>Build Something</button> :
-    <button disabled onClick={buildMenu}>Build Something</button>
+    <button disabled>Build Something</button>
   );
   const developmentCardButton = (
     totalPlayerDevelopmentCardHand[clientPlayerNumber] != 0 ?
     <button onClick={playDevelopmentCardMenu}>Play a development card</button> :
-    <button disabled onClick={playDevelopmentCardMenu}>Play a development card</button>
+    <button disabled>Play a development card</button>
   );
   const tradeResourcesButton = (
     getPlayerTotalResourceCards(clientPlayerNumber) != 0 ?
     <button onClick={tradeResourcesMenu}>Trade Resources</button> :
-    <button disabled onClick={tradeResourcesMenu}>Trade Resources</button>
+    <button disabled>Trade Resources</button>
   );
 
   return (

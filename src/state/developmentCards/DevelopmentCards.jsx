@@ -65,7 +65,8 @@ export const DevelopmentCards = ({ children }) => {
     newTotalPlayerDevelopmentCardHand[player] = totalPlayerDevelopmentCardHand[player]+1;
     setTotalPlayerDevelopmentCardHand(newTotalPlayerDevelopmentCardHand);
 
-    return {playerDevelopmentCardJustPurchased:newPlayerDevelopmentCardJustPurchased};
+    return {playerDevelopmentCardJustPurchased:newPlayerDevelopmentCardJustPurchased,
+            totalPlayerDevelopmentCardHand:newTotalPlayerDevelopmentCardHand};
       //Likely, this should only send back the player's cards from the array.
   }
 
@@ -142,7 +143,7 @@ export const DevelopmentCards = ({ children }) => {
         playerDevelopmentCardHand,
         setPlayerDevelopmentCardPlayed,
         playerDevelopmentCardPlayed,
-        //totalDevelopmentCardsInHand,
+        setTotalPlayerDevelopmentCardHand,
         totalPlayerDevelopmentCardHand
       }}>
         {children}

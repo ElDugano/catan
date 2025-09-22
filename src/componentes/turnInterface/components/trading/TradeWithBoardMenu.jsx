@@ -77,9 +77,7 @@ export default function TradeWithBoardMenu() {
         }
       }
     );
-    //tradeResources(currentPlayerTurn,{[giveTradeItem]:amountToTrade},null,{[recieveTradeItem]:1});
     sendTheMessages();
-
     setTurnStateToIdle();
   }
 
