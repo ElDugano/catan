@@ -46,7 +46,6 @@ const ClientHud = () => {
         <div className={"resourcesGained resourceGainedOre"}>
           {"Ore" in previouslyGainedResources[clientPlayerNumber] && "+"+previouslyGainedResources[clientPlayerNumber].Ore}
         </div>
-        <div>Hello World</div>
       </div>
     </div>
   )

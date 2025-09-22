@@ -31,7 +31,12 @@ const NetworkingMessageReciever = (props) => {
   const { setTileCornerNodes } = useContext(TileCornerNodesContext);
 
   const { setScoreBoard } = useContext(ScoreBoardContext);
-  const { setPortOwner } = useContext(PortOwnerContext);
+  const { setStandardPortOwner,
+          setWoolPortOwner,
+          setGrainPortOwner,
+          setLumberPortOwner,
+          setBrickPortOwner,
+          setOrePortOwner   } = useContext(PortOwnerContext);
   const { setPlayerAvailableBuildings, setLastBuiltObject } = useContext(PlayerAvailableBuildingsContext);
   const { setPlayerResourceCards,
           setDiscardHalfResourcesPlayers,
@@ -74,12 +79,12 @@ const NetworkingMessageReciever = (props) => {
           //"longestRoadOwner"          in recievedMessages && (recievedMessages.longestRoadOwner);
           //"longestRoadDistance"       in recievedMessages && (recievedMessages.longestRoadDistance);
           //"playerLongestRoad"         in recievedMessages && (recievedMessages.playerLongestRoad);
-          "standardPortOwner"         in recievedMessages && setPortOwner(recievedMessages.standardPortOwner, "Standard");
-          "woolPortOwner"             in recievedMessages && setPortOwner(recievedMessages.woolPortOwner, "Wool");
-          "grainPortOwner"            in recievedMessages && setPortOwner(recievedMessages.grainPortOwner, "Grain");
-          "lumberPortOwner"           in recievedMessages && setPortOwner(recievedMessages.lumberPortOwner, "Lumber");
-          "brickPortOwner"            in recievedMessages && setPortOwner(recievedMessages.brickPortOwner, "Brick");
-          "orePortOwner"              in recievedMessages && setPortOwner(recievedMessages.orePortOwner, "Ore");
+          "standardPortOwner"         in recievedMessages && setStandardPortOwner(recievedMessages.standardPortOwner, "Standard");
+          "woolPortOwner"             in recievedMessages && setWoolPortOwner(recievedMessages.woolPortOwner, "Wool");
+          "grainPortOwner"            in recievedMessages && setGrainPortOwner(recievedMessages.grainPortOwner, "Grain");
+          "lumberPortOwner"           in recievedMessages && setLumberPortOwner(recievedMessages.lumberPortOwner, "Lumber");
+          "brickPortOwner"            in recievedMessages && setBrickPortOwner(recievedMessages.brickPortOwner, "Brick");
+          "orePortOwner"              in recievedMessages && setOrePortOwner(recievedMessages.orePortOwner, "Ore");
           "playerAvailableBuildings"  in recievedMessages && setPlayerAvailableBuildings(recievedMessages.playerAvailableBuildings);
           "lastBuiltObject"           in recievedMessages && setLastBuiltObject(recievedMessages.lastBuiltObject);
           "playerResourceCards"       in recievedMessages && setPlayerResourceCards(recievedMessages.playerResourceCards);

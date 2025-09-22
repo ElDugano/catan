@@ -71,12 +71,14 @@ export const PortTiles = ({ children }) => {
       let portNodes=[];
       for (let x in portTiles) {
         for (let y in portTiles[x]) {
-          portNodes.push({x:portTiles[x][y].port1.x,
-                          y:portTiles[x][y].port1.y,
-                          type:portTiles[x][y].type});
-          portNodes.push({x:portTiles[x][y].port2.x,
-                          y:portTiles[x][y].port2.y,
-                          type:portTiles[x][y].type});
+          if (portTiles[x][y].type != "Ocean") {
+            portNodes.push({x:portTiles[x][y].port1.x,
+                            y:portTiles[x][y].port1.y,
+                            type:portTiles[x][y].type});
+            portNodes.push({x:portTiles[x][y].port2.x,
+                            y:portTiles[x][y].port2.y,
+                            type:portTiles[x][y].type});
+          }
         }
       }
       //console.log(portNodes);

@@ -35,6 +35,14 @@
   color: #999;
   border-color: #999;
 }
+.clientMenu button:focus {
+  outline: none;
+}
+.clientMenu button.selected {
+  outline: 1vw solid white;
+  outline-offset: -1vw;
+}
+
 
 .clientMenu button img {
   height: 5vw;
@@ -55,21 +63,17 @@
 .clientMenuColorBlue button { 
   background-color: darkblue;
 }
-.clientMenuColorRed button { 
-  background-color: maroon;
-}
-
-.clientMenu button:active {
-  background-color:#220e6b;
-  border-color: lightblue;
-  margin-left: 8px;
-  margin-top: 8px;
-  box-shadow: none;
-  box-shadow: -3px -3px 3px rgba(0, 0, 0, 0.5), 3px -3px 3px rgba(0, 0, 0, 0.5), -3px 3px 3px rgba(0, 0, 0, 0.5), 3px 3px 3px rgba(0, 0, 0, 0.5);
-}
 .clientMenuColorBlue button:active {
   background-color:#220e6b;
-  border-color: lightblue;
+  outline: none;
+}
+.clientMenuColorBlue button.selected {
+  background-color: #3f3fa0;
+  outline: 1vw solid white;
+  outline-offset: -1vw;
+}
+.clientMenuColorRed button { 
+  background-color: maroon;
 }
 .clientMenuColorRed button:active {
   background-color:#410b0b;

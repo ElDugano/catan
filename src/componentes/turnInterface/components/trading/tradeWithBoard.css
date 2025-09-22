@@ -1,0 +1,30 @@
+.tradeWithBoardMenu button {
+  width: 16vw;
+  padding: 2vw;
+  margin: 1vw;
+  box-sizing: border-box;
+}
+
+.tradeWithBoardMenu button img{
+  width: 10vw;
+  height: 10vw;
+}
+
+.tradeWithBoardMenu .tradeResult {
+  display: flex;
+  text-align: center;
+  width: 95%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.tradeWithBoardMenu .tradeResult div {
+  width: 20%;
+  box-sizing: border-box;
+  border: 1px solid white;
+}
+
+.tradeWithBoardMenu .tradeResult img {
+  width: 8vw;
+  height: 8vw;
+}

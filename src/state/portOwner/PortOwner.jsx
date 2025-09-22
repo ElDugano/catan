@@ -17,8 +17,10 @@ export const PortOwner = ({ children }) => {
   const doesPlayerOwnOrePort      = (player) => {return orePortOwner == player ? true : false};
 
   const setPortOwner = (player, portType) => {
+    console.log("setPort was called", player, portType);
     switch(portType) {
       case "Standard":{
+        console.log("Updating Standard");
         let newStandardPortOwners = [...standardPortOwner];
         newStandardPortOwners[player] = true;
         setStandardPortOwner(newStandardPortOwners);
@@ -50,6 +52,12 @@ export const PortOwner = ({ children }) => {
         doesPlayerOwnBrickPort,
         doesPlayerOwnOrePort,
         setPortOwner,
+        setStandardPortOwner,
+        setWoolPortOwner,
+        setGrainPortOwner,
+        setLumberPortOwner,
+        setBrickPortOwner,
+        setOrePortOwner,
         standardPortOwner,
         woolPortOwner,
         grainPortOwner,

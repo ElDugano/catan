@@ -40,7 +40,7 @@ export default function CornerNodes() {
 
   let checkBuildSettlementPlacementAvailable = false;
   let checkBuildCityPlacementAvailable = false;
-  
+
   let buildSettlementButtonClass = "hideBuildSettlementButton";
   if (isClientPlayersTurn() && isTurnStateBuildingASettlement() )
     buildSettlementButtonClass = "";
@@ -114,7 +114,6 @@ export default function CornerNodes() {
   }
 
   useEffect(()=>{
-    console.log("UseEffect was called, neat0.");
     if( checkBuildSettlementPlacementAvailable != buildSettlementPlacementAvailable )
     setBuildSettlementPlacementAvailable(checkBuildSettlementPlacementAvailable);
   if( checkBuildCityPlacementAvailable != buildCityPlacementAvailable )

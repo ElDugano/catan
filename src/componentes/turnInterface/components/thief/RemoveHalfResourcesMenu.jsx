@@ -1,6 +1,6 @@
 import { useContext, useState } from "react"
 import { PlayerResourceCardsContext } from "../../../../state/playerResourceCards/PlayerResourceCardsContext"
-import { TurnStateContext } from "../../../../state/turnState/TurnStateContext";
+//import { TurnStateContext } from "../../../../state/turnState/TurnStateContext";
 import { CurrentPlayerTurnContext } from "../../../../state/currentPlayerTurn/CurrentPlayerTurnContext";
 
 import { NetworkingMessageSenderContext } from "../../../networking/Host/NetworkingMessageSenderContext";
@@ -33,13 +33,13 @@ export default function RemoveHalfResourcesMenu() {
     setDiscardingResrouces(newDiscardingResources);
   }
 
-  function totalDiscardCards() {
-    let totalDiscardingCards = 0;
-    for(let resourceName in discardingResources) {
-      totalDiscardingCards += discardingResources[resourceName];
-    }
-    return totalDiscardingCards;
-  }
+  //function totalDiscardCards() {
+  //  let totalDiscardingCards = 0;
+  //  for(let resourceName in discardingResources) {
+  //    totalDiscardingCards += discardingResources[resourceName];
+  //  }
+  //  return totalDiscardingCards;
+  //}
 
   const removeCardsFromPlayer = () => {
     console.log("Going to remove some resources.")
