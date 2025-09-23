@@ -76,6 +76,12 @@
   color: yellow;
   font-size: 4vw;
   text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
+  opacity: 1;
+  transition: opacity 2s; 
+}
+
+.testClass {
+  opacity: 0 !important;
 }
 
 .clientHud .recievedResources .resourceGainedLumber {

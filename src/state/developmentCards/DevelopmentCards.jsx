@@ -36,7 +36,7 @@ export const DevelopmentCards = ({ children }) => {
     {"Knight":0, "Road Building":0, "Year of Plenty":0, "Monopoly":0, "Victory Point":0},
     {"Knight":0, "Road Building":0, "Year of Plenty":0, "Monopoly":0, "Victory Point":0}
   ]);
-  const [totalPlayerDevelopmentCardHand, setTotalPlayerDevelopmentCardHand] = useState([0,0,0,0]);;
+  const [totalPlayerDevelopmentCardHand, setTotalPlayerDevelopmentCardHand] = useState([0,0,0,0]);
 
   //Cards that have already been played.
   const [playerDevelopmentCardPlayed, setPlayerDevelopmentCardPlayed] = useState([
@@ -81,9 +81,6 @@ export const DevelopmentCards = ({ children }) => {
       newPlayerDevelopmentCardJustPurchased[player] = {"Knight":0, "Road Building":0, "Year of Plenty":0, "Monopoly":0, "Victory Point":0};
       setPlayerDevelopmentCardHand(newDevelopmentCardDeck);
       setPlayerDevelopmentCardJustPurchased(newPlayerDevelopmentCardJustPurchased)
-
-
-
       return {playerDevelopmentCardHand:newDevelopmentCardDeck};
     }
 
