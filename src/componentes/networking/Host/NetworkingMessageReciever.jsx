@@ -43,7 +43,10 @@ const NetworkingMessageReciever = (props) => {
           setDiscardHalfResourcesCardAmount,
           setRobbingTargetPlayers,
           setPreviouslyGainedResources } = useContext(PlayerResourceCardsContext);
-  const { setPlayerDevelopmentCardJustPurchased, setPlayerDevelopmentCardHand, setTotalPlayerDevelopmentCardHand } = useContext(DevelopmentCardsContext);
+  const { setPlayerDevelopmentCardJustPurchased,
+          setPlayerDevelopmentCardHand,
+          setPlayerDevelopmentCardPlayed,
+          setTotalPlayerDevelopmentCardHand } = useContext(DevelopmentCardsContext);
   const { setDiceRolledThisTurn } = useContext(DiceContext);
 
   const { setCurrentPlayerTurn, setupClientPlayerOrder, setClientPlayerNumber } = useContext(CurrentPlayerTurnContext);
@@ -94,7 +97,7 @@ const NetworkingMessageReciever = (props) => {
           "robbingTargetPlayers"      in recievedMessages && setRobbingTargetPlayers(recievedMessages.robbingTargetPlayers);
           "playerDevelopmentCardJustPurchased" in recievedMessages && setPlayerDevelopmentCardJustPurchased(recievedMessages.playerDevelopmentCardJustPurchased);
           "playerDevelopmentCardHand" in recievedMessages && setPlayerDevelopmentCardHand(recievedMessages.playerDevelopmentCardHand);
-          //"playerDevelopmentCardPlayed" in recievedMessages && (recievedMessages.playerDevelopmentCardPlayed);
+          "playerDevelopmentCardPlayed" in recievedMessages && setPlayerDevelopmentCardPlayed(recievedMessages.playerDevelopmentCardPlayed);
           "diceRolledThisTurn"        in recievedMessages && setDiceRolledThisTurn(recievedMessages.diceRolledThisTurn);
           //"playerOrder" in recievedMessages && (recievedMessages.playerOrder);
           //"currentPlayerTurn" in recievedMessages && (recievedMessages.currentPlayerTurn);
@@ -123,6 +126,7 @@ const NetworkingMessageReciever = (props) => {
           "buyDevelopmentCard"        in recievedMessages && props.buyDevelopmentCard();
           "playKnight"                in recievedMessages && props.playKnight();
           "playYearOfPlenty"          in recievedMessages && props.playYearOfPlenty(recievedMessages.playYearOfPlenty);
+          "playRoadBuilder"           in recievedMessages && props.playRoadBuilder();
           "playMonopoly"              in recievedMessages && props.playMonopoly(recievedMessages.playMonopoly);
           "tradeResourceCards"        in recievedMessages && props.tradeResourceCards(recievedMessages.tradeResourceCards.giveTradeItem, recievedMessages.tradeResourceCards.giveTradeAmount, recievedMessages.tradeResourceCards.recieveTradeItem, recievedMessages.tradeResourceCards.recieveTradeAmount, recievedMessages.tradeResourceCards.tradeTarget);
           "cheat"                     in recievedMessages && props.cheat(recievedMessages.cheat);

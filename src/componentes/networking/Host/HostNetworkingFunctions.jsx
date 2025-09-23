@@ -92,6 +92,9 @@ const HostNetworkingFunctions = () => {
           makePlayerPurchasedDevelopmentAvailableToPlay,
           getJustPurchasedPlayerVictoryPointCards,
           playKnightDevelopmentCard,
+          playYearOfPlentyDevelopmentCard,
+          playRoadBuildingDevelopmentCard,
+          playMonopolyDevelopmentCard,
           getPlayerArmyStrength } = useContext(DevelopmentCardsContext);
 
   const { addToMessagePayloadToPlayer, addToMessagePayloadToAllPlayers, sendTheMessages } = useContext(NetworkingMessageSenderContext);
@@ -305,11 +308,16 @@ const HostNetworkingFunctions = () => {
   }
 
   const playYearOfPlenty = (receivingResources) => {
+    addToMessagePayloadToPlayer(playYearOfPlentyDevelopmentCard(currentPlayerTurn), currentPlayerTurn);
     addToMessagePayloadToPlayer(addCollectionOfResourcesToPlayer(currentPlayerTurn, receivingResources), currentPlayerTurn);
     sendTheMessages();
   }
-  //const playRoadBuilder= () => {}
+  const playRoadBuilder = () => {
+    addToMessagePayloadToPlayer(playRoadBuildingDevelopmentCard(currentPlayerTurn), currentPlayerTurn);
+    sendTheMessages();
+  }
   const playMonopoly = (resource) => {
+    addToMessagePayloadToPlayer(playMonopolyDevelopmentCard(currentPlayerTurn), currentPlayerTurn);
     addToMessagePayloadToAllPlayers(monopolizeResource(currentPlayerTurn, resource));
     sendTheMessages();
   }
@@ -378,6 +386,7 @@ const HostNetworkingFunctions = () => {
       nobodyToRob = {nobodyToRob}
       playKnight = {playKnight}
       playYearOfPlenty = {playYearOfPlenty}
+      playRoadBuilder = {playRoadBuilder}
       playMonopoly = {playMonopoly}
       tradeResourceCards = {tradeResourceCards}
       endTurn = {endTurn}

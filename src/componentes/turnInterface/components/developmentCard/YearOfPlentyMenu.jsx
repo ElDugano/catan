@@ -1,6 +1,4 @@
 import { useContext, useState } from "react"
-import { PlayerResourceCardsContext } from "../../../../state/playerResourceCards/PlayerResourceCardsContext";
-import { CurrentPlayerTurnContext } from "../../../../state/currentPlayerTurn/CurrentPlayerTurnContext"
 import { TurnStateContext } from "../../../../state/turnState/TurnStateContext";
 
 import { NetworkingMessageSenderContext } from "../../../networking/Host/NetworkingMessageSenderContext.js";
@@ -12,10 +10,7 @@ import grainIcon from "../../../../assets/grainIcon.svg";
 import oreIcon from "../../../../assets/oreIcon.svg";
 
 export default function YearOfPlentyMenu() {
-  const { playerResourceCards } = useContext(PlayerResourceCardsContext);
-  const { currentPlayerTurn } = useContext(CurrentPlayerTurnContext);
   const { setTurnStateToIdle } = useContext(TurnStateContext);
-
   const { addToMessagePayloadToHost, sendTheMessages } = useContext(NetworkingMessageSenderContext);
 
   const [receivingResources, setReceivingResources] = useState({Wool:0, Lumber:0, Grain:0, Brick:0, Ore:0});
@@ -41,7 +36,7 @@ export default function YearOfPlentyMenu() {
   }
 
   function addCardsToPlayer() {
-    addToMessagePayloadToHost({header: "Playing a Year Of Plenty"});
+    addToMessagePayloadToHost({header: "Playing Year Of Plenty"});
     addToMessagePayloadToHost({playYearOfPlenty:receivingResources});
     sendTheMessages();
     setTurnStateToIdle();

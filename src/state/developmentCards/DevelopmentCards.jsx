@@ -103,16 +103,21 @@ export const DevelopmentCards = ({ children }) => {
 
   function playDevelopmentCard(player, cardName) {
     let newPlayerDevelopmentCardHand = [...playerDevelopmentCardHand];
-    let newPlayerDevelopmentCardPlayed = [...playerDevelopmentCardPlayed];
     newPlayerDevelopmentCardHand[player][cardName]--;
-    newPlayerDevelopmentCardPlayed[player][cardName]++;
     setPlayerDevelopmentCardHand(newPlayerDevelopmentCardHand);
+
+    let newPlayerDevelopmentCardPlayed = [...playerDevelopmentCardPlayed];
+    newPlayerDevelopmentCardPlayed[player][cardName]++;
     setPlayerDevelopmentCardPlayed(newPlayerDevelopmentCardPlayed);
 
     let newTotalPlayerDevelopmentCardHand = [...totalPlayerDevelopmentCardHand];
     newTotalPlayerDevelopmentCardHand[player] = totalPlayerDevelopmentCardHand[player]-1;
     setTotalPlayerDevelopmentCardHand(newTotalPlayerDevelopmentCardHand);
-    return {playerDevelopmentCardHand:newPlayerDevelopmentCardHand};
+    return {
+      playerDevelopmentCardHand:newPlayerDevelopmentCardHand,
+      playerDevelopmentCardPlayed:newPlayerDevelopmentCardPlayed,
+      totalPlayerDevelopmentCardHand:newTotalPlayerDevelopmentCardHand
+    };
   }
 
   function getPlayerArmyStrength(player) {return playerDevelopmentCardPlayed[player].Knight;}

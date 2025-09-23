@@ -19,7 +19,7 @@ export default function IdleMenu() {
           canPlayerAffordCity,
           canPlayerAffordDevelopmentCard,
           getPlayerTotalResourceCards } = useContext(PlayerResourceCardsContext);
-  const { totalPlayerDevelopmentCardHand } = useContext(DevelopmentCardsContext);
+  const { totalPlayerDevelopmentCardHand, playerDevelopmentCardHand } = useContext(DevelopmentCardsContext);
   const localPlayerColor = playerColor[clientPlayerNumber];
 
   function endTurn() {
@@ -46,7 +46,7 @@ export default function IdleMenu() {
     <button disabled>Build Something</button>
   );
   const developmentCardButton = (
-    totalPlayerDevelopmentCardHand[clientPlayerNumber] != 0 ?
+    totalPlayerDevelopmentCardHand[clientPlayerNumber]-playerDevelopmentCardHand[clientPlayerNumber]["Victory Point"] != 0 ?
     <button onClick={playDevelopmentCardMenu}>Play a development card</button> :
     <button disabled>Play a development card</button>
   );
@@ -55,6 +55,7 @@ export default function IdleMenu() {
     <button onClick={tradeResourcesMenu}>Trade Resources</button> :
     <button disabled>Trade Resources</button>
   );
+  console.log("How many development cards in hand: ",totalPlayerDevelopmentCardHand[clientPlayerNumber]);
 
   return (
     <>
