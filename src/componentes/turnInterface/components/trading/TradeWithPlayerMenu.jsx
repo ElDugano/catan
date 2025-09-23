@@ -17,15 +17,8 @@ import oreIcon from "../../../../assets/oreIcon.svg";
 export default function TradeWithPlayerMenu(props) {
   const { clientPlayerNumber } = useContext(CurrentPlayerTurnContext);
   const { playerColor } = useContext(PlayerColorContext);
-  const { setTurnStateToIdle } = useContext(TurnStateContext);
   const { getAPlayersResourceCards } = useContext(PlayerResourceCardsContext);
-  const { addToMessagePayloadToHost, sendTheMessages } = useContext(NetworkingMessageSenderContext);
   const playerResources = getAPlayersResourceCards(clientPlayerNumber);
-
-
-
-  const [giveTradeItem, setGiveTradeItem] = useState({Lumber:0,Brick:0,Wool:0,Grain:0,Ore:0});
-  const [recieveTradeItem, setRecieveTradeItem] = useState({Lumber:0,Brick:0,Wool:0,Grain:0,Ore:0});
 
   const oneLumberIcon = <img src={lumberIcon} />;
   const oneBrickIcon = <img src={brickIcon} />;
@@ -33,45 +26,16 @@ export default function TradeWithPlayerMenu(props) {
   const oneGrainIcon = <img src={grainIcon} />;
   const oneOreIcon = <img src={oreIcon} />;
 
-  const updatePlayerResourceResult = (updatedRecievingTradeItems, updatedGivingTradeItems) => {
-    const resourceResult = {
-      Lumber: updatedRecievingTradeItems.Lumber - updatedGivingTradeItems.Lumber,
-      Brick: updatedRecievingTradeItems.Brick - updatedGivingTradeItems.Brick,
-      Wool: updatedRecievingTradeItems.Wool - updatedGivingTradeItems.Wool,
-      Grain: updatedRecievingTradeItems.Grain - updatedGivingTradeItems.Grain,
-      Ore: updatedRecievingTradeItems.Ore - updatedGivingTradeItems.Ore
-    }
-    props.setPlayerResourceResult(resourceResult);
-  }
-
   const adjustGiveResource = (resourceType, adjustment) => {
-    let newGiveTradeItem = {...giveTradeItem};
+    let newGiveTradeItem = {...props.giveResources};
     newGiveTradeItem[resourceType] += adjustment;
-    setGiveTradeItem(newGiveTradeItem);
-    updatePlayerResourceResult(recieveTradeItem, newGiveTradeItem);
+    props.setGiveResources(newGiveTradeItem);
   }
 
   const adjustRecieveResource = (resourceType, adjustment) => {
-    let newRecieveTradeItem = {...recieveTradeItem};
+    let newRecieveTradeItem = {...props.recieveResources};
     newRecieveTradeItem[resourceType] += adjustment;
-    setRecieveTradeItem(newRecieveTradeItem);
-    updatePlayerResourceResult(newRecieveTradeItem, giveTradeItem);
-  }
-
-  const offerTrade = () => {
-    //This will call a different hostNetworking function because the trade offer needs to be accepted or denyed.
-    addToMessagePayloadToHost({header: "Trade Resources"});
-    addToMessagePayloadToHost(
-      { tradeResourceCards:
-        { 
-          giveTradeItem: giveTradeItem,
-          recieveTradeItem: recieveTradeItem,
-          tradeTargetPlayer: props.tradePartner
-        }
-      }
-    );
-    sendTheMessages();
-    setTurnStateToIdle();
+    props.setRecieveResources(newRecieveTradeItem);
   }
 
   return (
@@ -80,151 +44,68 @@ export default function TradeWithPlayerMenu(props) {
       <div className={"tradeWithPlayerMenu"}>
         <div className="resourceHolder">
           {oneLumberIcon}
-          <div>{giveTradeItem.Lumber}</div>
-          {recieveTradeItem.Lumber == 0 && giveTradeItem.Lumber < playerResources.Lumber ? <button onClick={() => adjustGiveResource("Lumber", 1)}>+</button> : <button disabled >+</button>}
-          {giveTradeItem.Lumber > 0 ? <button onClick={() => adjustGiveResource("Lumber", -1)}>-</button> : <button disabled >-</button>}
+          <div>{props.giveResources.Lumber}</div>
+          {props.recieveResources.Lumber == 0 && props.giveResources.Lumber < playerResources.Lumber ? <button onClick={() => adjustGiveResource("Lumber", 1)}>+</button> : <button disabled >+</button>}
+          {props.giveResources.Lumber > 0 ? <button onClick={() => adjustGiveResource("Lumber", -1)}>-</button> : <button disabled >-</button>}
         </div>
         <div className="resourceHolder">
           {oneBrickIcon}
-          <div>{giveTradeItem.Brick}</div>
-          {recieveTradeItem.Brick == 0 && giveTradeItem.Brick < playerResources.Brick ? <button onClick={() => adjustGiveResource("Brick", 1)}>+</button> : <button disabled >+</button>}
-          {giveTradeItem.Brick > 0 ? <button onClick={() => adjustGiveResource("Brick", -1)}>-</button> : <button disabled >-</button>}
+          <div>{props.giveResources.Brick}</div>
+          {props.recieveResources.Brick == 0 && props.giveResources.Brick < playerResources.Brick ? <button onClick={() => adjustGiveResource("Brick", 1)}>+</button> : <button disabled >+</button>}
+          {props.giveResources.Brick > 0 ? <button onClick={() => adjustGiveResource("Brick", -1)}>-</button> : <button disabled >-</button>}
         </div>
         <div className="resourceHolder">
           {oneWoolIcon}
-          <div>{giveTradeItem.Wool}</div>
-          {recieveTradeItem.Wool == 0 && giveTradeItem.Wool < playerResources.Wool ? <button onClick={() => adjustGiveResource("Wool", 1)}>+</button> : <button disabled >+</button>}
-          {giveTradeItem.Wool > 0 ? <button onClick={() => adjustGiveResource("Wool", -1)}>-</button> : <button disabled >-</button>}
+          <div>{props.giveResources.Wool}</div>
+          {props.recieveResources.Wool == 0 && props.giveResources.Wool < playerResources.Wool ? <button onClick={() => adjustGiveResource("Wool", 1)}>+</button> : <button disabled >+</button>}
+          {props.giveResources.Wool > 0 ? <button onClick={() => adjustGiveResource("Wool", -1)}>-</button> : <button disabled >-</button>}
         </div>
         <div className="resourceHolder">
           {oneGrainIcon}
-          <div>{giveTradeItem.Grain}</div>
-          {recieveTradeItem.Grain == 0 && giveTradeItem.Grain < playerResources.Grain ? <button onClick={() => adjustGiveResource("Grain", 1)}>+</button> : <button disabled >+</button>}
-          {giveTradeItem.Grain > 0 ? <button onClick={() => adjustGiveResource("Grain", -1)}>-</button> : <button disabled >-</button>}
+          <div>{props.giveResources.Grain}</div>
+          {props.recieveResources.Grain == 0 && props.giveResources.Grain < playerResources.Grain ? <button onClick={() => adjustGiveResource("Grain", 1)}>+</button> : <button disabled >+</button>}
+          {props.giveResources.Grain > 0 ? <button onClick={() => adjustGiveResource("Grain", -1)}>-</button> : <button disabled >-</button>}
         </div>
         <div className="resourceHolder">
           {oneOreIcon}
-          <div>{giveTradeItem.Ore}</div>
-          {recieveTradeItem.Ore == 0 && giveTradeItem.Ore < playerResources.Ore ? <button onClick={() => adjustGiveResource("Ore", 1)}>+</button> : <button disabled >+</button>}
-          {giveTradeItem.Ore > 0 ? <button onClick={() => adjustGiveResource("Ore", -1)}>-</button> : <button disabled >-</button>}
+          <div>{props.giveResources.Ore}</div>
+          {props.recieveResources.Ore == 0 && props.giveResources.Ore < playerResources.Ore ? <button onClick={() => adjustGiveResource("Ore", 1)}>+</button> : <button disabled >+</button>}
+          {props.giveResources.Ore > 0 ? <button onClick={() => adjustGiveResource("Ore", -1)}>-</button> : <button disabled >-</button>}
         </div>
       </div>
       Recieve from {props.tradePartner != null ? "Player "+props.tradePartner : "The Port"}<br />
       <div className={"tradeWithPlayerMenu"}>
         <div className="resourceHolder">
           {oneLumberIcon}
-          <div>{recieveTradeItem.Lumber}</div>
-          {giveTradeItem.Lumber == 0 ? <button onClick={() => adjustRecieveResource("Lumber", 1)}>+</button> : <button disabled >+</button>}
-          {recieveTradeItem.Lumber > 0 ? <button onClick={() => adjustRecieveResource("Lumber", -1)}>-</button> : <button disabled >-</button>}
+          <div>{props.recieveResources.Lumber}</div>
+          {props.giveResources.Lumber == 0 ? <button onClick={() => adjustRecieveResource("Lumber", 1)}>+</button> : <button disabled >+</button>}
+          {props.recieveResources.Lumber > 0 ? <button onClick={() => adjustRecieveResource("Lumber", -1)}>-</button> : <button disabled >-</button>}
         </div>
         <div className="resourceHolder">
           {oneBrickIcon}
-          <div>{recieveTradeItem.Brick}</div>
-          {giveTradeItem.Brick == 0 ? <button onClick={() => adjustRecieveResource("Brick", 1)}>+</button> : <button disabled >+</button>}
-          {recieveTradeItem.Brick > 0 ? <button onClick={() => adjustRecieveResource("Brick", -1)}>-</button> : <button disabled >-</button>}
+          <div>{props.recieveResources.Brick}</div>
+          {props.giveResources.Brick == 0 ? <button onClick={() => adjustRecieveResource("Brick", 1)}>+</button> : <button disabled >+</button>}
+          {props.recieveResources.Brick > 0 ? <button onClick={() => adjustRecieveResource("Brick", -1)}>-</button> : <button disabled >-</button>}
         </div>
         <div className="resourceHolder">
           {oneWoolIcon}
-          <div>{recieveTradeItem.Wool}</div>
-          {giveTradeItem.Wool == 0 ? <button onClick={() => adjustRecieveResource("Wool", 1)}>+</button> : <button disabled >+</button>}
-          {recieveTradeItem.Wool > 0 ? <button onClick={() => adjustRecieveResource("Wool", -1)}>-</button> : <button disabled >-</button>}
+          <div>{props.recieveResources.Wool}</div>
+          {props.giveResources.Wool == 0 ? <button onClick={() => adjustRecieveResource("Wool", 1)}>+</button> : <button disabled >+</button>}
+          {props.recieveResources.Wool > 0 ? <button onClick={() => adjustRecieveResource("Wool", -1)}>-</button> : <button disabled >-</button>}
         </div>
         <div className="resourceHolder">
           {oneGrainIcon}
-          <div>{recieveTradeItem.Grain}</div>
-          {giveTradeItem.Grain == 0 ? <button onClick={() => adjustRecieveResource("Grain", 1)}>+</button> : <button disabled >+</button>}
-          {recieveTradeItem.Grain > 0 ? <button onClick={() => adjustRecieveResource("Grain", -1)}>-</button> : <button disabled >-</button>}
+          <div>{props.recieveResources.Grain}</div>
+          {props.giveResources.Grain == 0 ? <button onClick={() => adjustRecieveResource("Grain", 1)}>+</button> : <button disabled >+</button>}
+          {props.recieveResources.Grain > 0 ? <button onClick={() => adjustRecieveResource("Grain", -1)}>-</button> : <button disabled >-</button>}
         </div>
         <div className="resourceHolder">
           {oneOreIcon}
-          <div>{recieveTradeItem.Ore}</div>
-          {giveTradeItem.Ore == 0 ? <button onClick={() => adjustRecieveResource("Ore", 1)}>+</button> : <button disabled >+</button>}
-          {recieveTradeItem.Ore > 0 ? <button onClick={() => adjustRecieveResource("Ore", -1)}>-</button> : <button disabled >-</button>}
+          <div>{props.recieveResources.Ore}</div>
+          {props.giveResources.Ore == 0 ? <button onClick={() => adjustRecieveResource("Ore", 1)}>+</button> : <button disabled >+</button>}
+          {props.recieveResources.Ore > 0 ? <button onClick={() => adjustRecieveResource("Ore", -1)}>-</button> : <button disabled >-</button>}
         </div>
-      </div>
-            <div className="proceedBackButtonHolder">
-        <button onClick={() => setTurnStateToIdle()}>Back</button>
-        {(giveTradeItem.Lumber + giveTradeItem.Brick + giveTradeItem.Wool + giveTradeItem.Grain + giveTradeItem.Ore != 0 && 
-          recieveTradeItem.Lumber + recieveTradeItem.Brick + recieveTradeItem.Wool + recieveTradeItem.Grain + recieveTradeItem.Ore != 0) ?
-          <button onClick={offerTrade}>Offer Trade</button> :
-          <button disabled>Offer Trade</button>}
       </div>
     </>
   )
 }
-
-
-/*
-
-<div>
-          {recieveTradeItem != "Brick" && playerResources.Brick >= brickPortTradeCost ?
-            <button
-              className={giveTradeItem == "Brick" && "selected"}>
-                {oneBrickIcon} -{brickPortTradeCost}
-            </button> :
-            <button disabled>{oneBrickIcon} -{brickPortTradeCost}</button>
-          }
-          {recieveTradeItem != "Wool" && playerResources.Wool >= woolPortTradeCost ?
-            <button
-              className={giveTradeItem == "Wool" && "selected"}>
-                {oneWoolIcon} -{woolPortTradeCost}
-            </button> :
-            <button disabled>{oneWoolIcon} -{woolPortTradeCost}</button>
-          }
-          {recieveTradeItem != "Grain" && playerResources.Grain >= grainPortTradeCost ?
-            <button
-              className={giveTradeItem == "Grain" && "selected"}>
-                {oneGrainIcon} -{grainPortTradeCost}
-            </button> :
-            <button disabled>{oneGrainIcon} -{grainPortTradeCost}</button>
-          }
-          {recieveTradeItem != "Ore" && playerResources.Ore >= orePortTradeCost ?
-            <button
-              className={giveTradeItem == "Ore" && "selected"}>
-                {oneOreIcon} -{orePortTradeCost}
-            </button> :
-            <button disabled>{oneOreIcon} -{orePortTradeCost}</button>
-          }
-
-          Recieve from {props.tradePartner != null ? "Player "+props.tradePartner : "The Port"}<br />
-
-          {giveTradeItem != "Lumber" ?
-            <button
-              className={recieveTradeItem == "Lumber" && "selected"}>
-                {oneLumberIcon} +1
-            </button> :
-            <button disabled >{oneLumberIcon} +1</button>
-          }
-          {giveTradeItem != "Brick" ?
-            <button
-              className={recieveTradeItem == "Brick" && "selected"}>
-                {oneBrickIcon} +1
-            </button> :
-            <button disabled >{oneBrickIcon} +1</button>
-          }
-          {giveTradeItem != "Wool" ?
-            <button
-              className={recieveTradeItem == "Wool" && "selected"}>
-                {oneWoolIcon} +1
-            </button> :
-            <button disabled >{oneWoolIcon} +1</button>
-          }
-          {giveTradeItem != "Grain" ?
-            <button
-              className={recieveTradeItem == "Grain" && "selected"}>
-                {oneGrainIcon} +1
-            </button> :
-            <button disabled >{oneGrainIcon} +1</button>
-          }
-          {giveTradeItem != "Ore" ?
-            <button
-              className={recieveTradeItem == "Ore" && "selected"}>
-                {oneOreIcon} +1
-            </button> :
-            <button disabled >{oneOreIcon} +1</button>
-          }
-          Trade Result
-        </div>
-
-
-*/

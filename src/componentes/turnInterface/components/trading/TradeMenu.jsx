@@ -36,7 +36,6 @@ export default function TradeMenu() {
   const [tradePartner, setTradePartner] = useState(null);
   const [giveResources, setGiveResources] = useState({Lumber:0,Brick:0,Wool:0,Grain:0,Ore:0})
   const [recieveResources, setRecieveResources] = useState({Lumber:0,Brick:0,Wool:0,Grain:0,Ore:0})
-  const [playerResourceResult, setPlayerResourceResult] = useState({Lumber:0,Brick:0,Wool:0,Grain:0,Ore:0})
     //Remove this one ASAP.
 
   const toggleTradePartner = (newPartner) => {
@@ -76,15 +75,26 @@ export default function TradeMenu() {
     console.log("SHALL WE TRADE");
     //Check to see if we are offering or just doing the trade.
     addToMessagePayloadToHost({header: "Trade Resources"});
-    addToMessagePayloadToHost(
-      { tradeResourceCards:
-        { 
-          giveTradeItem: giveResources,
-          recieveTradeItem: recieveResources,
-          tradeTargetPlayer: null//Can be a player number, but should always be null here as otherwise we are asking to trade.
+    if (tradePartner == null)
+      addToMessagePayloadToHost(
+        { tradeResourceCards:
+          { 
+            giveTradeItem: giveResources,
+            recieveTradeItem: recieveResources,
+            tradeTargetPlayer: null//Can be a player number, but should always be null here as otherwise we are asking to trade.
+          }
         }
-      }
-    );
+      );
+    else  //This should be offering a trade, not forcing it.
+      addToMessagePayloadToHost(
+        { tradeResourceCards:
+          { 
+            giveTradeItem: giveResources,
+            recieveTradeItem: recieveResources,
+            tradeTargetPlayer: tradePartner
+          }
+        }
+      );
     sendTheMessages();
     setTurnStateToIdle();
   }
@@ -105,7 +115,6 @@ export default function TradeMenu() {
           setGiveResources={setGiveResources}
           recieveResources={recieveResources}
           setRecieveResources={setRecieveResources}
-          setPlayerResourceResult={setPlayerResourceResult}
           tradePartner={tradePartner}
         /> 
       }
