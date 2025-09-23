@@ -60,6 +60,8 @@
   opacity: 0.5;
 }
 
+
+
 .clientMenuColorBlue button { 
   background-color: darkblue;
 }
@@ -72,13 +74,73 @@
   outline: 1vw solid white;
   outline-offset: -1vw;
 }
+
 .clientMenuColorRed button { 
   background-color: maroon;
 }
 .clientMenuColorRed button:active {
   background-color:#410b0b;
-  border-color: pink;
+  outline: none;
 }
+.clientMenuColorRed button.selected {
+  background-color: #d63b26;
+  outline: 1vw solid white;
+  outline-offset: -1vw;
+}
+
+.clientMenuColorIndigo button { 
+  background-color: Indigo;
+}
+.clientMenuColorRed button:active {
+  background-color:#25082e;
+  outline: none;
+}
+.clientMenuColorIndigo button.selected {
+  background-color: #9b39b9;
+  outline: 1vw solid white;
+  outline-offset: -1vw;
+}
+
+
+button.playerButtonBlue {
+  background-color: darkblue;
+}
+button.playerButtonRed:active {
+  background-color:#220e6b;
+  outline: none;
+}
+button.playerButtonRed.selected {
+  background-color: #3f3fa0;
+  outline: 1vw solid white;
+  outline-offset: -1vw;
+}
+
+button.playerButtonRed {
+  background-color: maroon;
+}
+button.playerButtonRed:active {
+  background-color:#410b0b;
+  outline: none;
+}
+button.playerButtonRed.selected {
+  background-color: #d63b26;
+  outline: 1vw solid white;
+  outline-offset: -1vw;
+}
+
+button.playerButtonIndigo {
+  background-color: Indigo;
+}
+button.playerButtonIndigo:active {
+  background-color:#25082e;
+  outline: none;
+}
+button.playerButtonIndigo.selected {
+  background-color: #9b39b9;
+  outline: 1vw solid white;
+  outline-offset: -1vw;
+}
+
 
 .buildMenu button{
   padding-top: 1vh;
@@ -140,4 +202,21 @@
 }
 .outlineTextShadow {
   text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000, 3px 3px 1px rgba(0, 0, 0, 0.8);
+}
+
+.proceedBackButtonHolder {
+  margin-top: 4vw;
+}
+
+.proceedBackButtonHolder button {
+  margin-left: 1vw;
+  margin-right: 1vw;
+}
+
+.proceedBackButtonHolder button:first-child {
+  width: 30vw;
+}
+
+.proceedBackButtonHolder button:last-child {
+  width: 60vw;
 }

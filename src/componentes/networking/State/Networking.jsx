@@ -18,9 +18,6 @@ export const Networking = ({ children }) => {
     setRecievedMessages(null);
     setRecievedMessagesPlayer(null);
   }
-  //if(isHost == false)
-    //alert("Networking ran");
-
   useEffect(() => {
     if(newestConn != null) {
       if(isHost == true){
@@ -38,7 +35,7 @@ export const Networking = ({ children }) => {
         else {
           playerNumber = reconnectingPlayer;
         }
-          newestConn.on('open', function() {
+        newestConn.on('open', function() {
           console.log("When does this get displayed. and PlayerNumber: "+playerNumber)
           newestConn.on('data', function(data,) {
             setRecievedMessages(data);
@@ -47,33 +44,34 @@ export const Networking = ({ children }) => {
           newestConn.send(
             { message:"You have connected to the boardgame!",
               clientPlayerNumber:playerNumber });
-              setReconnectingPlayer(playerNumber);
-              //TODO: We may need to send an updated payload of the whole game.
-              //This can be done on reconnect, or really just when the player connects anytime, like, whynot, then we don't need to send stuff at startup.
-              //This would want to set a state that gets past to the networking sender.
-          });
-          newestConn.on('error', (err) => {
-            console.log(err);
-            console.log(err.type);
-          });
-          let newConn;
-          if(conn == null)
-            newConn = newestConn;
-          else {
-            newConn = [...conn];
-            if (reconnectingPlayer == null)
-              newConn.push(newestConn);
-            else
-              newConn[playerNumber] = newestConn;
-          }
-          setConn(newConn);
-          setNewestConn(null);
+          setReconnectingPlayer(playerNumber);
+            //TODO: We may need to send an updated payload of the whole game.
+            //This can be done on reconnect, or really just when the player connects anytime, like, whynot, then we don't need to send stuff at startup.
+            //This would want to set a state that gets past to the networking sender.
+        });
+        newestConn.on('error', (err) => {
+          console.log(err);
+          console.log(err.type);
+        });
+        let newConn;
+        if(conn == null)
+          newConn = newestConn;
+        else {
+          newConn = [...conn];
+          if (reconnectingPlayer == null)
+            newConn.push(newestConn);
+          else
+            newConn[playerNumber] = newestConn;
+        }
+        setConn(newConn);
+        setNewestConn(null);
       }
       else if(isHost == false){
         //alert("going to open the newestConn.on");
         newestConn.on('open', function() {
           // Receive messages
           newestConn.on('data', function(data,) {
+            console.log("I recieved something.");
             setRecievedMessages(data);
             //console.log('Received:', data);
           });

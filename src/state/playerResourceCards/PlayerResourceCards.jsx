@@ -72,6 +72,9 @@ export const PlayerResourceCards = ({ children }) => {
   }
 
   function tradeResources(tradingPlayerA, playerATradedResources, tradingPlayerB, playerBTradedResources) {
+    console.log("Here I am");
+    console.log(playerATradedResources);
+    console.log(playerBTradedResources);
     let newPlayerResourceCards = [...playerResourceCards];
     for( let resource in playerATradedResources) {
       newPlayerResourceCards[tradingPlayerA][resource] = newPlayerResourceCards[tradingPlayerA][resource] - playerATradedResources[resource];
@@ -84,6 +87,7 @@ export const PlayerResourceCards = ({ children }) => {
         newPlayerResourceCards[tradingPlayerB][resource] = newPlayerResourceCards[tradingPlayerB][resource] - playerBTradedResources[resource];
     }
     setPlayerResourceCards(newPlayerResourceCards);
+    console.log(newPlayerResourceCards);
     return {playerResourceCards:newPlayerResourceCards};
   }
 

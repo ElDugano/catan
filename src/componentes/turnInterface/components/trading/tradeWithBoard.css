@@ -28,3 +28,57 @@
   width: 8vw;
   height: 8vw;
 }
+
+.tradeWithPlayerMenu {
+  display: flex;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.tradeWithPlayerMenu .resourceHolder {
+  width: 18vw;
+  box-sizing: border-box;
+  border: 0.5vw solid white;
+  border-radius: 4vw;
+  margin-left: 0.5vw;
+  margin-right: 0.5vw;
+  background-color: #ddd;
+  text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000, 3px 3px 1px rgba(0, 0, 0, 0.8);
+  box-shadow: 8px 8px 4px rgba(0, 0, 0, 0.8);
+}
+.tradeWithPlayerMenu .resourceHolder:first-child {
+  margin-left: auto;
+}
+.tradeWithPlayerMenu .resourceHolder:last-child {
+  margin-right: auto;
+}
+
+.tradeWithPlayerMenu img {
+  width: 10vw;
+  height: 10vw;
+  margin-top: 3vw;
+  filter: drop-shadow(1px 1px 0px #333) drop-shadow(-1px 1px 0px #333) drop-shadow(1px -1px 0px #333) drop-shadow(-1px -1px 0px #333);
+}
+
+.tradeWithPlayerMenu .resourceHolder div {
+  line-height: 6vw;
+  margin-bottom: 2vw;
+}
+
+.tradeWithPlayerMenu div button {
+  width: 17vw;
+  padding: 2vw;
+  margin: 0vw;
+  border-radius: 4vw 4vw 0 0;
+  box-sizing: border-box;
+  box-shadow: none;
+}
+
+.tradeWithPlayerMenu div button:first-child {
+  margin-bottom: 2vw;
+}
+
+.tradeWithPlayerMenu div button:last-child {
+  border-radius: 0 0 4vw 4vw;
+  margin-bottom: 0vw;
+}

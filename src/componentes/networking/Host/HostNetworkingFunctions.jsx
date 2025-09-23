@@ -322,8 +322,14 @@ const HostNetworkingFunctions = () => {
     sendTheMessages();
   }
 
-  const tradeResourceCards = (giveTradeItem, giveTradeAmount, recieveTradeItem, recieveTradeAmount, tradeTarget) => {
-    addToMessagePayloadToPlayer(tradeResources(currentPlayerTurn, {[giveTradeItem]:giveTradeAmount},tradeTarget,{[recieveTradeItem]:recieveTradeAmount}), currentPlayerTurn);
+  //const tradeResourceCards = (giveTradeItem, giveTradeAmount, recieveTradeItem, recieveTradeAmount, tradeTarget) => {
+  const tradeResourceCards = (giveTradeItem, recieveTradeItem, tradeTargetPlayer) => {
+    let postTradeResources = tradeResources(currentPlayerTurn, giveTradeItem, tradeTargetPlayer, recieveTradeItem);
+    addToMessagePayloadToPlayer(postTradeResources, currentPlayerTurn);
+    if (tradeTargetPlayer != null)
+      addToMessagePayloadToPlayer(postTradeResources, tradeTargetPlayer);
+    console.log(postTradeResources);
+    console.log(tradeTargetPlayer);
     sendTheMessages();
   }
 

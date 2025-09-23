@@ -128,7 +128,7 @@ const NetworkingMessageReciever = (props) => {
           "playYearOfPlenty"          in recievedMessages && props.playYearOfPlenty(recievedMessages.playYearOfPlenty);
           "playRoadBuilder"           in recievedMessages && props.playRoadBuilder();
           "playMonopoly"              in recievedMessages && props.playMonopoly(recievedMessages.playMonopoly);
-          "tradeResourceCards"        in recievedMessages && props.tradeResourceCards(recievedMessages.tradeResourceCards.giveTradeItem, recievedMessages.tradeResourceCards.giveTradeAmount, recievedMessages.tradeResourceCards.recieveTradeItem, recievedMessages.tradeResourceCards.recieveTradeAmount, recievedMessages.tradeResourceCards.tradeTarget);
+          "tradeResourceCards"        in recievedMessages && props.tradeResourceCards(recievedMessages.tradeResourceCards.giveTradeItem, recievedMessages.tradeResourceCards.recieveTradeItem, recievedMessages.tradeResourceCards.tradeTargetPlayer);
           "cheat"                     in recievedMessages && props.cheat(recievedMessages.cheat);
         }
         else
