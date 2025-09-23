@@ -1,5 +1,4 @@
 import { useState, useContext } from "react"
-import { PortOwnerContext } from "../../../../state/portOwner/PortOwnerContext"
 import { CurrentPlayerTurnContext } from "../../../../state/currentPlayerTurn/CurrentPlayerTurnContext";
 import { PlayerColorContext } from "../../../../state/playerColor/PlayerColorContext";
 import { TurnStateContext } from "../../../../state/turnState/TurnStateContext";
@@ -8,7 +7,7 @@ import { NetworkingMessageSenderContext } from "../../../networking/Host/Network
 import TradeWithBoardMenu from "./TradeWithBoardMenu";
 import TradeWithPlayerMenu from "./tradeWithPlayerMenu";
 
-import "./tradeWithBoard.css";
+import "./tradeMenu.css";
 
 import lumberIcon from "../../../../assets/lumberIcon.svg";
 import brickIcon from "../../../../assets/brickIcon.svg";
@@ -51,7 +50,7 @@ export default function TradeMenu() {
   const TradePartnerSelectMenu = () => {
     let content = [];
     if (tradePartner != null)
-      content.push(<button onClick={() => toggleTradePartner(null)}>Port</button>);
+      content.push(<button key={crypto.randomUUID()} onClick={() => toggleTradePartner(null)}>Port</button>);
     playerOrder.forEach((playerNumber) => {
       if (playerNumber != clientPlayerNumber && playerNumber != tradePartner)
         content.push(
@@ -99,18 +98,28 @@ export default function TradeMenu() {
     setTurnStateToIdle();
   }
 
+  let resultIconStyle = {Lumber:"",Brick:"",Wool:"",Grain:"",Ore:""};
+  for ( let resource in resultIconStyle ) {
+    if ( giveResources[resource] > 0 )
+      resultIconStyle[resource] = "negativeNumber"
+    else if (recieveResources[resource] > 0 )
+      resultIconStyle[resource] = "positiveNumber"
+  }
+
   return(
     <>
       <h3>Trade with {tradePartner != null ? "Player "+tradePartner : "The Port"}</h3>
       <TradePartnerSelectMenu />
       {tradePartner == null ?
         <TradeWithBoardMenu
+          key={crypto.randomUUID()}
           giveResources={giveResources}
           setGiveResources={setGiveResources}
           recieveResources={recieveResources}
           setRecieveResources={setRecieveResources}
         /> :
         <TradeWithPlayerMenu
+          key={crypto.randomUUID()}
           giveResources={giveResources}
           setGiveResources={setGiveResources}
           recieveResources={recieveResources}
@@ -118,15 +127,14 @@ export default function TradeMenu() {
           tradePartner={tradePartner}
         /> 
       }
-      
         Trade Result
         <div className={"tradeWithBoardMenu"}>
           <div className={"tradeResult"}>
-            <div>{oneLumberIcon} {playerResources.Lumber - giveResources.Lumber + recieveResources.Lumber}</div>
-            <div>{oneBrickIcon} {playerResources.Brick - giveResources.Brick + recieveResources.Brick}</div>
-            <div>{oneWoolIcon} {playerResources.Wool - giveResources.Wool + recieveResources.Wool}</div>
-            <div>{oneGrainIcon} {playerResources.Grain - giveResources.Grain + recieveResources.Grain}</div>
-            <div>{oneOreIcon} {playerResources.Ore - giveResources.Ore + recieveResources.Ore}</div>
+            <div className={resultIconStyle.Lumber}>{oneLumberIcon} {playerResources.Lumber - giveResources.Lumber + recieveResources.Lumber}</div>
+            <div className={resultIconStyle.Brick}>{oneBrickIcon} {playerResources.Brick - giveResources.Brick + recieveResources.Brick}</div>
+            <div className={resultIconStyle.Wool}>{oneWoolIcon} {playerResources.Wool - giveResources.Wool + recieveResources.Wool}</div>
+            <div className={resultIconStyle.Grain}>{oneGrainIcon} {playerResources.Grain - giveResources.Grain + recieveResources.Grain}</div>
+            <div className={resultIconStyle.Ore}>{oneOreIcon} {playerResources.Ore - giveResources.Ore + recieveResources.Ore}</div>
           </div>
         </div>
         <div className="proceedBackButtonHolder">

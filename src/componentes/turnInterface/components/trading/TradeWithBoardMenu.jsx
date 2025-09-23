@@ -3,8 +3,6 @@ import { PortOwnerContext } from "../../../../state/portOwner/PortOwnerContext"
 import { CurrentPlayerTurnContext } from "../../../../state/currentPlayerTurn/CurrentPlayerTurnContext";
 import { PlayerResourceCardsContext } from "../../../../state/playerResourceCards/PlayerResourceCardsContext";
 
-import "./tradeWithBoard.css";
-
 import lumberIcon from "../../../../assets/lumberIcon.svg";
 import brickIcon from "../../../../assets/brickIcon.svg";
 import woolIcon from "../../../../assets/woolIcon.svg";
