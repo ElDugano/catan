@@ -9,7 +9,7 @@ import { DevelopmentCardsContext } from "../../../../state/developmentCards/Deve
 import "./idleMenu.css"
 
 export default function IdleMenu() {
-  const { setTurnStateToBuildMenu, setTurnStateToSelectingADevelopmentCard, setTurnStateToTradingWithTheBoard } = useContext(TurnStateContext);
+  const { setTurnStateToBuildMenu, setTurnStateToSelectingADevelopmentCard, setTurnStateToTrading } = useContext(TurnStateContext);
   const { addToMessagePayloadToHost, sendTheMessages } = useContext(NetworkingMessageSenderContext);
   const { clientPlayerNumber } = useContext(CurrentPlayerTurnContext);
   const { canPlayerAffordRoad,
@@ -31,7 +31,7 @@ export default function IdleMenu() {
     setTurnStateToSelectingADevelopmentCard()
   }
   const tradeResourcesMenu = () => {
-    setTurnStateToTradingWithTheBoard()
+    setTurnStateToTrading()
   }
 
   const buildButton = (

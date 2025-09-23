@@ -328,10 +328,12 @@ const HostNetworkingFunctions = () => {
     addToMessagePayloadToPlayer(postTradeResources, currentPlayerTurn);
     if (tradeTargetPlayer != null)
       addToMessagePayloadToPlayer(postTradeResources, tradeTargetPlayer);
-    console.log(postTradeResources);
-    console.log(tradeTargetPlayer);
+    //Should tell both players to return to idle.
     sendTheMessages();
   }
+
+  // const offerTrade = () => {}
+  // const cancelTrade = () => {}
 
   const endTurn = () => {
     addToMessagePayloadToAllPlayers(gotoNextPlayerTurn());

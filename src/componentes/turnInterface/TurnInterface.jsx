@@ -27,6 +27,7 @@ import ConfirmBuyDevelopmentCardMenu from "./components/buildMenu/ConfirmBuyDeve
   import MonopolyMenu from "./components/developmentCard/MonopolyMenu";
   //-----Trading Related
 import TradeWithBoardMenu from "./components/trading/TradeWithBoardMenu.jsx";
+import TradeMenu from "./components/trading/TradeMenu.jsx";
 
 export default function TurnInterface() {
   const { isGameStateMainGame } = useContext(GameStateContext);
@@ -53,7 +54,7 @@ export default function TurnInterface() {
     isTurnStateYearOfPlenty,
     isTurnStateMonopoly,
     //----- Trading -----//
-    isTurnStateTradingWithTheBoard
+    isTurnStateTrading
   } = useContext(TurnStateContext);
   
 
@@ -81,7 +82,7 @@ export default function TurnInterface() {
       {isTurnStateConfirmPlayMonopolyDevelopmentCard() && <ConfirmPlayMonopolyDevelopmentCard />}
         {isTurnStateMonopoly() && <MonopolyMenu />}
       {/*---------- Trading With the Board ----------*/}
-      {isTurnStateTradingWithTheBoard() && <TradeWithBoardMenu />}
+      {isTurnStateTrading() && <TradeMenu />}
       </div>
     )}
   else {

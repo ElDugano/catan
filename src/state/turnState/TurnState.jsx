@@ -88,8 +88,8 @@ export const TurnState = ({ children }) => {
       const setTurnStateToMonopoly = () =>     {setTurnState("Monopoly");
                                            return {turnState:"Monopoly"};};
     //---------- Trading Related ----------//
-    const isTurnStateTradingWithTheBoard = () => {return turnState == "Trading With The Board" ? true : false};
-    const setTurnStateToTradingWithTheBoard = () =>     {setTurnState("Trading With The Board");
+    const isTurnStateTrading = () => {return turnState == "Trading With The Board" ? true : false};
+    const setTurnStateToTrading = () =>     {setTurnState("Trading With The Board");
                                                     return {turnState:"Trading With The Board"};};
 
     //const isTurnState = () => {return turnState == "" ? true : false};
@@ -158,8 +158,8 @@ export const TurnState = ({ children }) => {
         isTurnStateMonopoly,
         setTurnStateToMonopoly,
       //---------- Trading Related ----------//
-      isTurnStateTradingWithTheBoard,
-      setTurnStateToTradingWithTheBoard,
+      isTurnStateTrading,
+      setTurnStateToTrading,
       //----- Client Only States -----//
       
       

@@ -33,19 +33,33 @@ export default function TradeWithPlayerMenu(props) {
   const oneGrainIcon = <img src={grainIcon} />;
   const oneOreIcon = <img src={oreIcon} />;
 
+  const updatePlayerResourceResult = (updatedRecievingTradeItems, updatedGivingTradeItems) => {
+    const resourceResult = {
+      Lumber: updatedRecievingTradeItems.Lumber - updatedGivingTradeItems.Lumber,
+      Brick: updatedRecievingTradeItems.Brick - updatedGivingTradeItems.Brick,
+      Wool: updatedRecievingTradeItems.Wool - updatedGivingTradeItems.Wool,
+      Grain: updatedRecievingTradeItems.Grain - updatedGivingTradeItems.Grain,
+      Ore: updatedRecievingTradeItems.Ore - updatedGivingTradeItems.Ore
+    }
+    props.setPlayerResourceResult(resourceResult);
+  }
+
   const adjustGiveResource = (resourceType, adjustment) => {
     let newGiveTradeItem = {...giveTradeItem};
     newGiveTradeItem[resourceType] += adjustment;
     setGiveTradeItem(newGiveTradeItem);
+    updatePlayerResourceResult(recieveTradeItem, newGiveTradeItem);
   }
 
   const adjustRecieveResource = (resourceType, adjustment) => {
     let newRecieveTradeItem = {...recieveTradeItem};
     newRecieveTradeItem[resourceType] += adjustment;
     setRecieveTradeItem(newRecieveTradeItem);
+    updatePlayerResourceResult(newRecieveTradeItem, giveTradeItem);
   }
 
   const offerTrade = () => {
+    //This will call a different hostNetworking function because the trade offer needs to be accepted or denyed.
     addToMessagePayloadToHost({header: "Trade Resources"});
     addToMessagePayloadToHost(
       { tradeResourceCards:
