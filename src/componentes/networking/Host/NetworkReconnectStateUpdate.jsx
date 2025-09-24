@@ -44,7 +44,7 @@ const NetworkReconnectStateUpdate = () => {
           robbingTargetPlayers } = useContext(PlayerResourceCardsContext);
   const { playerDevelopmentCardJustPurchased, playerDevelopmentCardHand/*, playerDevelopmentCardPlayed*/ } = useContext(DevelopmentCardsContext);
   const { diceRolledThisTurn } = useContext(DiceContext);
-  //const { playerOrder, currentPlayerTurn, numberOfPlayers, playerOrderArrayPosition, clientPlayerNumber } = useContext(CurrentPlayerTurnContext);
+  const { /*playerOrder, currentPlayerTurn,*/ numberOfPlayers/*, playerOrderArrayPosition, clientPlayerNumber*/ } = useContext(CurrentPlayerTurnContext);
   
   const { addToMessagePayloadToPlayer, sendTheMessages} = useContext(NetworkingMessageSenderContext);
 
@@ -85,7 +85,7 @@ const NetworkReconnectStateUpdate = () => {
       addToMessagePayloadToPlayer({diceRolledThisTurn:diceRolledThisTurn}, reconnectingPlayer);
       //addToMessagePayloadToPlayer({playerOrder:playerOrder}, reconnectingPlayer);
       //addToMessagePayloadToPlayer({currentPlayerTurn:currentPlayerTurn}, reconnectingPlayer);
-      //addToMessagePayloadToPlayer({numberOfPlayers:numberOfPlayers}, reconnectingPlayer);
+      addToMessagePayloadToPlayer({numberOfPlayers:numberOfPlayers}, reconnectingPlayer);
       //addToMessagePayloadToPlayer({playerOrderArrayPosition:playerOrderArrayPosition}, reconnectingPlayer);
       //addToMessagePayloadToPlayer({clientPlayerNumber:clientPlayerNumber}, reconnectingPlayer);
       
@@ -127,10 +127,10 @@ const NetworkReconnectStateUpdate = () => {
       playerDevelopmentCardJustPurchased,
       playerDevelopmentCardHand,
       //playerDevelopmentCardPlayed,
-      diceRolledThisTurn
+      diceRolledThisTurn,
       //playerOrder,
       //currentPlayerTurn,
-      //numberOfPlayers,
+      numberOfPlayers
       //playerOrderArrayPosition,
       //clientPlayerNumber,
        ])

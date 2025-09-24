@@ -4,6 +4,7 @@ import TurnInterface from './componentes/turnInterface/TurnInterface.jsx';
 import HostTurnInterface from './componentes/hostTurnInterface/HostTurnInterface.jsx';
 
 import NetworkingSetup from './componentes/networking/NetworkingSetup.jsx';
+import GameSetup from './componentes/gameSetup/GameSetup.jsx';
 import HostNetworkingFunctions from './componentes/networking/Host/HostNetworkingFunctions.jsx';
 
 
@@ -36,12 +37,11 @@ function App() {
           {isHost == true && <HostTurnInterface />}
           {isHost == false && <TurnInterface />}
           <Gameboard>
-            {isGameStateGameSetup() ? <NetworkingSetup /> : null}
+            {isGameStateGameSetup() ? <GameSetup /> : null}
             <HostNetworkingFunctions />
             <NetworkReconnectStateUpdate />
           </Gameboard>
-
-          <Debug />
+          {isGameStateGameSetup() == false && <Debug />}
           {isHost == true && <div style={{height: "20vh"}} />}
       </>
     )

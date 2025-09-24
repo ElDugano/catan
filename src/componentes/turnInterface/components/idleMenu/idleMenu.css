@@ -91,7 +91,7 @@
 .clientMenuColorIndigo button { 
   background-color: Indigo;
 }
-.clientMenuColorRed button:active {
+.clientMenuColorIndigo button:active {
   background-color:#25082e;
   outline: none;
 }
@@ -100,6 +100,46 @@
   outline: 1vw solid white;
   outline-offset: -1vw;
 }
+
+.clientMenuColorGold button { 
+  background-color: goldenrod;
+}
+.clientMenuColorGold button:active {
+  background-color:#86761c;
+  outline: none;
+}
+.clientMenuColorGold button.selected {
+  background-color: yellow;
+  outline: 1vw solid white;
+  outline-offset: -1vw;
+}
+
+.clientMenuColorOrange button { 
+  background-color: orange;
+}
+.clientMenuColorOrange button:active {
+  background-color:#a7430a;
+  outline: none;
+}
+.clientMenuColorOrange button.selected {
+  background-color: rgb(255, 186, 59);
+  outline: 1vw solid white;
+  outline-offset: -1vw;
+}
+
+.clientMenuColorGreen button { 
+  background-color: green;
+}
+.clientMenuColorGreen button:active {
+  background-color: forestgreen;
+  outline: none;
+}
+.clientMenuColorGreen button.selected {
+  background-color: rgb(13, 134, 19);
+  outline: 1vw solid white;
+  outline-offset: -1vw;
+}
+
 
 
 button.playerButtonBlue {
@@ -137,6 +177,45 @@ button.playerButtonIndigo:active {
 }
 button.playerButtonIndigo.selected {
   background-color: #9b39b9;
+  outline: 1vw solid white;
+  outline-offset: -1vw;
+}
+
+button.playerButtonGold {
+  background-color: goldenrod;
+}
+button.playerButtonGold:active {
+  background-color:#86761c;
+  outline: none;
+}
+button.playerButtonGold.selected {
+  background-color: yellow;
+  outline: 1vw solid white;
+  outline-offset: -1vw;
+}
+
+button.playerButtonOrange {
+  background-color: orange;
+}
+button.playerButtonOrange:active {
+  background-color:#a7430a;
+  outline: none;
+}
+button.playerButtonOrange.selected {
+  background-color: rgb(255, 186, 59);
+  outline: 1vw solid white;
+  outline-offset: -1vw;
+}
+
+button.playerButtonGreen {
+  background-color: green;
+}
+button.playerButtonGreen:active {
+  background-color:forestgreen;
+  outline: none;
+}
+button.playerButtonGreen.selected {
+  background-color: rgb(13, 134, 19);
   outline: 1vw solid white;
   outline-offset: -1vw;
 }

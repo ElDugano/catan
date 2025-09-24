@@ -98,6 +98,7 @@ export const CurrentPlayerTurn = ({ children }) => {
 
           addPlayer,
           numberOfPlayers,
+          setNumberOfPlayers,
           
           clientPlayerNumber,
           setClientPlayerNumber,

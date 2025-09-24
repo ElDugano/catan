@@ -9,6 +9,7 @@ import { ScoreBoardContext } from "../../../state/scoreBoard/ScoreBoardContext";
 import { CurrentPlayerTurnContext } from "../../../state/currentPlayerTurn/CurrentPlayerTurnContext";
 import { PlayerAvailableBuildingsContext } from "../../../state/playerAvailableBuildings/PlayerAvailableBuildingsContext";
 import { PlayerResourceCardsContext } from "../../../state/playerResourceCards/PlayerResourceCardsContext";
+import { PlayerColorContext } from "../../../state/playerColor/PlayerColorContext";
 import { DiceContext } from "../../../state/dice/DiceContext";
 import { DevelopmentCardsContext } from "../../../state/developmentCards/DevelopmentCardsContext";
 
@@ -40,7 +41,7 @@ const HostNetworkingFunctions = () => {
           setTurnStateToMoveTheThief,
           setTurnStateToRobAPlayer,
           setClientTurnStateToReviewingTradeOffer }= useContext(TurnStateContext);
-
+  const { setAPlayersColor } = useContext(PlayerColorContext);
   const { scorePoint,
           checkIfLongestRoad,
           setLongestRoad,
@@ -107,6 +108,12 @@ const HostNetworkingFunctions = () => {
   //const buildSettlement = (x, y) => {
   //  setBuildSettlementFunction(<BuildSettlement x={x} y={y} destructer={setBuildSettlementFunction} />);
   //}
+
+
+  const selectColor = (player, color) => {
+    addToMessagePayloadToAllPlayers(setAPlayersColor(player, color));
+    sendTheMessages();
+  }
 
   const rollTheDice = () => {
     const diceRoll=rollDice();
@@ -395,6 +402,7 @@ const HostNetworkingFunctions = () => {
   return (
   <>
     <NetworkingMessageReciever
+      selectColor = {selectColor}
       rollTheDice = {rollTheDice}
       buildSettlement = {buildSettlement}
       buildRoad = {buildRoad}

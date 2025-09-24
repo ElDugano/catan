@@ -2,7 +2,6 @@ import { useContext } from "react"
 import { NetworkingContext } from "./State/NetworkingContext";
 import { NetworkingMessageSenderContext } from "./Host/NetworkingMessageSenderContext";
 import { GameStateContext } from "../../state/gameState/GameStateContext";
-import { TurnState } from "../../state/turnState/TurnState";
 
 import NetworkingHostSetup from "./NetworkingHostSetup";
 import NetworkingClientSetup from "./NetworkingClientSetup";
@@ -68,7 +67,6 @@ export const NetworkingSetup = () => {
 
   return (
     <>
-      <h1>Welcome to catan</h1>
       <button onClick={makeHost}>Boardgame Display</button>
       <button onClick={makePlayer}>Be a player</button>
       {isHost == true && <NetworkingHostSetup setNewestConn={setNewestConn} hostPeerIDPrefix={hostPeerIDPrefix} conn={conn} />}
