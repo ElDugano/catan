@@ -71,6 +71,18 @@ export const PlayerResourceCards = ({ children }) => {
     return {playerResourceCards:newPlayerResourceCards};
   }
 
+  const [tradeOffer, setTradeOffer] = useState([])
+  function updateTradeOffer(tradingPlayerA, playerATradedResources, tradingPlayerB, playerBTradedResources) {
+    const newTradeOffer = [
+      { player: tradingPlayerA,
+        resources: playerATradedResources},
+      { player: tradingPlayerB,
+        resources: playerBTradedResources}
+    ];
+    setTradeOffer(newTradeOffer);
+    return {tradeOffer: newTradeOffer};
+  }
+
   function tradeResources(tradingPlayerA, playerATradedResources, tradingPlayerB, playerBTradedResources) {
     console.log("Here I am");
     console.log(playerATradedResources);
@@ -233,7 +245,12 @@ export const PlayerResourceCards = ({ children }) => {
 
         removeCollectionOfResourcesFromPlayer,
         addCollectionOfResourcesToPlayer,
+        
+        tradeOffer,
+        setTradeOffer,
+        updateTradeOffer,
         tradeResources,
+
         setPreviouslyGainedResources,
         previouslyGainedResources,
         //---------- Thief----------//

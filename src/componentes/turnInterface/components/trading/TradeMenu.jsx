@@ -19,8 +19,8 @@ export default function TradeMenu() {
 
   const { clientPlayerNumber, playerOrder } = useContext(CurrentPlayerTurnContext);
   const { playerColor } = useContext(PlayerColorContext);
-  const { setTurnStateToIdle } = useContext(TurnStateContext);
-  const { getAPlayersResourceCards } = useContext(PlayerResourceCardsContext);
+  const { setTurnStateToIdle, setTurnStateToReviewingTradeOffer } = useContext(TurnStateContext);
+  const { getAPlayersResourceCards, updateTradeOffer } = useContext(PlayerResourceCardsContext);
   const { addToMessagePayloadToHost, sendTheMessages } = useContext(NetworkingMessageSenderContext);
 
 
@@ -72,9 +72,10 @@ export default function TradeMenu() {
 
   const initiateTrade = () => {
     console.log("SHALL WE TRADE");
+    console.log(tradePartner)
     //Check to see if we are offering or just doing the trade.
     addToMessagePayloadToHost({header: "Trade Resources"});
-    if (tradePartner == null)
+    if (tradePartner == null) {
       addToMessagePayloadToHost(
         { tradeResourceCards:
           { 
@@ -84,9 +85,11 @@ export default function TradeMenu() {
           }
         }
       );
-    else  //This should be offering a trade, not forcing it.
+      setTurnStateToIdle();
+    }
+    else { //This should be offering a trade, not forcing it.
       addToMessagePayloadToHost(
-        { tradeResourceCards:
+        { offerTrade:
           { 
             giveTradeItem: giveResources,
             recieveTradeItem: recieveResources,
@@ -94,8 +97,10 @@ export default function TradeMenu() {
           }
         }
       );
+      setTurnStateToReviewingTradeOffer();
+      updateTradeOffer(clientPlayerNumber, giveResources, tradePartner, recieveResources);
+    }
     sendTheMessages();
-    setTurnStateToIdle();
   }
 
   let resultIconStyle = {Lumber:"",Brick:"",Wool:"",Grain:"",Ore:""};

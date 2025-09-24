@@ -42,7 +42,8 @@ const NetworkingMessageReciever = (props) => {
           setDiscardHalfResourcesPlayers,
           setDiscardHalfResourcesCardAmount,
           setRobbingTargetPlayers,
-          setPreviouslyGainedResources } = useContext(PlayerResourceCardsContext);
+          setPreviouslyGainedResources,
+          setTradeOffer } = useContext(PlayerResourceCardsContext);
   const { setPlayerDevelopmentCardJustPurchased,
           setPlayerDevelopmentCardHand,
           setPlayerDevelopmentCardPlayed,
@@ -107,7 +108,7 @@ const NetworkingMessageReciever = (props) => {
           
           
           "totalPlayerDevelopmentCardHand" in recievedMessages && setTotalPlayerDevelopmentCardHand(recievedMessages.totalPlayerDevelopmentCardHand);
-          //"" in recievedMessages && (recievedMessages.);
+          "tradeOffer"                     in recievedMessages && setTradeOffer(recievedMessages.tradeOffer);
           //"" in recievedMessages && (recievedMessages.);
           //"" in recievedMessages && (recievedMessages.);
           //"" in recievedMessages && (recievedMessages.);
@@ -128,6 +129,7 @@ const NetworkingMessageReciever = (props) => {
           "playYearOfPlenty"          in recievedMessages && props.playYearOfPlenty(recievedMessages.playYearOfPlenty);
           "playRoadBuilder"           in recievedMessages && props.playRoadBuilder();
           "playMonopoly"              in recievedMessages && props.playMonopoly(recievedMessages.playMonopoly);
+          "offerTrade"                in recievedMessages && props.offerTrade(recievedMessages.offerTrade.giveTradeItem, recievedMessages.offerTrade.recieveTradeItem, recievedMessages.offerTrade.tradeTargetPlayer);
           "tradeResourceCards"        in recievedMessages && props.tradeResourceCards(recievedMessages.tradeResourceCards.giveTradeItem, recievedMessages.tradeResourceCards.recieveTradeItem, recievedMessages.tradeResourceCards.tradeTargetPlayer);
           "cheat"                     in recievedMessages && props.cheat(recievedMessages.cheat);
         }

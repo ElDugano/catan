@@ -29,24 +29,20 @@ function App() {
   const { getAPlayersColor } = useContext(PlayerColorContext);
   const { isHost } = useContext(NetworkingContext);
 
-  let displayInterface = null;
-  if (isHost == true)
-    displayInterface = <HostTurnInterface />;
-  else if(isHost == false)
-    displayInterface = <TurnInterface />
-
     return (
       <>
         it is <span style={{color: getAPlayersColor(currentPlayerTurn)}}>player {currentPlayerTurn}'s</span> turn. 
         The turnState is: {turnState}<br />
-          {displayInterface}
+          {isHost == true && <HostTurnInterface />}
+          {isHost == false && <TurnInterface />}
           <Gameboard>
             {isGameStateGameSetup() ? <NetworkingSetup /> : null}
             <HostNetworkingFunctions />
             <NetworkReconnectStateUpdate />
           </Gameboard>
+
           <Debug />
-          <div style={{height: "20vh"}} />
+          {isHost == true && <div style={{height: "20vh"}} />}
       </>
     )
 }

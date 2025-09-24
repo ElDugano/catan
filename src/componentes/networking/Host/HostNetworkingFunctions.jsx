@@ -38,7 +38,8 @@ const HostNetworkingFunctions = () => {
           setClientTurnStateToRollingTheDice,
           setTurnStateToRemoveHalfResources,
           setTurnStateToMoveTheThief,
-          setTurnStateToRobAPlayer }= useContext(TurnStateContext);
+          setTurnStateToRobAPlayer,
+          setClientTurnStateToReviewingTradeOffer }= useContext(TurnStateContext);
 
   const { scorePoint,
           checkIfLongestRoad,
@@ -72,6 +73,7 @@ const HostNetworkingFunctions = () => {
           setAndReturnRobbingTargetPlayers,
           addResourcesFromDiceRollToPlayerResourceCards,
           stealRandomCardFromPlayer,
+          updateTradeOffer,
           tradeResources,
           monopolizeResource }  = useContext(PlayerResourceCardsContext);
 
@@ -332,7 +334,15 @@ const HostNetworkingFunctions = () => {
     sendTheMessages();
   }
 
-  // const offerTrade = () => {}
+   const offerTrade = (giveTradeItem, recieveTradeItem, tradeTargetPlayer) => {
+    console.log("A trade was offered");
+    console.log(tradeTargetPlayer);
+    addToMessagePayloadToPlayer(updateTradeOffer(currentPlayerTurn, giveTradeItem, tradeTargetPlayer, recieveTradeItem), tradeTargetPlayer);
+    addToMessagePayloadToPlayer(setClientTurnStateToReviewingTradeOffer(), tradeTargetPlayer);
+    sendTheMessages();
+      //Host can do it themself.
+    //How do we send the trade offer to the player..
+   }
   // const cancelTrade = () => {}
 
   const endTurn = () => {
@@ -396,6 +406,7 @@ const HostNetworkingFunctions = () => {
       playYearOfPlenty = {playYearOfPlenty}
       playRoadBuilder = {playRoadBuilder}
       playMonopoly = {playMonopoly}
+      offerTrade = {offerTrade}
       tradeResourceCards = {tradeResourceCards}
       endTurn = {endTurn}
 

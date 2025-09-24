@@ -26,8 +26,8 @@ import ConfirmBuyDevelopmentCardMenu from "./components/buildMenu/ConfirmBuyDeve
   import ConfirmPlayMonopolyDevelopmentCard from "./components/developmentCard/ConfirmPlayMonopolyDevelopmentCard";
   import MonopolyMenu from "./components/developmentCard/MonopolyMenu";
   //-----Trading Related
-import TradeWithBoardMenu from "./components/trading/TradeWithBoardMenu.jsx";
 import TradeMenu from "./components/trading/TradeMenu.jsx";
+import ReviewingTradeOffer from "./components/trading/ReviewTradeOffer.jsx";
 
 export default function TurnInterface() {
   const { isGameStateMainGame } = useContext(GameStateContext);
@@ -54,7 +54,8 @@ export default function TurnInterface() {
     isTurnStateYearOfPlenty,
     isTurnStateMonopoly,
     //----- Trading -----//
-    isTurnStateTrading
+    isTurnStateTrading,
+    isTurnStateReviewingTradeOffer
   } = useContext(TurnStateContext);
   
 
@@ -83,6 +84,7 @@ export default function TurnInterface() {
         {isTurnStateMonopoly() && <MonopolyMenu />}
       {/*---------- Trading With the Board ----------*/}
       {isTurnStateTrading() && <TradeMenu />}
+      {isTurnStateReviewingTradeOffer() && <ReviewingTradeOffer />}
       </div>
     )}
   else {
@@ -91,6 +93,7 @@ export default function TurnInterface() {
         <ClientHud />
         {isTurnStateGatheringResourcesAcknowledgement() && <GatherResroucesAcknowledgement />}
         {isTurnStateRemoveHalfResources() && <RemoveHalfResourcesMenu />}
+        {isTurnStateReviewingTradeOffer() && <ReviewingTradeOffer />}
       </div>
     )
     

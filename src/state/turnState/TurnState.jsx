@@ -91,7 +91,19 @@ export const TurnState = ({ children }) => {
     const isTurnStateTrading = () => {return turnState == "Trading With The Board" ? true : false};
     const setTurnStateToTrading = () =>     {setTurnState("Trading With The Board");
                                                     return {turnState:"Trading With The Board"};};
+    const setClientTurnStateToReviewingTradeOffer = () => {return {turnState:"Reviewing a Trade Offer"}};
+    const isTurnStateReviewingTradeOffer = () => {return turnState == "Reviewing a Trade Offer" ? true : false};
+    const setTurnStateToReviewingTradeOffer = () =>     {setTurnState("Reviewing a Trade Offer");
+                                                    return {turnState:"Reviewing a Trade Offer"};};
 
+    //const isTurnState = () => {return turnState == "" ? true : false};
+    //const setTurnStateTo = () =>     {setTurnState("")};
+    //const isTurnState = () => {return turnState == "" ? true : false};
+    //const setTurnStateTo = () =>     {setTurnState("")};
+    //const isTurnState = () => {return turnState == "" ? true : false};
+    //const setTurnStateTo = () =>     {setTurnState("")};
+    //const isTurnState = () => {return turnState == "" ? true : false};
+    //const setTurnStateTo = () =>     {setTurnState("")};
     //const isTurnState = () => {return turnState == "" ? true : false};
     //const setTurnStateTo = () =>     {setTurnState("")};
 
@@ -160,6 +172,9 @@ export const TurnState = ({ children }) => {
       //---------- Trading Related ----------//
       isTurnStateTrading,
       setTurnStateToTrading,
+      setClientTurnStateToReviewingTradeOffer,
+      isTurnStateReviewingTradeOffer,
+      setTurnStateToReviewingTradeOffer,
       //----- Client Only States -----//
       
       
