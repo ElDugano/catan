@@ -330,20 +330,22 @@ const HostNetworkingFunctions = () => {
     addToMessagePayloadToPlayer(postTradeResources, currentPlayerTurn);
     if (tradeTargetPlayer != null)
       addToMessagePayloadToPlayer(postTradeResources, tradeTargetPlayer);
-    //Should tell both players to return to idle.
+    //Should clear out trade offer, just incase.
+    addToMessagePayloadToPlayer(setClientTurnStateToIdle(), currentPlayerTurn);
     sendTheMessages();
   }
 
    const offerTrade = (giveTradeItem, recieveTradeItem, tradeTargetPlayer) => {
-    console.log("A trade was offered");
-    console.log(tradeTargetPlayer);
-    addToMessagePayloadToPlayer(updateTradeOffer(currentPlayerTurn, giveTradeItem, tradeTargetPlayer, recieveTradeItem), tradeTargetPlayer);
+    addToMessagePayloadToPlayer(updateTradeOffer(tradeTargetPlayer, recieveTradeItem, currentPlayerTurn, giveTradeItem), tradeTargetPlayer);
     addToMessagePayloadToPlayer(setClientTurnStateToReviewingTradeOffer(), tradeTargetPlayer);
     sendTheMessages();
-      //Host can do it themself.
-    //How do we send the trade offer to the player..
    }
-  // const cancelTrade = () => {}
+   
+   const cancelTrade = (player) => {
+    //Clear out trade offer.
+    addToMessagePayloadToPlayer(setClientTurnStateToIdle(), player)
+    sendTheMessages();
+   }
 
   const endTurn = () => {
     addToMessagePayloadToAllPlayers(gotoNextPlayerTurn());
@@ -407,6 +409,7 @@ const HostNetworkingFunctions = () => {
       playRoadBuilder = {playRoadBuilder}
       playMonopoly = {playMonopoly}
       offerTrade = {offerTrade}
+      cancelTrade = {cancelTrade}
       tradeResourceCards = {tradeResourceCards}
       endTurn = {endTurn}
 

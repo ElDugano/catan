@@ -1,11 +1,7 @@
-import { useState, useContext } from "react"
-import { PortOwnerContext } from "../../../../state/portOwner/PortOwnerContext"
+import { useContext } from "react"
 import { CurrentPlayerTurnContext } from "../../../../state/currentPlayerTurn/CurrentPlayerTurnContext";
 import { PlayerColorContext } from "../../../../state/playerColor/PlayerColorContext";
-import { TurnStateContext } from "../../../../state/turnState/TurnStateContext";
 import { PlayerResourceCardsContext } from "../../../../state/playerResourceCards/PlayerResourceCardsContext";
-import { NetworkingMessageSenderContext } from "../../../networking/Host/NetworkingMessageSenderContext";
-
 
 import lumberIcon from "../../../../assets/lumberIcon.svg";
 import brickIcon from "../../../../assets/brickIcon.svg";

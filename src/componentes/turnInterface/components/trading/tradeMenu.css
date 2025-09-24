@@ -82,3 +82,39 @@
   border-radius: 0 0 4vw 4vw;
   margin-bottom: 0vw;
 }
+
+.reviewTradeMenu .tradeHolder {
+  display: flex;
+}
+
+.reviewTradeMenu .tradeHolder .tradeHolderCol:first-child {
+  width: 40vw;
+  margin-left: auto;
+}
+.reviewTradeMenu .tradeHolder .tradeHolderCol:last-child {
+  width: 40vw;
+  margin-right: auto;
+}
+.reviewTradeMenu .tradeHolder .arrow {
+  width: 8vw;
+  margin-left: 0;
+  margin-right: 0;
+  padding-top: 8vw;
+}
+.reviewTradeMenu .tradeHolder .resourceHolder {
+    display: flex;
+    justify-content: center;
+}
+.reviewTradeMenu .tradeHolder .resourceHolder div {
+    width: 8w;
+    max-width: 8vw;
+    margin-left:1vw;
+    margin-right: 1vw;
+    line-height: 6vw;
+}
+
+.reviewTradeMenu div img {
+  width: 8vw;
+  height: 8vw;
+}
+

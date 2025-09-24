@@ -6,31 +6,17 @@ import { PlayerResourceCardsContext } from "../../../../state/playerResourceCard
 import { NetworkingMessageSenderContext } from "../../../networking/Host/NetworkingMessageSenderContext";
 import TradeWithBoardMenu from "./TradeWithBoardMenu";
 import TradeWithPlayerMenu from "./tradeWithPlayerMenu";
+import TradeResult from "./TradeResult";
 
 import "./tradeMenu.css";
-
-import lumberIcon from "../../../../assets/lumberIcon.svg";
-import brickIcon from "../../../../assets/brickIcon.svg";
-import woolIcon from "../../../../assets/woolIcon.svg";
-import grainIcon from "../../../../assets/grainIcon.svg";
-import oreIcon from "../../../../assets/oreIcon.svg";
 
 export default function TradeMenu() {
 
   const { clientPlayerNumber, playerOrder } = useContext(CurrentPlayerTurnContext);
   const { playerColor } = useContext(PlayerColorContext);
   const { setTurnStateToIdle, setTurnStateToReviewingTradeOffer } = useContext(TurnStateContext);
-  const { getAPlayersResourceCards, updateTradeOffer } = useContext(PlayerResourceCardsContext);
+  const { updateTradeOffer } = useContext(PlayerResourceCardsContext);
   const { addToMessagePayloadToHost, sendTheMessages } = useContext(NetworkingMessageSenderContext);
-
-
-  const oneLumberIcon = <img src={lumberIcon} />;
-  const oneBrickIcon = <img src={brickIcon} />;
-  const oneWoolIcon = <img src={woolIcon} />;
-  const oneGrainIcon = <img src={grainIcon} />;
-  const oneOreIcon = <img src={oreIcon} />;
-
-  const playerResources = getAPlayersResourceCards(clientPlayerNumber);
 
   const [tradePartner, setTradePartner] = useState(null);
   const [giveResources, setGiveResources] = useState({Lumber:0,Brick:0,Wool:0,Grain:0,Ore:0})
@@ -99,6 +85,7 @@ export default function TradeMenu() {
       );
       setTurnStateToReviewingTradeOffer();
       updateTradeOffer(clientPlayerNumber, giveResources, tradePartner, recieveResources);
+        //I could update this backwards to make the next menu easier. Or the reverse.
     }
     sendTheMessages();
   }
@@ -132,16 +119,7 @@ export default function TradeMenu() {
           tradePartner={tradePartner}
         /> 
       }
-        Trade Result
-        <div className={"tradeWithBoardMenu"}>
-          <div className={"tradeResult"}>
-            <div className={resultIconStyle.Lumber}>{oneLumberIcon} {playerResources.Lumber - giveResources.Lumber + recieveResources.Lumber}</div>
-            <div className={resultIconStyle.Brick}>{oneBrickIcon} {playerResources.Brick - giveResources.Brick + recieveResources.Brick}</div>
-            <div className={resultIconStyle.Wool}>{oneWoolIcon} {playerResources.Wool - giveResources.Wool + recieveResources.Wool}</div>
-            <div className={resultIconStyle.Grain}>{oneGrainIcon} {playerResources.Grain - giveResources.Grain + recieveResources.Grain}</div>
-            <div className={resultIconStyle.Ore}>{oneOreIcon} {playerResources.Ore - giveResources.Ore + recieveResources.Ore}</div>
-          </div>
-        </div>
+      <TradeResult giveResources={giveResources} recieveResources={recieveResources} />
         <div className="proceedBackButtonHolder">
           <button onClick={() => setTurnStateToIdle()}>Back</button>
           {(giveResources.Lumber + giveResources.Brick + giveResources.Wool + giveResources.Grain + giveResources.Ore != 0 &&
