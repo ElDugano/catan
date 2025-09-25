@@ -13,7 +13,7 @@ import "./tradeMenu.css";
 export default function TradeMenu() {
 
   const { clientPlayerNumber, playerOrder } = useContext(CurrentPlayerTurnContext);
-  const { playerColor } = useContext(PlayerInformationContext);
+  const { playerColor, playerName } = useContext(PlayerInformationContext);
   const { setTurnStateToIdle, setTurnStateToReviewingTradeOffer } = useContext(TurnStateContext);
   const { updateTradeOffer } = useContext(PlayerResourceCardsContext);
   const { addToMessagePayloadToHost, sendTheMessages } = useContext(NetworkingMessageSenderContext);
@@ -36,7 +36,7 @@ export default function TradeMenu() {
   const TradePartnerSelectMenu = () => {
     let content = [];
     if (tradePartner != null)
-      content.push(<button key={crypto.randomUUID()} onClick={() => toggleTradePartner(null)}>Port</button>);
+      content.push(<button key={crypto.randomUUID()} onClick={() => toggleTradePartner(null)}>Trade with the Port</button>);
     playerOrder.forEach((playerNumber) => {
       if (playerNumber != clientPlayerNumber && playerNumber != tradePartner)
         content.push(
@@ -45,7 +45,7 @@ export default function TradeMenu() {
             className={"playerButton"+playerColor[playerNumber]}
             onClick={() => toggleTradePartner(playerNumber)}
           >
-            Player {playerNumber}
+            Trade with {playerName[playerNumber]}
           </button>);
     })
     return (
@@ -100,7 +100,7 @@ export default function TradeMenu() {
 
   return(
     <>
-      <h3>Trade with {tradePartner != null ? "Player "+tradePartner : "The Port"}</h3>
+      <h3>Trade with {tradePartner != null ? playerName[tradePartner] : "The Port"}</h3>
       <TradePartnerSelectMenu />
       {tradePartner == null ?
         <TradeWithBoardMenu

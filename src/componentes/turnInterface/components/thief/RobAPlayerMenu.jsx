@@ -4,10 +4,12 @@ import { CurrentPlayerTurnContext } from "../../../../state/currentPlayerTurn/Cu
 import { PlayerInformationContext } from "../../../../state/playerInformation/PlayerInformationContext";
 import { NetworkingMessageSenderContext } from "../../../networking/Host/NetworkingMessageSenderContext";
 
+import resourceCardsIcon from "../../../../assets/resourceCardsIcon.svg"
+
 export default function RobAPlayer() {
   const { robbingTargetPlayers, getAllPlayersTotalResourceCards } = useContext(PlayerResourceCardsContext);
   const { currentPlayerTurn } = useContext(CurrentPlayerTurnContext);
-  const { playerColor } = useContext(PlayerInformationContext);
+  const { playerColor, playerName } = useContext(PlayerInformationContext);
   const { addToMessagePayloadToHost, sendTheMessages } = useContext(NetworkingMessageSenderContext);
 
 
@@ -26,8 +28,7 @@ export default function RobAPlayer() {
       if(AllPlayersTotalCards[possibleVictimPlayer] != 0){
       content.push(
         <div key={crypto.randomUUID()}>
-          Remove cards from Player {possibleVictimPlayer}? The player has {AllPlayersTotalCards[possibleVictimPlayer] == 1 ? "1 card" : AllPlayersTotalCards[possibleVictimPlayer] + " cards"}.
-          <button className={"playerButton"+playerColor[possibleVictimPlayer]} onClick={() => {stealACardOnClick(possibleVictimPlayer)}}>Rob Player {possibleVictimPlayer}</button>
+          <button className={"playerButton"+playerColor[possibleVictimPlayer]} onClick={() => {stealACardOnClick(possibleVictimPlayer)}}>Rob {playerName[possibleVictimPlayer]}: {AllPlayersTotalCards[possibleVictimPlayer]} <img src={resourceCardsIcon} /></button>
         </div>
       )}
     }
