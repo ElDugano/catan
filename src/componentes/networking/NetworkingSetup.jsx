@@ -14,6 +14,7 @@ import { ThiefLocationContext } from "../gameboard/state/thiefLocation/ThiefLoca
 import { TileCornerNodesContext } from "../gameboard/state/tileCornerNodes/TileCornerNodesContext";
 
 import { CurrentPlayerTurnContext } from "../../state/currentPlayerTurn/CurrentPlayerTurnContext";
+import { PlayerColorContext } from "../../state/playerColor/PlayerColorContext";
 import { TurnStateContext } from "../../state/turnState/TurnStateContext";
 
 export const NetworkingSetup = () => {
@@ -29,7 +30,8 @@ export const NetworkingSetup = () => {
   const { thiefLocation } = useContext(ThiefLocationContext);
   const { tileCornerNodes } = useContext(TileCornerNodesContext);
 
-  const { playerOrder, currentPlayerTurn } = useContext(CurrentPlayerTurnContext);
+  const { playerOrder, currentPlayerTurn, clientPlayerNumber, numberOfPlayers } = useContext(CurrentPlayerTurnContext);
+  const { playerColor } = useContext(PlayerColorContext);
 
   const sendHostMessage = () => {
     addToMessagePayloadToAllPlayers({message: "Hey, are you ready to play?"});
@@ -51,6 +53,9 @@ export const NetworkingSetup = () => {
     sendTheMessages();
     //setGameStateToBoardSetup();
   }
+  const clientStartTheGame = () => {
+
+  }
   //---------- Should be moved into GameSetup -----------//
   const sendClientMessage = () => {
     addToMessagePayloadToHost({message: "I am in the message payload"});
@@ -65,16 +70,33 @@ export const NetworkingSetup = () => {
     setConn(null);
   }
 
+
+    console.log("Time to check");
+    let colorsSelected = 0;
+    console.log(playerColor);
+    console.log("Number of Players", numberOfPlayers)
+    playerColor.forEach(color => {
+      if ( color != "" )
+        colorsSelected++;
+    })
+    console.log("There are this many colors, ",colorsSelected);
+    if ( colorsSelected == numberOfPlayers )
+      colorsSelected = true;
+    else
+      colorsSelected = false;
+
+
   return (
     <>
-      <button onClick={makeHost}>Boardgame Display</button>
-      <button onClick={makePlayer}>Be a player</button>
+      {conn == null && <button onClick={makeHost}>Boardgame Display</button>}
+      {conn == null && <button onClick={makePlayer}>Be a player</button>}
       {isHost == true && <NetworkingHostSetup setNewestConn={setNewestConn} hostPeerIDPrefix={hostPeerIDPrefix} conn={conn} />}
       {(isHost == false && conn == null) && <NetworkingClientSetup setNewestConn={setNewestConn} hostPeerIDPrefix={hostPeerIDPrefix} conn={conn} />}
       <br />
       {(isHost == true && conn.length > 0) && <button onClick={sendHostMessage}>Send a message to the players</button>}
       {(isHost == true && conn.length > 0) && <button onClick={hostStartTheGame}>StartTheGame</button>}
       {(isHost == false && conn != null) && <button onClick={sendClientMessage}>Send a message to the Board</button>}
+      {(isHost == false && clientPlayerNumber == 0 && colorsSelected) && <button onClick={clientStartTheGame}>Start the game</button>}
     </>
   )
 }

@@ -27,7 +27,7 @@ import { NetworkingMessageSenderContext } from "./NetworkingMessageSenderContext
 const NetworkReconnectStateUpdate = () => {
 
 
-  const { gameState } = useContext(GameStateContext);  //Now, to simplify, we might just use setStates, not helper functions.
+  const { gameState,isGameStateGameSetup } = useContext(GameStateContext);  //Now, to simplify, we might just use setStates, not helper functions.
   const { turnState } = useContext(TurnStateContext);
   const { landTileNumbers } = useContext(LandTileNumbersContext);
   const { landTiles, desertLocation} = useContext(LandTilesContext);
@@ -46,7 +46,7 @@ const NetworkReconnectStateUpdate = () => {
   const { diceRolledThisTurn } = useContext(DiceContext);
   const { /*playerOrder, currentPlayerTurn,*/ numberOfPlayers/*, playerOrderArrayPosition, clientPlayerNumber*/ } = useContext(CurrentPlayerTurnContext);
   
-  const { addToMessagePayloadToPlayer, sendTheMessages} = useContext(NetworkingMessageSenderContext);
+  const { addToMessagePayloadToPlayer, addToMessagePayloadToAllPlayers, sendTheMessages} = useContext(NetworkingMessageSenderContext);
 
   const { reconnectingPlayer, setReconnectingPlayer } = useContext(NetworkingContext);
 
@@ -85,7 +85,10 @@ const NetworkReconnectStateUpdate = () => {
       addToMessagePayloadToPlayer({diceRolledThisTurn:diceRolledThisTurn}, reconnectingPlayer);
       //addToMessagePayloadToPlayer({playerOrder:playerOrder}, reconnectingPlayer);
       //addToMessagePayloadToPlayer({currentPlayerTurn:currentPlayerTurn}, reconnectingPlayer);
-      addToMessagePayloadToPlayer({numberOfPlayers:numberOfPlayers}, reconnectingPlayer);
+      if(isGameStateGameSetup())
+        addToMessagePayloadToAllPlayers({numberOfPlayers:numberOfPlayers});
+      else
+        addToMessagePayloadToPlayer({numberOfPlayers:numberOfPlayers}, reconnectingPlayer);
       //addToMessagePayloadToPlayer({playerOrderArrayPosition:playerOrderArrayPosition}, reconnectingPlayer);
       //addToMessagePayloadToPlayer({clientPlayerNumber:clientPlayerNumber}, reconnectingPlayer);
       

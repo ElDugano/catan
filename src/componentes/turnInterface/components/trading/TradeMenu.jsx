@@ -104,14 +104,14 @@ export default function TradeMenu() {
       <TradePartnerSelectMenu />
       {tradePartner == null ?
         <TradeWithBoardMenu
-          key={crypto.randomUUID()}
+
           giveResources={giveResources}
           setGiveResources={setGiveResources}
           recieveResources={recieveResources}
           setRecieveResources={setRecieveResources}
         /> :
         <TradeWithPlayerMenu
-          key={crypto.randomUUID()}
+
           giveResources={giveResources}
           setGiveResources={setGiveResources}
           recieveResources={recieveResources}

@@ -60,6 +60,17 @@
   opacity: 0.5;
 }
 
+.selectPlayerColorMenu {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.selectPlayerColorMenu button{
+  width: 40vw;
+  margin: 3vw;
+}
+
 
 
 .clientMenuColorBlue button { 
@@ -115,14 +126,14 @@
 }
 
 .clientMenuColorOrange button { 
-  background-color: orange;
+  background-color: orangered;
 }
 .clientMenuColorOrange button:active {
-  background-color:#a7430a;
+  background-color:#742e00;
   outline: none;
 }
 .clientMenuColorOrange button.selected {
-  background-color: rgb(255, 186, 59);
+  background-color: rgb(255, 147, 59);;
   outline: 1vw solid white;
   outline-offset: -1vw;
 }
@@ -195,14 +206,14 @@ button.playerButtonGold.selected {
 }
 
 button.playerButtonOrange {
-  background-color: orange;
+  background-color: orangered;
 }
 button.playerButtonOrange:active {
-  background-color:#a7430a;
+  background-color:#742e00;
   outline: none;
 }
 button.playerButtonOrange.selected {
-  background-color: rgb(255, 186, 59);
+  background-color: rgb(255, 147, 59);
   outline: 1vw solid white;
   outline-offset: -1vw;
 }
