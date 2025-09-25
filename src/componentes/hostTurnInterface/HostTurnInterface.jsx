@@ -1,4 +1,4 @@
-import { useContext, ReactComponent } from "react";
+import { useContext } from "react";
 import { CurrentPlayerTurnContext } from "../../state/currentPlayerTurn/CurrentPlayerTurnContext";
 import { PlayerInformationContext } from "../../state/playerInformation/PlayerInformationContext";
 import { ScoreBoardContext } from "../../state/scoreBoard/ScoreBoardContext";
@@ -40,9 +40,12 @@ const HostTurnInterface = () => {
   const totalResourceCards = getAllPlayersTotalResourceCards()
   playerOrder.forEach((player, index) => {
     content.push(
-      <div key={crypto.randomUUID()} className={"playerScoreCard "+scoreCardWidth+" playerColor"+playerColor[player]}>
-        <div className="playerInformationHolder">
+      <div key={crypto.randomUUID()}
+        className={"playerScoreCard "+scoreCardWidth+" playerColor"+playerColor[player]+" "+(currentPlayerTurn == player && "currentTurn")}
+      >
+        <div className={"playerInformationHolder"}>
           <div className="playerName">{playerName[player]}</div>
+          
           <div className="playerData"><img src={resourceCardsIcon} />{totalResourceCards[player]}</div>
           <div className="playerData"><img src={largestArmyIcon} />{getPlayerArmyStrength(player)}</div>
           <div className="playerData"><img src={developmentCardsIcon} />{totalPlayerDevelopmentCardHand[player]}</div>
