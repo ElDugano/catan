@@ -1,6 +1,6 @@
 import { useContext } from "react"
 import { CurrentPlayerTurnContext } from "../../../../state/currentPlayerTurn/CurrentPlayerTurnContext";
-import { PlayerColorContext } from "../../../../state/playerColor/PlayerColorContext";
+import { PlayerInformationContext } from "../../../../state/playerInformation/PlayerInformationContext";
 import { PlayerResourceCardsContext } from "../../../../state/playerResourceCards/PlayerResourceCardsContext";
 
 import lumberIcon from "../../../../assets/lumberIcon.svg";
@@ -12,7 +12,7 @@ import oreIcon from "../../../../assets/oreIcon.svg";
 
 export default function TradeWithPlayerMenu(props) {
   const { clientPlayerNumber } = useContext(CurrentPlayerTurnContext);
-  const { playerColor } = useContext(PlayerColorContext);
+  const { playerColor } = useContext(PlayerInformationContext);
   const { getAPlayersResourceCards } = useContext(PlayerResourceCardsContext);
   const playerResources = getAPlayersResourceCards(clientPlayerNumber);
 

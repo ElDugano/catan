@@ -16,6 +16,7 @@ import { TileCornerNodesContext } from "../../gameboard/state/tileCornerNodes/Ti
 import { ScoreBoardContext } from "../../../state/scoreBoard/ScoreBoardContext";
 
 import { CurrentPlayerTurnContext } from "../../../state/currentPlayerTurn/CurrentPlayerTurnContext";
+import { PlayerInformationContext } from "../../../state/playerInformation/PlayerInformationContext";
 import { PortOwnerContext } from "../../../state/portOwner/PortOwnerContext";
 import { PlayerAvailableBuildingsContext } from "../../../state/playerAvailableBuildings/PlayerAvailableBuildingsContext";
 import { PlayerResourceCardsContext } from "../../../state/playerResourceCards/PlayerResourceCardsContext";
@@ -45,6 +46,7 @@ const NetworkReconnectStateUpdate = () => {
   const { playerDevelopmentCardJustPurchased, playerDevelopmentCardHand/*, playerDevelopmentCardPlayed*/ } = useContext(DevelopmentCardsContext);
   const { diceRolledThisTurn } = useContext(DiceContext);
   const { /*playerOrder, currentPlayerTurn,*/ numberOfPlayers/*, playerOrderArrayPosition, clientPlayerNumber*/ } = useContext(CurrentPlayerTurnContext);
+  const { playerColor } = useContext(PlayerInformationContext);
   
   const { addToMessagePayloadToPlayer, addToMessagePayloadToAllPlayers, sendTheMessages} = useContext(NetworkingMessageSenderContext);
 
@@ -89,9 +91,13 @@ const NetworkReconnectStateUpdate = () => {
         addToMessagePayloadToAllPlayers({numberOfPlayers:numberOfPlayers});
       else
         addToMessagePayloadToPlayer({numberOfPlayers:numberOfPlayers}, reconnectingPlayer);
+      addToMessagePayloadToPlayer({playerColor:playerColor}, reconnectingPlayer);
       //addToMessagePayloadToPlayer({playerOrderArrayPosition:playerOrderArrayPosition}, reconnectingPlayer);
       //addToMessagePayloadToPlayer({clientPlayerNumber:clientPlayerNumber}, reconnectingPlayer);
-      
+
+      //addToMessagePayloadToPlayer();
+      //addToMessagePayloadToPlayer();
+      //addToMessagePayloadToPlayer();
       //addToMessagePayloadToPlayer();
       sendTheMessages();
       setReconnectingPlayer(null)
@@ -99,8 +105,10 @@ const NetworkReconnectStateUpdate = () => {
   },[ reconnectingPlayer,
       setReconnectingPlayer,
       addToMessagePayloadToPlayer,
+      addToMessagePayloadToAllPlayers,
       sendTheMessages,
       gameState,
+      isGameStateGameSetup,
       turnState,
       landTileNumbers,
       landTiles,
@@ -133,7 +141,8 @@ const NetworkReconnectStateUpdate = () => {
       diceRolledThisTurn,
       //playerOrder,
       //currentPlayerTurn,
-      numberOfPlayers
+      numberOfPlayers,
+      playerColor
       //playerOrderArrayPosition,
       //clientPlayerNumber,
        ])

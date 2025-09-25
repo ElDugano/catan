@@ -1,6 +1,6 @@
 import { useState, useContext } from "react"
 import { CurrentPlayerTurnContext } from "../../../../state/currentPlayerTurn/CurrentPlayerTurnContext";
-import { PlayerColorContext } from "../../../../state/playerColor/PlayerColorContext";
+import { PlayerInformationContext } from "../../../../state/playerInformation/PlayerInformationContext";
 import { TurnStateContext } from "../../../../state/turnState/TurnStateContext";
 import { PlayerResourceCardsContext } from "../../../../state/playerResourceCards/PlayerResourceCardsContext";
 import { NetworkingMessageSenderContext } from "../../../networking/Host/NetworkingMessageSenderContext";
@@ -13,7 +13,7 @@ import "./tradeMenu.css";
 export default function TradeMenu() {
 
   const { clientPlayerNumber, playerOrder } = useContext(CurrentPlayerTurnContext);
-  const { playerColor } = useContext(PlayerColorContext);
+  const { playerColor } = useContext(PlayerInformationContext);
   const { setTurnStateToIdle, setTurnStateToReviewingTradeOffer } = useContext(TurnStateContext);
   const { updateTradeOffer } = useContext(PlayerResourceCardsContext);
   const { addToMessagePayloadToHost, sendTheMessages } = useContext(NetworkingMessageSenderContext);

@@ -6,14 +6,15 @@ import GameSetupHost from "./GameSetupHost";
 import GameSetupClient from "./GameSetupClient";
 
 export default function GameSetup() {
-  const { isHost } = useContext(NetworkingContext);
+  const { isHost, conn } = useContext(NetworkingContext);
  
 
   return (
     <>
     <h1>Welcome to catan</h1>
       <NetworkingSetup />
-      {(isHost == true) ? <GameSetupHost /> :  <GameSetupClient />} 
+      {isHost == true && <GameSetupHost />}
+      {(isHost == false && conn != null) && <GameSetupClient />}
     </>
   )
 }

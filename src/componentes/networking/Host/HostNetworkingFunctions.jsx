@@ -9,12 +9,13 @@ import { ScoreBoardContext } from "../../../state/scoreBoard/ScoreBoardContext";
 import { CurrentPlayerTurnContext } from "../../../state/currentPlayerTurn/CurrentPlayerTurnContext";
 import { PlayerAvailableBuildingsContext } from "../../../state/playerAvailableBuildings/PlayerAvailableBuildingsContext";
 import { PlayerResourceCardsContext } from "../../../state/playerResourceCards/PlayerResourceCardsContext";
-import { PlayerColorContext } from "../../../state/playerColor/PlayerColorContext";
+import { PlayerInformationContext } from "../../../state/playerInformation/PlayerInformationContext";
 import { DiceContext } from "../../../state/dice/DiceContext";
 import { DevelopmentCardsContext } from "../../../state/developmentCards/DevelopmentCardsContext";
 
 import { TileCornerNodesContext } from "../../gameboard/state/tileCornerNodes/TileCornerNodesContext";
 import { LandTilesContext } from "../../gameboard/state/landTiles/LandTilesContext";
+import { PortTilesContext } from "../../gameboard/state/portTiles/PortTilesContext";
 import { LandTileNumbersContext } from "../../gameboard/state/landTileNumbers/LandTileNumbersContext";
 import { PortOwnerContext } from "../../../state/portOwner/PortOwnerContext";
 import { ThiefLocationContext } from "../../gameboard/state/thiefLocation/ThiefLocationContext";
@@ -24,11 +25,15 @@ import mapTileTypeToResourceType from "../../../helpers/turnState/MapTileTypeToR
 
 import { NetworkingMessageSenderContext } from "./NetworkingMessageSenderContext";
 import findThePlayersLongestRoad from "../../gameboard/helpers/FindLongestRoad";
+import { PortTiles } from "../../gameboard/state/portTiles/PortTiles";
 
 //import BuildSettlement from "./buildSettlement";
 
 const HostNetworkingFunctions = () => {
-  const { isGameStateBoardSetup, setGameStateToMainGame, setGameStateToGameOver }= useContext(GameStateContext);
+  const { isGameStateBoardSetup,
+          setGameStateToBoardSetup,
+          setGameStateToMainGame,
+          setGameStateToGameOver }= useContext(GameStateContext);
     //Currently gets stuck here because this isn't a react component. This is being called like a regular function
   const { //turnState,
           setTurnStateToIdle,
@@ -41,7 +46,7 @@ const HostNetworkingFunctions = () => {
           setTurnStateToMoveTheThief,
           setTurnStateToRobAPlayer,
           setClientTurnStateToReviewingTradeOffer }= useContext(TurnStateContext);
-  const { setAPlayersColor } = useContext(PlayerColorContext);
+  const { setAPlayersColor, setAPlayerName } = useContext(PlayerInformationContext);
   const { scorePoint,
           checkIfLongestRoad,
           setLongestRoad,
@@ -51,6 +56,7 @@ const HostNetworkingFunctions = () => {
           winner } = useContext(ScoreBoardContext);
   const { currentPlayerTurn,
           numberOfPlayers,
+          playerOrder,
           gotoNextPlayerTurn,
           gotoPreviousPlayerTurn,
           nextPlayerTurn,
@@ -87,9 +93,12 @@ const HostNetworkingFunctions = () => {
           isNodeValueCity,
           getTileNodeOwner } = useContext(TileCornerNodesContext);
   const { landTileNumbers } = useContext(LandTileNumbersContext);
-  const { landTiles } = useContext(LandTilesContext);
+  const { landTiles,
+          desertLocation } = useContext(LandTilesContext);
   const { setPortOwner } = useContext(PortOwnerContext);
-  const { setAndReturnThiefLocation } = useContext(ThiefLocationContext);
+  const { portTiles } = useContext(PortTilesContext);
+  const { thiefLocation,
+          setAndReturnThiefLocation } = useContext(ThiefLocationContext);
   const { rollDice, setDice, haveDiceBeenRolledThisTurn, setDiceRolledThisTurn, resetDiceRolledThisTurn } = useContext(DiceContext);
   const { givePlayerDevelopmentCardFromDeck,
           makePlayerPurchasedDevelopmentAvailableToPlay,
@@ -112,6 +121,26 @@ const HostNetworkingFunctions = () => {
 
   const selectColor = (player, color) => {
     addToMessagePayloadToAllPlayers(setAPlayersColor(player, color));
+    sendTheMessages();
+  }
+
+  const setPlayerName = (player, name) => {
+    console.log("YEAH DAWG WE GOT CALLED ********");
+    addToMessagePayloadToAllPlayers(setAPlayerName(player, name));
+    sendTheMessages();
+  }
+
+  const startGame = () => {
+    addToMessagePayloadToAllPlayers({ header:"Board Setup" });
+    addToMessagePayloadToAllPlayers(setGameStateToBoardSetup());
+    addToMessagePayloadToPlayer(setClientTurnStateToBuildingASettlement(), currentPlayerTurn);
+    addToMessagePayloadToAllPlayers({ landTileNumbers:landTileNumbers });
+    addToMessagePayloadToAllPlayers({ landTiles:landTiles });
+    addToMessagePayloadToAllPlayers({ desertLocation:desertLocation });
+    addToMessagePayloadToAllPlayers({ portTiles:portTiles });
+    addToMessagePayloadToAllPlayers({ thiefLocation:thiefLocation });
+    addToMessagePayloadToAllPlayers({ tileCornerNodes:tileCornerNodes });
+    addToMessagePayloadToAllPlayers({ setupClientPlayerOrder:playerOrder });
     sendTheMessages();
   }
 
@@ -403,6 +432,8 @@ const HostNetworkingFunctions = () => {
   <>
     <NetworkingMessageReciever
       selectColor = {selectColor}
+      setPlayerName = {setPlayerName}
+      startGame = {startGame}
       rollTheDice = {rollTheDice}
       buildSettlement = {buildSettlement}
       buildRoad = {buildRoad}

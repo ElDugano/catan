@@ -3,7 +3,7 @@ import { NetworkingMessageSender } from '../componentes/networking/Host/Networki
 import { GameState } from './gameState/GameState.jsx'
 import { TurnState } from './turnState/TurnState.jsx'
 import { CurrentPlayerTurn } from './currentPlayerTurn/CurrentPlayerTurn.jsx'
-import { PlayerColor } from './playerColor/PlayerColor.jsx'
+import { PlayerInformation } from './playerInformation/PlayerInformation.jsx'
 import { PlayerAvailableBuildings } from './playerAvailableBuildings/PlayerAvailableBuildings.jsx'
 import { Dice } from './dice/Dice.jsx'
 import { PlayerResourceCards } from './playerResourceCards/PlayerResourceCards.jsx'
@@ -14,7 +14,7 @@ import { PortOwner } from './portOwner/PortOwner.jsx'
 export default function GlobalStateProvider({ children }) {
   return (
       <CurrentPlayerTurn>
-        <PlayerColor>{/* These two above should just be grouped together. */}
+        <PlayerInformation>{/* These two above should just be grouped together. */}
           <Networking>
             <NetworkingMessageSender>
               <GameState>
@@ -36,7 +36,7 @@ export default function GlobalStateProvider({ children }) {
               </GameState>
             </NetworkingMessageSender>
           </Networking>
-        </PlayerColor>
+        </PlayerInformation>
       </CurrentPlayerTurn>
   )
 }

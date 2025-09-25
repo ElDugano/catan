@@ -25,6 +25,8 @@ export default function Debug() {
 
   return (
     <>
+    <hr />
+    Cheat menu
     {Roll7Button}
     {GiveResourcesButton}
     </>

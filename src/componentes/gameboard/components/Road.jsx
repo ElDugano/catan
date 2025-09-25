@@ -1,8 +1,8 @@
 import { useContext } from "react";
-import { PlayerColorContext } from "../../../state/playerColor/PlayerColorContext";
+import { PlayerInformationContext } from "../../../state/playerInformation/PlayerInformationContext";
 
 export default function BuildRoadButton(props) {
-  const {getAPlayersColor} = useContext(PlayerColorContext);
+  const {getAPlayersColor} = useContext(PlayerInformationContext);
   if(props.NodeRoadOwner != "none") {
     return (
       <line

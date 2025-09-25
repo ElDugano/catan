@@ -13,7 +13,7 @@ import { TileCornerNodesContext } from "../../gameboard/state/tileCornerNodes/Ti
 import { ScoreBoardContext } from "../../../state/scoreBoard/ScoreBoardContext";
 
 import { CurrentPlayerTurnContext } from "../../../state/currentPlayerTurn/CurrentPlayerTurnContext";
-import { PlayerColorContext } from "../../../state/playerColor/PlayerColorContext";
+import { PlayerInformationContext } from "../../../state/playerInformation/PlayerInformationContext";
 import { PortOwnerContext } from "../../../state/portOwner/PortOwnerContext";
 import { PlayerAvailableBuildingsContext } from "../../../state/playerAvailableBuildings/PlayerAvailableBuildingsContext";
 import { PlayerResourceCardsContext } from "../../../state/playerResourceCards/PlayerResourceCardsContext";
@@ -52,7 +52,7 @@ const NetworkingMessageReciever = (props) => {
   const { setDiceRolledThisTurn } = useContext(DiceContext);
 
   const { setCurrentPlayerTurn, setupClientPlayerOrder, setClientPlayerNumber, setNumberOfPlayers } = useContext(CurrentPlayerTurnContext);
-  const { setPlayerColor } = useContext(PlayerColorContext);
+  const { setPlayerColor, setPlayerName } = useContext(PlayerInformationContext);
 
   useEffect(() => {
     if (recievedMessages != null) {
@@ -108,6 +108,7 @@ const NetworkingMessageReciever = (props) => {
           //"playerOrderArrayPosition" in recievedMessages && (recievedMessages.playerOrderArrayPosition);
           //"clientPlayerNumber" in recievedMessages && (recievedMessages.clientPlayerNumber);
           "playerColor"               in recievedMessages && setPlayerColor(recievedMessages.playerColor);
+          "playerName"               in recievedMessages && setPlayerName(recievedMessages.playerName);
           
           
           "totalPlayerDevelopmentCardHand" in recievedMessages && setTotalPlayerDevelopmentCardHand(recievedMessages.totalPlayerDevelopmentCardHand);
@@ -118,6 +119,8 @@ const NetworkingMessageReciever = (props) => {
           //"" in recievedMessages && (recievedMessages.);
           //"" in recievedMessages && (recievedMessages.);
           "selectColor"               in recievedMessages && props.selectColor(recievedMessages.selectColor.player, recievedMessages.selectColor.color);
+          "setPlayerName"             in recievedMessages && props.setPlayerName(recievedMessages.setPlayerName.player, recievedMessages.setPlayerName.name);
+          "startGame"                 in recievedMessages && props.startGame();
           "buildSettlement"           in recievedMessages && props.buildSettlement(recievedMessages.buildSettlement.x, recievedMessages.buildSettlement.y)
           "buildRoad"                 in recievedMessages && props.buildRoad(recievedMessages.buildRoad.x, recievedMessages.buildRoad.y, recievedMessages.buildRoad.direction, recievedMessages.buildRoad.clientTurnState);
           "rollTheDice"               in recievedMessages && props.rollTheDice();

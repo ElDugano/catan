@@ -1,7 +1,7 @@
 import { useContext } from "react";
 import { CurrentPlayerTurnContext } from "../../../../state/currentPlayerTurn/CurrentPlayerTurnContext.js";
 import { PlayerResourceCardsContext } from "../../../../state/playerResourceCards/PlayerResourceCardsContext.js";
-import { PlayerColorContext } from "../../../../state/playerColor/PlayerColorContext.js";
+import { PlayerInformationContext } from "../../../../state/playerInformation/PlayerInformationContext.js";
 import "./clientHud.css"
 
 import lumberIcon from "../../../../assets/lumberIcon.svg"
@@ -15,7 +15,7 @@ import oreIcon from "../../../../assets/oreIcon.svg"
 const ClientHud = () => {
   const { clientPlayerNumber } = useContext(CurrentPlayerTurnContext);
   const { playerResourceCards, previouslyGainedResources } = useContext(PlayerResourceCardsContext);
-  const { playerColor } = useContext(PlayerColorContext);
+  const { playerColor } = useContext(PlayerInformationContext);
 
   if (clientPlayerNumber == null)
     return;

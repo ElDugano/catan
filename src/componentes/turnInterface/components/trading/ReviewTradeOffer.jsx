@@ -1,7 +1,7 @@
 import { useContext } from "react"
 import { TurnStateContext } from "../../../../state/turnState/TurnStateContext"
 import { PlayerResourceCardsContext } from "../../../../state/playerResourceCards/PlayerResourceCardsContext";
-import { PlayerColorContext } from "../../../../state/playerColor/PlayerColorContext";
+import { PlayerInformationContext } from "../../../../state/playerInformation/PlayerInformationContext";
 import { CurrentPlayerTurnContext } from "../../../../state/currentPlayerTurn/CurrentPlayerTurnContext";
 import { NetworkingMessageSenderContext } from "../../../networking/Host/NetworkingMessageSenderContext";
 
@@ -16,7 +16,7 @@ import oreIcon from "../../../../assets/oreIcon.svg";
 export default function ReviewingTradeOffer() {
    const { setTurnStateToIdle } = useContext(TurnStateContext);
    const { tradeOffer } = useContext(PlayerResourceCardsContext);
-   const { playerColor } = useContext(PlayerColorContext)
+   const { playerColor } = useContext(PlayerInformationContext)
    const { currentPlayerTurn, clientPlayerNumber } = useContext(CurrentPlayerTurnContext);
    const { addToMessagePayloadToHost, sendTheMessages } = useContext(NetworkingMessageSenderContext);
 

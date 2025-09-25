@@ -1,8 +1,8 @@
 import { useContext } from "react";
-import { PlayerColorContext } from "../../../state/playerColor/PlayerColorContext";
+import { PlayerInformationContext } from "../../../state/playerInformation/PlayerInformationContext";
 
 export default function City(props) {
-  const {getAPlayersColor} = useContext(PlayerColorContext);
+  const {getAPlayersColor} = useContext(PlayerInformationContext);
     return (
       <path
         fill={getAPlayersColor(props.owner)}

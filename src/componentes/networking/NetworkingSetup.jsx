@@ -14,7 +14,7 @@ import { ThiefLocationContext } from "../gameboard/state/thiefLocation/ThiefLoca
 import { TileCornerNodesContext } from "../gameboard/state/tileCornerNodes/TileCornerNodesContext";
 
 import { CurrentPlayerTurnContext } from "../../state/currentPlayerTurn/CurrentPlayerTurnContext";
-import { PlayerColorContext } from "../../state/playerColor/PlayerColorContext";
+import { PlayerInformationContext } from "../../state/playerInformation/PlayerInformationContext";
 import { TurnStateContext } from "../../state/turnState/TurnStateContext";
 
 export const NetworkingSetup = () => {
@@ -31,7 +31,7 @@ export const NetworkingSetup = () => {
   const { tileCornerNodes } = useContext(TileCornerNodesContext);
 
   const { playerOrder, currentPlayerTurn, clientPlayerNumber, numberOfPlayers } = useContext(CurrentPlayerTurnContext);
-  const { playerColor } = useContext(PlayerColorContext);
+  const { playerColor, playerName } = useContext(PlayerInformationContext);
 
   const sendHostMessage = () => {
     addToMessagePayloadToAllPlayers({message: "Hey, are you ready to play?"});
@@ -54,13 +54,14 @@ export const NetworkingSetup = () => {
     //setGameStateToBoardSetup();
   }
   const clientStartTheGame = () => {
-
-  }
-  //---------- Should be moved into GameSetup -----------//
-  const sendClientMessage = () => {
-    addToMessagePayloadToHost({message: "I am in the message payload"});
+    addToMessagePayloadToHost({ startGame:true });
     sendTheMessages();
   }
+  //---------- Should be moved into GameSetup -----------//
+  //const sendClientMessage = () => {
+  //  addToMessagePayloadToHost({message: "I am in the message payload"});
+  //  sendTheMessages();
+  //}
   const makeHost= () => {
     setIsHost(true);
     setConn([]);
@@ -69,18 +70,19 @@ export const NetworkingSetup = () => {
     setIsHost(false)
     setConn(null);
   }
-
-
-    console.log("Time to check");
     let colorsSelected = 0;
-    console.log(playerColor);
-    console.log("Number of Players", numberOfPlayers)
     playerColor.forEach(color => {
       if ( color != "" )
         colorsSelected++;
     })
+    let namesSelected = 0;
+    playerName.forEach(name => {
+      if ( name != "" )
+        namesSelected++;
+    })
     console.log("There are this many colors, ",colorsSelected);
-    if ( colorsSelected == numberOfPlayers )
+    console.log("There are this many names, ",namesSelected);
+    if ( colorsSelected == numberOfPlayers && namesSelected == numberOfPlayers )
       colorsSelected = true;
     else
       colorsSelected = false;
@@ -92,10 +94,9 @@ export const NetworkingSetup = () => {
       {conn == null && <button onClick={makePlayer}>Be a player</button>}
       {isHost == true && <NetworkingHostSetup setNewestConn={setNewestConn} hostPeerIDPrefix={hostPeerIDPrefix} conn={conn} />}
       {(isHost == false && conn == null) && <NetworkingClientSetup setNewestConn={setNewestConn} hostPeerIDPrefix={hostPeerIDPrefix} conn={conn} />}
-      <br />
-      {(isHost == true && conn.length > 0) && <button onClick={sendHostMessage}>Send a message to the players</button>}
-      {(isHost == true && conn.length > 0) && <button onClick={hostStartTheGame}>StartTheGame</button>}
-      {(isHost == false && conn != null) && <button onClick={sendClientMessage}>Send a message to the Board</button>}
+      {/*(isHost == true && conn.length > 0) && <button onClick={sendHostMessage}>Send a message to the players</button>*/}
+      {/*(isHost == true && conn.length > 0) && <button onClick={hostStartTheGame}>StartTheGame</button>*/}
+      {/*(isHost == false && conn != null) && <button onClick={sendClientMessage}>Send a message to the Board</button>*/}
       {(isHost == false && clientPlayerNumber == 0 && colorsSelected) && <button onClick={clientStartTheGame}>Start the game</button>}
     </>
   )

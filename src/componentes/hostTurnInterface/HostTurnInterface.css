@@ -32,15 +32,6 @@
   color: #333333;
 }
 
-.playerColorGold {
-  background-image: linear-gradient(0deg,rgb(209, 211, 107) 0%, rgba(255, 255, 255, 1) 100%);
-}
-.playerColorGold .playerScore {
-  color: gold;
-}
-.playerColorBlue {
-  background-image: linear-gradient(0deg,rgb(42, 91, 155) 0%, rgba(255, 255, 255, 1) 100%);
-}
 .playerColorBlue .playerScore {
   color: blue;
 }
@@ -56,6 +47,28 @@
 .playerColorIndigo .playerScore {
   color: indigo;
 }
+.playerColorYellow {
+  background-image: linear-gradient(0deg,rgb(209, 211, 107) 0%, rgba(255, 255, 255, 1) 100%);
+}
+.playerColorYellow .playerScore {
+  color: gold;
+}
+.playerColorBlue {
+  background-image: linear-gradient(0deg,rgb(42, 91, 155) 0%, rgba(255, 255, 255, 1) 100%);
+}
+.playerColorOrange .playerScore {
+  color: orangered;
+}
+.playerColorOrange {
+  background-image: linear-gradient(0deg,rgb(155, 65, 42) 0%, rgba(255, 255, 255, 1) 100%);
+}
+.playerColorGreen .playerScore {
+  color: green;
+}
+.playerColorGreen {
+  background-image: linear-gradient(0deg,rgb(83, 155, 42) 0%, rgba(255, 255, 255, 1) 100%);
+}
+
 
 .twoPlayerScoreCard {
   width: 50%;

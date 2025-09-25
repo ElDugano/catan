@@ -3,7 +3,7 @@ import { useContext } from "react";
 import { GameStateContext } from "../../state/gameState/GameStateContext.js";
 import { TurnStateContext } from "../../state/turnState/TurnStateContext";
 import { CurrentPlayerTurnContext } from "../../state/currentPlayerTurn/CurrentPlayerTurnContext.js";
-import { PlayerColorContext } from "../../state/playerColor/PlayerColorContext.js";
+import { PlayerInformationContext } from "../../state/playerInformation/PlayerInformationContext.js";
 
 import ClientHud from "./components/clientHud/ClientHud.jsx";
 
@@ -32,7 +32,7 @@ import ReviewingTradeOffer from "./components/trading/ReviewTradeOffer.jsx";
 export default function TurnInterface() {
   const { isGameStateMainGame } = useContext(GameStateContext);
   const { isClientPlayersTurn, clientPlayerNumber } = useContext(CurrentPlayerTurnContext);
-  const { playerColor } = useContext(PlayerColorContext);
+  const { playerColor } = useContext(PlayerInformationContext);
   const localPlayerColor = playerColor[clientPlayerNumber];
 
   const {isTurnStateRollingTheDice,
@@ -91,6 +91,7 @@ export default function TurnInterface() {
     return (
       <div className={"clientMenu clientMenuColor"+localPlayerColor}>
         <ClientHud />
+        It is not your turn.
         {isTurnStateGatheringResourcesAcknowledgement() && <GatherResroucesAcknowledgement />}
         {isTurnStateRemoveHalfResources() && <RemoveHalfResourcesMenu />}
         {isTurnStateReviewingTradeOffer() && <ReviewingTradeOffer />}
