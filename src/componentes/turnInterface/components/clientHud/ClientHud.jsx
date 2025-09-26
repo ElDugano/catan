@@ -20,20 +20,17 @@ const ClientHud = () => {
   const { playerColor } = useContext(PlayerInformationContext);
 
   const [openMenu, setOpenMenu] = useState(null);
-  const toggleMenu = () => {
-    alert("You clicked the exit button");
-  }
 
   if (clientPlayerNumber == null)
     return;
   let localPlayerColor = playerColor[clientPlayerNumber];
   return (
     <div className={"clientHud clientHudPlayerColor"+localPlayerColor}>
-      <BuildCostDisplay exitFunction={toggleMenu} />
+      {openMenu=="Building Cost" && <BuildCostDisplay exitFunction={() => setOpenMenu(null)} />}
       <div className={"clientHudTop"}>
         <div className={"clientHudTitle"}>Your Resources</div>
         <div className={"hudMenu"} onClick={() => alert("This worked")}>D</div>
-        <div className={"hudMenu"} onClick={() => alert("This worked")}>C</div>
+        <div className={"hudMenu"} onClick={() => setOpenMenu("Building Cost")}>C</div>
         <div className={"hudMenu"} onClick={() => alert("This worked")}>M</div>
       </div>
       <div className={"clientHudPlayerResources"}>
