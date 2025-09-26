@@ -38,7 +38,7 @@ const HostTurnInterface = () => {
   let content = [];
   //const totalDevelopmentCards = totalPlayerDevelopmentCardHand;
   const totalResourceCards = getAllPlayersTotalResourceCards()
-  playerOrder.forEach((player, index) => {
+  playerOrder.forEach((player/*, index*/) => {
     content.push(
       <div key={crypto.randomUUID()}
         className={"playerScoreCard "+scoreCardWidth+" playerColor"+playerColor[player]+" "+(currentPlayerTurn == player && "currentTurn")}

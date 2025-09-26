@@ -1,7 +1,8 @@
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { CurrentPlayerTurnContext } from "../../../../state/currentPlayerTurn/CurrentPlayerTurnContext.js";
 import { PlayerResourceCardsContext } from "../../../../state/playerResourceCards/PlayerResourceCardsContext.js";
 import { PlayerInformationContext } from "../../../../state/playerInformation/PlayerInformationContext.js";
+import BuildCostDisplay from "./BuildCostDisplay.jsx";
 import "./clientHud.css"
 
 import lumberIcon from "../../../../assets/lumberIcon.svg"
@@ -12,17 +13,29 @@ import oreIcon from "../../../../assets/oreIcon.svg"
 
 
 
+
 const ClientHud = () => {
   const { clientPlayerNumber } = useContext(CurrentPlayerTurnContext);
   const { playerResourceCards, previouslyGainedResources } = useContext(PlayerResourceCardsContext);
   const { playerColor } = useContext(PlayerInformationContext);
+
+  const [openMenu, setOpenMenu] = useState(null);
+  const toggleMenu = () => {
+    alert("You clicked the exit button");
+  }
 
   if (clientPlayerNumber == null)
     return;
   let localPlayerColor = playerColor[clientPlayerNumber];
   return (
     <div className={"clientHud clientHudPlayerColor"+localPlayerColor}>
-      <div className={"clientHudTitle"}>Your Resources</div>
+      <BuildCostDisplay exitFunction={toggleMenu} />
+      <div className={"clientHudTop"}>
+        <div className={"clientHudTitle"}>Your Resources</div>
+        <div className={"hudMenu"} onClick={() => alert("This worked")}>D</div>
+        <div className={"hudMenu"} onClick={() => alert("This worked")}>C</div>
+        <div className={"hudMenu"} onClick={() => alert("This worked")}>M</div>
+      </div>
       <div className={"clientHudPlayerResources"}>
         <div className={"clieentHudResourceTotal"}><img src={lumberIcon} />{playerResourceCards[clientPlayerNumber].Lumber}</div>
         <div className={"clieentHudResourceTotal"}><img src={brickIcon} />{playerResourceCards[clientPlayerNumber].Brick}</div>

@@ -111,21 +111,12 @@ const HostNetworkingFunctions = () => {
 
   const { addToMessagePayloadToPlayer, addToMessagePayloadToAllPlayers, sendTheMessages } = useContext(NetworkingMessageSenderContext);
 
-  //This is a way I can place these functions in another file.
-  //This creates unnessessary rerendering, however, so it doesn't seem like a better solution.
-  //const [buildSettlementFunction, setBuildSettlementFunction] = useState(null);
-  //const buildSettlement = (x, y) => {
-  //  setBuildSettlementFunction(<BuildSettlement x={x} y={y} destructer={setBuildSettlementFunction} />);
-  //}
-
-
   const selectColor = (player, color) => {
     addToMessagePayloadToAllPlayers(setAPlayersColor(player, color));
     sendTheMessages();
   }
 
   const setPlayerName = (player, name) => {
-    console.log("YEAH DAWG WE GOT CALLED ********");
     addToMessagePayloadToAllPlayers(setAPlayerName(player, name));
     sendTheMessages();
   }
