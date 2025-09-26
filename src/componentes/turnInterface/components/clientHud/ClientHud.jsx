@@ -31,8 +31,8 @@ const ClientHud = () => {
     <div className={"clientHud clientHudPlayerColor"+localPlayerColor}>
       {openMenu=="Building Cost" && <BuildCostDisplay exitFunction={() => setOpenMenu(null)} />}
       <div className={"clientHudTop"}>
-        <div className={"hudMenu"}>{scoreBoard[clientPlayerNumber]+hiddenPoints[clientPlayerNumber]}</div>
-        <div className={"hudMenu"} onClick={() => alert("This worked")}>D</div>
+        <div className={"hudScore"}>{scoreBoard[clientPlayerNumber]+hiddenPoints[clientPlayerNumber]}</div>
+        <div className={"hudMenu"}>D</div>
         <div className={"clientHudTitle"}>Your Resources</div>
         <div className={"hudMenu"} onClick={() => setOpenMenu("Building Cost")}>C</div>
         <div className={"hudMenu"} onClick={() => alert("This worked")}>M</div>

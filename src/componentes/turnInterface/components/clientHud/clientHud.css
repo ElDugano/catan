@@ -52,7 +52,37 @@
   height: 10vw;
   margin-right: 1vw;
   margin-left: 1vw;
-  background-color: green;
+  margin-top: 1vw;
+  border: 1px solid rgba(255, 255,255, 0.4);
+  border-radius: 2vw;
+  line-height: 10vw;
+  text-shadow: 1px 1px 0px #000, -1px 1px 0px #000, 1px -1px 0px #000, -1px -1px 0px #000;
+  background-color: rgba(255, 255,255, 0.2);
+}
+.clientHudTop .hudMenu:hover {
+  border: 1px solid rgba(255, 255,255, 0.6);
+  background-color: rgba(255, 255,255, 0.3);
+}
+
+.clientHudTop .hudMenu:active {
+  border: 1px solid rgba(255, 255,255, 0.2);
+  background-color: rgba(255, 255,255, 0.1);
+}
+
+.clientHudTop .hudScore {
+  font-family: "Ranchers", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+  width: 10vw;
+  min-width: 10vw;
+  height: 10vw;
+  margin-right: 1vw;
+  margin-left: 1vw;
+
+  font-size: 4vh;
+  line-height: 6vh;
+
+  filter: drop-shadow(1px 1px 0px #000) drop-shadow(-1px 1px 0px #000) drop-shadow(1px -1px 0px #000) drop-shadow(-1px -1px 0px #000);
 }
 
 .clientHud .clientHudPlayerResources {
