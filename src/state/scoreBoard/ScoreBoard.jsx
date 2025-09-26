@@ -8,14 +8,17 @@ export const ScoreBoard = ({ children }) => {
 
   function scorePoint(player) {
     console.log("Scoreing Points");
-    return {scoreBoard:setScoreBoard((previousScore) => {
+    let returnScore;
+    setScoreBoard((previousScore) => {
       let newScoreBoard = [...previousScore];
       newScoreBoard[player]++;
       checkIfWinner(newScoreBoard, hiddenPoints);
       console.log("New Scoreboard");
       console.log(newScoreBoard);
+      returnScore = newScoreBoard;
       return newScoreBoard;
-    })};
+    });
+    return{scoreBoard:returnScore};
   }
 
   function addPointsToPlayerHiddenPoints(player, playersHiddenPoints) {
@@ -26,6 +29,7 @@ export const ScoreBoard = ({ children }) => {
       checkIfWinner(scoreBoard, newHiddenPoints);
       console.log("Hidden Points:");
       console.log(newHiddenPoints);
+      return {hiddenPoints:newHiddenPoints};
     }
   }
 
@@ -44,18 +48,21 @@ export const ScoreBoard = ({ children }) => {
 
   function checkIfLongestRoad(roadLength, player){
     console.log("checking this player's road length of "+roadLength);
+    let returnScore = null;
     if (roadLength > longestRoadDistance) {
       console.log("We have a new longest road!");
-      setLongestRoad(roadLength, player)
+      returnScore = setLongestRoad(roadLength, player)
     }
     if(roadLength > playerLongestRoad[player]) {
       let newPlayerLongestRoad = [...playerLongestRoad];
       newPlayerLongestRoad[player] = roadLength;
       setPlayerLongestRoad(newPlayerLongestRoad);
     }
+    return returnScore;
   }
 
   function setLongestRoad(roadLength, player) {
+    let returnScoreBoard = null;
     if(player != longestRoadOwner){
       setScoreBoard((previousScore) => {
         let newScoreBoard = [...previousScore];
@@ -63,11 +70,13 @@ export const ScoreBoard = ({ children }) => {
           newScoreBoard[longestRoadOwner] -=2;
         newScoreBoard[player] +=2;
         checkIfWinner(newScoreBoard, hiddenPoints);
+        returnScoreBoard={scoreBoard:newScoreBoard}
         return newScoreBoard;
       });
       setLongestRoadOwner(player);
     }
     setLongestRoadDistance(roadLength);
+    return returnScoreBoard;//Change this if we need to send back longest road information.
   }
 
 
@@ -76,17 +85,20 @@ export const ScoreBoard = ({ children }) => {
   const [largestArmyStrength, setLargestArmyStrength] = useState(2);
 
   function checkIfLargestArmy(player, armyStrength) {
+    let returnScoreBoard = null;
     if (armyStrength > largestArmyStrength){
       if(player != largestArmyOwner){
         let newScoreBoard = [...scoreBoard];
         newScoreBoard[largestArmyOwner] -=2;
         newScoreBoard[player] +=2;
         setScoreBoard(newScoreBoard);
+        returnScoreBoard = {scoreBoard:newScoreBoard};
         setLargestArmyOwner(player);
         checkIfWinner(newScoreBoard, hiddenPoints);
       }
       setLargestArmyStrength(armyStrength);
     }
+    return returnScoreBoard;
   }
 
 
@@ -104,6 +116,8 @@ export const ScoreBoard = ({ children }) => {
         playerLongestRoad,
         winner,
         scoreBoard,
+        hiddenPoints,
+        setHiddenPoints
       }}>
         {children}
       </ScoreBoardContext.Provider>

@@ -2,6 +2,7 @@ import { useContext, useState } from "react";
 import { CurrentPlayerTurnContext } from "../../../../state/currentPlayerTurn/CurrentPlayerTurnContext.js";
 import { PlayerResourceCardsContext } from "../../../../state/playerResourceCards/PlayerResourceCardsContext.js";
 import { PlayerInformationContext } from "../../../../state/playerInformation/PlayerInformationContext.js";
+import { ScoreBoardContext } from "../../../../state/scoreBoard/ScoreBoardContext.js";
 import BuildCostDisplay from "./BuildCostDisplay.jsx";
 import "./clientHud.css"
 
@@ -18,8 +19,10 @@ const ClientHud = () => {
   const { clientPlayerNumber } = useContext(CurrentPlayerTurnContext);
   const { playerResourceCards, previouslyGainedResources } = useContext(PlayerResourceCardsContext);
   const { playerColor } = useContext(PlayerInformationContext);
+  const { scoreBoard, hiddenPoints } = useContext(ScoreBoardContext)
 
   const [openMenu, setOpenMenu] = useState(null);
+  console.log(scoreBoard, hiddenPoints);
 
   if (clientPlayerNumber == null)
     return;
@@ -28,8 +31,9 @@ const ClientHud = () => {
     <div className={"clientHud clientHudPlayerColor"+localPlayerColor}>
       {openMenu=="Building Cost" && <BuildCostDisplay exitFunction={() => setOpenMenu(null)} />}
       <div className={"clientHudTop"}>
-        <div className={"clientHudTitle"}>Your Resources</div>
+        <div className={"hudMenu"}>{scoreBoard[clientPlayerNumber]+hiddenPoints[clientPlayerNumber]}</div>
         <div className={"hudMenu"} onClick={() => alert("This worked")}>D</div>
+        <div className={"clientHudTitle"}>Your Resources</div>
         <div className={"hudMenu"} onClick={() => setOpenMenu("Building Cost")}>C</div>
         <div className={"hudMenu"} onClick={() => alert("This worked")}>M</div>
       </div>

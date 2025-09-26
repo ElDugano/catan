@@ -31,7 +31,8 @@ const NetworkingMessageReciever = (props) => {
   const { setThiefLocation } = useContext(ThiefLocationContext);
   const { setTileCornerNodes } = useContext(TileCornerNodesContext);
 
-  const { setScoreBoard } = useContext(ScoreBoardContext);
+  const { setScoreBoard,
+          setHiddenPoints } = useContext(ScoreBoardContext);
   const { setStandardPortOwner,
           setWoolPortOwner,
           setGrainPortOwner,
@@ -80,7 +81,7 @@ const NetworkingMessageReciever = (props) => {
           "clientPlayerNumber"        in recievedMessages && setClientPlayerNumber(recievedMessages.clientPlayerNumber);
           "currentPlayerTurn"         in recievedMessages && setCurrentPlayerTurn(recievedMessages.currentPlayerTurn);
           "scoreBoard"                in recievedMessages && setScoreBoard(recievedMessages.scoreBoard);
-          //"hiddenPoints"              in recievedMessages && (recievedMessages.hiddenPoints);
+          "hiddenPoints"              in recievedMessages && setHiddenPoints(recievedMessages.hiddenPoints);
           //"winner"                    in recievedMessages && (recievedMessages.winner);
           //"longestRoadOwner"          in recievedMessages && (recievedMessages.longestRoadOwner);
           //"longestRoadDistance"       in recievedMessages && (recievedMessages.longestRoadDistance);

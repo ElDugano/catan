@@ -188,6 +188,7 @@ const HostNetworkingFunctions = () => {
     addToMessagePayloadToAllPlayers({header:"Building a Settlement"});
     addToMessagePayloadToAllPlayers(setNodeValueToSettlement(x, y, currentPlayerTurn));
     addToMessagePayloadToAllPlayers(scorePoint(currentPlayerTurn));
+    //console.log(scorePoint(currentPlayerTurn));
     if ("port" in tileCornerNodes[x][y]){
       addToMessagePayloadToAllPlayers(setPortOwner(currentPlayerTurn, tileCornerNodes[x][y].port));
     }
@@ -227,7 +228,7 @@ const HostNetworkingFunctions = () => {
     addToMessagePayloadToAllPlayers(removeRoadFromAvailableBuildings(x, y, currentPlayerTurn));
     //addToMessagePayloadToAllPlayers(setTurnStateToIdle());
 
-    checkIfLongestRoad(findThePlayersLongestRoad(tileCornerNodes, currentPlayerTurn, returnUsedRoads(currentPlayerTurn)), currentPlayerTurn);
+    addToMessagePayloadToAllPlayers(checkIfLongestRoad(findThePlayersLongestRoad(tileCornerNodes, currentPlayerTurn, returnUsedRoads(currentPlayerTurn)), currentPlayerTurn));
       //We will likely need to do a score check within that.
     if(isGameStateBoardSetup()){
       addToMessagePayloadToPlayer(setClientTurnStateToIdle(), currentPlayerTurn);
@@ -331,7 +332,7 @@ const HostNetworkingFunctions = () => {
   }
 
   const playKnight = () => {
-    checkIfLargestArmy(currentPlayerTurn, getPlayerArmyStrength(currentPlayerTurn)+1);
+    addToMessagePayloadToAllPlayers(checkIfLargestArmy(currentPlayerTurn, getPlayerArmyStrength(currentPlayerTurn)+1));
     addToMessagePayloadToPlayer(playKnightDevelopmentCard(currentPlayerTurn), currentPlayerTurn);
     sendTheMessages();
   }
@@ -375,13 +376,14 @@ const HostNetworkingFunctions = () => {
    }
 
   const endTurn = () => {
+    const nextPlayer = nextPlayerTurn();
     addToMessagePayloadToAllPlayers(gotoNextPlayerTurn());
-    addToMessagePayloadToPlayer(setClientTurnStateToRollingTheDice(), nextPlayerTurn());
-    console.log(nextPlayerTurn());
+    addToMessagePayloadToPlayer(setClientTurnStateToRollingTheDice(), nextPlayer);
+    console.log(nextPlayer);
     console.log(setClientTurnStateToRollingTheDice());
-    addPointsToPlayerHiddenPoints(currentPlayerTurn, getJustPurchasedPlayerVictoryPointCards(currentPlayerTurn));
+    addToMessagePayloadToPlayer(addPointsToPlayerHiddenPoints(nextPlayer, getJustPurchasedPlayerVictoryPointCards(nextPlayer)), nextPlayer);
     //TODO, send hidden points to each player.
-    addToMessagePayloadToAllPlayers(makePlayerPurchasedDevelopmentAvailableToPlay(nextPlayerTurn()));
+    addToMessagePayloadToAllPlayers(makePlayerPurchasedDevelopmentAvailableToPlay(nextPlayer));
   
     addToMessagePayloadToAllPlayers(resetDiceRolledThisTurn());
 
