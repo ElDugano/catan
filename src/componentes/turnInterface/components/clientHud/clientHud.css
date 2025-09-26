@@ -26,19 +26,19 @@
 .clientHudPlayerColorBlue {
   background-color: darkblue;
 }
-.clientHudPlayerColorRed > .clientHudTitle {
+.clientHudPlayerColorRed {
   background-color: maroon;
 }
-.clientHudPlayerColorIndigo > .clientHudTitle {
+.clientHudPlayerColorIndigo {
   background-color: Indigo;
 }
-.clientHudPlayerColorYellow > .clientHudTitle {
+.clientHudPlayerColorYellow {
   background-color: goldenrod;
 }
-.clientHudPlayerColorOrange > .clientHudTitle {
+.clientHudPlayerColorOrange{
   background-color: orangered;
 }
-.clientHudPlayerColorGreen > .clientHudTitle {
+.clientHudPlayerColorGreen {
   background-color: green;
 }
 
