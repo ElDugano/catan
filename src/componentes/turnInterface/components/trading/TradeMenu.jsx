@@ -4,9 +4,11 @@ import { PlayerInformationContext } from "../../../../state/playerInformation/Pl
 import { TurnStateContext } from "../../../../state/turnState/TurnStateContext";
 import { PlayerResourceCardsContext } from "../../../../state/playerResourceCards/PlayerResourceCardsContext";
 import { NetworkingMessageSenderContext } from "../../../networking/Host/NetworkingMessageSenderContext";
+import TradePartnerSelectMenu from "./TradePartnerSelectMenu";
 import TradeWithBoardMenu from "./TradeWithBoardMenu";
 import TradeWithPlayerMenu from "./tradeWithPlayerMenu";
 import TradeResult from "./TradeResult";
+
 
 import "./tradeMenu.css";
 
@@ -21,7 +23,8 @@ export default function TradeMenu() {
   const [tradePartner, setTradePartner] = useState(null);
   const [giveResources, setGiveResources] = useState({Lumber:0,Brick:0,Wool:0,Grain:0,Ore:0})
   const [recieveResources, setRecieveResources] = useState({Lumber:0,Brick:0,Wool:0,Grain:0,Ore:0})
-    //Remove this one ASAP.
+  
+  const [openMenu, setOpenMenu] = useState(null);
 
   const toggleTradePartner = (newPartner) => {
       //TODO: This doesn't need to be a toggle, really.
@@ -33,85 +36,47 @@ export default function TradeMenu() {
     setRecieveResources({Lumber:0,Brick:0,Wool:0,Grain:0,Ore:0});
   }
 
-  const TradePartnerSelectMenu = () => {
-    let content = [];
-    if (tradePartner != null)
-      content.push(<button key={crypto.randomUUID()} onClick={() => toggleTradePartner(null)}>Trade with the Port</button>);
-    playerOrder.forEach((playerNumber) => {
-      if (playerNumber != clientPlayerNumber && playerNumber != tradePartner)
-        content.push(
-          <button
-            key={crypto.randomUUID()}
-            className={"playerButton"+playerColor[playerNumber]}
-            onClick={() => toggleTradePartner(playerNumber)}
-          >
-            Trade with {playerName[playerNumber]}
-          </button>);
-    })
-    return (
-      <div>
-        {content}
-      </div>
-    )
-  }
-
-
   const initiateTrade = () => {
-    console.log("SHALL WE TRADE");
-    console.log(tradePartner)
-    //Check to see if we are offering or just doing the trade.
     addToMessagePayloadToHost({header: "Trade Resources"});
     if (tradePartner == null) {
       addToMessagePayloadToHost(
-        { tradeResourceCards:
-          { 
+        { tradeResourceCards: { 
             giveTradeItem: giveResources,
             recieveTradeItem: recieveResources,
-            tradeTargetPlayer: null//Can be a player number, but should always be null here as otherwise we are asking to trade.
-          }
-        }
-      );
+            tradeTargetPlayer: null
+      }});
       setTurnStateToIdle();
     }
-    else { //This should be offering a trade, not forcing it.
+    else {
       addToMessagePayloadToHost(
-        { offerTrade:
-          { 
+        { offerTrade: { 
             giveTradeItem: giveResources,
             recieveTradeItem: recieveResources,
             tradeTargetPlayer: tradePartner
-          }
-        }
-      );
+      }});
       setTurnStateToReviewingTradeOffer();
       updateTradeOffer(clientPlayerNumber, giveResources, tradePartner, recieveResources);
-        //I could update this backwards to make the next menu easier. Or the reverse.
     }
     sendTheMessages();
   }
 
-  let resultIconStyle = {Lumber:"",Brick:"",Wool:"",Grain:"",Ore:""};
-  for ( let resource in resultIconStyle ) {
-    if ( giveResources[resource] > 0 )
-      resultIconStyle[resource] = "negativeNumber"
-    else if (recieveResources[resource] > 0 )
-      resultIconStyle[resource] = "positiveNumber"
-  }
-
   return(
     <>
-      <h3>Trade with {tradePartner != null ? playerName[tradePartner] : "The Port"}</h3>
-      <TradePartnerSelectMenu />
+      <h3 onClick={() => setOpenMenu("open")}> Trade with {tradePartner != null ? playerName[tradePartner] : "The Port"}</h3>
+      {openMenu != null &&
+      <TradePartnerSelectMenu 
+        tradePartner={tradePartner}
+        toggleTradePartner={toggleTradePartner}
+        setOpenMenu={() => setOpenMenu(null)}
+      />}
       {tradePartner == null ?
         <TradeWithBoardMenu
-
           giveResources={giveResources}
           setGiveResources={setGiveResources}
           recieveResources={recieveResources}
           setRecieveResources={setRecieveResources}
         /> :
         <TradeWithPlayerMenu
-
           giveResources={giveResources}
           setGiveResources={setGiveResources}
           recieveResources={recieveResources}

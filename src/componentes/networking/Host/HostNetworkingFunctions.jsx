@@ -379,12 +379,9 @@ const HostNetworkingFunctions = () => {
     const nextPlayer = nextPlayerTurn();
     addToMessagePayloadToAllPlayers(gotoNextPlayerTurn());
     addToMessagePayloadToPlayer(setClientTurnStateToRollingTheDice(), nextPlayer);
-    console.log(nextPlayer);
-    console.log(setClientTurnStateToRollingTheDice());
     addToMessagePayloadToPlayer(addPointsToPlayerHiddenPoints(nextPlayer, getJustPurchasedPlayerVictoryPointCards(nextPlayer)), nextPlayer);
     //TODO, send hidden points to each player.
     addToMessagePayloadToAllPlayers(makePlayerPurchasedDevelopmentAvailableToPlay(nextPlayer));
-  
     addToMessagePayloadToAllPlayers(resetDiceRolledThisTurn());
 
     if(winner != null) {

@@ -81,7 +81,7 @@ export const DevelopmentCards = ({ children }) => {
       newPlayerDevelopmentCardJustPurchased[player] = {"Knight":0, "Road Building":0, "Year of Plenty":0, "Monopoly":0, "Victory Point":0};
       setPlayerDevelopmentCardHand(newDevelopmentCardDeck);
       setPlayerDevelopmentCardJustPurchased(newPlayerDevelopmentCardJustPurchased)
-      return {playerDevelopmentCardHand:newDevelopmentCardDeck};
+      return {playerDevelopmentCardHand:newDevelopmentCardDeck, playerDevelopmentCardJustPurchased: newPlayerDevelopmentCardJustPurchased};
     }
 
   function PlayerDevelopmentCardsAvailableToPlay(player) {

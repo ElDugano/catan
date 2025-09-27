@@ -4,6 +4,7 @@ import { PlayerResourceCardsContext } from "../../../../state/playerResourceCard
 import { PlayerInformationContext } from "../../../../state/playerInformation/PlayerInformationContext.js";
 import { ScoreBoardContext } from "../../../../state/scoreBoard/ScoreBoardContext.js";
 import BuildCostDisplay from "./BuildCostDisplay.jsx";
+import DevelopmentCardsDisplay from "./DevelopmentCardsDisplay.jsx";
 import "./clientHud.css"
 
 import lumberIcon from "../../../../assets/lumberIcon.svg"
@@ -11,6 +12,8 @@ import brickIcon from "../../../../assets/brickIcon.svg"
 import woolIcon from "../../../../assets/woolIcon.svg"
 import grainIcon from "../../../../assets/grainIcon.svg"
 import oreIcon from "../../../../assets/oreIcon.svg"
+import buildingCostIcon from "../../../../assets/buildingCostsIcon.svg"
+import developmentCardIcon from "../../../../assets/developmentCardIcon.svg"
 
 
 
@@ -22,7 +25,6 @@ const ClientHud = () => {
   const { scoreBoard, hiddenPoints } = useContext(ScoreBoardContext)
 
   const [openMenu, setOpenMenu] = useState(null);
-  console.log(scoreBoard, hiddenPoints);
 
   if (clientPlayerNumber == null)
     return;
@@ -30,11 +32,13 @@ const ClientHud = () => {
   return (
     <div className={"clientHud clientHudPlayerColor"+localPlayerColor}>
       {openMenu=="Building Cost" && <BuildCostDisplay exitFunction={() => setOpenMenu(null)} />}
+      {openMenu=="Development Cards" && <DevelopmentCardsDisplay exitFunction={() => setOpenMenu(null)} />}
       <div className={"clientHudTop"}>
         <div className={"hudScore"}>{scoreBoard[clientPlayerNumber]+hiddenPoints[clientPlayerNumber]}</div>
-        <div className={"hudMenu"}>D</div>
+        <div className={"hudScoreLabel"}>ScorE</div>
+        <div className={"hudMenu"} onClick={() => setOpenMenu("Development Cards")}><img src={developmentCardIcon} /></div>
         <div className={"clientHudTitle"}>Your Resources</div>
-        <div className={"hudMenu"} onClick={() => setOpenMenu("Building Cost")}>C</div>
+        <div className={"hudMenu"} onClick={() => setOpenMenu("Building Cost")}><img src={buildingCostIcon} /></div>
         <div className={"hudMenu"} onClick={() => alert("This worked")}>M</div>
       </div>
       <div className={"clientHudPlayerResources"}>

@@ -93,7 +93,7 @@ export default function GameSetupClient() {
         <input
           value={localPlayerName}
           name="localPlayerName"
-          maxlength="12"
+          maxLength="12"
           onChange={e => setLocalPlayerName(e.target.value)} />
         <br />
         <div>

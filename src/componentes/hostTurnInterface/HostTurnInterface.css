@@ -153,8 +153,8 @@
   min-width: 50%;
   min-height: 33%;
   max-height: 33%;
-  font-size: 4.444vh;
-  line-height: 4.444vh;
+  font-size: 3vh;
+  line-height: 6vh;
   text-indent: 1.666vh;
   vertical-align: middle;
   color: white;
@@ -162,10 +162,10 @@
 }
 
 .playerData img {
-  width: 6.666vh;
-  height: 6.666vh;
+  width: 6vh;
+  height: 6vh;
   vertical-align:middle;
   position: relative;
-  top: -1.111vh;
+
   padding-right: 1.111vh;
 }
