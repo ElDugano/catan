@@ -22,7 +22,7 @@ export const NetworkingSetup = () => {
       {conn == null && <button onClick={makeHost}>Boardgame Display</button>}
       {conn == null && <button onClick={makePlayer}>Be a player</button>}
       {isHost == true && <NetworkingHostSetup setNewestConn={setNewestConn} hostPeerIDPrefix={hostPeerIDPrefix} conn={conn} />}
-      {(isHost == false && conn == null) && <NetworkingClientSetup setNewestConn={setNewestConn} hostPeerIDPrefix={hostPeerIDPrefix} conn={conn} />}
+      {(isHost == false/* && conn == null */) && <NetworkingClientSetup setNewestConn={setNewestConn} hostPeerIDPrefix={hostPeerIDPrefix} conn={conn} />}
     </>
   )
 }

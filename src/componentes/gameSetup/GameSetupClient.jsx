@@ -102,7 +102,7 @@ export default function GameSetupClient() {
             {colorButtons}
           </div>
         </div>
-        {localPlayerName != "" && playerColor[clientPlayerNumber] != "" ? <button onClick={setPlayerInformation}>Join the Game</button> : <button disabled>Join the Game</button>}
+        {localPlayerName != "" && playerColor[clientPlayerNumber] != "" ? <button onClick={setPlayerInformation}>Join the Game</button> : <button disabled>Join the Game {playerColor[clientPlayerNumber]}</button>}
       </div>
     )
   }

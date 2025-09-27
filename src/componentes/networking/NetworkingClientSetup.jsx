@@ -2,55 +2,70 @@ import { useState, useEffect } from 'react'
 import Peer from 'peerjs';
 
 export default function NetworkingClientSetup(props) {
-  const [connectionIDInput, setConnectionIDInput] = useState("");
-  const [connectionID, setConnectionID] = useState(null);
-  const [doOnce, setDoOnce] = useState(false);
+  const [ connectionIDInput, setConnectionIDInput] = useState("");
+  const [ hostConnectionID, setHostConnectionID] = useState(null);
+
+  const [ connected, setConnected] = useState(false);
+  const [ peer, setPeer ] = useState(null);
+  const [ peerID, setPeerID ] = useState(null);
 
   useEffect(() => {
-    const setupConnection = (myPeerID = null) => {
-      setDoOnce(true);
-      let newPeerPromise = new Promise((resolve/*, reject*/) => {
-        console.log("start");
-        var newPeer;
-        if (myPeerID == null)
-          newPeer = new Peer();
-        else
-          newPeer = new Peer(myPeerID);
-        newPeer.on('open', function(id) {
+
+    const reconnect = () => {
+      setConnected(false);
+      setPeer(null)
+    }
+
+    const setupPeer = () => {
+      var newPeer = (peerID == null ? new Peer() : new Peer(peerID));
+      newPeer.on('open', function(id) {
           console.log("The peerID is: "+id);
-          resolve({peer:newPeer, id:id});
+          setPeer(newPeer);
+          setPeerID(id);
         })
-      })
-      newPeerPromise.then(peerInfo =>{
-        console.log(peerInfo);
-        peerInfo.peer.on('error', (err) => {
-          alert(err.type);//network.
-          if (err.type === "network"){
-            setTimeout(setupConnection(peerInfo.id), 1000);
-          }
-        })
-
-        let newConn = peerInfo.peer.connect(connectionID);
-        props.setNewestConn(newConn);
-      })
     }
 
-    if (connectionID != null && doOnce == false){
-      setupConnection();
+    const connSetup = () => {
+      peer.on('error', (err) => {
+        alert(err.type);//network.
+        if (err.type === "network"){
+          reconnect()
+        }
+      })
+      let newConn = peer.connect(hostConnectionID);
+      props.setNewestConn(newConn);
+      setConnected(true);
     }
-  }, [connectionID, props, doOnce]);
+
+    if (peer == null && hostConnectionID != null)
+      setupPeer();
+    if (peer != null && hostConnectionID != null && connected == false)
+      connSetup();
+
+  }, [hostConnectionID, connected, peer, peerID, props]);
 
   const connectionButton= () => {
-    setConnectionID(props.hostPeerIDPrefix+connectionIDInput.toUpperCase());
+    setHostConnectionID(props.hostPeerIDPrefix+connectionIDInput.toUpperCase());
     console.log("Clicked connection button.");
     console.log(props.hostPeerIDPrefix+connectionIDInput);
   }
-  return (
-    <>
-      <h2>Hello Player</h2>
-      Input the ID you see on the screen below.<br />
-      <label>Connection ID: <input style={{textTransform: "uppercase"}} value={connectionIDInput} name="connectionID" onChange={e => setConnectionIDInput(e.target.value)} /></label><br />
-      <button onClick={connectionButton}>Connect</button>
-    </>
+
+  if (peerID == null)
+    return (
+  <>
+    <h2>Hello Player</h2>
+    Input the ID you see on the screen below.<br />
+    
+    <label>Connection ID: <input style={{textTransform: "uppercase"}} value={connectionIDInput} name="connectionID" onChange={e => setConnectionIDInput(e.target.value)} /></label><br />
+    <button onClick={connectionButton}>Connect</button>
+  </>
   )
+  else if (connected == false && peerID != null)
+  return (
+    <div className={"fadeMainInterface"}>
+      <h1 style={{lineHeight:"100vh", width:"100vw", textAlign:"center"}}>RECONNECTING</h1>
+    </div>
+  )
+  else
+    return(<></>)
 }
