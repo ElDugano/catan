@@ -56,11 +56,11 @@ export default function Ports() {
         
         content.push(
           <g key={crypto.randomUUID()}>
-            <polygon 
+            {/*<polygon 
               className="hex"
               points="30,70 60,50 60,20 30,0 0,20 0,50"
               transform={translateValue}
-            />
+            />*/}
               <image href={shipIcon} width="60" height="70" transform={translateValue}/>
               {saleIcon != null && saleIcon}
               {portIcon != null && portIcon}

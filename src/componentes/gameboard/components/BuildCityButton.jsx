@@ -2,7 +2,10 @@ import Settlement from "./Settlement";
 
 export default function BuildCityButton(props) {
   return(
-    <g onClick={() => props.tileNodeClickFunction()}>
+    <g
+      onClick={() => props.tileNodeClickFunction()}
+      onTouchEnd={() => props.tileNodeClickFunction()}
+    >
       <circle
         r="8"
         cx={props.centerX}

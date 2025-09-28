@@ -11,5 +11,6 @@ export default function BuildRoadButton(props) {
       strokeWidth={6}
       strokeLinecap="round"
       onClick={() => props.roadNodeClickFunction()}
+      onTouchEnd={() => props.roadNodeClickFunction()}
     />)
 }
