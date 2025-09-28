@@ -26,6 +26,7 @@ export default function CornerNodes() {
 
   const { addToMessagePayloadToHost, sendTheMessages } = useContext(NetworkingMessageSenderContext);
 
+
   function buildSettlement(x, y) {
     addToMessagePayloadToHost({header: "Building a Settlement"});
     addToMessagePayloadToHost({buildSettlement:{x:x,y:y}});
@@ -74,6 +75,7 @@ export default function CornerNodes() {
             centerX={centerX}
             centerY={centerY}
             key={crypto.randomUUID()}
+            //tileNodeClickFunction={test}
             tileNodeClickFunction={() => buildSettlement(x, y)}
           />
         );

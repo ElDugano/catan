@@ -1,4 +1,4 @@
-import { useContext, useEffect, useRef, useState } from "react";
+import { useContext, useEffect, useRef } from "react";
 import CornerNodes from "./components/CornerNodes.jsx";
 import TileNumbers from "./components/TileNumbers.jsx";
 import BanditIcon from "./components/BanditIcon.jsx";
@@ -30,7 +30,9 @@ export default function Gameboard({children}) {
           isTurnStateBuildingACity,
           isTurnStateRoadBuilderCardFirstRoad,
           isTurnStateRoadBuilderCardSecondRoad,
-          isTurnStateMoveTheThief } = useContext(TurnStateContext);
+          isTurnStateMoveTheThief,
+          isTurnStateIdle,
+          isTurnStateBuildMenu } = useContext(TurnStateContext);
 
   let gameBoardClass = "";
   if ( isHost || 
@@ -50,21 +52,11 @@ export default function Gameboard({children}) {
 
 
   const Viewer = useRef(null);
-  useEffect(() => {
-    //Viewer.current.fitToViewer();
-    console.log("Use effect");
-    console.log(Viewer);
-  }, []);
-
-  /* Read all the available methods in the documentation */
-    let _zoomOnViewerCenter;
-    let _fitSelection;
-    let _fitToViewer;
-  if (isHost == false) {
-    _zoomOnViewerCenter = () => Viewer.current.zoomOnViewerCenter(1.1);
-    _fitSelection = () => Viewer.current.fitSelection(40, 40, 200, 200);
-    _fitToViewer = () => Viewer.current.fitToViewer();
+ useEffect(() => {
+  if (isHost == false && (isTurnStateIdle() || isTurnStateBuildMenu())) {
+    Viewer.current.reset();
   }
+ }, [isHost, isTurnStateIdle, isTurnStateBuildMenu]);
 
   const keepInBounds = (panObject) => {
     //console.log(panObject)
@@ -108,9 +100,6 @@ export default function Gameboard({children}) {
               { children }
 
               {isHost == false && <>
-                <button className="btn" onClick={() => _zoomOnViewerCenter()}>Zoom on center</button>
-                <button className="btn" onClick={() => _fitSelection()}>Zoom area 200x200</button>
-                <button className="btn" onClick={() => _fitToViewer()}>Fit</button>
                 <UncontrolledReactSVGPanZoom
                   ref={Viewer}
                   preventPanOutside={true}

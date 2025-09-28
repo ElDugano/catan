@@ -84,7 +84,6 @@ export default function RoadNodes() {
                   lineEndX={lineEndX}
                   lineEndY={lineEndY}
                   roadNodeClickFunction={() => buildRightRoad(x,y)}
-
                 />)
             }
           }

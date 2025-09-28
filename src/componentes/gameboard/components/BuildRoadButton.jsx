@@ -1,4 +1,13 @@
+import { useState, useEffect } from "react";
 export default function BuildRoadButton(props) {
+  const [recentlyTouched, setRecentlyTouched] = useState(false);
+    useEffect(()=>{
+      if (recentlyTouched == true) {
+        setTimeout(() => {setRecentlyTouched(false)},200);
+      }
+    },[recentlyTouched]);
+    console.log(recentlyTouched);
+
   return (
     <line
       key={crypto.randomUUID()}
@@ -11,6 +20,7 @@ export default function BuildRoadButton(props) {
       strokeWidth={6}
       strokeLinecap="round"
       onClick={() => props.roadNodeClickFunction()}
-      onTouchEnd={() => props.roadNodeClickFunction()}
+      onTouchStart={() => setRecentlyTouched(true)}
+      onTouchEnd={() => recentlyTouched == true && props.roadNodeClickFunction()}
     />)
 }

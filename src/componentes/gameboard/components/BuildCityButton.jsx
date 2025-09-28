@@ -1,10 +1,20 @@
+import { useState, useEffect } from "react";
 import Settlement from "./Settlement";
 
 export default function BuildCityButton(props) {
+  const [recentlyTouched, setRecentlyTouched] = useState(false);
+  useEffect(()=>{
+    if (recentlyTouched == true) {
+      setTimeout(() => {setRecentlyTouched(false)},200);
+    }
+  },[recentlyTouched]);
+  console.log(recentlyTouched);
+
   return(
     <g
       onClick={() => props.tileNodeClickFunction()}
-      onTouchEnd={() => props.tileNodeClickFunction()}
+      onTouchStart={() => setRecentlyTouched(true)}
+      onTouchEnd={() => recentlyTouched == true && props.tileNodeClickFunction()}
     >
       <circle
         r="8"
