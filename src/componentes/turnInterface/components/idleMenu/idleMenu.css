@@ -176,6 +176,9 @@ button.playerButtonBlue.selected {
   outline: 1vw solid white;
   outline-offset: -1vw;
 }
+.playerTextColorBlue {
+  color: blue;
+}
 
 button.playerButtonRed {
   background-color: maroon;
@@ -188,6 +191,9 @@ button.playerButtonRed.selected {
   background-color: #d63b26;
   outline: 1vw solid white;
   outline-offset: -1vw;
+}
+.playerTextColorRed {
+  color: red;
 }
 
 button.playerButtonIndigo {
@@ -202,6 +208,9 @@ button.playerButtonIndigo.selected {
   outline: 1vw solid white;
   outline-offset: -1vw;
 }
+.playerTextColorIndigo {
+  color: rgb(122, 0, 209);
+}
 
 button.playerButtonYellow {
   background-color: goldenrod;
@@ -214,6 +223,9 @@ button.playerButtonYellow.selected {
   background-color: rgb(255, 229, 84);
   outline: 1vw solid white;
   outline-offset: -1vw;
+}
+.playerTextColorYellow {
+  color: yellow;
 }
 
 button.playerButtonOrange {
@@ -228,6 +240,9 @@ button.playerButtonOrange.selected {
   outline: 1vw solid white;
   outline-offset: -1vw;
 }
+.playerTextColorOrange {
+  color: orangered;
+}
 
 button.playerButtonGreen {
   background-color: green;
@@ -240,6 +255,9 @@ button.playerButtonGreen.selected {
   background-color: rgb(50, 194, 57);
   outline: 1vw solid white;
   outline-offset: -1vw;
+}
+.playerTextColorGreen {
+  color: green;
 }
 
 

@@ -12,7 +12,7 @@ import oreIcon from "../../../../assets/oreIcon.svg";
 
 export default function TradeWithPlayerMenu(props) {
   const { clientPlayerNumber } = useContext(CurrentPlayerTurnContext);
-  const { playerColor } = useContext(PlayerInformationContext);
+  const { playerColor, playerName } = useContext(PlayerInformationContext);
   const { getAPlayersResourceCards } = useContext(PlayerResourceCardsContext);
   const playerResources = getAPlayersResourceCards(clientPlayerNumber);
 
@@ -36,7 +36,7 @@ export default function TradeWithPlayerMenu(props) {
 
   return (
     <>
-      Give to {props.tradePartner != null ? "Player "+props.tradePartner : "The Port"}<br />
+      Give to {props.tradePartner != null ? playerName[props.tradePartner] : "The Port"}<br />
       <div className={"tradeWithPlayerMenu"}>
         <div className="resourceHolder">
           {oneLumberIcon}
@@ -69,7 +69,7 @@ export default function TradeWithPlayerMenu(props) {
           {props.giveResources.Ore > 0 ? <button onClick={() => adjustGiveResource("Ore", -1)}>-</button> : <button disabled >-</button>}
         </div>
       </div>
-      Recieve from {props.tradePartner != null ? "Player "+props.tradePartner : "The Port"}<br />
+      Recieve from {props.tradePartner != null ? playerName[props.tradePartner] : "The Port"}<br />
       <div className={"tradeWithPlayerMenu"}>
         <div className="resourceHolder">
           {oneLumberIcon}

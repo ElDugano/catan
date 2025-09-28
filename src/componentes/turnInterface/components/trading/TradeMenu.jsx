@@ -14,8 +14,8 @@ import "./tradeMenu.css";
 
 export default function TradeMenu() {
 
-  const { clientPlayerNumber, playerOrder } = useContext(CurrentPlayerTurnContext);
-  const { playerColor, playerName } = useContext(PlayerInformationContext);
+  const { clientPlayerNumber } = useContext(CurrentPlayerTurnContext);
+  const { playerName } = useContext(PlayerInformationContext);
   const { setTurnStateToIdle, setTurnStateToReviewingTradeOffer } = useContext(TurnStateContext);
   const { updateTradeOffer } = useContext(PlayerResourceCardsContext);
   const { addToMessagePayloadToHost, sendTheMessages } = useContext(NetworkingMessageSenderContext);
@@ -62,13 +62,11 @@ export default function TradeMenu() {
 
   return(
     <>
-      <h3 onClick={() => setOpenMenu("open")}> Trade with {tradePartner != null ? playerName[tradePartner] : "The Port"}</h3>
-      {openMenu != null &&
       <TradePartnerSelectMenu 
         tradePartner={tradePartner}
         toggleTradePartner={toggleTradePartner}
         setOpenMenu={() => setOpenMenu(null)}
-      />}
+      />
       {tradePartner == null ?
         <TradeWithBoardMenu
           giveResources={giveResources}
