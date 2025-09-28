@@ -11,9 +11,9 @@ export default function BuildSettlementButton(props) {
  
   return(
     <circle
-      onClick={() => recentlyTouched == false ? setRecentlyTouched(true) : props.tileNodeClickFunction()}
-      onTouchStart={() => setRecentlyTouched(true)}
-      onTouchEnd={() => recentlyTouched == true && props.tileNodeClickFunction()}
+      onClick={() => props.clickable && props.tileNodeClickFunction()}
+      onTouchStart={() => props.clickable && setRecentlyTouched(true)}
+      onTouchEnd={() => (props.clickable && recentlyTouched == true) && props.tileNodeClickFunction()}
       r="5"
       cx={props.centerX}
       cy={props.centerY}

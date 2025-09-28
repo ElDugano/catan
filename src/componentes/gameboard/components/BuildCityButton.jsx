@@ -12,9 +12,9 @@ export default function BuildCityButton(props) {
 
   return(
     <g
-      onClick={() => props.tileNodeClickFunction()}
-      onTouchStart={() => setRecentlyTouched(true)}
-      onTouchEnd={() => recentlyTouched == true && props.tileNodeClickFunction()}
+      onClick={() => props.clickable && props.tileNodeClickFunction()}
+      onTouchStart={() => props.clickable && setRecentlyTouched(true)}
+      onTouchEnd={() => (props.clickable && recentlyTouched == true) && props.tileNodeClickFunction()}
     >
       <circle
         r="8"

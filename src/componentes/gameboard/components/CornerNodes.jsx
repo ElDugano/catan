@@ -77,10 +77,11 @@ export default function CornerNodes() {
             key={crypto.randomUUID()}
             //tileNodeClickFunction={test}
             tileNodeClickFunction={() => buildSettlement(x, y)}
+            clickable={buildSettlementButtonClass == "" ? true : false}
           />
         );
       }
-      if(  isNodeValueSettlement(x,y) ) {
+      if( isNodeValueSettlement(x,y) ) {
 //---------- Display a Build City Button ----------//
         if(tileCornerNodes[x][y].owner == currentPlayerTurn) {
           checkBuildCityPlacementAvailable = true;
@@ -92,6 +93,7 @@ export default function CornerNodes() {
               centerY={centerY}
               owner={tileCornerNodes[x][y].owner}
               tileNodeClickFunction={() => buildCity(x, y)}
+              clickable={buildCityButtonClass == "" ? true : false}
             />)}
 //---------- Display a Settlement ----------//
         else
