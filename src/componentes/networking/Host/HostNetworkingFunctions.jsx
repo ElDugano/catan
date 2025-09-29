@@ -140,32 +140,32 @@ const HostNetworkingFunctions = () => {
     if (diceRoll != 7){
       //addToMessagePayloadToAllPlayers(setTurnStateToGatheringResources());
       let playerResourceCardsGained= [{},{},{},{}];
-      for (let key in landTileNumbers[diceRoll]) {
-        const landTileX = landTileNumbers[diceRoll][key].x;
-        const landTileY = landTileNumbers[diceRoll][key].y;
-        let landType = landTiles[landTileX][landTileY];
-        let resource = mapTileTypeToResourceType(landType);
-        for (let x=landTileX-1; x <= landTileX+1; x++) {
-          for (let y=landTileY; y <= landTileY+1; y++) {
-            if (isNodeValueSettlement(x,y)) {
-              if (playerResourceCardsGained[getTileNodeOwner(x, y)][resource])
-                playerResourceCardsGained[getTileNodeOwner(x, y)][resource] = playerResourceCardsGained[getTileNodeOwner(x, y)][resource] + 1;
-              else
-                playerResourceCardsGained[getTileNodeOwner(x, y)][resource] = 1;
-            }
-            if (isNodeValueCity(x,y)) {
-              if (playerResourceCardsGained[getTileNodeOwner(x, y)][resource])
-                playerResourceCardsGained[getTileNodeOwner(x, y)][resource] = playerResourceCardsGained[getTileNodeOwner(x, y)][resource] + 2;
-              else
-                playerResourceCardsGained[getTileNodeOwner(x, y)][resource] = 2;
+      for (let tileNumber in landTileNumbers[diceRoll]) {
+        const landTileX = landTileNumbers[diceRoll][tileNumber].x;
+        const landTileY = landTileNumbers[diceRoll][tileNumber].y;
+        if (!(landTileX == thiefLocation.x && landTileY == thiefLocation.y)) {
+          let landType = landTiles[landTileX][landTileY];
+          let resource = mapTileTypeToResourceType(landType);
+          for (let x=landTileX-1; x <= landTileX+1; x++) {
+            for (let y=landTileY; y <= landTileY+1; y++) {
+              if (isNodeValueSettlement(x,y)) {
+                if (playerResourceCardsGained[getTileNodeOwner(x, y)][resource])
+                  playerResourceCardsGained[getTileNodeOwner(x, y)][resource] = playerResourceCardsGained[getTileNodeOwner(x, y)][resource] + 1;
+                else
+                  playerResourceCardsGained[getTileNodeOwner(x, y)][resource] = 1;
+              }
+              if (isNodeValueCity(x,y)) {
+                if (playerResourceCardsGained[getTileNodeOwner(x, y)][resource])
+                  playerResourceCardsGained[getTileNodeOwner(x, y)][resource] = playerResourceCardsGained[getTileNodeOwner(x, y)][resource] + 2;
+                else
+                  playerResourceCardsGained[getTileNodeOwner(x, y)][resource] = 2;
+              }
             }
           }
         }
       }
       console.log(playerResourceCardsGained);
       addToMessagePayloadToAllPlayers(addResourcesFromDiceRollToPlayerResourceCards(playerResourceCardsGained));
-      //addToMessagePayloadToAllPlayers({previouslyGainedResources:playerResourceCardsGained});
-      //setTurnStateToGatheringResourcescAknowledgement();
       addToMessagePayloadToAllPlayers(setTurnStateToIdle());
       sendTheMessages();
     }
@@ -223,7 +223,7 @@ const HostNetworkingFunctions = () => {
     console.log("We are checking the tileCornerNodes after building a road.")
     if (direction == "right")
       addToMessagePayloadToAllPlayers(setNodeRightRoadOwner(x, y, currentPlayerTurn));
-    else// direction == down
+    else// if (direction == "down")
       addToMessagePayloadToAllPlayers(setNodeBottomRoadOwner(x, y, currentPlayerTurn));
     addToMessagePayloadToAllPlayers(removeRoadFromAvailableBuildings(x, y, currentPlayerTurn));
     //addToMessagePayloadToAllPlayers(setTurnStateToIdle());
@@ -273,11 +273,6 @@ const HostNetworkingFunctions = () => {
     addToMessagePayloadToPlayer(givePlayerDevelopmentCardFromDeck(currentPlayerTurn), currentPlayerTurn);
     addToMessagePayloadToPlayer(removePlayerResourcesToBuildDevelopmentCard(currentPlayerTurn), currentPlayerTurn);
     addToMessagePayloadToPlayer(setTurnStateToIdle(), currentPlayerTurn);
-    //Something should be in here about returning what card they just got.
-    //That can end up being some kind of state, an object, which is used when players actually get resources.
-    //Like, it basically makes a pop up that you can close. Maybe also have things like it closes at the start of a new turn.
-    //Or something similar.
-    //This would also get called when you rob someone.
     sendTheMessages();
   }
 
