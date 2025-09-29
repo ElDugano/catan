@@ -123,6 +123,7 @@
   display: flex;
   text-align: center;
   justify-content: center;
+  padding-top: 2vw;
 }
 
 .clientHud .clientHudPlayerResources div:first-child {
@@ -133,21 +134,23 @@
   border-bottom-right-radius: 2vw;
 }
 
-.clientHud .clieentHudResourceTotal {
+.clientHud .clientHudPlayerResources .clieentHudResourceTotal {
   width: 20%;
-  line-height: 10vw;
+  line-height: 8vw;
   vertical-align: middle;
+  text-align: left;
+  padding-left: 2.5%;
   font-size: 6vw;
   box-sizing: border-box;
   filter: drop-shadow(1px 1px 0px #000) drop-shadow(-1px 1px 0px #000) drop-shadow(1px -1px 0px #000) drop-shadow(-1px -1px 0px #000);
 }
 
 
-.clientHud .clieentHudResourceTotal img {
+.clientHud .clientHudPlayerResources .clieentHudResourceTotal img {
   width: 8vw;
   height: 8vw;
   vertical-align:middle;
-  padding-right: 2vw;
+  padding-right: 5%;
 }
 
 .clientHud .recievedResources {

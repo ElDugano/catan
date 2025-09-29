@@ -53,7 +53,7 @@ const ClientHud = () => {
         <div className={"clieentHudResourceTotal"}><img src={grainIcon} />{playerResourceCards[clientPlayerNumber].Grain}</div>
         <div className={"clieentHudResourceTotal"}><img src={oreIcon} />{playerResourceCards[clientPlayerNumber].Ore}</div>
       </div>
-      <div className={"recievedResources"}>
+      {/*<div className={"recievedResources"}>
         <div className={"resourcesGained resourceGainedLumber"}>
           {"Lumber" in previouslyGainedResourcesClient && "+"+previouslyGainedResourcesClient.Lumber}
         </div>
@@ -69,7 +69,7 @@ const ClientHud = () => {
         <div className={"resourcesGained resourceGainedOre"}>
           {"Ore" in previouslyGainedResourcesClient && "+"+previouslyGainedResourcesClient.Ore}
         </div>
-      </div>
+      </div>*/}
     </div>
   )
 }

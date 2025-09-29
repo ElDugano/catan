@@ -31,8 +31,8 @@ import ReviewingTradeOffer from "./components/trading/ReviewTradeOffer.jsx";
 
 export default function TurnInterface() {
   const { isGameStateMainGame } = useContext(GameStateContext);
-  const { isClientPlayersTurn, clientPlayerNumber } = useContext(CurrentPlayerTurnContext);
-  const { playerColor } = useContext(PlayerInformationContext);
+  const { isClientPlayersTurn, clientPlayerNumber, currentPlayerTurn } = useContext(CurrentPlayerTurnContext);
+  const { playerColor, playerName } = useContext(PlayerInformationContext);
   const localPlayerColor = playerColor[clientPlayerNumber];
 
   const {isTurnStateRollingTheDice,
@@ -87,16 +87,22 @@ export default function TurnInterface() {
       {isTurnStateReviewingTradeOffer() && <ReviewingTradeOffer />}
       </div>
     )}
-  else {
+  else if (isGameStateMainGame()) {
     return (
       <div className={"clientMenu clientMenuColor"+localPlayerColor}>
         <ClientHud />
-        It is not your turn.
+        {isTurnStateIdle() && 
+          <div className="notYourTurn">
+            <div>
+              It is <span className={"playerTextColor"+playerColor[currentPlayerTurn]}>{playerName[currentPlayerTurn]}'s</span> turn.
+            </div>
+          </div>}
         {isTurnStateGatheringResourcesAcknowledgement() && <GatherResroucesAcknowledgement />}
         {isTurnStateRemoveHalfResources() && <RemoveHalfResourcesMenu />}
         {isTurnStateReviewingTradeOffer() && <ReviewingTradeOffer />}
       </div>
     )
-    
   }
+  else
+    return (<></>);
 }
