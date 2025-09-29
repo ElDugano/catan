@@ -7,7 +7,6 @@ export default function BuildSettlementButton(props) {
       setTimeout(() => {setRecentlyTouched(false)},200);
     }
   },[recentlyTouched]);
-  console.log(recentlyTouched);
  
   return(
     <circle

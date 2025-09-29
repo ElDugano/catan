@@ -6,7 +6,6 @@ export default function BuildRoadButton(props) {
         setTimeout(() => {setRecentlyTouched(false)},200);
       }
     },[recentlyTouched]);
-    console.log(recentlyTouched);
 
   return (
     <line
@@ -17,7 +16,7 @@ export default function BuildRoadButton(props) {
       y2={props.lineEndY}
       className="roadNodeBuildable"
       stroke="white"
-      strokeWidth={6}
+      strokeWidth={10}
       strokeLinecap="round"
       onClick={() => props.roadNodeClickFunction()}
       onTouchStart={() => setRecentlyTouched(true)}

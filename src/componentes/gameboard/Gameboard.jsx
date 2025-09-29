@@ -34,7 +34,7 @@ export default function Gameboard({children}) {
           isTurnStateIdle,
           isTurnStateBuildMenu } = useContext(TurnStateContext);
 
-  let gameBoardClass = "";
+  let stateHideBoard = "hideBoard";
   if ( isHost || 
       ((currentPlayerTurn == clientPlayerNumber ) &&
         ( isTurnStateBuildingARoad() ||
@@ -43,10 +43,7 @@ export default function Gameboard({children}) {
           isTurnStateRoadBuilderCardFirstRoad() ||
           isTurnStateRoadBuilderCardSecondRoad() ||
           isTurnStateMoveTheThief()))) {
-    gameBoardClass = "gameBoard";
-  }
-  else {
-    gameBoardClass = "gameBoard hideBoard";
+    stateHideBoard = "";
   }
 
 
@@ -113,8 +110,9 @@ export default function Gameboard({children}) {
                   background={"#3498db"}
                   onZoom={(e) => keepInBounds(e)}
                   onPan={(e) => keepInBounds(e)}
+                  className={stateHideBoard}
                 >
-                <svg className={gameBoardClass} viewBox="0 0 420 370" /*ref={svgRef}*/>
+                <svg className={"gameBoard "+stateHideBoard} viewBox="0 0 420 370" /*ref={svgRef}*/>
                   <g>
                     <rect width="100%" height="100%" fill="#3498db" />
                     <Tiles />
@@ -129,7 +127,7 @@ export default function Gameboard({children}) {
                 </UncontrolledReactSVGPanZoom>
               </> }
               {isHost && 
-                <svg className={gameBoardClass} viewBox="0 0 420 370" /*ref={svgRef}*/>
+                <svg className={"gameBoard "+stateHideBoard} viewBox="0 0 420 370" /*ref={svgRef}*/>
                   <g>
                     <Tiles />
                     <Ports />

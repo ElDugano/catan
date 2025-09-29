@@ -8,7 +8,6 @@ export default function BuildCityButton(props) {
       setTimeout(() => {setRecentlyTouched(false)},200);
     }
   },[recentlyTouched]);
-  console.log(recentlyTouched);
 
   return(
     <g
