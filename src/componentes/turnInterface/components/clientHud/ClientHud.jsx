@@ -3,7 +3,8 @@ import { CurrentPlayerTurnContext } from "../../../../state/currentPlayerTurn/Cu
 import { PlayerResourceCardsContext } from "../../../../state/playerResourceCards/PlayerResourceCardsContext.js";
 import { PlayerInformationContext } from "../../../../state/playerInformation/PlayerInformationContext.js";
 import { ScoreBoardContext } from "../../../../state/scoreBoard/ScoreBoardContext.js";
-import NewestDevelopmentCardRecieved from "./NewestDevelopmentCardRecieved.jsx";
+import NewestDevelopmentCardReceived from "./NewestDevelopmentCardReceived.jsx";
+import NewestResourceCardsReceived from "./NewestResourceCardsReceived.jsx";
 import BuildCostDisplay from "./BuildCostDisplay.jsx";
 import DevelopmentCardsDisplay from "./DevelopmentCardsDisplay.jsx";
 import "./clientHud.css"
@@ -21,7 +22,7 @@ import developmentCardIcon from "../../../../assets/developmentCardIcon.svg"
 
 const ClientHud = () => {
   const { clientPlayerNumber } = useContext(CurrentPlayerTurnContext);
-  const { playerResourceCards, previouslyGainedResources } = useContext(PlayerResourceCardsContext);
+  const { playerResourceCards, previouslyGainedResourcesClient } = useContext(PlayerResourceCardsContext);
   const { playerColor } = useContext(PlayerInformationContext);
   const { scoreBoard, hiddenPoints } = useContext(ScoreBoardContext)
 
@@ -33,7 +34,8 @@ const ClientHud = () => {
   let localPlayerColor = playerColor[clientPlayerNumber];
   return (
     <div className={"clientHud clientHudPlayerColor"+localPlayerColor}>
-      <NewestDevelopmentCardRecieved />
+      <NewestDevelopmentCardReceived />
+      <NewestResourceCardsReceived />
       {openMenu=="Building Cost" && <BuildCostDisplay exitFunction={() => setOpenMenu(null)} />}
       {openMenu=="Development Cards" && <DevelopmentCardsDisplay exitFunction={() => setOpenMenu(null)} />}
       <div className={"clientHudTop"}>
@@ -53,19 +55,19 @@ const ClientHud = () => {
       </div>
       <div className={"recievedResources"}>
         <div className={"resourcesGained resourceGainedLumber"}>
-          {"Lumber" in previouslyGainedResources[clientPlayerNumber] && "+"+previouslyGainedResources[clientPlayerNumber].Lumber}
+          {"Lumber" in previouslyGainedResourcesClient && "+"+previouslyGainedResourcesClient.Lumber}
         </div>
         <div className={"resourcesGained resourceGainedBrick"}>
-          {"Brick" in previouslyGainedResources[clientPlayerNumber] && "+"+previouslyGainedResources[clientPlayerNumber].Brick}
+          {"Brick" in previouslyGainedResourcesClient && "+"+previouslyGainedResourcesClient.Brick}
         </div>
         <div className={"resourcesGained resourceGainedWool"}>
-          {"Wool" in previouslyGainedResources[clientPlayerNumber] && "+"+previouslyGainedResources[clientPlayerNumber].Wool}
+          {"Wool" in previouslyGainedResourcesClient && "+"+previouslyGainedResourcesClient.Wool}
         </div>
         <div className={"resourcesGained resourceGainedWheat"}>
-          {"Grain" in previouslyGainedResources[clientPlayerNumber] && "+"+previouslyGainedResources[clientPlayerNumber].Grain}
+          {"Grain" in previouslyGainedResourcesClient && "+"+previouslyGainedResourcesClient.Grain}
         </div>
         <div className={"resourcesGained resourceGainedOre"}>
-          {"Ore" in previouslyGainedResources[clientPlayerNumber] && "+"+previouslyGainedResources[clientPlayerNumber].Ore}
+          {"Ore" in previouslyGainedResourcesClient && "+"+previouslyGainedResourcesClient.Ore}
         </div>
       </div>
     </div>

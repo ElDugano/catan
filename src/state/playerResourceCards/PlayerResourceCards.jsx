@@ -10,8 +10,7 @@ export const PlayerResourceCards = ({ children }) => {
     {Wool:0, Lumber:0, Grain:0, Brick:0, Ore:0}
   ]);
   const [previouslyGainedResources, setPreviouslyGainedResources] = useState([{}, {}, {}, {}]);
-
-  
+  const [previouslyGainedResourcesClient, setPreviouslyGainedResourcesClient] = useState({});
 
   function addResourcesFromDiceRollToPlayerResourceCards(playerNewResources) {
     let newPlayerResourceCards = [...playerResourceCards];
@@ -253,6 +252,8 @@ export const PlayerResourceCards = ({ children }) => {
 
         setPreviouslyGainedResources,
         previouslyGainedResources,
+        setPreviouslyGainedResourcesClient,
+        previouslyGainedResourcesClient,
         //---------- Thief----------//
         discardHalfResourcesPlayers,
         setDiscardHalfResourcesPlayers,

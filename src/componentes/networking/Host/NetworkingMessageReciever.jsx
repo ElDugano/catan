@@ -44,7 +44,7 @@ const NetworkingMessageReciever = (props) => {
           setDiscardHalfResourcesPlayers,
           setDiscardHalfResourcesCardAmount,
           setRobbingTargetPlayers,
-          setPreviouslyGainedResources,
+          setPreviouslyGainedResourcesClient,
           setTradeOffer } = useContext(PlayerResourceCardsContext);
   const { setPlayerDevelopmentCardJustPurchased,
           setPlayerDevelopmentCardHand,
@@ -53,7 +53,7 @@ const NetworkingMessageReciever = (props) => {
           setNewestDevelopmentCardRecieved } = useContext(DevelopmentCardsContext);
   const { setDiceRolledThisTurn } = useContext(DiceContext);
 
-  const { setCurrentPlayerTurn, setupClientPlayerOrder, setClientPlayerNumber, setNumberOfPlayers } = useContext(CurrentPlayerTurnContext);
+  const { setCurrentPlayerTurn, setupClientPlayerOrder, setClientPlayerNumber, setNumberOfPlayers, clientPlayerNumber } = useContext(CurrentPlayerTurnContext);
   const { setPlayerColor, setPlayerName } = useContext(PlayerInformationContext);
 
   useEffect(() => {
@@ -96,7 +96,7 @@ const NetworkingMessageReciever = (props) => {
           "playerAvailableBuildings"  in recievedMessages && setPlayerAvailableBuildings(recievedMessages.playerAvailableBuildings);
           "lastBuiltObject"           in recievedMessages && setLastBuiltObject(recievedMessages.lastBuiltObject);
           "playerResourceCards"       in recievedMessages && setPlayerResourceCards(recievedMessages.playerResourceCards);
-          "previouslyGainedResources" in recievedMessages && setPreviouslyGainedResources(recievedMessages.previouslyGainedResources);
+          "previouslyGainedResources" in recievedMessages && setPreviouslyGainedResourcesClient(recievedMessages.previouslyGainedResources[clientPlayerNumber]);
           "discardHalfResourcesPlayers" in recievedMessages && setDiscardHalfResourcesPlayers(recievedMessages.discardHalfResourcesPlayers);
           "discardHalfResourcesCardAmount" in recievedMessages && setDiscardHalfResourcesCardAmount(recievedMessages.discardHalfResourcesCardAmount);
           "robbingTargetPlayers"      in recievedMessages && setRobbingTargetPlayers(recievedMessages.robbingTargetPlayers);

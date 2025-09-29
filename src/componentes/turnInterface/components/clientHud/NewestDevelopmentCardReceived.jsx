@@ -8,9 +8,8 @@ import roadBuildingCard from "../../../../assets/developmentCards/roadBuildingCa
 import yearOfPlentyCard from "../../../../assets/developmentCards/yearOfPlentyCard.svg"
 
 
-export default function NewestDevelopmentCardRecieved() {
+export default function NewestDevelopmentCardReceived() {
   const { newestDevelopmentCardRecieved, setNewestDevelopmentCardRecieved } = useContext(DevelopmentCardsContext);
-  console.log(newestDevelopmentCardRecieved)
 
   let cardDisplay = null;
   switch (newestDevelopmentCardRecieved) {
