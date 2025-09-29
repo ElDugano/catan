@@ -21,7 +21,7 @@ export const PlayerResourceCards = ({ children }) => {
     });
     setPlayerResourceCards(newPlayerResourceCards);
     setPreviouslyGainedResources(playerNewResources);
-    return {playerResourceCards: newPlayerResourceCards,previouslyGainedResources:playerNewResources};
+    return {playerResourceCards: newPlayerResourceCards, previouslyGainedResources:playerNewResources};
   }
 
   function getAPlayersResourceCards(player) {
@@ -83,9 +83,6 @@ export const PlayerResourceCards = ({ children }) => {
   }
 
   function tradeResources(tradingPlayerA, playerATradedResources, tradingPlayerB, playerBTradedResources) {
-    console.log("Here I am");
-    console.log(playerATradedResources);
-    console.log(playerBTradedResources);
     let newPlayerResourceCards = [...playerResourceCards];
     for( let resource in playerATradedResources) {
       newPlayerResourceCards[tradingPlayerA][resource] = newPlayerResourceCards[tradingPlayerA][resource] - playerATradedResources[resource];
@@ -153,7 +150,17 @@ export const PlayerResourceCards = ({ children }) => {
     newPlayerResourceCards[robbingPlayer][stolenResourceCardType] +=1;
     newPlayerResourceCards[victimPlayer][stolenResourceCardType] -=1;
     setPlayerResourceCards(newPlayerResourceCards);
-    return {playerResourceCards:newPlayerResourceCards};
+
+    let playerNewResources = new Array(newPlayerResourceCards.length);
+    for (let i = 0; i < newPlayerResourceCards.length; i++ ) {
+      playerNewResources[i] = {Wool:0, Lumber:0, Grain:0, Brick:0, Ore:0};
+    }
+    playerNewResources[robbingPlayer][stolenResourceCardType] = +1;
+    playerNewResources[victimPlayer][stolenResourceCardType] = -1;
+
+    setPreviouslyGainedResources()
+    return {playerResourceCards:newPlayerResourceCards, previouslyGainedResources:playerNewResources};
+    
   }
 
 
