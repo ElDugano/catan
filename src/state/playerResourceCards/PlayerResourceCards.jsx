@@ -221,22 +221,27 @@ export const PlayerResourceCards = ({ children }) => {
     setPlayerResourceCards(newPlayerResourceCards);
     return {playerResourceCards:newPlayerResourceCards};
   }
-  //We should maybe make a state of how many cards each player lost to monopoly.
+
   function monopolizeResource(monopolizingPlayer, resourceName) {
     let newPlayerResourceCards = [...playerResourceCards];
-    let monopolizedResources = [0,0,0,0];
+    let monopolyGain = 0;
+    let playerResourceGains = new Array(newPlayerResourceCards.length);
+    for (let i = 0; i < newPlayerResourceCards.length; i++ ) {
+      playerResourceGains[i] = {Wool:0, Lumber:0, Grain:0, Brick:0, Ore:0};
+    }
+    
     newPlayerResourceCards.forEach((playerResourceArray, victimPlayer) => {
       if (victimPlayer != monopolizingPlayer) {
-        monopolizedResources[monopolizingPlayer] += playerResourceArray[resourceName];
-        monopolizedResources[victimPlayer] -= playerResourceArray[resourceName];
+        monopolyGain += playerResourceArray[resourceName];
+        playerResourceGains[victimPlayer][resourceName] -= playerResourceArray[resourceName];
         newPlayerResourceCards[victimPlayer][resourceName] = 0;
       }
     });
-    newPlayerResourceCards[monopolizingPlayer][resourceName] += monopolizedResources[monopolizingPlayer];
+    newPlayerResourceCards[monopolizingPlayer][resourceName] += monopolyGain;
+    playerResourceGains[monopolizingPlayer][resourceName] += monopolyGain;
+
     setPlayerResourceCards(newPlayerResourceCards);
-    return {playerResourceCards:newPlayerResourceCards};
-    //set //monopolizedResources[monopolizingPlayer] //This can be used if we want to see what the outcome of the monopoly was on the screen.
-    //Perhaps we could use previouslyGainedResources or plunderedResourcePlayers for this.
+    return {playerResourceCards:newPlayerResourceCards, previouslyGainedResources:playerResourceGains};
   }
 
   return (

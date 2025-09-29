@@ -15,91 +15,80 @@ export default function NewestResourceCardsReceived() {
   const { clientPlayerNumber } = useContext(CurrentPlayerTurnContext);
 
   const [ gainedResources, setGainedResources ] = useState({Wool:0, Lumber:0, Grain:0, Brick:0, Ore:0});
-  const [ robbedItem, setRobbeditem ] = useState(null)
+  const [ robbedResources, setRobbedResources ] = useState({Wool:0, Lumber:0, Grain:0, Brick:0, Ore:0});
+  const [ robbedItem, setRobbeditem ] = useState(false)
 
   useEffect(() => {
     let newGainedResources = {...gainedResources};
+    let newRobbedResources = {...robbedResources};
     let needToUpdate = false;
     for (let resourceName in previouslyGainedResourcesClient) {
-      newGainedResources[resourceName] += previouslyGainedResourcesClient[resourceName];
-      if (previouslyGainedResourcesClient[resourceName] != 0)
+      if (previouslyGainedResourcesClient[resourceName] > 0) {
+        newGainedResources[resourceName] += previouslyGainedResourcesClient[resourceName];
         needToUpdate = true;
+      }
+      if (previouslyGainedResourcesClient[resourceName] < 0) {
+        newRobbedResources[resourceName] += previouslyGainedResourcesClient[resourceName];
+        needToUpdate = true;
+        if(robbedItem == false)
+          setRobbeditem(true);
+      }
     }
     if (needToUpdate) {
       setGainedResources(newGainedResources);
+      setRobbedResources(newRobbedResources);
       setPreviouslyGainedResourcesClient({Wool:0, Lumber:0, Grain:0, Brick:0, Ore:0});
     }
-    if (robbedItem == null) {
-      for (let resourceName in newGainedResources) {
-        if (newGainedResources[resourceName] < 0)
-          setRobbeditem(resourceName);
-      }
-    }
-
-  }, [clientPlayerNumber, gainedResources, previouslyGainedResourcesClient, robbedItem, setPreviouslyGainedResourcesClient])
+  }, [clientPlayerNumber, gainedResources, previouslyGainedResourcesClient, robbedItem, robbedResources, setPreviouslyGainedResourcesClient])
 
   
-  let displayMenu = 0;
+  
+  if (robbedItem == true) {
+    let displayMenu = 0;
+    for (let resourceName in robbedResources) {
+      if (robbedResources[resourceName] != 0)
+        displayMenu++;
+    }
+    if (displayMenu != 0) {
+      let cardSizeClass = "fullSizeCard";
+      if (displayMenu == 2 || displayMenu == 4)
+        cardSizeClass = "halfSizeCard";
+      if (displayMenu == 3 || displayMenu == 5)
+        cardSizeClass = "thirdSizeCard";
 
+      const acknowledgeRobbery = () => {
+        setRobbedResources({Wool:0, Lumber:0, Grain:0, Brick:0, Ore:0});
+        setRobbeditem(false);
+      }
+
+      return(
+        <div className={"fadeMainInterfaceRecieveCard"}>
+          <div className={"recieveCardInterface"}>
+            <h3>Resource Cards<br />Robbed From You</h3>
+            <div className="resourceCardHolder">
+              {robbedResources.Brick != 0 && <div className={"resourceCard "+cardSizeClass}><img src={brickCard} /><div className="negativeNumber">{robbedResources.Brick}</div></div>}
+              {robbedResources.Lumber != 0 && <div className={"resourceCard "+cardSizeClass}><img src={lumberCard} /><div className="negativeNumber">{robbedResources.Lumber}</div></div>}
+              {robbedResources.Wool != 0 && <div className={"resourceCard "+cardSizeClass}><img src={woolCard} /><div className="negativeNumber">{robbedResources.Wool}</div></div>}
+              {robbedResources.Grain != 0 && <div className={"resourceCard "+cardSizeClass}><img src={grainCard} /><div className="negativeNumber">{robbedResources.Grain}</div></div>}
+              {robbedResources.Ore != 0 && <div className={"resourceCard "+cardSizeClass}><img src={oreCard} /><div className="negativeNumber">{robbedResources.Ore}</div></div>}
+            </div>
+            <button className={"acknowledgeButton"} onClick={acknowledgeRobbery}>Unfortunate</button>
+          </div>
+        </div>
+      )
+    }
+  }
+  let displayMenu = 0;
   for (let resourceName in gainedResources) {
     if (gainedResources[resourceName] != 0)
       displayMenu++;
   }
-
-  let cardSizeClass = "fullSizeCard";
-  if (displayMenu == 2 || displayMenu == 4)
-    cardSizeClass = "halfSizeCard";
-  if (displayMenu == 3 || displayMenu == 5)
-    cardSizeClass = "thirdSizeCard";
-
-  if (robbedItem != null) {
-    let robbedCardImage = null;
-    switch (robbedItem) {
-      case "Lumber":
-        robbedCardImage = <img src={lumberCard} />
-      break;
-      case "Brick":
-        robbedCardImage = <img src={brickCard} />
-      break;
-      case "Wool":
-        robbedCardImage = <img src={woolCard} />
-      break;
-      case "Grain":
-        robbedCardImage = <img src={grainCard} />
-      break;
-      case "Ore":
-        robbedCardImage = <img src={oreCard} />
-      break;
-    }
-    const acknowledgeRobbery = () => {
-      let newGainedResources = {...gainedResources};
-      newGainedResources[robbedItem] += 1;
-      let newRobbedItem = null;
-      for (let resourceName in newGainedResources) {
-        if (newGainedResources[resourceName] < 0)
-          newRobbedItem = resourceName;
-      }
-      setGainedResources(newGainedResources);
-      setRobbeditem(newRobbedItem);
-    }
-    return (
-      <div className={"fadeMainInterfaceRecieveCard"}>
-        <div className={"recieveCardInterface"}>
-          <h3>Shit man, you got robbed, that sucks</h3>
-          <div className="resourceCardHolder">
-            <div className={"resourceCard fullSizeCard"}>
-              {robbedCardImage}
-              <div className="negativeNumber">
-                -1
-              </div>
-            </div>
-          </div>
-          <button className={"acknowledgeButton"} onClick={acknowledgeRobbery}>Dang Dawg!</button>
-        </div>
-      </div>
-    )
-  }
-  else if (displayMenu != 0)
+  if (displayMenu != 0) {
+    let cardSizeClass = "fullSizeCard";
+    if (displayMenu == 2 || displayMenu == 4)
+      cardSizeClass = "halfSizeCard";
+    if (displayMenu == 3 || displayMenu == 5)
+      cardSizeClass = "thirdSizeCard";
     return(
       <div className={"fadeMainInterfaceRecieveCard"}>
         <div className={"recieveCardInterface"}>
@@ -110,12 +99,12 @@ export default function NewestResourceCardsReceived() {
             {gainedResources.Wool != 0 && <div className={"resourceCard "+cardSizeClass}><img src={woolCard} /><div className="positiveNumber">+{gainedResources.Wool}</div></div>}
             {gainedResources.Grain != 0 && <div className={"resourceCard "+cardSizeClass}><img src={grainCard} /><div className="positiveNumber">+{gainedResources.Grain}</div></div>}
             {gainedResources.Ore != 0 && <div className={"resourceCard "+cardSizeClass}><img src={oreCard} /><div className="positiveNumber">+{gainedResources.Ore}</div></div>}
-            {/*<img src={brickCard} />*/}
           </div>
           <button className={"acknowledgeButton"} onClick={() => setGainedResources({Wool:0, Lumber:0, Grain:0, Brick:0, Ore:0})}>Thanks!</button>
         </div>
       </div>
     )
+  }
   else
     return(<></>);
 }
