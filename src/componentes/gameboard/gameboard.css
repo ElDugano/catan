@@ -47,6 +47,7 @@
   stroke: white;
   stroke-width: 1px;
   transition: fill-opacity 0.3s, fill 0.3s;
+  touch-action: none;
 }
 
 .ThiefSelectTileButton:hover {
@@ -88,6 +89,7 @@
   fill: white;
   stroke: white;
   filter: drop-shadow(.02vw 2px 5px rgba(0,0,0,0.8));
+  touch-action: none;
 }
 
 .cornerNodeBuildable:hover {
@@ -110,6 +112,7 @@
   transition: stroke 0.3s;
   stroke: white;
   filter: drop-shadow(.02vw 2px 5px rgba(0,0,0,0.8));
+  touch-action: none;
 }
 
 .roadNodeBuildable:hover {

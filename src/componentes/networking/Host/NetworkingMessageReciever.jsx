@@ -49,7 +49,8 @@ const NetworkingMessageReciever = (props) => {
   const { setPlayerDevelopmentCardJustPurchased,
           setPlayerDevelopmentCardHand,
           setPlayerDevelopmentCardPlayed,
-          setTotalPlayerDevelopmentCardHand } = useContext(DevelopmentCardsContext);
+          setTotalPlayerDevelopmentCardHand,
+          setNewestDevelopmentCardRecieved } = useContext(DevelopmentCardsContext);
   const { setDiceRolledThisTurn } = useContext(DiceContext);
 
   const { setCurrentPlayerTurn, setupClientPlayerOrder, setClientPlayerNumber, setNumberOfPlayers } = useContext(CurrentPlayerTurnContext);
@@ -114,11 +115,13 @@ const NetworkingMessageReciever = (props) => {
           
           "totalPlayerDevelopmentCardHand" in recievedMessages && setTotalPlayerDevelopmentCardHand(recievedMessages.totalPlayerDevelopmentCardHand);
           "tradeOffer"                     in recievedMessages && setTradeOffer(recievedMessages.tradeOffer);
+          "newestDevelopmentCardRecieved"  in recievedMessages && setNewestDevelopmentCardRecieved(recievedMessages.newestDevelopmentCardRecieved);
           //"" in recievedMessages && (recievedMessages.);
           //"" in recievedMessages && (recievedMessages.);
           //"" in recievedMessages && (recievedMessages.);
           //"" in recievedMessages && (recievedMessages.);
-          //"" in recievedMessages && (recievedMessages.);
+
+          //below are host only, more or less.
           "selectColor"               in recievedMessages && props.selectColor(recievedMessages.selectColor.player, recievedMessages.selectColor.color);
           "setPlayerName"             in recievedMessages && props.setPlayerName(recievedMessages.setPlayerName.player, recievedMessages.setPlayerName.name);
           "startGame"                 in recievedMessages && props.startGame();

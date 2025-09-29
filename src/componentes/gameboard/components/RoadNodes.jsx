@@ -13,7 +13,7 @@ import Road from "./Road";
 import { NetworkingMessageSenderContext } from '../../networking/Host/NetworkingMessageSenderContext.js';
 
 export default function RoadNodes() {
-  const {isGameStateBoardSetup}= useContext(GameStateContext);
+  const { isGameStateBoardSetup }= useContext(GameStateContext);
   const { turnState,
           setTurnStateToIdle,
           isTurnStateBuildingARoad,
@@ -21,8 +21,8 @@ export default function RoadNodes() {
           isTurnStateRoadBuilderCardSecondRoad,
           setTurnStateToRoadBuilderCardSecondRoad }= useContext(TurnStateContext);
 
-  const { lastBuiltObject } = useContext(PlayerAvailableBuildingsContext);
-  const { currentPlayerTurn, isClientPlayersTurn } = useContext(CurrentPlayerTurnContext);
+  const { lastBuiltObject, returnAvailableSettlements } = useContext(PlayerAvailableBuildingsContext);
+  const { currentPlayerTurn, isClientPlayersTurn, isPlayerOrderArrayPositionEnd } = useContext(CurrentPlayerTurnContext);
 
   const {tileCornerNodes } = useContext(TileCornerNodesContext);
 
@@ -34,7 +34,9 @@ export default function RoadNodes() {
     addToMessagePayloadToHost({header: "Building a Road"});
     addToMessagePayloadToHost({buildRoad:{x:x,y:y,direction:"right",clientTurnState:turnState}});
     sendTheMessages();
-    if(isTurnStateRoadBuilderCardFirstRoad())
+    if(returnAvailableSettlements(currentPlayerTurn) == 4 && isPlayerOrderArrayPositionEnd())
+      console.log("Time to reverse course"); //This is here to make the game look smoother for this player.
+    else if(isTurnStateRoadBuilderCardFirstRoad())
       setTurnStateToRoadBuilderCardSecondRoad();
     else
       setTurnStateToIdle();
@@ -44,7 +46,9 @@ export default function RoadNodes() {
     addToMessagePayloadToHost({header: "Building a Road"});
     addToMessagePayloadToHost({buildRoad:{x:x,y:y,direction:"bottom",clientTurnState:turnState}});
     sendTheMessages();
-    if(isTurnStateRoadBuilderCardFirstRoad())
+    if(returnAvailableSettlements(currentPlayerTurn) == 4 && isPlayerOrderArrayPositionEnd())
+      console.log("Time to reverse course"); //This is here to make the game look smoother for this player.
+    else if(isTurnStateRoadBuilderCardFirstRoad())
       setTurnStateToRoadBuilderCardSecondRoad();
     else
       setTurnStateToIdle();

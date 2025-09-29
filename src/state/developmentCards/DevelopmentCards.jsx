@@ -46,6 +46,8 @@ export const DevelopmentCards = ({ children }) => {
     {"Knight":0, "Road Building":0, "Year of Plenty":0, "Monopoly":0, "Victory Point":0}
   ]);
 
+  const [newestDevelopmentCardRecieved, setNewestDevelopmentCardRecieved] = useState(null);
+
   function returnAvailableDevelopmentCards() {
     return developmentCardDeck.length;
   }
@@ -54,10 +56,10 @@ export const DevelopmentCards = ({ children }) => {
     console.log("The development card deck now looks like this:");
     console.log(developmentCardDeck);
     let newDevelopmentCardDeck = [...developmentCardDeck];
-    let newCard = newDevelopmentCardDeck.pop();
+    const newCard = newDevelopmentCardDeck.pop();
     let newPlayerDevelopmentCardJustPurchased = [...playerDevelopmentCardJustPurchased];
     newPlayerDevelopmentCardJustPurchased[player][newCard]++;
-    console.log(newPlayerDevelopmentCardJustPurchased);
+
     setPlayerDevelopmentCardJustPurchased(newPlayerDevelopmentCardJustPurchased);
     setDevelopmentCardDeck(newDevelopmentCardDeck);
 
@@ -66,8 +68,8 @@ export const DevelopmentCards = ({ children }) => {
     setTotalPlayerDevelopmentCardHand(newTotalPlayerDevelopmentCardHand);
 
     return {playerDevelopmentCardJustPurchased:newPlayerDevelopmentCardJustPurchased,
-            totalPlayerDevelopmentCardHand:newTotalPlayerDevelopmentCardHand};
-      //Likely, this should only send back the player's cards from the array.
+            totalPlayerDevelopmentCardHand:newTotalPlayerDevelopmentCardHand,
+            newestDevelopmentCardRecieved: newCard};
   }
 
     function makePlayerPurchasedDevelopmentAvailableToPlay(player) {
@@ -128,17 +130,21 @@ export const DevelopmentCards = ({ children }) => {
         returnAvailableDevelopmentCards,
         givePlayerDevelopmentCardFromDeck,
         makePlayerPurchasedDevelopmentAvailableToPlay,
+
         PlayerDevelopmentCardsAvailableToPlay,
         doesPlayerOwnsKnightDevelopmentCard,
         doesPlayerOwnsRoadBuildingDevelopmentCard,
         doesPlayerOwnsYearOfPlentyDevelopmentCard,
         doesPlayerOwnsMonopolyDevelopmentCard,
+
         playKnightDevelopmentCard,
         playRoadBuildingDevelopmentCard,
         playYearOfPlentyDevelopmentCard,
         playMonopolyDevelopmentCard,
+
         getPlayerArmyStrength,
         getJustPurchasedPlayerVictoryPointCards,
+
         setPlayerDevelopmentCardJustPurchased,
         playerDevelopmentCardJustPurchased,
         setPlayerDevelopmentCardHand,
@@ -146,7 +152,9 @@ export const DevelopmentCards = ({ children }) => {
         setPlayerDevelopmentCardPlayed,
         playerDevelopmentCardPlayed,
         setTotalPlayerDevelopmentCardHand,
-        totalPlayerDevelopmentCardHand
+        totalPlayerDevelopmentCardHand,
+        setNewestDevelopmentCardRecieved,
+        newestDevelopmentCardRecieved
       }}>
         {children}
       </DevelopmentCardsContext.Provider>

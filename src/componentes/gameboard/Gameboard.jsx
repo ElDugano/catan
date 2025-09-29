@@ -100,6 +100,7 @@ export default function Gameboard({children}) {
                 <UncontrolledReactSVGPanZoom
                   ref={Viewer}
                   preventPanOutside={true}
+                  disableDoubleClickZoomWithToolAuto={true}
                   detectAutoPan={false}
                   defaultTool={"auto"}
                   toolbarProps={{ position: 'none' }}

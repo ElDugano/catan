@@ -3,6 +3,7 @@ import { CurrentPlayerTurnContext } from "../../../../state/currentPlayerTurn/Cu
 import { PlayerResourceCardsContext } from "../../../../state/playerResourceCards/PlayerResourceCardsContext.js";
 import { PlayerInformationContext } from "../../../../state/playerInformation/PlayerInformationContext.js";
 import { ScoreBoardContext } from "../../../../state/scoreBoard/ScoreBoardContext.js";
+import NewestDevelopmentCardRecieved from "./NewestDevelopmentCardRecieved.jsx";
 import BuildCostDisplay from "./BuildCostDisplay.jsx";
 import DevelopmentCardsDisplay from "./DevelopmentCardsDisplay.jsx";
 import "./clientHud.css"
@@ -24,6 +25,7 @@ const ClientHud = () => {
   const { playerColor } = useContext(PlayerInformationContext);
   const { scoreBoard, hiddenPoints } = useContext(ScoreBoardContext)
 
+
   const [openMenu, setOpenMenu] = useState(null);
 
   if (clientPlayerNumber == null)
@@ -31,6 +33,7 @@ const ClientHud = () => {
   let localPlayerColor = playerColor[clientPlayerNumber];
   return (
     <div className={"clientHud clientHudPlayerColor"+localPlayerColor}>
+      <NewestDevelopmentCardRecieved />
       {openMenu=="Building Cost" && <BuildCostDisplay exitFunction={() => setOpenMenu(null)} />}
       {openMenu=="Development Cards" && <DevelopmentCardsDisplay exitFunction={() => setOpenMenu(null)} />}
       <div className={"clientHudTop"}>
