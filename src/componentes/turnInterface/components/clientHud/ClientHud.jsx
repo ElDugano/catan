@@ -22,7 +22,7 @@ import developmentCardIcon from "../../../../assets/developmentCardIcon.svg"
 
 const ClientHud = () => {
   const { clientPlayerNumber } = useContext(CurrentPlayerTurnContext);
-  const { playerResourceCards, previouslyGainedResourcesClient } = useContext(PlayerResourceCardsContext);
+  const { playerResourceCards/*, previouslyGainedResourcesClient*/ } = useContext(PlayerResourceCardsContext);
   const { playerColor } = useContext(PlayerInformationContext);
   const { scoreBoard, hiddenPoints } = useContext(ScoreBoardContext)
 

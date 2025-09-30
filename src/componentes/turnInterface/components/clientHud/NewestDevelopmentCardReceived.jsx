@@ -1,5 +1,7 @@
 import { useContext } from "react";
 import { DevelopmentCardsContext } from "../../../../state/developmentCards/DevelopmentCardsContext.js";
+import { PlayerInformationContext } from "../../../../state/playerInformation/PlayerInformationContext.js";
+import { CurrentPlayerTurnContext } from "../../../../state/currentPlayerTurn/CurrentPlayerTurnContext.js";
 
 import victoryPointCard from "../../../../assets/developmentCards/victoryPointCard.svg"
 import knightCard from "../../../../assets/developmentCards/knightCard.svg"
@@ -10,6 +12,8 @@ import yearOfPlentyCard from "../../../../assets/developmentCards/yearOfPlentyCa
 
 export default function NewestDevelopmentCardReceived() {
   const { newestDevelopmentCardRecieved, setNewestDevelopmentCardRecieved } = useContext(DevelopmentCardsContext);
+  const { playerColor } = useContext(PlayerInformationContext);
+  const { clientPlayerNumber } = useContext(CurrentPlayerTurnContext);
 
   let cardDisplay = null;
   switch (newestDevelopmentCardRecieved) {
@@ -36,7 +40,7 @@ export default function NewestDevelopmentCardReceived() {
     <div className={"recieveCardInterface"}>
       <h3>Development Card Recieved</h3>
       {cardDisplay}
-      <button className={"acknowledgeButton"} onClick={() => setNewestDevelopmentCardRecieved(null)}>Thanks!</button>
+      <button className={"acknowledgeButton playerButton"+playerColor[clientPlayerNumber]} onClick={() => setNewestDevelopmentCardRecieved(null)}>Thanks!</button>
     </div>
   </div>
   )

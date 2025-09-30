@@ -1,7 +1,7 @@
 import { useContext, useState, useEffect } from "react";
-import { DevelopmentCardsContext } from "../../../../state/developmentCards/DevelopmentCardsContext.js";
 import { PlayerResourceCardsContext } from "../../../../state/playerResourceCards/PlayerResourceCardsContext.js";
 import { CurrentPlayerTurnContext } from "../../../../state/currentPlayerTurn/CurrentPlayerTurnContext.js";
+import { PlayerInformationContext } from "../../../../state/playerInformation/PlayerInformationContext.js";
 
 import brickCard from "../../../../assets/resourceCards/brickResourceCard.svg"
 import lumberCard from "../../../../assets/resourceCards/lumberResourceCard.svg"
@@ -13,6 +13,7 @@ import oreCard from "../../../../assets/resourceCards/oreResourceCard.svg"
 export default function NewestResourceCardsReceived() {
   const { previouslyGainedResourcesClient, setPreviouslyGainedResourcesClient } = useContext(PlayerResourceCardsContext);
   const { clientPlayerNumber } = useContext(CurrentPlayerTurnContext);
+  const { playerColor } = useContext(PlayerInformationContext);
 
   const [ gainedResources, setGainedResources ] = useState({Wool:0, Lumber:0, Grain:0, Brick:0, Ore:0});
   const [ robbedResources, setRobbedResources ] = useState({Wool:0, Lumber:0, Grain:0, Brick:0, Ore:0});
@@ -72,7 +73,7 @@ export default function NewestResourceCardsReceived() {
               {robbedResources.Grain != 0 && <div className={"resourceCard "+cardSizeClass}><img src={grainCard} /><div className="negativeNumber">{robbedResources.Grain}</div></div>}
               {robbedResources.Ore != 0 && <div className={"resourceCard "+cardSizeClass}><img src={oreCard} /><div className="negativeNumber">{robbedResources.Ore}</div></div>}
             </div>
-            <button className={"acknowledgeButton"} onClick={acknowledgeRobbery}>Unfortunate</button>
+            <button className={"acknowledgeButton playerButton"+playerColor[clientPlayerNumber]} onClick={acknowledgeRobbery}>Unfortunate</button>
           </div>
         </div>
       )
@@ -100,7 +101,7 @@ export default function NewestResourceCardsReceived() {
             {gainedResources.Grain != 0 && <div className={"resourceCard "+cardSizeClass}><img src={grainCard} /><div className="positiveNumber">+{gainedResources.Grain}</div></div>}
             {gainedResources.Ore != 0 && <div className={"resourceCard "+cardSizeClass}><img src={oreCard} /><div className="positiveNumber">+{gainedResources.Ore}</div></div>}
           </div>
-          <button className={"acknowledgeButton"} onClick={() => setGainedResources({Wool:0, Lumber:0, Grain:0, Brick:0, Ore:0})}>Thanks!</button>
+          <button className={"acknowledgeButton playerButton"+playerColor[clientPlayerNumber]} onClick={() => setGainedResources({Wool:0, Lumber:0, Grain:0, Brick:0, Ore:0})}>Thanks!</button>
         </div>
       </div>
     )

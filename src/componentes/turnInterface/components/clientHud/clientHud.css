@@ -1,9 +1,37 @@
 .clientHud {
+  font-family: "Sigmar One", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+  font-size: 6vw;
+  margin-left: auto;
+  margin-right: auto;
+  justify-content: center;
+  text-align: center;
+
   padding-bottom: 2vw;
   border-color: white;
   border-style: solid;
   border-width: 0 0 1px 0;
   box-shadow: 0 2vw 1vw rgba(0, 0, 0, 0.8);
+}
+
+.clientHud h2 {
+  margin-top: 1vh;
+  margin-bottom: 1vh;
+}
+
+.clientHud button {
+  width: 90vw;
+  background-color: green;
+  border: 0.5vw solid white;
+  border-radius: 4vw;
+  color: white;
+  margin-bottom: 5vw;
+  margin-left: auto;
+  margin-right: auto;
+  justify-content: center;
+  text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000, 3px 3px 1px rgba(0, 0, 0, 0.8);
+  box-shadow: 8px 8px 4px rgba(0, 0, 0, 0.8);
 }
 
 .clientHud .clientHudTitle {
