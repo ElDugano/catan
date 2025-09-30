@@ -6,6 +6,11 @@
     background-color: #3498db;
 }
 
+.clientGameBoardHolder {
+  border-bottom: 1vw solid white;
+  border-top: 1vw solid white;
+}
+
 .hideBoard {
   display: none;
 }

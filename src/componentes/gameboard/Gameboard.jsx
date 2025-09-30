@@ -19,6 +19,7 @@ import { NetworkingContext } from "../networking/State/NetworkingContext.js";
 import { TurnStateContext } from "../../state/turnState/TurnStateContext.js";
 
 import {UncontrolledReactSVGPanZoom, ReactSVGPanZoom} from 'react-svg-pan-zoom';
+import {useWindowSize} from '@react-hook/window-size'
 //import {useWindowSize} from '@react-hook/window-size'
 //import { useWindowSize } from "@uidotdev/usehooks";
 
@@ -46,14 +47,16 @@ export default function Gameboard({children}) {
     stateHideBoard = "";
   }
 
-
+  const [width, height] = useWindowSize({initialWidth: 420, initialHeight: 370})
+  console.log(width, height);
 
   const Viewer = useRef(null);
- useEffect(() => {
-  if (isHost == false && (isTurnStateIdle() || isTurnStateBuildMenu())) {
-    Viewer.current.reset();
-  }
- }, [isHost, isTurnStateIdle, isTurnStateBuildMenu]);
+  useEffect(() => {
+    if (isHost == false && (isTurnStateIdle() || isTurnStateBuildMenu())) {
+      //Viewer.current.reset();
+      Viewer.current.fitSelection(0, 0, 420, 370);
+    }
+  }, [isHost, isTurnStateIdle, isTurnStateBuildMenu, width]);
 
   const keepInBounds = (panObject) => {
     //console.log(panObject)
@@ -88,15 +91,16 @@ export default function Gameboard({children}) {
       Viewer.current.setPointOnViewerCenter(updateX, updateY, zoomLevel)
   }
 
+
+
   return (
     <TileCornerNodes>
       <LandTiles>
         <PortTiles>
           <ThiefLocation>
             <LandTileNumbers>
-              { children }
-
               {isHost == false && <>
+                <div className={stateHideBoard} style={{width: width+"px", height: ((width*370/420)+30)+"px"}}>
                 <UncontrolledReactSVGPanZoom
                   ref={Viewer}
                   preventPanOutside={true}
@@ -105,17 +109,18 @@ export default function Gameboard({children}) {
                   defaultTool={"auto"}
                   toolbarProps={{ position: 'none' }}
                   miniatureProps={{ position: 'none' }}
-                  scaleFactorMin={1}
+                  scaleFactorMin={0.2}
                   scaleFactorMax={5}
-                  width={420} height={370}
+                  //width={420} height={370}
+                  width={width} height={width*370/420}
                   background={"#3498db"}
-                  onZoom={(e) => keepInBounds(e)}
-                  onPan={(e) => keepInBounds(e)}
-                  className={stateHideBoard}
+                  //onZoom={(e) => keepInBounds(e)}
+                  //onPan={(e) => keepInBounds(e)}
+                  className={"clientGameBoardHolder "+stateHideBoard}
                 >
                 <svg className={"gameBoard "+stateHideBoard} viewBox="0 0 420 370" /*ref={svgRef}*/>
                   <g>
-                    <rect width="100%" height="100%" fill="#3498db" />
+                    <rect x="-1" y="-1" width="200%" height="200%" fill="#3498db" />
                     <Tiles />
                     <Ports />
                     <TileNumbers />
@@ -126,6 +131,8 @@ export default function Gameboard({children}) {
                   </g>
                 </svg>
                 </UncontrolledReactSVGPanZoom>
+                </div>
+
               </> }
               {isHost && 
                 <svg className={"gameBoard "+stateHideBoard} viewBox="0 0 420 370" /*ref={svgRef}*/>
@@ -140,6 +147,7 @@ export default function Gameboard({children}) {
                   </g>
                 </svg>
               }
+              { children }
             </LandTileNumbers>
           </ThiefLocation>
         </PortTiles>

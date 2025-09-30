@@ -62,7 +62,6 @@ export default function TurnInterface() {
   if (isClientPlayersTurn() && isGameStateMainGame()) {
     return (
       <div className={"clientMenu clientMenuColor"+localPlayerColor}>
-      <ClientHud />
       {isTurnStateRollingTheDice() && <RollDiceMenu />}
       {isTurnStateGatheringResourcesAcknowledgement() && <GatherResroucesAcknowledgement />}
         {/*---------- Theif Related ----------*/}
@@ -90,7 +89,6 @@ export default function TurnInterface() {
   else if (isGameStateMainGame()) {
     return (
       <div className={"clientMenu clientMenuColor"+localPlayerColor}>
-        <ClientHud />
         {isTurnStateIdle() && 
           <div className="notYourTurn">
             <div>

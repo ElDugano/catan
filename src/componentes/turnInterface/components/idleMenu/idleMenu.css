@@ -17,6 +17,12 @@
   top: 1vw
 }
 
+.mapTitle {
+  height: 30vw;
+  display: flex;
+  align-items: center;
+}
+
 .clientMenu {
   font-family: "Sigmar One", sans-serif;
   font-weight: 400;
