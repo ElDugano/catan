@@ -13,8 +13,6 @@ import { GameStateContext } from "./state/gameState/GameStateContext.js";
 import { NetworkingContext } from './componentes/networking/State/NetworkingContext.js';
 import { TurnStateContext } from './state/turnState/TurnStateContext.js';
 
-
-
 import './App.css';
 
 import Debug from './helpers/Debug.jsx';

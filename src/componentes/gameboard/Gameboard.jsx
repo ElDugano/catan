@@ -8,22 +8,24 @@ import RoadNodes from "./components/RoadNodes.jsx";
 import ThiefMoveButtons from "./components/ThiefMoveButtons.jsx";
 import "./gameboard.css"
 
-import { TileCornerNodes } from './state/tileCornerNodes/TileCornerNodes.jsx'
-import { LandTiles } from './state/landTiles/LandTiles.jsx'
+import { TileCornerNodes } from './state/tileCornerNodes/TileCornerNodes.jsx';
+import { LandTiles } from './state/landTiles/LandTiles.jsx';
 import { PortTiles } from "./state/portTiles/PortTiles.jsx";
-import { ThiefLocation } from './state/thiefLocation/ThiefLocation.jsx'
-import { LandTileNumbers } from './state/landTileNumbers/LandTileNumbers.jsx'
+import { ThiefLocation } from './state/thiefLocation/ThiefLocation.jsx';
+import { LandTileNumbers } from './state/landTileNumbers/LandTileNumbers.jsx';
 
+import { GameStateContext } from "../../state/gameState/GameStateContext.js";
 import { CurrentPlayerTurnContext } from "../../state/currentPlayerTurn/CurrentPlayerTurnContext.js";
 import { NetworkingContext } from "../networking/State/NetworkingContext.js";
 import { TurnStateContext } from "../../state/turnState/TurnStateContext.js";
 
-import {UncontrolledReactSVGPanZoom, ReactSVGPanZoom} from 'react-svg-pan-zoom';
+import HostGameboard from "./hostComponents/hostGameboard.jsx";
+
+import {UncontrolledReactSVGPanZoom} from 'react-svg-pan-zoom';
 import {useWindowSize} from '@react-hook/window-size'
-//import {useWindowSize} from '@react-hook/window-size'
-//import { useWindowSize } from "@uidotdev/usehooks";
 
 export default function Gameboard({children}) {
+  const { isGameStateGameSetup } = useContext(GameStateContext);
   const { currentPlayerTurn, clientPlayerNumber} = useContext(CurrentPlayerTurnContext)
   const { isHost } = useContext(NetworkingContext);
   const { isTurnStateBuildingARoad,
@@ -58,38 +60,38 @@ export default function Gameboard({children}) {
     }
   }, [isHost, isTurnStateIdle, isTurnStateBuildMenu, width]);
 
-  const keepInBounds = (panObject) => {
-    //console.log(panObject)
-    const x = panObject.e;
-    const y = panObject.f;
-    const zoomLevel = panObject.a;
-    const viewHeight = panObject.SVGHeight;
-    const viewWidth = panObject.SVGWidth
-    const boundsExtend = 50;
-
-    let updateX = viewWidth/zoomLevel/2-x/zoomLevel;
-    let updateY = viewHeight/zoomLevel/2-y/zoomLevel;
-    let update = false;
-
-    if(panObject.e > boundsExtend) {
-      update = true;
-      updateX = viewWidth/zoomLevel/2 - boundsExtend/zoomLevel;
-    }
-    if(-x/zoomLevel > (viewWidth - viewWidth/zoomLevel) + boundsExtend) {
-      update = true;
-      updateX = viewWidth-viewWidth/zoomLevel/2 + boundsExtend/zoomLevel;;
-    }
-    if(panObject.f > boundsExtend) {
-      update = true;
-      updateY = viewHeight/zoomLevel/2 - boundsExtend/zoomLevel;
-    }
-    if(-y/zoomLevel > (viewHeight - viewHeight/zoomLevel) + boundsExtend) {
-      update = true;
-      updateY = viewHeight-viewHeight/zoomLevel/2 + boundsExtend/zoomLevel;;
-    }
-    if(update == true)
-      Viewer.current.setPointOnViewerCenter(updateX, updateY, zoomLevel)
-  }
+  //const keepInBounds = (panObject) => {
+  //  //console.log(panObject)
+  //  const x = panObject.e;
+  //  const y = panObject.f;
+  //  const zoomLevel = panObject.a;
+  //  const viewHeight = panObject.SVGHeight;
+  //  const viewWidth = panObject.SVGWidth
+  //  const boundsExtend = 50;
+//
+  //  let updateX = viewWidth/zoomLevel/2-x/zoomLevel;
+  //  let updateY = viewHeight/zoomLevel/2-y/zoomLevel;
+  //  let update = false;
+//
+  //  if(panObject.e > boundsExtend) {
+  //    update = true;
+  //    updateX = viewWidth/zoomLevel/2 - boundsExtend/zoomLevel;
+  //  }
+  //  if(-x/zoomLevel > (viewWidth - viewWidth/zoomLevel) + boundsExtend) {
+  //    update = true;
+  //    updateX = viewWidth-viewWidth/zoomLevel/2 + boundsExtend/zoomLevel;;
+  //  }
+  //  if(panObject.f > boundsExtend) {
+  //    update = true;
+  //    updateY = viewHeight/zoomLevel/2 - boundsExtend/zoomLevel;
+  //  }
+  //  if(-y/zoomLevel > (viewHeight - viewHeight/zoomLevel) + boundsExtend) {
+  //    update = true;
+  //    updateY = viewHeight-viewHeight/zoomLevel/2 + boundsExtend/zoomLevel;;
+  //  }
+  //  if(update == true)
+  //    Viewer.current.setPointOnViewerCenter(updateX, updateY, zoomLevel)
+  //}
 
 
 
@@ -99,6 +101,7 @@ export default function Gameboard({children}) {
         <PortTiles>
           <ThiefLocation>
             <LandTileNumbers>
+              { children }
               {isHost == false && <>
                 <div className={stateHideBoard} style={{width: width+"px", height: ((width*370/420)+30)+"px"}}>
                 <UncontrolledReactSVGPanZoom
@@ -134,20 +137,7 @@ export default function Gameboard({children}) {
                 </div>
 
               </> }
-              {isHost && 
-                <svg className={"gameBoard "+stateHideBoard} viewBox="0 0 420 370" /*ref={svgRef}*/>
-                  <g>
-                    <Tiles />
-                    <Ports />
-                    <TileNumbers />
-                    <CornerNodes />
-                    <RoadNodes />
-                    <BanditIcon />
-                    <ThiefMoveButtons />
-                  </g>
-                </svg>
-              }
-              { children }
+              { (isHost && !isGameStateGameSetup()) && <HostGameboard /> }
             </LandTileNumbers>
           </ThiefLocation>
         </PortTiles>
