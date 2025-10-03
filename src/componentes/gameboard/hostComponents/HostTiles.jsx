@@ -39,17 +39,6 @@ export default function HostTiles( props ) {
     break
   }
 
-
-
-  let imageFile = [];
-  for (let x in landTiles) {
-    if (props.y in landTiles[x] && landTiles[x][props.y] != "Desert") {
-      const fileName=`${landTiles[x][props.y].toLowerCase()}-x${x}-y${props.y}`;
-      imageFile.push(fileName);
-    }
-  }
-
-  let tileNumber = 0;
   for (let x in landTiles) {
     let translateValue = "translate(" + (x*xMult-xAdjust) + "," + (yOffset) + ")";
     if (props.y in landTiles[x]) {
@@ -57,11 +46,9 @@ export default function HostTiles( props ) {
         <HostTile
           key={crypto.randomUUID()}
           translateValue={translateValue}
-          imagePath={imageFile[tileNumber]}
-          //imagePath={`${landTiles[x][props.y].toLowerCase()}-x${x}-y${props.y}`}
+          imageFile={`${landTiles[x][props.y].toLowerCase()}-x${x}-y${props.y}`}
         />
       )
-      tileNumber++;
     }
   }
   return (<>

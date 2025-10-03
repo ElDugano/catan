@@ -5,11 +5,11 @@ export default function HostTile(props) {
 
   useEffect(() => {
     const loadImage = async () => {
-      const image = await import(`./assets/mapTiles/${props.imagePath}.png`);
+      const image = await import(`./assets/mapTiles/${props.imageFile}.png`);
       setImageSrc(image.default);
     };
     loadImage();
-  }, [props.imagePath]);
+  }, [props.imageFile]);
 
   return (
     <image

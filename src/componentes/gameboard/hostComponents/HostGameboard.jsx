@@ -10,12 +10,7 @@ export default function HostGameboard() {
     <svg viewBox="0 0 1920 1080">
       <image href={backgroundMap} width={'1920'} height={'1080'} />
       <g>
-        <HostTiles y={1} />
-        <HostTiles y={2} />
-        <HostTiles y={3} />
-        <HostTiles y={4} />
-        <HostTiles y={5} />
-  {/*      <HostRoads y={1} />
+        <HostRoads y={1} />
         <HostCities y={1} />
         <HostTiles y={1} />
         <HostRoads y={2} />
@@ -31,7 +26,7 @@ export default function HostGameboard() {
         <HostCities y={5} />
         <HostTiles y={5} />
         <HostRoads y={6} />
-        <HostCities y={6} />*/}
+        <HostCities y={6} />
       </g>
     </svg>
   )
