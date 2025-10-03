@@ -9,8 +9,8 @@ export const PlayerResourceCards = ({ children }) => {
     {Wool:0, Lumber:0, Grain:0, Brick:0, Ore:0},
     {Wool:0, Lumber:0, Grain:0, Brick:0, Ore:0}
   ]);
-  const [previouslyGainedResources, setPreviouslyGainedResources] = useState(new Array(4));
-  const [plunderedResourcePlayers, setPlunderedResourcePlayers] = useState(new Array(4));
+  const [previouslyGainedResources, setPreviouslyGainedResources] = useState([{}, {}, {}, {}]);
+  const [previouslyGainedResourcesClient, setPreviouslyGainedResourcesClient] = useState({});
 
   function addResourcesFromDiceRollToPlayerResourceCards(playerNewResources) {
     let newPlayerResourceCards = [...playerResourceCards];
@@ -21,10 +21,19 @@ export const PlayerResourceCards = ({ children }) => {
     });
     setPlayerResourceCards(newPlayerResourceCards);
     setPreviouslyGainedResources(playerNewResources);
+    return {playerResourceCards: newPlayerResourceCards, previouslyGainedResources:playerNewResources};
   }
 
   function getAPlayersResourceCards(player) {
     return playerResourceCards[player];
+  }
+
+  function getPlayerTotalResourceCards(player) {
+    let playerTotalCards = 0
+    for (let resourceName in playerResourceCards[player]) {
+      playerTotalCards += playerResourceCards[player][resourceName];
+    }
+    return playerTotalCards;
   }
 
   function getAllPlayersTotalResourceCards() {
@@ -47,6 +56,7 @@ export const PlayerResourceCards = ({ children }) => {
     newPlayerResourceCards[player].Brick  = playerResourceCards[player].Brick  - resourceCollection.Brick;
     newPlayerResourceCards[player].Ore    = playerResourceCards[player].Ore    - resourceCollection.Ore;
     setPlayerResourceCards(newPlayerResourceCards);
+    return {playerResourceCards:newPlayerResourceCards};
   }
 
   function addCollectionOfResourcesToPlayer(player, resourceCollection) {
@@ -57,6 +67,19 @@ export const PlayerResourceCards = ({ children }) => {
     newPlayerResourceCards[player].Brick  = playerResourceCards[player].Brick  + resourceCollection.Brick;
     newPlayerResourceCards[player].Ore    = playerResourceCards[player].Ore    + resourceCollection.Ore;
     setPlayerResourceCards(newPlayerResourceCards);
+    return {playerResourceCards:newPlayerResourceCards};
+  }
+
+  const [tradeOffer, setTradeOffer] = useState([])
+  function updateTradeOffer(tradingPlayerA, playerATradedResources, tradingPlayerB, playerBTradedResources) {
+    const newTradeOffer = [
+      { player: tradingPlayerA,
+        resources: playerATradedResources},
+      { player: tradingPlayerB,
+        resources: playerBTradedResources}
+    ];
+    setTradeOffer(newTradeOffer);
+    return {tradeOffer: newTradeOffer};
   }
 
   function tradeResources(tradingPlayerA, playerATradedResources, tradingPlayerB, playerBTradedResources) {
@@ -72,6 +95,46 @@ export const PlayerResourceCards = ({ children }) => {
         newPlayerResourceCards[tradingPlayerB][resource] = newPlayerResourceCards[tradingPlayerB][resource] - playerBTradedResources[resource];
     }
     setPlayerResourceCards(newPlayerResourceCards);
+    console.log(newPlayerResourceCards);
+    return {playerResourceCards:newPlayerResourceCards};
+  }
+
+  //---------- Thief Related ----------//
+  const [discardHalfResourcesPlayers, setDiscardHalfResourcesPlayers] = useState(new Array(4));
+  const [discardHalfResourcesCardAmount, setDiscardHalfResourcesCardAmount] = useState(new Array(4));
+
+  const findAndSetDiscardHalfResourcesPlayers = () => {
+    const AllPlayersTotalCards = getAllPlayersTotalResourceCards();
+    let newDiscardHalfResourcesPlayers = [false, false, false, false];
+    AllPlayersTotalCards.forEach((numberOfCards, playerNumber) => {
+      if (numberOfCards >= 8) {
+        console.log("Player "+playerNumber+" has too many cards!");
+        newDiscardHalfResourcesPlayers[playerNumber]=true;
+      }
+    })
+    setDiscardHalfResourcesPlayers(newDiscardHalfResourcesPlayers);
+    return {discardHalfResourcesPlayers:newDiscardHalfResourcesPlayers};
+  }
+  const updateDiscardHalfResourcesPlayers = (player) => {
+    let newDiscardHalfResourcesPlayers = [...discardHalfResourcesPlayers];
+    newDiscardHalfResourcesPlayers[player] = false;
+    setDiscardHalfResourcesPlayers(newDiscardHalfResourcesPlayers);
+    return {discardHalfResourcesPlayers:newDiscardHalfResourcesPlayers};
+  }
+  const findAndSetDiscardHalfResourcesCardAmount = () => {
+    const AllPlayersTotalCards = getAllPlayersTotalResourceCards();
+    let newDiscardHalfResourcesCardAmount = new Array(4);
+    AllPlayersTotalCards.forEach((numberOfCards, playerNumber) => {
+      newDiscardHalfResourcesCardAmount[playerNumber] = Math.floor(numberOfCards/2)
+    });
+    setDiscardHalfResourcesCardAmount(newDiscardHalfResourcesCardAmount);
+    return {discardHalfResourcesCardAmount:newDiscardHalfResourcesCardAmount};
+  }
+
+  const [robbingTargetPlayers, setRobbingTargetPlayers] = useState(new Array(4));
+  const setAndReturnRobbingTargetPlayers = (targetPlayers) => {
+    setRobbingTargetPlayers(targetPlayers);
+    return {robbingTargetPlayers:targetPlayers};
   }
 
   function stealRandomCardFromPlayer(robbingPlayer, victimPlayer) {
@@ -87,6 +150,17 @@ export const PlayerResourceCards = ({ children }) => {
     newPlayerResourceCards[robbingPlayer][stolenResourceCardType] +=1;
     newPlayerResourceCards[victimPlayer][stolenResourceCardType] -=1;
     setPlayerResourceCards(newPlayerResourceCards);
+
+    let playerNewResources = new Array(newPlayerResourceCards.length);
+    for (let i = 0; i < newPlayerResourceCards.length; i++ ) {
+      playerNewResources[i] = {Wool:0, Lumber:0, Grain:0, Brick:0, Ore:0};
+    }
+    playerNewResources[robbingPlayer][stolenResourceCardType] = +1;
+    playerNewResources[victimPlayer][stolenResourceCardType] = -1;
+
+    setPreviouslyGainedResources()
+    return {playerResourceCards:newPlayerResourceCards, previouslyGainedResources:playerNewResources};
+    
   }
 
 
@@ -118,6 +192,7 @@ export const PlayerResourceCards = ({ children }) => {
     newPlayerResourceCards[player].Brick--;
     newPlayerResourceCards[player].Lumber--;
     setPlayerResourceCards(newPlayerResourceCards);
+    return {playerResourceCards:newPlayerResourceCards};
   }
 
   function removePlayerResourcesToBuildSettlement(player) {
@@ -127,6 +202,7 @@ export const PlayerResourceCards = ({ children }) => {
     newPlayerResourceCards[player].Wool--;
     newPlayerResourceCards[player].Grain--;
     setPlayerResourceCards(newPlayerResourceCards);
+    return {playerResourceCards:newPlayerResourceCards};
   }
 
   function removePlayerResourcesToBuildCity(player) {
@@ -134,6 +210,7 @@ export const PlayerResourceCards = ({ children }) => {
     newPlayerResourceCards[player].Grain-=2;
     newPlayerResourceCards[player].Ore-=3;
     setPlayerResourceCards(newPlayerResourceCards);
+    return {playerResourceCards:newPlayerResourceCards};
   }
 
   function removePlayerResourcesToBuildDevelopmentCard(player) {
@@ -142,44 +219,67 @@ export const PlayerResourceCards = ({ children }) => {
     newPlayerResourceCards[player].Ore--;
     newPlayerResourceCards[player].Wool--;
     setPlayerResourceCards(newPlayerResourceCards);
+    return {playerResourceCards:newPlayerResourceCards};
   }
 
-  function monopolizeWool(player){monopolizeResource(player, "Wool")}
-  function monopolizeLumber(player){monopolizeResource(player, "Lumber")}
-  function monopolizeGrain(player){monopolizeResource(player, "Grain")}
-  function monopolizeBrick(player){monopolizeResource(player, "Brick")}
-  function monopolizeOre(player){monopolizeResource(player, "Ore")}
-
-  //We should maybe make a state of how many cards each player lost to monopoly.
   function monopolizeResource(monopolizingPlayer, resourceName) {
     let newPlayerResourceCards = [...playerResourceCards];
-    let monopolizedResources = [0,0,0,0];
+    let monopolyGain = 0;
+    let playerResourceGains = new Array(newPlayerResourceCards.length);
+    for (let i = 0; i < newPlayerResourceCards.length; i++ ) {
+      playerResourceGains[i] = {Wool:0, Lumber:0, Grain:0, Brick:0, Ore:0};
+    }
+    
     newPlayerResourceCards.forEach((playerResourceArray, victimPlayer) => {
       if (victimPlayer != monopolizingPlayer) {
-        monopolizedResources[monopolizingPlayer] += playerResourceArray[resourceName];
-        monopolizedResources[victimPlayer] -= playerResourceArray[resourceName];
+        monopolyGain += playerResourceArray[resourceName];
+        playerResourceGains[victimPlayer][resourceName] -= playerResourceArray[resourceName];
         newPlayerResourceCards[victimPlayer][resourceName] = 0;
       }
     });
-    newPlayerResourceCards[monopolizingPlayer][resourceName] += monopolizedResources[monopolizingPlayer];
+    newPlayerResourceCards[monopolizingPlayer][resourceName] += monopolyGain;
+    playerResourceGains[monopolizingPlayer][resourceName] += monopolyGain;
+
     setPlayerResourceCards(newPlayerResourceCards);
-    //set //monopolizedResources[monopolizingPlayer] //This can be used if we want to see what the outcome of the monopoly was on the screen.
-    //Perhaps we could use previouslyGainedResources or plunderedResourcePlayers for this.
+    return {playerResourceCards:newPlayerResourceCards, previouslyGainedResources:playerResourceGains};
   }
 
   return (
       <PlayerResourceCardsContext.Provider value={{
         playerResourceCards,
+        setPlayerResourceCards,
         addResourcesFromDiceRollToPlayerResourceCards,
+
         getAPlayersResourceCards,
+        getPlayerTotalResourceCards,
         getAllPlayersTotalResourceCards,
+
         removeCollectionOfResourcesFromPlayer,
         addCollectionOfResourcesToPlayer,
+        
+        tradeOffer,
+        setTradeOffer,
+        updateTradeOffer,
         tradeResources,
-        stealRandomCardFromPlayer,
+
+        setPreviouslyGainedResources,
         previouslyGainedResources,
-        plunderedResourcePlayers,
-        setPlunderedResourcePlayers,
+        setPreviouslyGainedResourcesClient,
+        previouslyGainedResourcesClient,
+        //---------- Thief----------//
+        discardHalfResourcesPlayers,
+        setDiscardHalfResourcesPlayers,
+        findAndSetDiscardHalfResourcesPlayers,
+        updateDiscardHalfResourcesPlayers,
+
+        discardHalfResourcesCardAmount,
+        setDiscardHalfResourcesCardAmount,
+        findAndSetDiscardHalfResourcesCardAmount,
+
+        robbingTargetPlayers,//This is used for thief.
+        setRobbingTargetPlayers,
+        setAndReturnRobbingTargetPlayers,
+        stealRandomCardFromPlayer,
         //---------- Build Menu Check ----------//
         canPlayerAffordRoad,
         canPlayerAffordSettlement,
@@ -191,11 +291,7 @@ export const PlayerResourceCards = ({ children }) => {
         removePlayerResourcesToBuildCity,
         removePlayerResourcesToBuildDevelopmentCard,
         //---------- Monopoly Card ----------//
-        monopolizeWool,
-        monopolizeLumber,
-        monopolizeGrain,
-        monopolizeBrick,
-        monopolizeOre
+        monopolizeResource
       }}>
         {children}
       </PlayerResourceCardsContext.Provider>

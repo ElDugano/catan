@@ -17,27 +17,29 @@ export const PortOwner = ({ children }) => {
   const doesPlayerOwnOrePort      = (player) => {return orePortOwner == player ? true : false};
 
   const setPortOwner = (player, portType) => {
+    console.log("setPort was called", player, portType);
     switch(portType) {
       case "Standard":{
+        console.log("Updating Standard");
         let newStandardPortOwners = [...standardPortOwner];
         newStandardPortOwners[player] = true;
         setStandardPortOwner(newStandardPortOwners);
-        break;}
+        return {standardPortOwner:newStandardPortOwners};}
       case "Wool":
         setWoolPortOwner(player);
-        break;
+        return {woolPortOwner:player};
       case "Grain":
         setGrainPortOwner(player);
-        break;
+        return {grainPortOwner:player};
       case "Lumber":
         setLumberPortOwner(player);
-        break;
+        return {lumberPortOwner:player};
       case "Brick":
         setBrickPortOwner(player);
-        break;
+        return {brickPortOwner:player};
       case "Ore":
         setOrePortOwner(player);
-        break;
+        return {orePortOwner:player};
     }
   }
 
@@ -49,7 +51,19 @@ export const PortOwner = ({ children }) => {
         doesPlayerOwnLumberPort,
         doesPlayerOwnBrickPort,
         doesPlayerOwnOrePort,
-        setPortOwner
+        setPortOwner,
+        setStandardPortOwner,
+        setWoolPortOwner,
+        setGrainPortOwner,
+        setLumberPortOwner,
+        setBrickPortOwner,
+        setOrePortOwner,
+        standardPortOwner,
+        woolPortOwner,
+        grainPortOwner,
+        lumberPortOwner,
+        brickPortOwner,
+        orePortOwner
       }}>
         {children}
       </PortOwnerContext.Provider>

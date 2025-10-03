@@ -1,7 +1,8 @@
-import { useContext } from 'react'
+import { useContext, useEffect } from 'react'
 import { GameStateContext } from '../../../state/gameState/GameStateContext';
 import { TurnStateContext } from "../../../state/turnState/TurnStateContext";
 
+import { PlayerAvailableBuildingsContext } from '../../../state/playerAvailableBuildings/PlayerAvailableBuildingsContext.js';
 import { CurrentPlayerTurnContext } from '../../../state/currentPlayerTurn/CurrentPlayerTurnContext';
 import { TileCornerNodesContext } from '../state/tileCornerNodes/TileCornerNodesContext.js';
 import BuildSettlementButton from './BuildSettlementButton';
@@ -9,75 +10,44 @@ import BuildCityButton from './BuildCityButton.jsx';
 import Settlement from './Settlement';
 import City from './City.jsx';
 
-
-import { NumberOfPlayersContext } from '../../../state/numberOfPlayers/NumberOfPlayersContext';
-import { PlayerResourceCardsContext } from "../../../state/playerResourceCards/PlayerResourceCardsContext.js";
-import { PlayerAvailableBuildingsContext } from "../../../state/playerAvailableBuildings/PlayerAvailableBuildingsContext.js";
-import { ScoreBoardContext } from "../../../state/scoreBoard/ScoreBoardContext.js";
-import { PortOwnerContext } from "../../../state/portOwner/PortOwnerContext.js";
-import { LandTilesContext } from '../state/landTiles/LandTilesContext.js';
-
-import checkIfSettlmentSplitLongestRoad from "../helpers/checkIfSettlmentSplitLongestRoad.jsx";
-import mapTileTypeToResourceType from '../../../helpers/turnState/MapTileTypeToResourceType.jsx';
+import { NetworkingMessageSenderContext } from '../../networking/Host/NetworkingMessageSenderContext.js';
 
 export default function CornerNodes() {
-  const {isGameStateBoardSetup}= useContext(GameStateContext);
+  const { isGameStateBoardSetup }= useContext(GameStateContext);
   const { isTurnStateBuildingASettlement,
-          isTurnStateBuildingACity,
-          setTurnStateToBuildingARoad,
-          setTurnStateToIdle }= useContext(TurnStateContext);//DOUBLED UP ABOVE
+          isTurnStateBuildingACity }= useContext(TurnStateContext);
 
-  const {currentPlayerTurn} = useContext(CurrentPlayerTurnContext);
-  const {tileCornerNodes, isNodeValueSettlement, isNodeValueCity, isNodeValueLand, setNodeValueToSettlement, setNodeValueToCity} = useContext(TileCornerNodesContext);
+  const { buildSettlementPlacementAvailable,
+          setBuildSettlementPlacementAvailable,
+          buildCityPlacementAvailable,
+          setABuildCityPlacementAvailable } = useContext(PlayerAvailableBuildingsContext)
+  const { currentPlayerTurn, isClientPlayersTurn } = useContext(CurrentPlayerTurnContext);
+  const { tileCornerNodes, isNodeValueSettlement, isNodeValueCity, isNodeValueLand } = useContext(TileCornerNodesContext);
 
-  const { scorePoint, setLongestRoad, longestRoadOwner } = useContext(ScoreBoardContext);
-  const { setPortOwner } = useContext(PortOwnerContext);
-  const { numberOfPlayers } = useContext(NumberOfPlayersContext);
-  const { returnAvailableSettlements,
-          removeSettlementFromAvailableBuildings,
-          removeCityFromAvailableBuildings } = useContext(PlayerAvailableBuildingsContext);
-  const { addCollectionOfResourcesToPlayer,
-          removePlayerResourcesToBuildSettlement,
-          removePlayerResourcesToBuildCity } = useContext(PlayerResourceCardsContext);
-    const { landTiles } = useContext(LandTilesContext);
+  const { addToMessagePayloadToHost, sendTheMessages } = useContext(NetworkingMessageSenderContext);
+
 
   function buildSettlement(x, y) {
-    setNodeValueToSettlement(x, y,currentPlayerTurn);
-    scorePoint(currentPlayerTurn);
-    if ("port" in tileCornerNodes[x][y]){
-      setPortOwner(currentPlayerTurn, tileCornerNodes[x][y].port);
-    }
-    removeSettlementFromAvailableBuildings(x, y, currentPlayerTurn);
-    if (currentPlayerTurn != longestRoadOwner){
-      checkIfSettlmentSplitLongestRoad(tileCornerNodes, x, y, longestRoadOwner, numberOfPlayers, setLongestRoad);
-    }
-    if(isGameStateBoardSetup() && returnAvailableSettlements(currentPlayerTurn) == 3){
-      let resourcesGained = {Wool:0, Lumber:0, Grain:0, Brick:0, Ore:0};
-      if((x+y)%2 == 0) {
-        if (landTiles[x] && landTiles[x][y-1]) resourcesGained[mapTileTypeToResourceType(landTiles[x][y-1])]++;
-        if (landTiles[x-1] && landTiles[x-1][y]) resourcesGained[mapTileTypeToResourceType(landTiles[x-1][y])]++;
-        if (landTiles[x+1] && landTiles[x+1][y]) resourcesGained[mapTileTypeToResourceType(landTiles[x+1][y])]++; }
-      else {
-        if (landTiles[x-1] && landTiles[x-1][y-1]) resourcesGained[mapTileTypeToResourceType(landTiles[x-1][y-1])]++;
-        if (landTiles[x+1] && landTiles[x+1][y-1]) resourcesGained[mapTileTypeToResourceType(landTiles[x+1][y-1])]++;
-        if (landTiles[x+1] && landTiles[x][y]) resourcesGained[mapTileTypeToResourceType(landTiles[x][y])]++;  }
-      addCollectionOfResourcesToPlayer(currentPlayerTurn, resourcesGained);
-    }
-    if(isGameStateBoardSetup())
-      setTurnStateToBuildingARoad();
-    else{
-      removePlayerResourcesToBuildSettlement(currentPlayerTurn);
-      setTurnStateToIdle();
-    }
+    addToMessagePayloadToHost({header: "Building a Settlement"});
+    addToMessagePayloadToHost({buildSettlement:{x:x,y:y}});
+    sendTheMessages();
   }
 
   function buildCity(x, y) {
-    setNodeValueToCity(x, y);
-    scorePoint(currentPlayerTurn);
-    removeCityFromAvailableBuildings(x, y, currentPlayerTurn);
-    removePlayerResourcesToBuildCity(currentPlayerTurn);
-    setTurnStateToIdle();
+    addToMessagePayloadToHost({header: "Building a City"});
+    addToMessagePayloadToHost({buildCity:{x:x,y:y}});
+    sendTheMessages();
   }
+
+  let checkBuildSettlementPlacementAvailable = false;
+  let checkBuildCityPlacementAvailable = false;
+
+  let buildSettlementButtonClass = "hideBuildSettlementButton";
+  if (isClientPlayersTurn() && isTurnStateBuildingASettlement() )
+    buildSettlementButtonClass = "";
+  let buildCityButtonClass = "hideBuildCityButton";
+  if (isClientPlayersTurn() && isTurnStateBuildingACity() )
+    buildCityButtonClass = "";
 
   let boardContent=[];
   for (let x=1; x <= 12; x++) {
@@ -85,8 +55,7 @@ export default function CornerNodes() {
       const centerX = x*30+30;
       const centerY = (x%2 !== 0 && y%2 == 0) || (x%2 == 0 && y%2 !== 0) ? y*50 : y*50+20;
       //Display a Build Settlment Button
-      if( isTurnStateBuildingASettlement() && 
-          isNodeValueLand(x,y) &&
+      if( isNodeValueLand(x,y) &&
             //Check to see if there is a city or settlement next to the node.
           tileCornerNodes[x+1][y].owner == "none" &&
           tileCornerNodes[x-1][y].owner == "none" &&
@@ -99,26 +68,33 @@ export default function CornerNodes() {
               ((x+y)%2 == 1 && tileCornerNodes[x][y-1].bottomRoadOwner == currentPlayerTurn) ||
               ((x+y)%2 == 0 && tileCornerNodes[x][y].bottomRoadOwner == currentPlayerTurn)))))
       {
+        checkBuildSettlementPlacementAvailable = true;
         boardContent.push(
           <BuildSettlementButton
+            class = {buildSettlementButtonClass}
             centerX={centerX}
             centerY={centerY}
             key={crypto.randomUUID()}
+            //tileNodeClickFunction={test}
             tileNodeClickFunction={() => buildSettlement(x, y)}
+            clickable={buildSettlementButtonClass == "" ? true : false}
           />
         );
       }
-      if(isNodeValueSettlement(x,y)) {
+      if( isNodeValueSettlement(x,y) ) {
 //---------- Display a Build City Button ----------//
-        if(isTurnStateBuildingACity() && tileCornerNodes[x][y].owner == currentPlayerTurn)
+        if(tileCornerNodes[x][y].owner == currentPlayerTurn) {
+          checkBuildCityPlacementAvailable = true;
           boardContent.push(
             <BuildCityButton
+              class = {buildCityButtonClass}
               key={crypto.randomUUID()}
               centerX={centerX}
               centerY={centerY}
               owner={tileCornerNodes[x][y].owner}
               tileNodeClickFunction={() => buildCity(x, y)}
-            />)
+              clickable={buildCityButtonClass == "" ? true : false}
+            />)}
 //---------- Display a Settlement ----------//
         else
           boardContent.push(
@@ -140,5 +116,12 @@ export default function CornerNodes() {
           />);
     }
   }
+
+  useEffect(()=>{
+    if( checkBuildSettlementPlacementAvailable != buildSettlementPlacementAvailable )
+    setBuildSettlementPlacementAvailable(checkBuildSettlementPlacementAvailable);
+  if( checkBuildCityPlacementAvailable != buildCityPlacementAvailable )
+    setABuildCityPlacementAvailable(checkBuildCityPlacementAvailable);
+  })
   return (boardContent);
 }

@@ -1,34 +1,34 @@
 import { useContext } from 'react';
 import { TurnStateContext } from '../state/turnState/TurnStateContext.js';
-import { DiceContext } from '../state/dice/DiceContext.js';
-import { PlayerResourceCardsContext } from '../state/playerResourceCards/PlayerResourceCardsContext.js';
-
-import { CurrentPlayerTurnContext } from '../state/currentPlayerTurn/CurrentPlayerTurnContext.js';
+import { NetworkingMessageSenderContext } from '../componentes/networking/Host/NetworkingMessageSenderContext.js';
 
 export default function Debug() {
-  const {isTurnStateRollingTheDice, setTurnStateToRemoveHalfResources} = useContext(TurnStateContext);
-  const {setDice} = useContext(DiceContext);
-  const {currentPlayerTurn} = useContext(CurrentPlayerTurnContext);
-  const {addCollectionOfResourcesToPlayer} = useContext(PlayerResourceCardsContext)
+  const {isTurnStateRollingTheDice} = useContext(TurnStateContext);
 
-  let CheatMenu = "";
-  
-    if (isTurnStateRollingTheDice()) {
-      CheatMenu =(
-        <>
-        <button onClick={() => {
-          setDice([3,4]);
-          setTurnStateToRemoveHalfResources();
-          }}>Roll 7</button>
-        </>
-      );
-    }
-  //CheatMenu = <div><button>asdf</button>Hello</div>;
+  const { addToMessagePayloadToHost, sendTheMessages } = useContext(NetworkingMessageSenderContext);
+
+  let Roll7Button = "";
+  if (isTurnStateRollingTheDice()) {
+    Roll7Button = (
+      <button onClick={() => {
+        addToMessagePayloadToHost({cheat:"Roll 7"});
+        sendTheMessages();
+      }}>Roll 7</button>
+    );
+  }
+  let GiveResourcesButton = (
+    <button onClick={() => {
+      addToMessagePayloadToHost({cheat:"Give Resources To Current Player"});
+      sendTheMessages();
+    }}>Add 5 Resources to Current Player</button>
+  )
 
   return (
     <>
-    {CheatMenu}
-    <button onClick={() => {addCollectionOfResourcesToPlayer(currentPlayerTurn,{Wool:5, Lumber:5, Grain:5, Brick:5, Ore:5})}}>Add 5 Resources to Current Player</button>
+    <hr />
+    Cheat menu
+    {Roll7Button}
+    {GiveResourcesButton}
     </>
   )
 }

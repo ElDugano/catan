@@ -27,35 +27,35 @@ export default function TileNumbers() {
                 r="1"
                 cx={x*30+30}
                 cy={y*50+45}
-                className={className}
+                className={"numberCircle "+className}
               />}
               {numberOfDots>=2 &&
               <circle 
                 r="1"
                 cx={x*30+30+4}
                 cy={y*50+45}
-                className={className}
+                className={"numberCircle "+className}
               />}
               {numberOfDots>=3 &&
               <circle 
                 r="1"
                 cx={x*30+30+8}
                 cy={y*50+45}
-                className={className}
+                className={"numberCircle "+className}
               />}
               {numberOfDots>=4 &&
               <circle 
                 r="1"
                 cx={x*30+30+12}
                 cy={y*50+45}
-                className={className}
+                className={"numberCircle "+className}
               />}
               {numberOfDots>=5 &&
               <circle 
                 r="1"
                 cx={x*30+30+16}
                 cy={y*50+45}
-                className={className}
+                className={"numberCircle "+className}
               />}
           </g>
         </g>

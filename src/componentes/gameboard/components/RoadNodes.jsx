@@ -10,40 +10,48 @@ import { PlayerAvailableBuildingsContext } from '../../../state/playerAvailableB
 import BuildRoadButton from "./BuildRoadButton";
 import Road from "./Road";
 
+import { NetworkingMessageSenderContext } from '../../networking/Host/NetworkingMessageSenderContext.js';
+
 export default function RoadNodes() {
-  const {isGameStateBoardSetup}= useContext(GameStateContext);
-  const { isTurnStateBuildingARoad,
+  const { isGameStateBoardSetup }= useContext(GameStateContext);
+  const { turnState,
+          setTurnStateToIdle,
+          isTurnStateBuildingARoad,
           isTurnStateRoadBuilderCardFirstRoad,
           isTurnStateRoadBuilderCardSecondRoad,
-          setTurnStateToBuildingARoadLongestRoadCheck,
-          setTurnStateToRoadBuilderCardFirstRoadLongestRoadCheck,
-          setTurnStateToRoadBuilderCarSecondRoadLongestRoadCheck}= useContext(TurnStateContext);
+          setTurnStateToRoadBuilderCardSecondRoad }= useContext(TurnStateContext);
 
-  const { lastBuiltObject, removeRoadFromAvailableBuildings } = useContext(PlayerAvailableBuildingsContext);
-  const { currentPlayerTurn } = useContext(CurrentPlayerTurnContext);
+  const { lastBuiltObject, returnAvailableSettlements } = useContext(PlayerAvailableBuildingsContext);
+  const { currentPlayerTurn, isClientPlayersTurn, isPlayerOrderArrayPositionEnd } = useContext(CurrentPlayerTurnContext);
 
-  const {tileCornerNodes, setNodeRightRoadOwner, setNodeBottomRoadOwner} = useContext(TileCornerNodesContext);
+  const {tileCornerNodes } = useContext(TileCornerNodesContext);
+
+  const { addToMessagePayloadToHost, sendTheMessages } = useContext(NetworkingMessageSenderContext);
 
   let boardContent=[];
 
   function buildRightRoad(x, y) {
-    setNodeRightRoadOwner(x, y, currentPlayerTurn);
-    buildRoad(x, y);
+    addToMessagePayloadToHost({header: "Building a Road"});
+    addToMessagePayloadToHost({buildRoad:{x:x,y:y,direction:"right",clientTurnState:turnState}});
+    sendTheMessages();
+    if(returnAvailableSettlements(currentPlayerTurn) == 4 && isPlayerOrderArrayPositionEnd())
+      console.log("Time to reverse course"); //This is here to make the game look smoother for this player.
+    else if(isTurnStateRoadBuilderCardFirstRoad())
+      setTurnStateToRoadBuilderCardSecondRoad();
+    else
+      setTurnStateToIdle();
   }
 
   function buildBottomRoad(x, y) {
-    setNodeBottomRoadOwner(x, y, currentPlayerTurn);
-    buildRoad(x, y);
-  }
-
-  function buildRoad(x, y) {
-    removeRoadFromAvailableBuildings(x, y, currentPlayerTurn);
-    if (isTurnStateBuildingARoad())
-      setTurnStateToBuildingARoadLongestRoadCheck();
-    if(isTurnStateRoadBuilderCardFirstRoad())
-      setTurnStateToRoadBuilderCardFirstRoadLongestRoadCheck();
-    if(isTurnStateRoadBuilderCardSecondRoad())
-      setTurnStateToRoadBuilderCarSecondRoadLongestRoadCheck();
+    addToMessagePayloadToHost({header: "Building a Road"});
+    addToMessagePayloadToHost({buildRoad:{x:x,y:y,direction:"bottom",clientTurnState:turnState}});
+    sendTheMessages();
+    if(returnAvailableSettlements(currentPlayerTurn) == 4 && isPlayerOrderArrayPositionEnd())
+      console.log("Time to reverse course"); //This is here to make the game look smoother for this player.
+    else if(isTurnStateRoadBuilderCardFirstRoad())
+      setTurnStateToRoadBuilderCardSecondRoad();
+    else
+      setTurnStateToIdle();
   }
   
   for (let x=1; x <= 12; x++) {
@@ -55,20 +63,21 @@ export default function RoadNodes() {
           const lineEndX=(x+1)*30+9;
           const lineStartY=(x+y)%2 == 1 ? y*50+20-6 : y*50+6;
           const lineEndY=(x+y)%2 == 1 ? y*50+6 : y*50+20-6;
-          if((isTurnStateBuildingARoad() ||
-              isTurnStateRoadBuilderCardFirstRoad() ||
-              isTurnStateRoadBuilderCardSecondRoad()) &&
-              tileCornerNodes[x][y].rightRoadOwner == "none" &&
-              ( tileCornerNodes[x][y].owner == currentPlayerTurn ||
-                tileCornerNodes[x+1][y].owner == currentPlayerTurn ||
-                ( tileCornerNodes[x][y].owner == "none" &&
-                  ( tileCornerNodes[x-1][y].rightRoadOwner == currentPlayerTurn ||
-                    ( (x+y)%2 == 0 && tileCornerNodes[x][y].bottomRoadOwner == currentPlayerTurn ) ||
-                    ( (x+y)%2 == 1 && tileCornerNodes[x][y-1].bottomRoadOwner == currentPlayerTurn ))) ||
-                ( tileCornerNodes[x+1][y].owner == "none" &&
-                  ( tileCornerNodes[x+1][y].rightRoadOwner == currentPlayerTurn ||
-                    ( (x+y)%2 == 0 && tileCornerNodes[x+1][y-1].bottomRoadOwner == currentPlayerTurn ) ||
-                    ( (x+y)%2 == 1 && tileCornerNodes[x+1][y].bottomRoadOwner == currentPlayerTurn ))))) {
+            if((isClientPlayersTurn() && (
+                isTurnStateBuildingARoad() ||
+                isTurnStateRoadBuilderCardFirstRoad() ||
+                isTurnStateRoadBuilderCardSecondRoad()) &&
+                tileCornerNodes[x][y].rightRoadOwner == "none" &&
+                ( tileCornerNodes[x][y].owner == currentPlayerTurn ||
+                  tileCornerNodes[x+1][y].owner == currentPlayerTurn ||
+                  ( tileCornerNodes[x][y].owner == "none" &&
+                    ( tileCornerNodes[x-1][y].rightRoadOwner == currentPlayerTurn ||
+                      ( (x+y)%2 == 0 && tileCornerNodes[x][y].bottomRoadOwner == currentPlayerTurn ) ||
+                      ( (x+y)%2 == 1 && tileCornerNodes[x][y-1].bottomRoadOwner == currentPlayerTurn ))) ||
+                  ( tileCornerNodes[x+1][y].owner == "none" &&
+                    ( tileCornerNodes[x+1][y].rightRoadOwner == currentPlayerTurn ||
+                      ( (x+y)%2 == 0 && tileCornerNodes[x+1][y-1].bottomRoadOwner == currentPlayerTurn ) ||
+                      ( (x+y)%2 == 1 && tileCornerNodes[x+1][y].bottomRoadOwner == currentPlayerTurn )))))) {
             if(!isGameStateBoardSetup() ||
               ((lastBuiltObject.x == x || lastBuiltObject.x == x+1) && lastBuiltObject.y == y && lastBuiltObject.player == currentPlayerTurn)) {
               boardContent.push(
@@ -79,7 +88,6 @@ export default function RoadNodes() {
                   lineEndX={lineEndX}
                   lineEndY={lineEndY}
                   roadNodeClickFunction={() => buildRightRoad(x,y)}
-
                 />)
             }
           }
@@ -104,18 +112,19 @@ export default function RoadNodes() {
           const lineStartY=y*50+20+9;
           const lineEndX=(x+1)*30;
           const lineEndY=(y+1)*50-9;
-          if((isTurnStateBuildingARoad() ||
-              isTurnStateRoadBuilderCardFirstRoad() ||
-              isTurnStateRoadBuilderCardSecondRoad()) &&
-              tileCornerNodes[x][y].bottomRoadOwner == "none" &&
-              ( tileCornerNodes[x][y].owner == currentPlayerTurn ||
-                tileCornerNodes[x][y+1].owner == currentPlayerTurn ||
-                tileCornerNodes[x][y].owner == "none" &&
-                ( tileCornerNodes[x][y].rightRoadOwner == currentPlayerTurn ||
-                  tileCornerNodes[x-1][y].rightRoadOwner == currentPlayerTurn ) ||
-              ( tileCornerNodes[x][y+1].owner == "none" &&
-                ( tileCornerNodes[x][y+1].rightRoadOwner == currentPlayerTurn ||
-                  tileCornerNodes[x-1][y+1].rightRoadOwner == currentPlayerTurn )))) {
+          if((isClientPlayersTurn() && (
+                isTurnStateBuildingARoad() ||
+                isTurnStateRoadBuilderCardFirstRoad() ||
+                isTurnStateRoadBuilderCardSecondRoad()) &&
+                tileCornerNodes[x][y].bottomRoadOwner == "none" &&
+                ( tileCornerNodes[x][y].owner == currentPlayerTurn ||
+                  tileCornerNodes[x][y+1].owner == currentPlayerTurn ||
+                  tileCornerNodes[x][y].owner == "none" &&
+                  ( tileCornerNodes[x][y].rightRoadOwner == currentPlayerTurn ||
+                    tileCornerNodes[x-1][y].rightRoadOwner == currentPlayerTurn ) ||
+                ( tileCornerNodes[x][y+1].owner == "none" &&
+                  ( tileCornerNodes[x][y+1].rightRoadOwner == currentPlayerTurn ||
+                    tileCornerNodes[x-1][y+1].rightRoadOwner == currentPlayerTurn ))))) {
             if(!isGameStateBoardSetup() ||
               (lastBuiltObject.x == x && (lastBuiltObject.y == y || lastBuiltObject.y == y+1) && lastBuiltObject.player == currentPlayerTurn))
               boardContent.push(

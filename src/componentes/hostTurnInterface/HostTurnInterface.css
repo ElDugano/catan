@@ -1,0 +1,171 @@
+.diceDisplay {
+  position: fixed;
+  bottom: 20vh;
+  left: 2vw;
+  color: white;
+  z-index: 6;
+
+  font-family: "Ranchers", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+  text-align: center;
+}
+
+.diceDisplay div {
+  font-size: 6vh;
+  line-height: 6vh;
+}
+
+.diceDisplay img{
+  width: 5vw;
+}
+
+.scoreCardsHolder {
+  display: flex;
+  width: 100%;
+  height: 20vh;
+  position: fixed;
+  bottom: 0;
+  z-index: 5;
+  background-color: lightgray;
+  border-top: 1px solid white;
+  color: #333333;
+}
+
+.playerColorBlue .playerScore {
+  color: blue;
+}
+.playerColorRed {
+  background-image: linear-gradient(0deg,rgb(146, 98, 98) 0%, rgba(255, 255, 255, 1) 100%);
+}
+.playerColorRed .playerScore {
+  color: red;
+}
+.playerColorIndigo {
+  background-image: linear-gradient(0deg,rgb(117, 79, 121) 0%, rgba(255, 255, 255, 1) 100%);
+}
+.playerColorIndigo .playerScore {
+  color: indigo;
+}
+.playerColorYellow {
+  background-image: linear-gradient(0deg,rgb(209, 211, 107) 0%, rgba(255, 255, 255, 1) 100%);
+}
+.playerColorYellow .playerScore {
+  color: gold;
+}
+.playerColorBlue {
+  background-image: linear-gradient(0deg,rgb(42, 91, 155) 0%, rgba(255, 255, 255, 1) 100%);
+}
+.playerColorOrange .playerScore {
+  color: orangered;
+}
+.playerColorOrange {
+  background-image: linear-gradient(0deg,rgb(155, 65, 42) 0%, rgba(255, 255, 255, 1) 100%);
+}
+.playerColorGreen .playerScore {
+  color: green;
+}
+.playerColorGreen {
+  background-image: linear-gradient(0deg,rgb(83, 155, 42) 0%, rgba(255, 255, 255, 1) 100%);
+}
+
+
+.twoPlayerScoreCard {
+  width: 50%;
+}
+.twoPlayerScoreCard .playerName {
+  font-size: 3.3vh;
+}
+
+.threePlayerScoreCard {
+  width: 33.3333%;
+}
+.threePlayerScoreCard .playerName {
+  font-size: 3.3vh;
+}
+.fourPlayerScoreCard {
+  width: 25vw;
+}
+.fourPlayerScoreCard .playerName {
+  font-size: 3.8vh;
+}
+
+.playerScoreCard {
+  display: flex;
+  padding: 4px;
+}
+
+.playerScoreCard.currentTurn {
+  border: 4px solid yellow;
+  padding: 0px;
+}
+
+.playerScoreCard.currentTurn .playerName {
+  color: yellow;
+}
+
+.playerInformationHolder {
+  min-width: 66%;
+  min-height: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  box-sizing: border-box;
+}
+
+.playerScore {
+  font-family: "Ranchers", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+
+  width: 34%;
+  min-width: 34%;
+  height: 100%;
+  font-size: 10vw;
+  line-height: 20vh;
+  text-align: center;
+  vertical-align: middle;
+  text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000, 6px 6px 3px rgba(0, 0, 0, 0.5);
+}
+
+.playerName {
+  font-family: "Sigmar One", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+
+  min-width: 100%;
+  min-height: 34%;
+  max-height: 34%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  text-indent: 1.666vh;
+  line-height: 6.666vh;
+  vertical-align: middle;
+  color: white;
+  text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000, 3px 3px 1px rgba(0, 0, 0, 0.8);
+}
+
+.playerData {
+  font-family: "Ranchers", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+
+  min-width: 50%;
+  min-height: 33%;
+  max-height: 33%;
+  font-size: 3vh;
+  line-height: 6vh;
+  text-indent: 1.666vh;
+  vertical-align: middle;
+  color: white;
+  text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000, 3px 3px 1px rgba(0, 0, 0, 0.8);
+}
+
+.playerData img {
+  width: 6vh;
+  height: 6vh;
+  vertical-align:middle;
+  position: relative;
+
+  padding-right: 1.111vh;
+}

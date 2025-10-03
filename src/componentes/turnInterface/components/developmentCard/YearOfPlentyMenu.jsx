@@ -1,14 +1,25 @@
 import { useContext, useState } from "react"
-import { PlayerResourceCardsContext } from "../../../../state/playerResourceCards/PlayerResourceCardsContext";
-import { CurrentPlayerTurnContext } from "../../../../state/currentPlayerTurn/CurrentPlayerTurnContext"
 import { TurnStateContext } from "../../../../state/turnState/TurnStateContext";
 
+import { NetworkingMessageSenderContext } from "../../../networking/Host/NetworkingMessageSenderContext.js";
+
+import lumberIcon from "../../../../assets/lumberIcon.svg";
+import brickIcon from "../../../../assets/brickIcon.svg";
+import woolIcon from "../../../../assets/woolIcon.svg";
+import grainIcon from "../../../../assets/grainIcon.svg";
+import oreIcon from "../../../../assets/oreIcon.svg";
+
 export default function YearOfPlentyMenu() {
-  const { playerResourceCards, addCollectionOfResourcesToPlayer } = useContext(PlayerResourceCardsContext);
-  const { currentPlayerTurn } = useContext(CurrentPlayerTurnContext);
   const { setTurnStateToIdle } = useContext(TurnStateContext);
+  const { addToMessagePayloadToHost, sendTheMessages } = useContext(NetworkingMessageSenderContext);
 
   const [receivingResources, setReceivingResources] = useState({Wool:0, Lumber:0, Grain:0, Brick:0, Ore:0});
+
+    const oneLumberIcon = <img src={lumberIcon} />;
+    const oneBrickIcon = <img src={brickIcon} />;
+    const oneWoolIcon = <img src={woolIcon} />;
+    const oneGrainIcon = <img src={grainIcon} />;
+    const oneOreIcon = <img src={oreIcon} />;
 
   function updateReceivingResources(resource, changeAmount) {
     let newReceivingResources = {...receivingResources};
@@ -25,54 +36,50 @@ export default function YearOfPlentyMenu() {
   }
 
   function addCardsToPlayer() {
-    addCollectionOfResourcesToPlayer(currentPlayerTurn, receivingResources);
+    addToMessagePayloadToHost({header: "Playing Year Of Plenty"});
+    addToMessagePayloadToHost({playYearOfPlenty:receivingResources});
+    sendTheMessages();
     setTurnStateToIdle();
   }
 
   return (
     <>
-    <h4>Player {currentPlayerTurn} gets to select 2 free cards.</h4>
-    <div style={{display: "flex", textAlign: "center"}}>
+    <h4>Select {2-totalReceivedCards()} Resources to Gain</h4>
+    <div className="resourceButtonSwitcher">
       <div>
-        Wool<br />
-        {playerResourceCards.Wool}<br />
-        <span style={{color: "red"}}>{receivingResources.Wool}</span><br />
-        <button onClick={(() => {updateReceivingResources("Wool", 1)})}>+</button><br />
-        <button onClick={(() => {updateReceivingResources("Wool", -1)})}>-</button>
+        {oneLumberIcon}<br />
+        {receivingResources.Lumber > 0 ? <span className='positiveNumber outlineTextShadow'>+{receivingResources.Lumber}</span> : 0}
+        {totalReceivedCards() == 2 ? <button disabled>+</button> : <button onClick={() => {updateReceivingResources("Lumber", 1)}}>+</button>}
+        {receivingResources.Lumber == 0 ? <button disabled>+</button> : <button onClick={() => {updateReceivingResources("Lumber", -1)}}>-</button>}
       </div>
       <div>
-        Lumber<br />
-        {playerResourceCards.Lumber}<br />
-        <span style={{color: "red"}}>{receivingResources.Lumber}</span><br />
-        <button onClick={(() => {updateReceivingResources("Lumber", 1)})}>+</button><br />
-        <button onClick={(() => {updateReceivingResources("Lumber", -1)})}>-</button>
+        {oneBrickIcon}<br />
+        {receivingResources.Brick > 0 ? <span className='positiveNumber outlineTextShadow'>+{receivingResources.Brick}</span> : 0}
+        {totalReceivedCards() == 2 ? <button disabled>+</button> : <button onClick={() => {updateReceivingResources("Brick", 1)}}>+</button>}
+        {receivingResources.Brick == 0 ? <button disabled>+</button> : <button onClick={() => {updateReceivingResources("Brick", -1)}}>-</button>}
       </div>
       <div>
-        Grain<br />
-        {playerResourceCards.Grain}<br />
-        <span style={{color: "red"}}>{receivingResources.Grain}</span><br />
-        <button onClick={(() => {updateReceivingResources("Grain", 1)})}>+</button><br />
-        <button onClick={(() => {updateReceivingResources("Grain", -1)})}>-</button>
+        {oneWoolIcon}<br />
+        {receivingResources.Wool > 0 ? <span className='positiveNumber outlineTextShadow'>+{receivingResources.Wool}</span> : 0}
+        {totalReceivedCards() == 2 ? <button disabled>+</button> : <button onClick={() => {updateReceivingResources("Wool", 1)}}>+</button>}
+        {receivingResources.Wool == 0 ? <button disabled>+</button> : <button onClick={() => {updateReceivingResources("Wool", -1)}}>-</button>}
       </div>
       <div>
-        Brick<br />
-        {playerResourceCards.Brick}<br />
-        <span style={{color: "red"}}>{receivingResources.Brick}</span><br />
-        <button onClick={(() => {updateReceivingResources("Brick", 1)})}>+</button><br />
-        <button onClick={(() => {updateReceivingResources("Brick", -1)})}>-</button>
+        {oneGrainIcon}<br />
+        {receivingResources.Grain > 0 ? <span className='positiveNumber outlineTextShadow'>+{receivingResources.Grain}</span> : 0}
+        {totalReceivedCards() == 2 ? <button disabled>+</button> : <button onClick={() => {updateReceivingResources("Grain", 1)}}>+</button>}
+        {receivingResources.Grain == 0 ? <button disabled>+</button> : <button onClick={() => {updateReceivingResources("Grain", -1)}}>-</button>}
       </div>
       <div>
-        Ore<br />
-        {playerResourceCards.Ore}<br />
-        <span style={{color: "red"}}>{receivingResources.Ore}</span><br />
-        <button onClick={(() => {updateReceivingResources("Ore", 1)})}>+</button><br />
-        <button onClick={(() => {updateReceivingResources("Ore", -1)})}>-</button>
-      </div>
-      <div>
-      Total Selected cards: {totalReceivedCards()}<br /><br />
-      {totalReceivedCards() == 2 && <button onClick={() => {addCardsToPlayer()}}>Recieve Selected Cards</button>}
+        {oneOreIcon}<br />
+        {receivingResources.Ore > 0 ? <span className='positiveNumber outlineTextShadow'>+{receivingResources.Ore}</span> : 0}
+        {totalReceivedCards() == 2 ? <button disabled>+</button> : <button onClick={() => {updateReceivingResources("Ore", 1)}}>+</button>}
+        {receivingResources.Ore == 0 ? <button disabled>+</button> : <button onClick={() => {updateReceivingResources("Ore", -1)}}>-</button>}
       </div>
     </div>
+      <div>
+        {totalReceivedCards() == 2 ? <button onClick={() => {addCardsToPlayer()}}>Recieve Selected Cards</button>: <button disabled>Select additonal cards</button>}
+      </div>
     </>
   )
 }

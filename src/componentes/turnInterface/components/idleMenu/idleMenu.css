@@ -1,0 +1,414 @@
+.notYourTurn {
+  height: calc(100vh - 40vw);
+  width: 100%;
+  align-items: center;
+  text-align: center;
+  display: flex;
+}
+
+.notYourTurn div {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.notYourTurn span {
+  font-size: 10vw;
+  position: relative;
+  top: 1vw
+}
+
+.mapTitle {
+  height: 30vw;
+  display: flex;
+  align-items: center;
+}
+
+.clientMenu {
+  font-family: "Sigmar One", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+  font-size: 6vw;
+  margin-left: auto;
+  margin-right: auto;
+  justify-content: center;
+  width: 100%;
+  text-align: center;
+}
+
+.clientMenu h2{
+  margin-top: 1vh;
+  margin-bottom: 1vh;
+}
+
+.clientMenu button {
+  width: 90vw;
+  background-color: darkblue;
+  border: 0.5vw solid white;
+  border-radius: 4vw;
+  color: white;
+  margin-bottom: 5vw;
+  margin-left: auto;
+  margin-right: auto;
+  justify-content: center;
+  text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000, 3px 3px 1px rgba(0, 0, 0, 0.8);
+  box-shadow: 8px 8px 4px rgba(0, 0, 0, 0.8);
+}
+.clientMenu button:disabled {
+  pointer-events: none;
+  background-color: #333;
+  color: #999;
+  border-color: #999;
+}
+.clientMenu button:focus {
+  outline: none;
+}
+.clientMenu button.selected {
+  outline: 1vw solid white;
+  outline-offset: -1vw;
+}
+
+
+.clientMenu button img {
+  height: 5vw;
+  width: 5vw;
+  padding-left: 0.5vw;
+  padding-right: 0.5vw;
+}
+
+.clientMenu button:disabled img {
+  filter: grayscale(80%);
+}
+
+.clientMenu button img.notEnoughResources {
+  filter: grayscale(100%);
+  opacity: 0.5;
+}
+
+.selectPlayerColorMenu {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.selectPlayerColorMenu button{
+  width: 40vw;
+  margin: 3vw;
+}
+
+.setupMenu input {
+  font-family: "Sigmar One", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+  font-size: 10vw;
+  text-align: center;
+  width: 90%;
+  height: 10vw;
+  border-radius: 4vw;
+  text-transform: capitalize;
+}
+
+
+
+.clientMenuColorBlue button { 
+  background-color: darkblue;
+}
+.clientMenuColorBlue button:active {
+  background-color:#220e6b;
+  outline: none;
+}
+.clientMenuColorBlue button.selected {
+  background-color: #5f5fe0;
+  outline: 1vw solid white;
+  outline-offset: -1vw;
+}
+
+.clientMenuColorRed button { 
+  background-color: maroon;
+}
+.clientMenuColorRed button:active {
+  background-color:#410b0b;
+  outline: none;
+}
+.clientMenuColorRed button.selected {
+  background-color: #d63b26;
+  outline: 1vw solid white;
+  outline-offset: -1vw;
+}
+
+.clientMenuColorIndigo button { 
+  background-color: Indigo;
+}
+.clientMenuColorIndigo button:active {
+  background-color:#25082e;
+  outline: none;
+}
+.clientMenuColorIndigo button.selected {
+  background-color: #9b39b9;
+  outline: 1vw solid white;
+  outline-offset: -1vw;
+}
+
+.clientMenuColorYellow button { 
+  background-color: goldenrod;
+}
+.clientMenuColorYellow button:active {
+  background-color:#86761c;
+  outline: none;
+}
+.clientMenuColorYellow button.selected {
+  background-color: rgb(255, 229, 84);
+  outline: 1vw solid white;
+  outline-offset: -1vw;
+}
+
+.clientMenuColorOrange button { 
+  background-color: orangered;
+}
+.clientMenuColorOrange button:active {
+  background-color:#742e00;
+  outline: none;
+}
+.clientMenuColorOrange button.selected {
+  background-color: rgb(255, 147, 59);;
+  outline: 1vw solid white;
+  outline-offset: -1vw;
+}
+
+.clientMenuColorGreen button { 
+  background-color: green;
+}
+.clientMenuColorGreen button:active {
+  background-color: forestgreen;
+  outline: none;
+}
+.clientMenuColorGreen button.selected {
+  background-color: rgb(50, 194, 57);
+  outline: 1vw solid white;
+  outline-offset: -1vw;
+}
+
+
+
+button.playerButtonBlue {
+  background-color: darkblue;
+}
+button.playerButtonBlue:active {
+  background-color:#220e6b;
+  outline: none;
+}
+button.playerButtonBlue.selected {
+  background-color: #5f5fe0;
+  outline: 1vw solid white;
+  outline-offset: -1vw;
+}
+.playerTextColorBlue {
+  color: blue;
+}
+
+button.playerButtonRed {
+  background-color: maroon;
+}
+button.playerButtonRed:active {
+  background-color:#410b0b;
+  outline: none;
+}
+button.playerButtonRed.selected {
+  background-color: #d63b26;
+  outline: 1vw solid white;
+  outline-offset: -1vw;
+}
+.playerTextColorRed {
+  color: red;
+}
+
+button.playerButtonIndigo {
+  background-color: Indigo;
+}
+button.playerButtonIndigo:active {
+  background-color:#25082e;
+  outline: none;
+}
+button.playerButtonIndigo.selected {
+  background-color: #9b39b9;
+  outline: 1vw solid white;
+  outline-offset: -1vw;
+}
+.playerTextColorIndigo {
+  color: rgb(122, 0, 209);
+}
+
+button.playerButtonYellow {
+  background-color: goldenrod;
+}
+button.playerButtonYellow:active {
+  background-color:#86761c;
+  outline: none;
+}
+button.playerButtonYellow.selected {
+  background-color: rgb(255, 229, 84);
+  outline: 1vw solid white;
+  outline-offset: -1vw;
+}
+.playerTextColorYellow {
+  color: yellow;
+}
+
+button.playerButtonOrange {
+  background-color: orangered;
+}
+button.playerButtonOrange:active {
+  background-color:#742e00;
+  outline: none;
+}
+button.playerButtonOrange.selected {
+  background-color: rgb(255, 147, 59);
+  outline: 1vw solid white;
+  outline-offset: -1vw;
+}
+.playerTextColorOrange {
+  color: orangered;
+}
+
+button.playerButtonGreen {
+  background-color: green;
+}
+button.playerButtonGreen:active {
+  background-color:forestgreen;
+  outline: none;
+}
+button.playerButtonGreen.selected {
+  background-color: rgb(50, 194, 57);
+  outline: 1vw solid white;
+  outline-offset: -1vw;
+}
+.playerTextColorGreen {
+  color: green;
+}
+
+
+.buildMenu button{
+  padding-top: 1vh;
+  padding-bottom: 1vw;
+}
+
+.selectDevelopmentCardMenu .developmentCardRow {
+  display: flex;
+  width: 100vw;
+}
+.selectDevelopmentCardMenu .developmentCardRow div {
+  position: relative;
+}
+.selectDevelopmentCardMenu .developmentCardRow div:first-child {
+  margin-left: auto;
+  margin-right: 2vw;
+}
+.selectDevelopmentCardMenu .developmentCardRow div:last-child {
+  margin-right: auto;
+  margin-left: 2vw;
+}
+
+.selectDevelopmentCardMenu img {
+  width: 40vw;
+  filter: drop-shadow(1vw 1vw 0.5vw #000);
+}
+
+.selectDevelopmentCardMenu img.disabled {
+  opacity: .4;
+}
+
+.selectDevelopmentCardMenu div .developmentCardQuantity {
+  position: absolute;
+  color: white;
+  margin-top: -13vw;
+  left: -2vw;
+  width: 10vw;
+  height: 10vw;
+  line-height: 9.5vw;
+  border: 1px solid white;
+  border-radius: 5vw;
+  font-size: 8vw;
+  background: #333;
+  text-align: center;
+  z-index: 4;
+  box-shadow: 0.5vw 0.5vw 0 black;
+}
+
+
+
+.selectDevelopmentCardMenu img.available:hover {
+  filter: drop-shadow(0.5vw 0.5vw 0.5vw #999) drop-shadow(-0.5vw 0.5vw 0.5vw #999) drop-shadow(0.5vw -0.5vw 0.5vw #999);
+}
+
+.resourceButtonSwitcher {
+  display: flex;
+  margin: 2vw 0 4vw 0;
+}
+
+.resourceButtonSwitcher div {
+  width: 18vw;
+  margin-right: 1vw;
+  margin-left: 1vw;
+  margin-top: 0;
+  background-color: #444;
+  border: 0.5vw solid #111;
+  box-sizing: border-box;
+  border-radius: 4vw;
+}
+.resourceButtonSwitcher div img{
+  width: 14vw;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 2vw;
+}
+
+.resourceButtonSwitcher button {
+  width: 14vw;
+  padding: 2vw;
+  margin: 1vw 1vw 0vw 1vw;
+  box-sizing: border-box;
+  border-top-left-radius: 3vw;
+  border-top-right-radius: 3vw;
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+  box-shadow: none;
+}
+.resourceButtonSwitcher button:last-child {
+  margin: 0 1vw 1vw 1vw;
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+  border-bottom-left-radius: 3vw;
+  border-bottom-right-radius: 3vw;
+}
+
+.resourceButtonSwitcher button img{
+  width: 10vw;
+  height: 10vw;
+}
+
+.positiveNumber { 
+  color: limegreen;
+}
+
+.negativeNumber { 
+  color: red;
+}
+.outlineTextShadow {
+  text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000, 3px 3px 1px rgba(0, 0, 0, 0.8);
+}
+
+.proceedBackButtonHolder {
+  margin-top: 4vw;
+}
+
+.proceedBackButtonHolder button {
+  margin-left: 1vw;
+  margin-right: 1vw;
+}
+
+.proceedBackButtonHolder button:first-child {
+  width: 35vw;
+}
+
+.proceedBackButtonHolder button:last-child {
+  width: 60vw;
+}

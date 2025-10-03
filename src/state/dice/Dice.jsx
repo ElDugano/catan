@@ -6,7 +6,9 @@ export const Dice = ({ children }) => {
   const [diceRolledThisTurn, setDiceRolledThisTurn] = useState(false);
 
   const haveDiceBeenRolledThisTurn = () => {return diceRolledThisTurn};
-  const resetDiceRolledThisTurn = () => {setDiceRolledThisTurn(false)};
+  const resetDiceRolledThisTurn = () => {
+    setDiceRolledThisTurn(false)
+    return{diceRolledThisTurn:false}};
 
   const rollDice = () => {
     const diceRoll = [Math.ceil(Math.random() * 6),Math.ceil(Math.random() * 6)];
@@ -23,9 +25,12 @@ export const Dice = ({ children }) => {
       <DiceContext.Provider value={{
         haveDiceBeenRolledThisTurn,
         resetDiceRolledThisTurn,
+        setDiceRolledThisTurn,
         rollDice,
         diceAdded,
-        setDice
+        setDice,
+        diceRolledThisTurn,
+        dice
       }}>
         {children}
       </DiceContext.Provider>

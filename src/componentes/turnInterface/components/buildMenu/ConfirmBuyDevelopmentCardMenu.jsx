@@ -3,24 +3,28 @@ import { TurnStateContext } from "../../../../state/turnState/TurnStateContext.j
 import { CurrentPlayerTurnContext } from "../../../../state/currentPlayerTurn/CurrentPlayerTurnContext.js";
 import { DevelopmentCardsContext } from "../../../../state/developmentCards/DevelopmentCardsContext.js";
 import { PlayerResourceCardsContext } from "../../../../state/playerResourceCards/PlayerResourceCardsContext.js";
+import { NetworkingMessageSenderContext } from "../../../networking/Host/NetworkingMessageSenderContext.js";
 
 export default function ConfirmBuyDevelopmentCardMenu() {
-  const {setTurnStateToIdle} = useContext(TurnStateContext);;
-  const {currentPlayerTurn} = useContext(CurrentPlayerTurnContext);
-  const {givePlayerDevelopmentCardFromDeck} = useContext(DevelopmentCardsContext);
-  const {removePlayerResourcesToBuildDevelopmentCard} = useContext(PlayerResourceCardsContext);
+  const { setTurnStateToBuildMenu } = useContext(TurnStateContext);;
+  const { addToMessagePayloadToHost, sendTheMessages } = useContext(NetworkingMessageSenderContext);
 
-  function buyDevelopmentCard(){
-    givePlayerDevelopmentCardFromDeck(currentPlayerTurn);
-    removePlayerResourcesToBuildDevelopmentCard(currentPlayerTurn);
-    setTurnStateToIdle();
+  const buyDevelopmentCard = () => {
+
+    addToMessagePayloadToHost({header: "Buying a Development Card"});
+    addToMessagePayloadToHost({buyDevelopmentCard:true});
+    sendTheMessages();
+  }
+
+  const goBackButton = () => {
+    setTurnStateToBuildMenu();
   }
 
   return (
     <>
       <h3>Buy a Development Card</h3>
-      <button onClick={() => buyDevelopmentCard()}>Buy the card</button>
-      <button onClick={() => setTurnStateToIdle()}>Go Back</button>
+      <button onClick={buyDevelopmentCard}>Buy the card</button>
+      <button onClick={goBackButton}>Go Back</button>
     </>
   )
 }

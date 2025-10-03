@@ -36,6 +36,7 @@ export const DevelopmentCards = ({ children }) => {
     {"Knight":0, "Road Building":0, "Year of Plenty":0, "Monopoly":0, "Victory Point":0},
     {"Knight":0, "Road Building":0, "Year of Plenty":0, "Monopoly":0, "Victory Point":0}
   ]);
+  const [totalPlayerDevelopmentCardHand, setTotalPlayerDevelopmentCardHand] = useState([0,0,0,0]);
 
   //Cards that have already been played.
   const [playerDevelopmentCardPlayed, setPlayerDevelopmentCardPlayed] = useState([
@@ -45,22 +46,30 @@ export const DevelopmentCards = ({ children }) => {
     {"Knight":0, "Road Building":0, "Year of Plenty":0, "Monopoly":0, "Victory Point":0}
   ]);
 
+  const [newestDevelopmentCardRecieved, setNewestDevelopmentCardRecieved] = useState(null);
+
   function returnAvailableDevelopmentCards() {
     return developmentCardDeck.length;
   }
-
 
   function givePlayerDevelopmentCardFromDeck(player) {
     console.log("The development card deck now looks like this:");
     console.log(developmentCardDeck);
     let newDevelopmentCardDeck = [...developmentCardDeck];
-    let newCard = newDevelopmentCardDeck.pop();
-    //let newPlayerDevelopmentCardHand = [...playerDevelopmentCardHand];
+    const newCard = newDevelopmentCardDeck.pop();
     let newPlayerDevelopmentCardJustPurchased = [...playerDevelopmentCardJustPurchased];
     newPlayerDevelopmentCardJustPurchased[player][newCard]++;
-    console.log(newPlayerDevelopmentCardJustPurchased);
-    setPlayerDevelopmentCardJustPurchased(newPlayerDevelopmentCardJustPurchased);;
+
+    setPlayerDevelopmentCardJustPurchased(newPlayerDevelopmentCardJustPurchased);
     setDevelopmentCardDeck(newDevelopmentCardDeck);
+
+    let newTotalPlayerDevelopmentCardHand = [...totalPlayerDevelopmentCardHand];
+    newTotalPlayerDevelopmentCardHand[player] = totalPlayerDevelopmentCardHand[player]+1;
+    setTotalPlayerDevelopmentCardHand(newTotalPlayerDevelopmentCardHand);
+
+    return {playerDevelopmentCardJustPurchased:newPlayerDevelopmentCardJustPurchased,
+            totalPlayerDevelopmentCardHand:newTotalPlayerDevelopmentCardHand,
+            newestDevelopmentCardRecieved: newCard};
   }
 
     function makePlayerPurchasedDevelopmentAvailableToPlay(player) {
@@ -74,6 +83,7 @@ export const DevelopmentCards = ({ children }) => {
       newPlayerDevelopmentCardJustPurchased[player] = {"Knight":0, "Road Building":0, "Year of Plenty":0, "Monopoly":0, "Victory Point":0};
       setPlayerDevelopmentCardHand(newDevelopmentCardDeck);
       setPlayerDevelopmentCardJustPurchased(newPlayerDevelopmentCardJustPurchased)
+      return {playerDevelopmentCardHand:newDevelopmentCardDeck, playerDevelopmentCardJustPurchased: newPlayerDevelopmentCardJustPurchased};
     }
 
   function PlayerDevelopmentCardsAvailableToPlay(player) {
@@ -85,18 +95,28 @@ export const DevelopmentCards = ({ children }) => {
   function doesPlayerOwnsYearOfPlentyDevelopmentCard(player) {return playerDevelopmentCardHand[player]["Year of Plenty"] > 0 ? true : false};
   function doesPlayerOwnsMonopolyDevelopmentCard(player) {return playerDevelopmentCardHand[player]["Monopoly"] > 0 ? true : false};
 
-  function playKnightDevelopmentCard(player) {playDevelopmentCard(player, "Knight");}
-  function playRoadBuildingDevelopmentCard(player) {playDevelopmentCard(player, "Road Building");}
-  function playYearOfPlentyDevelopmentCard(player) {playDevelopmentCard(player, "Year of Plenty");}
-  function playMonopolyDevelopmentCard(player) {playDevelopmentCard(player, "Monopoly");}
+  function playKnightDevelopmentCard(player) {return playDevelopmentCard(player, "Knight");}
+  function playRoadBuildingDevelopmentCard(player) {return playDevelopmentCard(player, "Road Building");}
+  function playYearOfPlentyDevelopmentCard(player) {return playDevelopmentCard(player, "Year of Plenty");}
+  function playMonopolyDevelopmentCard(player) {return playDevelopmentCard(player, "Monopoly");}
 
   function playDevelopmentCard(player, cardName) {
     let newPlayerDevelopmentCardHand = [...playerDevelopmentCardHand];
+    newPlayerDevelopmentCardHand[player][cardName]--;
+    setPlayerDevelopmentCardHand(newPlayerDevelopmentCardHand);
+
     let newPlayerDevelopmentCardPlayed = [...playerDevelopmentCardPlayed];
-      newPlayerDevelopmentCardHand[player][cardName]--;
-      newPlayerDevelopmentCardPlayed[player][cardName]++;
-      setPlayerDevelopmentCardHand(newPlayerDevelopmentCardHand);
-      setPlayerDevelopmentCardPlayed(newPlayerDevelopmentCardPlayed);
+    newPlayerDevelopmentCardPlayed[player][cardName]++;
+    setPlayerDevelopmentCardPlayed(newPlayerDevelopmentCardPlayed);
+
+    let newTotalPlayerDevelopmentCardHand = [...totalPlayerDevelopmentCardHand];
+    newTotalPlayerDevelopmentCardHand[player] = totalPlayerDevelopmentCardHand[player]-1;
+    setTotalPlayerDevelopmentCardHand(newTotalPlayerDevelopmentCardHand);
+    return {
+      playerDevelopmentCardHand:newPlayerDevelopmentCardHand,
+      playerDevelopmentCardPlayed:newPlayerDevelopmentCardPlayed,
+      totalPlayerDevelopmentCardHand:newTotalPlayerDevelopmentCardHand
+    };
   }
 
   function getPlayerArmyStrength(player) {return playerDevelopmentCardPlayed[player].Knight;}
@@ -110,17 +130,31 @@ export const DevelopmentCards = ({ children }) => {
         returnAvailableDevelopmentCards,
         givePlayerDevelopmentCardFromDeck,
         makePlayerPurchasedDevelopmentAvailableToPlay,
+
         PlayerDevelopmentCardsAvailableToPlay,
         doesPlayerOwnsKnightDevelopmentCard,
         doesPlayerOwnsRoadBuildingDevelopmentCard,
         doesPlayerOwnsYearOfPlentyDevelopmentCard,
         doesPlayerOwnsMonopolyDevelopmentCard,
+
         playKnightDevelopmentCard,
         playRoadBuildingDevelopmentCard,
         playYearOfPlentyDevelopmentCard,
         playMonopolyDevelopmentCard,
+
         getPlayerArmyStrength,
-        getJustPurchasedPlayerVictoryPointCards
+        getJustPurchasedPlayerVictoryPointCards,
+
+        setPlayerDevelopmentCardJustPurchased,
+        playerDevelopmentCardJustPurchased,
+        setPlayerDevelopmentCardHand,
+        playerDevelopmentCardHand,
+        setPlayerDevelopmentCardPlayed,
+        playerDevelopmentCardPlayed,
+        setTotalPlayerDevelopmentCardHand,
+        totalPlayerDevelopmentCardHand,
+        setNewestDevelopmentCardRecieved,
+        newestDevelopmentCardRecieved
       }}>
         {children}
       </DevelopmentCardsContext.Provider>

@@ -3,44 +3,31 @@ import { PlayerResourceCardsContext } from "../../../../state/playerResourceCard
 import { TurnStateContext } from "../../../../state/turnState/TurnStateContext";
 import { CurrentPlayerTurnContext } from "../../../../state/currentPlayerTurn/CurrentPlayerTurnContext";
 
+import { NetworkingMessageSenderContext } from "../../../networking/Host/NetworkingMessageSenderContext";
+
+
 export default function MonopolyMenu() {
-  const { monopolizeLumber,
-          monopolizeBrick,
-          monopolizeWool,
-          monopolizeGrain,
-          monopolizeOre} = useContext(PlayerResourceCardsContext)
-  const { currentPlayerTurn } = useContext(CurrentPlayerTurnContext); 
   const { setTurnStateToIdle } = useContext(TurnStateContext);
 
-  function selectMonopolizeLumber() {
-    monopolizeLumber(currentPlayerTurn);
-    setTurnStateToIdle();
-  }
-  function selectMonopolizeBrick() {
-    monopolizeBrick(currentPlayerTurn);
-    setTurnStateToIdle();
-  }
-  function selectMonopolizeWool() {
-    monopolizeWool(currentPlayerTurn);
-    setTurnStateToIdle();
-  }
-  function selectMonopolizeGrain() {
-    monopolizeGrain(currentPlayerTurn);
-    setTurnStateToIdle();
-  }
-  function selectMonopolizeOre() {
-    monopolizeOre(currentPlayerTurn);
+  const { addToMessagePayloadToHost, sendTheMessages } = useContext(NetworkingMessageSenderContext);
+
+
+
+  const playMonopoly = (resource) => {
+    addToMessagePayloadToHost({header: "Play Monopoly Card"});
+    addToMessagePayloadToHost({playMonopoly: resource});
+    sendTheMessages();
     setTurnStateToIdle();
   }
 
   return(
   <>
     <h3>Select a resource to monopolize</h3>
-    <button onClick={() => selectMonopolizeLumber()}>Lumber</button>
-    <button onClick={() => selectMonopolizeBrick()}>Brick</button>
-    <button onClick={() => selectMonopolizeWool()}>Wool</button>
-    <button onClick={() => selectMonopolizeGrain()}>Grain</button>
-    <button onClick={() => selectMonopolizeOre()}>Ore</button>
+    <button onClick={() => playMonopoly("Lumber")}>Lumber</button>
+    <button onClick={() => playMonopoly("Brick")}>Brick</button>
+    <button onClick={() => playMonopoly("Wool")}>Wool</button>
+    <button onClick={() => playMonopoly("Grain")}>Grain</button>
+    <button onClick={() => playMonopoly("Ore")}>Ore</button>
   </>
   )
 }

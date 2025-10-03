@@ -1,14 +1,19 @@
 import { useContext } from "react";
 
+import { GameStateContext } from "../../state/gameState/GameStateContext.js";
 import { TurnStateContext } from "../../state/turnState/TurnStateContext";
+import { CurrentPlayerTurnContext } from "../../state/currentPlayerTurn/CurrentPlayerTurnContext.js";
+import { PlayerInformationContext } from "../../state/playerInformation/PlayerInformationContext.js";
 
-import RollDiceButton from "./components/RollDiceMenu.jsx";
+import ClientHud from "./components/clientHud/ClientHud.jsx";
+
+import RollDiceMenu from "./components/RollDiceMenu.jsx";
 import GatherResroucesAcknowledgement from "./components/GatherResourcesAcknowledgement";
   //---------- Thief Related ----------//
 import RemoveHalfResourcesMenu from "./components/thief/RemoveHalfResourcesMenu";
-import PillageResourceCardMenu from "./components/thief/PillageResourceCardMenu";
+import RobAPlayerMenu from "./components/thief/RobAPlayerMenu.jsx";
   //---------- Main turn ----------//
-import IdleMenu from "./components/IdleMenu";
+import IdleMenu from "./components/idleMenu/IdleMenu.jsx";
 import BuildMenu from "./components/buildMenu/BuildMenu";
 import BuildOnMapMenu from "./components/buildMenu/BuiltOnMapMenu";
 import ConfirmBuyDevelopmentCardMenu from "./components/buildMenu/ConfirmBuyDevelopmentCardMenu";
@@ -21,13 +26,19 @@ import ConfirmBuyDevelopmentCardMenu from "./components/buildMenu/ConfirmBuyDeve
   import ConfirmPlayMonopolyDevelopmentCard from "./components/developmentCard/ConfirmPlayMonopolyDevelopmentCard";
   import MonopolyMenu from "./components/developmentCard/MonopolyMenu";
   //-----Trading Related
-import TradeWithBoardMenu from "./components/trading/TradeWithBoardMenu.jsx";
+import TradeMenu from "./components/trading/TradeMenu.jsx";
+import ReviewingTradeOffer from "./components/trading/ReviewTradeOffer.jsx";
 
 export default function TurnInterface() {
+  const { isGameStateMainGame } = useContext(GameStateContext);
+  const { isClientPlayersTurn, clientPlayerNumber, currentPlayerTurn } = useContext(CurrentPlayerTurnContext);
+  const { playerColor, playerName } = useContext(PlayerInformationContext);
+  const localPlayerColor = playerColor[clientPlayerNumber];
+
   const {isTurnStateRollingTheDice,
     isTurnStateGatheringResourcesAcknowledgement,
     isTurnStateRemoveHalfResources,
-    isTurnStatePillageResourceCard,
+    isTurnStateRobAPlayer,
     isTurnStateIdle,
     isTurnStateBuildMenu,
     isTurnStateBuildingARoad,
@@ -43,32 +54,53 @@ export default function TurnInterface() {
     isTurnStateYearOfPlenty,
     isTurnStateMonopoly,
     //----- Trading -----//
-    isTurnStateTradingWithTheBoard
+    isTurnStateTrading,
+    isTurnStateReviewingTradeOffer
   } = useContext(TurnStateContext);
+  
 
-  return(
-    <>
-    {isTurnStateRollingTheDice() && <RollDiceButton />}
-    {isTurnStateGatheringResourcesAcknowledgement() && <GatherResroucesAcknowledgement />}
-      {/*---------- Theif Related ----------*/}
-    {isTurnStateRemoveHalfResources() && <RemoveHalfResourcesMenu />}
-    {isTurnStatePillageResourceCard() && <PillageResourceCardMenu />}
-      {/*---------- Main Turn ----------*/}
-    {isTurnStateIdle() && <IdleMenu />}
-      {/*---------- Build Menu ----------*/}
-    {isTurnStateBuildMenu() && <BuildMenu />}
-      {(isTurnStateBuildingARoad() || isTurnStateBuildingASettlement() || isTurnStateBuildingACity()) && <BuildOnMapMenu />}
-      {isTurnStateConfirmBuyingDevelopmentCard() && <ConfirmBuyDevelopmentCardMenu />}
-      {/*---------- Select & Playing Development Card ----------*/}
-    {isTurnStateSelectingADevelopmentCard() && <SelectDevelopmentCardMenu />}
-    {isTurnStateConfirmPlayKnightDevelopmentCard() && <ConfirmPlayKnightDevelopmentCard />}
-    {isTurnStateConfirmPlayRoadBuilderDevelopmentCard() && <ConfirmPlayRoadBuildingDevelopmentCard />}
-    {isTurnStateConfirmPlayYearOfPlentyDevelopmentCard() && <ConfirmPlayYearOfPlentyDevelopmentCard />}
-      {isTurnStateYearOfPlenty() && <YearOfPlentyMenu />}
-    {isTurnStateConfirmPlayMonopolyDevelopmentCard() && <ConfirmPlayMonopolyDevelopmentCard />}
-      {isTurnStateMonopoly() && <MonopolyMenu />}
-    {/*---------- Trading With the Board ----------*/}
-    {isTurnStateTradingWithTheBoard() && <TradeWithBoardMenu />}
-    </>
-  )
+  if (isClientPlayersTurn() && isGameStateMainGame()) {
+    return (
+      <div className={"clientMenu clientMenuColor"+localPlayerColor}>
+      {isTurnStateRollingTheDice() && <RollDiceMenu />}
+      {isTurnStateGatheringResourcesAcknowledgement() && <GatherResroucesAcknowledgement />}
+        {/*---------- Theif Related ----------*/}
+      {isTurnStateRemoveHalfResources() && <RemoveHalfResourcesMenu />}
+      {isTurnStateRobAPlayer() && <RobAPlayerMenu />}
+        {/*---------- Main Turn ----------*/}
+      {isTurnStateIdle() && <IdleMenu />}
+        {/*---------- Build Menu ----------*/}
+      {isTurnStateBuildMenu() && <BuildMenu />}
+        {(isTurnStateBuildingARoad() || isTurnStateBuildingASettlement() || isTurnStateBuildingACity()) && <BuildOnMapMenu />}
+        {isTurnStateConfirmBuyingDevelopmentCard() && <ConfirmBuyDevelopmentCardMenu />}
+        {/*---------- Select & Playing Development Card ----------*/}
+      {isTurnStateSelectingADevelopmentCard() && <SelectDevelopmentCardMenu />}
+      {isTurnStateConfirmPlayKnightDevelopmentCard() && <ConfirmPlayKnightDevelopmentCard />}
+      {isTurnStateConfirmPlayRoadBuilderDevelopmentCard() && <ConfirmPlayRoadBuildingDevelopmentCard />}
+      {isTurnStateConfirmPlayYearOfPlentyDevelopmentCard() && <ConfirmPlayYearOfPlentyDevelopmentCard />}
+        {isTurnStateYearOfPlenty() && <YearOfPlentyMenu />}
+      {isTurnStateConfirmPlayMonopolyDevelopmentCard() && <ConfirmPlayMonopolyDevelopmentCard />}
+        {isTurnStateMonopoly() && <MonopolyMenu />}
+      {/*---------- Trading With the Board ----------*/}
+      {isTurnStateTrading() && <TradeMenu />}
+      {isTurnStateReviewingTradeOffer() && <ReviewingTradeOffer />}
+      </div>
+    )}
+  else if (isGameStateMainGame()) {
+    return (
+      <div className={"clientMenu clientMenuColor"+localPlayerColor}>
+        {isTurnStateIdle() && 
+          <div className="notYourTurn">
+            <div>
+              It is <span className={"playerTextColor"+playerColor[currentPlayerTurn]}>{playerName[currentPlayerTurn]}'s</span> turn.
+            </div>
+          </div>}
+        {isTurnStateGatheringResourcesAcknowledgement() && <GatherResroucesAcknowledgement />}
+        {isTurnStateRemoveHalfResources() && <RemoveHalfResourcesMenu />}
+        {isTurnStateReviewingTradeOffer() && <ReviewingTradeOffer />}
+      </div>
+    )
+  }
+  else
+    return (<></>);
 }

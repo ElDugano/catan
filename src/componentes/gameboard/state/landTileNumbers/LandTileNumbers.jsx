@@ -5,7 +5,7 @@ import Shuffle from '../../../../helpers/Shuffle.jsx'
 
 export const LandTileNumbers = ({ children }) => {
   const {desertLocation} = useContext(LandTilesContext);
-  const [landTileNumbers, setlandTileNumbers] = useState(CreateLandTileNumbers);
+  const [landTileNumbers, setLandTileNumbers] = useState(CreateLandTileNumbers);
 
   function CreateLandTileNumbers(){
     const availableNumbers = [2,3,3,4,4,5,5,6,6,8,8,9,9,10,10,11,11,12];
@@ -53,7 +53,7 @@ export const LandTileNumbers = ({ children }) => {
   return (
       <LandTileNumbersContext.Provider value={{
         landTileNumbers,
-        setlandTileNumbers
+        setLandTileNumbers
       }}>
         {children}
       </LandTileNumbersContext.Provider>

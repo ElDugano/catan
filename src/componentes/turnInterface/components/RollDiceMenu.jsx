@@ -1,31 +1,32 @@
 import { useContext } from "react";
 import { TurnStateContext } from "../../../state/turnState/TurnStateContext.js"
-import { DiceContext } from "../../../state/dice/DiceContext.js";
 import { DevelopmentCardsContext } from "../../../state/developmentCards/DevelopmentCardsContext.js";
 import { CurrentPlayerTurnContext } from "../../../state/currentPlayerTurn/CurrentPlayerTurnContext.js";
 
-export default function RollDiceButton() {
-  const { setTurnStateToGatheringResources, setTurnStateToRemoveHalfResources, setTurnStateToConfirmPlayKnightDevelopmentCard }= useContext(TurnStateContext);
-  const { rollDice } = useContext(DiceContext);
+import { NetworkingMessageSenderContext } from "../../networking/Host/NetworkingMessageSenderContext.js";
+
+export default function RollDiceMenu() {
+  const { setTurnStateToConfirmPlayKnightDevelopmentCard }= useContext(TurnStateContext);
   const { doesPlayerOwnsKnightDevelopmentCard } = useContext(DevelopmentCardsContext)
   const { currentPlayerTurn } = useContext(CurrentPlayerTurnContext);
+  const { addToMessagePayloadToHost, sendTheMessages } = useContext(NetworkingMessageSenderContext);
 
-  const PlayKnightButton = doesPlayerOwnsKnightDevelopmentCard(currentPlayerTurn) ? <button onClick={() => setTurnStateToConfirmPlayKnightDevelopmentCard()}>Knight</button> :<button disabled>Knight</button>;
+  const playKnightCard = () => {
+    setTurnStateToConfirmPlayKnightDevelopmentCard();
+  }
+  const PlayKnightButton = doesPlayerOwnsKnightDevelopmentCard(currentPlayerTurn) ? <button onClick={playKnightCard}>Play Knight Card</button> :<button disabled>Play Knight Card</button>;
 
-  function rollTheDice() {
-    if (rollDice() != 7)
-      setTurnStateToGatheringResources();
-    else {
-      console.log("!!! A 7 was rolled so we are going to steal resrouces and move the thief.");
-      setTurnStateToRemoveHalfResources();
-    }
+  const rollTheDice = () => {
+    addToMessagePayloadToHost({header: "Player Rolling the Dice"});
+    addToMessagePayloadToHost({rollTheDice:true});
+    sendTheMessages();
   }
 
   return(
     <>
-    <h3>Roll the Dice</h3>
+    <h2>It is Your Turn</h2>
+    <button onClick={rollTheDice}>Roll the Dice</button>
     {PlayKnightButton}
-    <button onClick={rollTheDice}>Roll the Dice!</button>
     </>
   )
 }

@@ -1,0 +1,73 @@
+.discardHalfResourcesMenu {
+ width: 100%;
+}
+
+.discardHalfResourcesMenuHeader {
+  min-height: 20vh;
+}
+
+.discardHalfResourcesMenuHeader h4 {
+  margin: 0;
+  padding-top: 5vh;
+}
+.discardHalfResourcesMenuHeader button {
+  margin: 2vh;
+}
+
+.discardHalfResourcesMenu img {
+  width: 8vw;
+  height: 8vw;
+  padding-top: 2vw;
+}
+
+.discardHalfResourcesMenu button {
+  width: 30vw;
+}
+
+.discardHalfResourcesMenu .resourceHolder {
+  display: flex;
+  align-items: stretch;
+  margin-bottom: 1vh;
+  border: 0.5vw solid white;
+  border-radius: 4vw;
+  margin-left: 2vw;
+  margin-right: 2vw;
+  background-color: #ddd;
+  text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000, 3px 3px 1px rgba(0, 0, 0, 0.8);
+  box-shadow: 8px 8px 4px rgba(0, 0, 0, 0.8);
+}
+
+.discardHalfResourcesMenu .resourceHolder div {
+  width: 20vw;
+  margin-bottom: 0vw;
+  line-height: 75%;
+}
+
+.discardHalfResourcesMenu .resourceHolder img {
+  filter: drop-shadow(1px 1px 0px #333) drop-shadow(-1px 1px 0px #333) drop-shadow(1px -1px 0px #333) drop-shadow(-1px -1px 0px #333);
+}
+
+
+.discardHalfResourcesMenu .resourceHolder button {
+  margin-bottom: 0;
+  width: 20vw;
+  margin: 0px;
+  border: none;
+  border-radius: 4vw 0 0 4vw;
+  box-shadow: none;
+}
+
+
+.discardHalfResourcesMenu .resourceHolder button:focus {
+  outline: none;
+}
+
+.discardHalfResourcesMenu .resourceHolder button:last-child {
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+  width: 60vw;
+  border-radius: 0 4vw 4vw 0;
+  border-width: 0 0 0 0.5vw;
+  border-color: white;
+  border-style: solid;
+}

@@ -10,10 +10,10 @@ export const PortTiles = ({ children }) => {
   const {desertLocation} = useContext(LandTilesContext);
   const {addPortsToNode} = useContext(TileCornerNodesContext);
 
-  const [portTiles/*, setPortTiles*/] = useState(CreatePortTiles);
+  const [portTiles, setPortTiles] = useState(CreatePortTiles);
 
   function CreatePortTiles(){
-    console.log("*** createPortTiles was called. ***")
+    //console.log("*** createPortTiles was called. ***")
     let availablePortTypes = [
       "Wool","Lumber","Grain","Brick","Ore",
       "Standard","Standard","Standard","Standard",
@@ -71,15 +71,17 @@ export const PortTiles = ({ children }) => {
       let portNodes=[];
       for (let x in portTiles) {
         for (let y in portTiles[x]) {
-          portNodes.push({x:portTiles[x][y].port1.x,
-                          y:portTiles[x][y].port1.y,
-                          type:portTiles[x][y].type});
-          portNodes.push({x:portTiles[x][y].port2.x,
-                          y:portTiles[x][y].port2.y,
-                          type:portTiles[x][y].type});
+          if (portTiles[x][y].type != "Ocean") {
+            portNodes.push({x:portTiles[x][y].port1.x,
+                            y:portTiles[x][y].port1.y,
+                            type:portTiles[x][y].type});
+            portNodes.push({x:portTiles[x][y].port2.x,
+                            y:portTiles[x][y].port2.y,
+                            type:portTiles[x][y].type});
+          }
         }
       }
-      console.log(portNodes);
+      //console.log(portNodes);
       addPortsToNode(portNodes);//If this is in the dependency, it constantly loops.
       setUpdatedTileNodesWithPorts(true);
     }
@@ -88,7 +90,8 @@ export const PortTiles = ({ children }) => {
 
   return (
       <PortTilesContext.Provider value={{
-        portTiles
+        portTiles,
+        setPortTiles
       }}>
         {children}
       </PortTilesContext.Provider>
