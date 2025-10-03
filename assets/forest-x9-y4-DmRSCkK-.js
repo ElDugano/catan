@@ -1,1 +1,0 @@
-const e=""+new URL("forest-x9-y4-DrSJsQ8P.png",import.meta.url).href;export{e as default};
