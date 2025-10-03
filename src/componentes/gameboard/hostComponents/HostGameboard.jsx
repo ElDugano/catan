@@ -4,6 +4,8 @@ import HostTiles from "./HostTiles"
 import HostCities from './HostCities.jsx';
 import HostRoads from './HostRoads.jsx';
 import HostTileNumbers from "./HostTileNumbers.jsx";
+import HostPorts from "./HostPorts.jsx";
+import HostBanditIcon from "./HostBanditIcon.jsx";
 
 export default function HostGameboard() {
 
@@ -11,6 +13,7 @@ export default function HostGameboard() {
     <svg viewBox="0 0 1920 1080">
       <image href={backgroundMap} width={'1920'} height={'1080'} />
       <g>
+        <HostPorts />
         <HostRoads y={1} />
         <HostCities y={1} />
         <HostTiles y={1} />
@@ -29,6 +32,7 @@ export default function HostGameboard() {
         <HostRoads y={6} />
         <HostCities y={6} />
         <HostTileNumbers />
+        <HostBanditIcon />
       </g>
     </svg>
   )
