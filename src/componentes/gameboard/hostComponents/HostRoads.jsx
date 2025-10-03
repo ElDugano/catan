@@ -39,25 +39,6 @@ export default function HostRoads( props ) {
     [{x:0,y:0},{x:0   ,y:0} ,{x:0   ,y:0}  ,{x:1650,y:375},{x:0   ,y:0}  ,{x:0   ,y:0}  ,{x:0,y:0},{x:0,y:0}]
   ];
 
-  //let imageFile = [];
-//
-  //for (let x in tileCornerNodes) {
-  //  if ("rightRoadOwner" in tileCornerNodes[x][props.y] &&
-  //      x < 11 &&
-  //      tileCornerNodes[parseInt(x)+1][props.y].value != "Ocean") {
-  //    if (Number.isInteger(tileCornerNodes[parseInt(x)][props.y].rightRoadOwner)) {
-  //      const fileName="rightRoad-x"+x+"-y"+props.y+"-"+playerColor[tileCornerNodes[x][props.y].rightRoadOwner].toLowerCase();
-  //      imageFile.push(fileName);
-  //    }
-  //  }
-  //  if ("bottomRoadOwner" in tileCornerNodes[x][props.y]) {
-  //    if (Number.isInteger(tileCornerNodes[parseInt(x)][props.y].bottomRoadOwner)) {
-  //      const fileName="bottomRoad-x"+x+"-y"+props.y+"-"+playerColor[tileCornerNodes[x][props.y].bottomRoadOwner].toLowerCase();
-  //      imageFile.push(fileName);
-  //    }
-  //  }
-  //}
-
   let boardContent = [];
   //let tileNumber = 0;
   for (let x in tileCornerNodes) {
@@ -68,13 +49,11 @@ export default function HostRoads( props ) {
             <HostRoad 
               key={crypto.randomUUID()}
               translateValue={"translate(" + rightRoadOffset[x][props.y].x + "," + rightRoadOffset[x][props.y].y + ")"}
-              //imagePath={imageFile[tileNumber]}
               imagePath={"rightRoad-x"+x+"-y"+props.y+"-"+playerColor[tileCornerNodes[x][props.y].rightRoadOwner].toLowerCase()}
               width={'224'}
               height={'80'}
             />
             )
-          //tileNumber++;
         }
       }
       if ( "bottomRoadOwner" in tileCornerNodes[x][props.y]) {
@@ -83,16 +62,13 @@ export default function HostRoads( props ) {
             <HostRoad 
               key={crypto.randomUUID()}
               translateValue={"translate(" + downRoadOffset[x][props.y].x + "," + downRoadOffset[x][props.y].y + ")"}
-             // imagePath={imageFile[tileNumber]}
               imagePath={"bottomRoad-x"+x+"-y"+props.y+"-"+playerColor[tileCornerNodes[x][props.y].bottomRoadOwner].toLowerCase()}
               width={'208'}
               height={'96'}
             />
           )
-          //tileNumber++;
         }
       }
-      
     }
   }
   return (<>

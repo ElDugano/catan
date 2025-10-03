@@ -3,6 +3,7 @@ import backgroundMap from "./assets/gameboard.png"
 import HostTiles from "./HostTiles"
 import HostCities from './HostCities.jsx';
 import HostRoads from './HostRoads.jsx';
+import HostTileNumbers from "./HostTileNumbers.jsx";
 
 export default function HostGameboard() {
 
@@ -27,6 +28,7 @@ export default function HostGameboard() {
         <HostTiles y={5} />
         <HostRoads y={6} />
         <HostCities y={6} />
+        <HostTileNumbers />
       </g>
     </svg>
   )
