@@ -1,32 +1,10 @@
-import { useContext, useEffect, useState } from "react";
+import { useContext } from "react";
 import { LandTilesContext } from "../state/landTiles/LandTilesContext";
+
+import HostTile from "./HostTile";
 
 export default function HostTiles( props ) {
   const { landTiles } = useContext(LandTilesContext);
-
-  const [tileImages, setTileImages] = useState([null,null,null,null,null]);
-
-  useEffect(() => {
-    const loadImages = async () => {
-
-      let imagePath = [];
-      for (let x in landTiles) {
-        if (props.y in landTiles[x] && landTiles[x][props.y] != "Desert") {
-          const fileName=landTiles[x][props.y].toLowerCase()+"-x"+x+"-y"+props.y;
-          imagePath.push('./assets/'+landTiles[x][props.y].toLowerCase()+'Tiles/'+fileName+'.png');
-        }
-      }
-      const importedImages = await Promise.all(
-        imagePath.map(async (path) => {
-          const image = await import(path);
-          return image.default; // Use image.default to get the URL
-        })
-      );
-      setTileImages(importedImages);
-    };
-
-    loadImages();
-  }, [landTiles, props.y])
 
   let boardContent = [];
 
@@ -61,17 +39,26 @@ export default function HostTiles( props ) {
     break
   }
 
+
+
+  let imageFile = [];
+  for (let x in landTiles) {
+    if (props.y in landTiles[x] && landTiles[x][props.y] != "Desert") {
+      const fileName=`${landTiles[x][props.y].toLowerCase()}-x${x}-y${props.y}`;
+      imageFile.push(fileName);
+    }
+  }
+
   let tileNumber = 0;
   for (let x in landTiles) {
     let translateValue = "translate(" + (x*xMult-xAdjust) + "," + (yOffset) + ")";
-    if (props.y in landTiles[x]){
+    if (props.y in landTiles[x]) {
       boardContent.push(
-        <image
+        <HostTile
           key={crypto.randomUUID()}
-          href={tileImages[tileNumber]}
-          transform={translateValue}
-          width={'400'}
-          height={'208'}
+          translateValue={translateValue}
+          imagePath={imageFile[tileNumber]}
+          //imagePath={`${landTiles[x][props.y].toLowerCase()}-x${x}-y${props.y}`}
         />
       )
       tileNumber++;
@@ -81,10 +68,3 @@ export default function HostTiles( props ) {
     {boardContent}
     </>)
 }
-
-  //      <polygon 
-  //        key={crypto.randomUUID()}
-  //        className={typeof landTiles[x] != "undefined" && typeof landTiles[x][props.y] != "undefined" ? "hex  " + landTiles[x][props.y] : "hex"}
-  //        points="30,70 60,50 60,20 30,0 0,20 0,50"
-  //        transform={translateValue}
-  //      />

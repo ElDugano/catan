@@ -1,4 +1,4 @@
-import { useContext } from 'react';
+import { useContext, useEffect } from 'react';
 import Gameboard from './componentes/gameboard/Gameboard.jsx';
 import TurnInterface from './componentes/turnInterface/TurnInterface.jsx';
 import HostTurnInterface from './componentes/hostTurnInterface/HostTurnInterface.jsx';
@@ -29,24 +29,45 @@ function App() {
           isTurnStateRoadBuilderCardSecondRoad,
           isTurnStateMoveTheThief } = useContext(TurnStateContext);
 
-    return (
-      <>
-        {isHost == true && <HostTurnInterface />}
-        {isHost == false && <ClientHud />}
-        {(isTurnStateBuildingARoad() || isTurnStateRoadBuilderCardFirstRoad() || isTurnStateRoadBuilderCardSecondRoad()) && <div className="clientMenu mapTitle"><h2>Build a Road</h2></div>}
-        {(isTurnStateBuildingASettlement()) && <div className="clientMenu mapTitle"><h2>Build a Settlement</h2></div>}
-        {(isTurnStateBuildingACity()) && <div className="clientMenu mapTitle"><h2>Build a City</h2></div>}
-        {(isTurnStateMoveTheThief()) && <div className="clientMenu mapTitle"><h2>Move the Thief</h2></div>}
-        <Gameboard>
-          {isGameStateGameSetup() ? <GameSetup /> : null}
-          <HostNetworkingFunctions />
-          <NetworkReconnectStateUpdate />
-        </Gameboard>
-        {isHost == false && <TurnInterface />}
-        {isGameStateGameSetup() == false && <Debug />}
-        {isHost == true && <div style={{height: "20vh"}} />}
-      </>
-    )
+  //Basic code to keep from falling asleep.
+  useEffect(() => {
+    let wakeLock = null;
+    const requestWakeLock = async () => {
+      try {
+        wakeLock = await navigator.wakeLock.request('screen');
+        console.log('Wake Lock is active.');
+      } catch (err) {
+        console.error(`${err.name}, ${err.message}`);
+      }
+    };
+    requestWakeLock();
+    return () => {
+      if (wakeLock) {
+        wakeLock.release().then(() => {
+          console.log('Wake Lock has been released.');
+        });
+      }
+    };
+  }, []);
+
+  return (
+    <>
+      {isHost == true && <HostTurnInterface />}
+      {isHost == false && <ClientHud />}
+      {(isTurnStateBuildingARoad() || isTurnStateRoadBuilderCardFirstRoad() || isTurnStateRoadBuilderCardSecondRoad()) && <div className="clientMenu mapTitle"><h2>Build a Road</h2></div>}
+      {(isTurnStateBuildingASettlement()) && <div className="clientMenu mapTitle"><h2>Build a Settlement</h2></div>}
+      {(isTurnStateBuildingACity()) && <div className="clientMenu mapTitle"><h2>Build a City</h2></div>}
+      {(isTurnStateMoveTheThief()) && <div className="clientMenu mapTitle"><h2>Move the Thief</h2></div>}
+      <Gameboard>
+        {isGameStateGameSetup() ? <GameSetup /> : null}
+        <HostNetworkingFunctions />
+        <NetworkReconnectStateUpdate />
+      </Gameboard>
+      {isHost == false && <TurnInterface />}
+      {isGameStateGameSetup() == false && <Debug />}
+      {isHost == true && <div style={{height: "20vh"}} />}
+    </>
+  )
 }
 
 export default App
