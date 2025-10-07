@@ -19,6 +19,7 @@ export const TurnState = ({ children }) => {
     const isTurnStateRemoveHalfResources = () => {return turnState == "Remove half resources" ? true : false};
     const setTurnStateToRemoveHalfResources = () =>     {setTurnState("Remove half resources");
                                                     return {turnState:"Remove half resources"};};
+    const setClientTurnStateToMoveTheThief = () => {return {turnState:"Move the thief"}};
     const isTurnStateMoveTheThief = () => {return turnState == "Move the thief" ? true : false};
     const setTurnStateToMoveTheThief = () =>     {setTurnState("Move the thief");
                                              return {turnState:"Move the thief"};};
@@ -120,6 +121,7 @@ export const TurnState = ({ children }) => {
       isTurnStateGatheringResourcesAcknowledgement,
       setTurnStateToGatheringResourcescAknowledgement,
     //---------- Thief Related ----------//
+      setClientTurnStateToMoveTheThief,
       isTurnStateRemoveHalfResources,
       setTurnStateToRemoveHalfResources,
       isTurnStateMoveTheThief,

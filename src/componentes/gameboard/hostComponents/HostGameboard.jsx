@@ -2,7 +2,7 @@ import backgroundMap from "./assets/gameboard.png"
 
 import HostTiles from "./HostTiles"
 import HostCities from './HostCities.jsx';
-import HostRoads from './HostRoads.jsx';
+import HostRoadRow from './HostRoadRow.jsx';
 import HostTileNumbers from "./HostTileNumbers.jsx";
 import HostPorts from "./HostPorts.jsx";
 import HostBanditIcon from "./HostBanditIcon.jsx";
@@ -54,17 +54,17 @@ export default function HostGameboard() {
   const downRoadOffset = 
   [
     [{x:0,y:0},{x:0   ,y:0} ,{x:0   ,y:0}  ,{x:0,   y:0}  ,{x:0   ,y:0}  ,{x:0   ,y:0}  ,{x:0,y:0},{x:0,y:0}],
-    [{x:0,y:0},{x:0   ,y:0} ,{x:0   ,y:0}  ,{x:60,  y:375},{x:0   ,y:0}  ,{x:0   ,y:0}  ,{x:0,y:0},{x:0,y:0}],
-    [{x:0,y:0},{x:0   ,y:0} ,{x:255 ,y:235},{x:0   ,y:0}  ,{x:185 ,y:520},{x:0   ,y:0}  ,{x:0,y:0},{x:0,y:0}],
-    [{x:0,y:0},{x:430,y:95} ,{x:0   ,y:0}  ,{x:380 ,y:375},{x:0   ,y:0}  ,{x:330 ,y:660},{x:0,y:0},{x:0,y:0}],
-    [{x:0,y:0},{x:0   ,y:0} ,{x:555 ,y:235},{x:0   ,y:0}  ,{x:520 ,y:520},{x:0   ,y:0}  ,{x:0,y:0},{x:0,y:0}],
-    [{x:0,y:0},{x:715 ,y:95},{x:0   ,y:0}  ,{x:695 ,y:375},{x:0   ,y:0}  ,{x:680 ,y:660},{x:0,y:0},{x:0,y:0}],
-    [{x:0,y:0},{x:0   ,y:0} ,{x:855 ,y:235},{x:0   ,y:0}  ,{x:855 ,y:520},{x:0   ,y:0}  ,{x:0,y:0},{x:0,y:0}],
-    [{x:0,y:0},{x:1000,y:95},{x:0   ,y:0}  ,{x:1015,y:375},{x:0   ,y:0}  ,{x:1035,y:660},{x:0,y:0},{x:0,y:0}],
-    [{x:0,y:0},{x:0   ,y:0} ,{x:1160,y:235},{x:0   ,y:0}  ,{x:1190,y:520},{x:0   ,y:0}  ,{x:0,y:0},{x:0,y:0}],
-    [{x:0,y:0},{x:1280,y:95},{x:0   ,y:0}  ,{x:1335,y:375},{x:0   ,y:0}  ,{x:1385,y:660},{x:0,y:0},{x:0,y:0}],
-    [{x:0,y:0},{x:0   ,y:0} ,{x:1458,y:235},{x:0,   y:0}  ,{x:1525,y:520},{x:0   ,y:0}  ,{x:0,y:0},{x:0,y:0}],
-    [{x:0,y:0},{x:0   ,y:0} ,{x:0   ,y:0}  ,{x:1650,y:375},{x:0   ,y:0}  ,{x:0   ,y:0}  ,{x:0,y:0},{x:0,y:0}]
+    [{x:0,y:0},{x:0   ,y:0} ,{x:0   ,y:0}  ,{x:130, y:365},{x:0   ,y:0}  ,{x:0   ,y:0}  ,{x:0,y:0},{x:0,y:0}],
+    [{x:0,y:0},{x:0   ,y:0} ,{x:325 ,y:225},{x:0   ,y:0}  ,{x:255 ,y:510},{x:0   ,y:0}  ,{x:0,y:0},{x:0,y:0}],
+    [{x:0,y:0},{x:500,y:85} ,{x:0   ,y:0}  ,{x:450 ,y:365},{x:0   ,y:0}  ,{x:400 ,y:650},{x:0,y:0},{x:0,y:0}],
+    [{x:0,y:0},{x:0   ,y:0} ,{x:625 ,y:225},{x:0   ,y:0}  ,{x:590 ,y:510},{x:0   ,y:0}  ,{x:0,y:0},{x:0,y:0}],
+    [{x:0,y:0},{x:785 ,y:85},{x:0   ,y:0}  ,{x:765 ,y:365},{x:0   ,y:0}  ,{x:750 ,y:650},{x:0,y:0},{x:0,y:0}],
+    [{x:0,y:0},{x:0   ,y:0} ,{x:925 ,y:225},{x:0   ,y:0}  ,{x:925 ,y:510},{x:0   ,y:0}  ,{x:0,y:0},{x:0,y:0}],
+    [{x:0,y:0},{x:1070,y:85},{x:0   ,y:0}  ,{x:1085,y:365},{x:0   ,y:0}  ,{x:1105,y:650},{x:0,y:0},{x:0,y:0}],
+    [{x:0,y:0},{x:0   ,y:0} ,{x:1230,y:225},{x:0   ,y:0}  ,{x:1260,y:510},{x:0   ,y:0}  ,{x:0,y:0},{x:0,y:0}],
+    [{x:0,y:0},{x:1350,y:85},{x:0   ,y:0}  ,{x:1405,y:365},{x:0   ,y:0}  ,{x:1455,y:650},{x:0,y:0},{x:0,y:0}],
+    [{x:0,y:0},{x:0   ,y:0} ,{x:1528,y:225},{x:0,   y:0}  ,{x:1595,y:510},{x:0   ,y:0}  ,{x:0,y:0},{x:0,y:0}],
+    [{x:0,y:0},{x:0   ,y:0} ,{x:0   ,y:0}  ,{x:1720,y:365},{x:0   ,y:0}  ,{x:0   ,y:0}  ,{x:0,y:0},{x:0,y:0}]
   ];
 
   return(
@@ -72,21 +72,23 @@ export default function HostGameboard() {
       <image href={backgroundMap} width={'1920'} height={'1080'} />
       <g>
         <HostPorts />
+        <HostRoadRow y={1} rightRoadSprite={rightRoadSprite} rightRoadOffset={rightRoadOffset} verticalRoadSprite={verticalRoadSprite} downRoadOffset={downRoadOffset} roadSprites={roadSprites} />
+        <HostCities y={2} />
         <HostCities y={1} />
         <HostTiles y={1} />
-        <HostRoads y={2} rightRoadSprite={rightRoadSprite} rightRoadOffset={rightRoadOffset} verticalRoadSprite={verticalRoadSprite} downRoadOffset={downRoadOffset} roadSprites={roadSprites} />
+        <HostRoadRow y={2} rightRoadSprite={rightRoadSprite} rightRoadOffset={rightRoadOffset} verticalRoadSprite={verticalRoadSprite} downRoadOffset={downRoadOffset} roadSprites={roadSprites} />
         <HostCities y={2} />
         <HostTiles y={2} />
-        <HostRoads y={3} rightRoadSprite={rightRoadSprite} rightRoadOffset={rightRoadOffset} verticalRoadSprite={verticalRoadSprite} downRoadOffset={downRoadOffset} roadSprites={roadSprites} />
+        <HostRoadRow y={3} rightRoadSprite={rightRoadSprite} rightRoadOffset={rightRoadOffset} verticalRoadSprite={verticalRoadSprite} downRoadOffset={downRoadOffset} roadSprites={roadSprites} />
         <HostCities y={3} />
         <HostTiles y={3} />
-        <HostRoads y={4} rightRoadSprite={rightRoadSprite} rightRoadOffset={rightRoadOffset} verticalRoadSprite={verticalRoadSprite} downRoadOffset={downRoadOffset} roadSprites={roadSprites} />
+        <HostRoadRow y={4} rightRoadSprite={rightRoadSprite} rightRoadOffset={rightRoadOffset} verticalRoadSprite={verticalRoadSprite} downRoadOffset={downRoadOffset} roadSprites={roadSprites} />
         <HostCities y={4} />
         <HostTiles y={4} />
-        <HostRoads y={5} rightRoadSprite={rightRoadSprite} rightRoadOffset={rightRoadOffset} verticalRoadSprite={verticalRoadSprite} downRoadOffset={downRoadOffset} roadSprites={roadSprites} />
+        <HostRoadRow y={5} rightRoadSprite={rightRoadSprite} rightRoadOffset={rightRoadOffset} verticalRoadSprite={verticalRoadSprite} downRoadOffset={downRoadOffset} roadSprites={roadSprites} />
         <HostCities y={5} />
         <HostTiles y={5} />
-        <HostRoads y={6} rightRoadSprite={rightRoadSprite} rightRoadOffset={rightRoadOffset} verticalRoadSprite={verticalRoadSprite} downRoadOffset={downRoadOffset} roadSprites={roadSprites} />
+        <HostRoadRow y={6} rightRoadSprite={rightRoadSprite} rightRoadOffset={rightRoadOffset} verticalRoadSprite={verticalRoadSprite} downRoadOffset={downRoadOffset} roadSprites={roadSprites} />
         <HostCities y={6} />
         <HostTileNumbers />
         <HostBanditIcon />

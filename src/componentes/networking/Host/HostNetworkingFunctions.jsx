@@ -43,7 +43,7 @@ const HostNetworkingFunctions = () => {
           setClientTurnStateToBuildingASettlement,
           setClientTurnStateToRollingTheDice,
           setTurnStateToRemoveHalfResources,
-          setTurnStateToMoveTheThief,
+          setClientTurnStateToMoveTheThief,
           setTurnStateToRobAPlayer,
           setClientTurnStateToReviewingTradeOffer }= useContext(TurnStateContext);
   const { setAPlayersColor, setAPlayerName } = useContext(PlayerInformationContext);
@@ -172,7 +172,7 @@ const HostNetworkingFunctions = () => {
     else {
       const discardHalfResourcePlayers = findAndSetDiscardHalfResourcesPlayers();
       if(discardHalfResourcePlayers.discardHalfResourcesPlayers.every(val => val === false)) {
-        addToMessagePayloadToAllPlayers(setTurnStateToMoveTheThief());
+        addToMessagePayloadToAllPlayers(setClientTurnStateToMoveTheThief());
       }
       else {
         addToMessagePayloadToAllPlayers(setTurnStateToRemoveHalfResources());
@@ -281,7 +281,7 @@ const HostNetworkingFunctions = () => {
     let newDiscardHalfResourcesPlayers = updateDiscardHalfResourcesPlayers(player);
     if(newDiscardHalfResourcesPlayers.discardHalfResourcesPlayers.every(val => val === false)) {
       console.log("Okay, we done now.");
-      addToMessagePayloadToAllPlayers(setTurnStateToMoveTheThief());
+      addToMessagePayloadToAllPlayers(setClientTurnStateToMoveTheThief());
     }
     else {
       console.log("Not done yet.");
@@ -399,7 +399,7 @@ const HostNetworkingFunctions = () => {
       setDice([3,4]);
       const discardHalfResourcePlayers = findAndSetDiscardHalfResourcesPlayers();
       if(discardHalfResourcePlayers.discardHalfResourcesPlayers.every(val => val === false)) {
-        addToMessagePayloadToAllPlayers(setTurnStateToMoveTheThief());
+        addToMessagePayloadToAllPlayers(setClientTurnStateToMoveTheThief());
       }
       else {
         addToMessagePayloadToAllPlayers(setTurnStateToRemoveHalfResources());
